@@ -6,9 +6,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Empresa\Controllers\" />
-    <Folder Include="Areas\Empresa\Data\" />
     <Folder Include="Areas\Empresa\Models\" />
-    <Folder Include="Areas\Empresa\Views\" />
+    <Folder Include="Areas\Pessoa\Models\" />
     <Folder Include="Controllers\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

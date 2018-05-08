@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Areas.Pessoa.Context;
-using ProjetoMarketing.Areas.Pessoa.Models;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -14,16 +13,16 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
     [Route("api/Usuarios")]
     public class UsuariosController : Controller
     {
-        private readonly PessoaContext _context;
+        private readonly EmpresaContext _context;
 
-        public UsuariosController(PessoaContext context)
+        public UsuariosController(EmpresaContext context)
         {
             _context = context;
         }
 
         // GET: api/Usuarios
         [HttpGet]
-        public IEnumerable<Usuario> GetUsuario()
+        public IEnumerable<Entidade.Pessoa.Usuario> GetUsuario()
         {
             return _context.Usuario;
         }
@@ -49,7 +48,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         // PUT: api/Usuarios/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsuario([FromRoute] string id, [FromBody] Usuario usuario)
+        public async Task<IActionResult> PutUsuario([FromRoute] string id, [FromBody] Entidade.Pessoa.Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +83,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         // POST: api/Usuarios
         [HttpPost]
-        public async Task<IActionResult> PostUsuario([FromBody] Usuario usuario)
+        public async Task<IActionResult> PostUsuario([FromBody] Entidade.Pessoa.Usuario usuario)
         {
             if (!ModelState.IsValid)
             {

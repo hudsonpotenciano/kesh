@@ -11,16 +11,16 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
     [Route("api/Pessoa")]
     public class PessoaController : Controller
     {
-        private readonly PessoaContext _context;
+        private readonly EmpresaContext _context;
 
-        public PessoaController(PessoaContext context)
+        public PessoaController(EmpresaContext context)
         {
             _context = context;
         }
 
         // GET: api/Pessoa
         [HttpGet]
-        public IEnumerable<Models.Pessoa> GetPessoa()
+        public IEnumerable<Entidade.Pessoa.Pessoa> GetPessoa()
         {
             return _context.Pessoa;
         }
@@ -46,7 +46,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         // PUT: api/Pessoa/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPessoa([FromRoute] string id, [FromBody] Models.Pessoa pessoa)
+        public async Task<IActionResult> PutPessoa([FromRoute] string id, [FromBody] Entidade.Pessoa.Pessoa pessoa)
         {
             if (!ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         // POST: api/Pessoa
         [HttpPost]
-        public async Task<IActionResult> PostPessoa([FromBody] Models.Pessoa pessoa)
+        public async Task<IActionResult> PostPessoa([FromBody] Entidade.Pessoa.Pessoa pessoa)
         {
             if (!ModelState.IsValid)
             {

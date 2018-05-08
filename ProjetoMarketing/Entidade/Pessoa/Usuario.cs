@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProjetoMarketing.Areas.Pessoa.Models
+namespace ProjetoMarketing.Entidade.Pessoa
 {
     public class Usuario
     {

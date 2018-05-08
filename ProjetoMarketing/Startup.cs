@@ -20,7 +20,7 @@ namespace ProjetoMarketing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddEntityFrameworkNpgsql().AddDbContext<PessoaContext>(opt =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<EmpresaContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
 
             //criar contexto empresa
