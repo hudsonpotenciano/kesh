@@ -4,6 +4,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Areas.Pessoa.Context;
+using ProjetoMarketing.Areas.Empresa.Context;
+using ProjetoMarketing.Autentication;
+using ProjetoMarketing.Data;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
+using Microsoft.AspNetCore.Authorization;
+using ProjetoMarketing.Autentication.Context;
 
 namespace ProjetoMarketing
 {
@@ -19,11 +27,62 @@ namespace ProjetoMarketing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddEntityFrameworkNpgsql().AddDbContext<EmpresaContext>(opt =>
-            opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
+            //PostGree
+            services.AddEntityFrameworkNpgsql().AddDbContext<PessoaContext>(opt =>
+            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
-            //criar contexto empresa
+            services.AddEntityFrameworkNpgsql().AddDbContext<EmpresaContext>(opt =>
+            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<UsuarioContext>(opt =>
+            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
+           
+            //Token
+            var signingConfigurations = new SigningConfigurations();
+            services.AddSingleton(signingConfigurations);
+
+            var tokenConfigurations = new TokenConfigurations();
+
+            new ConfigureFromConfigurationOptions<TokenConfigurations>(
+                Configuration.GetSection("TokenConfigurations"))
+                .Configure(tokenConfigurations);
+
+            services.AddSingleton(tokenConfigurations);
+
+            services.AddAuthentication(authOptions =>
+            {
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(bearerOptions =>
+            {
+                var paramsValidation = bearerOptions.TokenValidationParameters;
+                paramsValidation.IssuerSigningKey = signingConfigurations.Key;
+                paramsValidation.ValidAudience = tokenConfigurations.Audience;
+                paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
+
+                // Valida a assinatura de um token recebido
+                paramsValidation.ValidateIssuerSigningKey = true;
+
+                // Verifica se um token recebido ainda é válido
+                paramsValidation.ValidateLifetime = true;
+
+                // Tempo de tolerância para a expiração de um token (utilizado
+                // caso haja problemas de sincronismo de horário entre diferentes
+                // computadores envolvidos no processo de comunicação)
+                paramsValidation.ClockSkew = TimeSpan.Zero;
+
+                // Ativa o uso do token como forma de autorizar o acesso
+                // a recursos deste projeto
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

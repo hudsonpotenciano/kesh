@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjetoMarketing.Entidade.Pessoa
 {
     public class PessoaEmpresa
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public int IdPessoa { get; set; }
         public int IdEmpresa { get; set; }
         public int Pontuacao { get; set; }

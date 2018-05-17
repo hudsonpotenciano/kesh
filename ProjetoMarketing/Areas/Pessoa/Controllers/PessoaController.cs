@@ -4,120 +4,40 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Areas.Pessoa.Context;
+using Microsoft.AspNetCore.Authorization;
+using ProjetoMarketing.Areas.Pessoa.Models;
+using ProjetoMarketing.Autentication.Context;
+using ProjetoMarketing.Areas.Pessoa.Persistencia;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
     [Produces("application/json")]
     [Route("api/Pessoa")]
-    public class PessoaController : Controller
+    public class PessoaController : ControladorBase
     {
-        private readonly EmpresaContext _context;
+        private readonly PessoaContext _context;
+        private readonly UsuarioContext _contextUsuario;
 
-        public PessoaController(EmpresaContext context)
+        public PessoaController(PessoaContext context, UsuarioContext contextUsuario)
         {
             _context = context;
+            _contextUsuario = contextUsuario;
+
         }
 
-        // GET: api/Pessoa
-        [HttpGet]
-        public IEnumerable<Entidade.Pessoa.Pessoa> GetPessoa()
-        {
-            return _context.Pessoa;
-        }
-
-        // GET: api/Pessoa/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPessoa([FromRoute] string id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var pessoa = await _context.Pessoa.SingleOrDefaultAsync(m => m.Id == id);
-
-            if (pessoa == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(pessoa);
-        }
-
-        // PUT: api/Pessoa/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPessoa([FromRoute] string id, [FromBody] Entidade.Pessoa.Pessoa pessoa)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != pessoa.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(pessoa).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PessoaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Pessoa
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> PostPessoa([FromBody] Entidade.Pessoa.Pessoa pessoa)
+        public RetornoRequestModel CadastrePessoa(Entidade.Pessoa.Pessoa pessoa, Entidade.Usuario usuario)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            new PessoaDAO(_context).Add(pessoa);
 
-            _context.Pessoa.Add(pessoa);
-            await _context.SaveChangesAsync();
+            usuario.IdPessoa = pessoa.IdPessoa;
 
-            return CreatedAtAction("GetPessoa", new { id = pessoa.Id }, pessoa);
-        }
+            new UsuarioDAO(_contextUsuario).Add(usuario);
 
-        // DELETE: api/Pessoa/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePessoa([FromRoute] string id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var pessoa = await _context.Pessoa.SingleOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
-            {
-                return NotFound();
-            }
-
-            _context.Pessoa.Remove(pessoa);
-            await _context.SaveChangesAsync();
-
-            return Ok(pessoa);
-        }
-
-        private bool PessoaExists(string id)
-        {
-            return _context.Pessoa.Any(e => e.Id == id);
+            ///retornar dados 
+            ///
+            return RetornoRequestModel.CrieSucesso();
         }
     }
 }

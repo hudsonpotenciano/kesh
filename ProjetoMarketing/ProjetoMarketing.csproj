@@ -5,10 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Remove="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\Empresa\Controllers\" />
     <Folder Include="Areas\Empresa\Models\" />
-    <Folder Include="Areas\Pessoa\Models\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

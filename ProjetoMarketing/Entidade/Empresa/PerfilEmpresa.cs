@@ -1,10 +1,12 @@
-﻿using ProjetoMarketing.Negocio.Empresa;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjetoMarketing.Entidade.Empresa
 {
     public class PerfilEmpresa
     {
-        public string Id { get; set; }
+        [Key]
+        public Guid Id { get; set; }
         public int IdEmpresa { get; set; }
         public string Resumo { get; set; }
         public int RecompensaCompartilhamento { get; set; }
