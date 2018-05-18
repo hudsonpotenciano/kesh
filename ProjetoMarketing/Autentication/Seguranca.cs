@@ -9,6 +9,7 @@ namespace ProjetoMarketing.Autentication
 {
     public class Seguranca
     {
+
         public static string GerarHashMd5(string login,string senha)
         {
             MD5 md5Hash = MD5.Create();

@@ -1,4 +1,4 @@
-﻿namespace ProjetoMarketing.Areas.Pessoa.Models
+﻿namespace ProjetoMarketing.Models
 {
     public class RetornoRequestModel
     {
@@ -26,6 +26,16 @@
         public static RetornoRequestModel CrieSucesso()
         {
             return new RetornoRequestModel();
+        }
+
+        public static RetornoRequestModel CrieFalhaDuplicidade()
+        {
+            return new RetornoRequestModel
+            {
+                Erro = 2,
+                Authenticated = false,
+                AccessToken = ""
+            };
         }
     }
 }

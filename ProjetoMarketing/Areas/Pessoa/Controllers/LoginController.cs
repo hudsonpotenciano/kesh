@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjetoMarketing.Areas.Pessoa.Context;
-using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Autentication.Context;
-using ProjetoMarketing.Areas.Pessoa.Models;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Principal;
+using ProjetoMarketing.Models;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {

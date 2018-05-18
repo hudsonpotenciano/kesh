@@ -6,16 +6,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
     public class ControladorBase : Controller
     {
-        //private readonly UsuarioContext _usuarioContext;
-
-        //public ControladorBase(UsuarioContext usuarioContext)
-        //{
-        //    _usuarioContext = usuarioContext;
-        //}
-
-        //public bool EstaAutenticado(string token)
-        //{
-        //    return new UsuarioDAO(_usuarioContext).Validate(token);
-        //}
+        public bool EstaAutenticado(UsuarioContext _contextUsuario, string token)
+        {
+            return new UsuarioDAO(_contextUsuario).Validate(token);
+        }
     }
 }

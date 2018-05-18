@@ -93,7 +93,14 @@ namespace ProjetoMarketing
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "Custom",
+                    template: "api/{controller}/{action}",
+                    defaults: new { }
+                );
+            });
         }
     }
 }

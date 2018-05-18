@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Areas.Pessoa.Context;
 using Microsoft.AspNetCore.Authorization;
-using ProjetoMarketing.Areas.Pessoa.Models;
 using ProjetoMarketing.Autentication.Context;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
+using ProjetoMarketing.Models;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -29,15 +26,24 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost]
         public RetornoRequestModel CadastrePessoa(Entidade.Pessoa.Pessoa pessoa, Entidade.Usuario usuario)
         {
+            if(_context.Pessoa.Any(p => p.CpfCnpj == pessoa.CpfCnpj || p.Email == pessoa.Email)
+                || _contextUsuario.Usuario.Any(u => u.Login == usuario.Login))
+            {
+                return RetornoRequestModel.CrieFalhaDuplicidade();
+            }
+
             new PessoaDAO(_context).Add(pessoa);
 
             usuario.IdPessoa = pessoa.IdPessoa;
 
             new UsuarioDAO(_contextUsuario).Add(usuario);
 
-            ///retornar dados 
-            ///
-            return RetornoRequestModel.CrieSucesso();
+            var retorno = new RetornoRequestModel
+            {
+                Result = Projecoes.ProjecaoRetornoCadastroPessoa(pessoa, usuario)
+            };
+
+            return retorno;
         }
     }
 }
