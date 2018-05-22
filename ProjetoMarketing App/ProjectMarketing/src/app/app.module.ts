@@ -4,27 +4,49 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+//Translate
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { ComunicacaoProvider } from '../providers/comunicacao/comunicacao';
+import { MylocalStorageProvider } from '../providers/mylocal-storage/mylocal-storage';
+import { PessoaProvider } from '../providers/pessoa/pessoa';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/linguagens/', '.json');
+}
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    ComunicacaoProvider,
+    MylocalStorageProvider,
+    PessoaProvider
   ]
 })
-export class AppModule {}
+
+export class AppModule { }

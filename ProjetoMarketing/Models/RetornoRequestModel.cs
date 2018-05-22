@@ -10,7 +10,8 @@
         public string Mensagem { get; set; }
         public int Erro { get; set; }
         public dynamic Result { get; set; }
-        public string AccessToken { get; set; }
+        public string Token { get; set; }
+
         public bool Authenticated { get; set; }
         public static RetornoRequestModel CrieFalhaLogin()
         {
@@ -18,8 +19,7 @@
             {
                 Mensagem = "Login Incorreto",
                 Erro = 1,
-                Authenticated = false,
-                AccessToken = ""
+                Authenticated = false
             };
         }
 
@@ -33,8 +33,7 @@
             return new RetornoRequestModel
             {
                 Erro = 2,
-                Authenticated = false,
-                AccessToken = ""
+                Authenticated = false
             };
         }
     }

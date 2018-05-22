@@ -8,7 +8,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Context
 
         public DbSet<Entidade.Pessoa.Pessoa> Pessoa { get; set; }
         public DbSet<Entidade.Pessoa.PessoaEmpresa> PessoaEmpresa { get; set; }
-        public DbSet<Entidade.Empresa.PerfilEmpresa> PerfilEmpresa { get; set; }
+        public DbSet<Entidade.Pessoa.PerfilPessoa> PerfilPessoa { get; set; }
 
     }
 }

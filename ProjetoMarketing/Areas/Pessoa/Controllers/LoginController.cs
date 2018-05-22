@@ -10,11 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Principal;
 using ProjetoMarketing.Models;
+using ProjetoMarketing.Controllers;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Login")]
+    [Route("api/Pessoa/Login")]
     public class LoginController : ControladorBase
     {
         private readonly UsuarioContext _context;
@@ -24,9 +25,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             _context = context;
         }
 
-        [HttpPost]
         [AllowAnonymous]
-        public RetornoRequestModel PostLogin(User usuario,
+        [HttpPost("RealizeLogin")]
+        public RetornoRequestModel RealizeLogin([FromBody] User usuario,
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
@@ -38,8 +39,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
                 if (usuarioAutenticado != null)
                 {
-                    retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado);
-
                     ClaimsIdentity identity = new ClaimsIdentity(
                         new GenericIdentity(usuario.Login, "Login"),
                         new[] { new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
@@ -62,7 +61,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
                     var token = handler.WriteToken(securityToken);
 
-                    retorno.AccessToken = token;
+                    retorno.Authenticated = true;
+                    retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado,token);
                 }
                 else
                 {

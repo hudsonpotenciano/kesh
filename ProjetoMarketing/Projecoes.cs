@@ -10,13 +10,14 @@ namespace ProjetoMarketing
 {
     public class Projecoes
     {
-        public static dynamic ProjecaoRetornoLogin(Usuario usuario)
+        public static dynamic ProjecaoRetornoLogin(Usuario usuario,string token)
         {
             return new
             {
                 usuario.Token,
                 usuario.IdPessoa,
-                usuario.IdEmpresa
+                usuario.IdEmpresa,
+                AccessToken = token
             };
         }
 
@@ -29,8 +30,6 @@ namespace ProjetoMarketing
                 pessoa.Nome,
                 pessoa.IdPessoa,
                 pessoa.Telefone,
-                usuario.Login,
-                usuario.Senha,
                 usuario.Token
             };
         }

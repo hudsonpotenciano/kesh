@@ -2,7 +2,7 @@
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Autentication.Context;
 
-namespace ProjetoMarketing.Areas.Pessoa.Controllers
+namespace ProjetoMarketing.Controllers
 {
     public class ControladorBase : Controller
     {

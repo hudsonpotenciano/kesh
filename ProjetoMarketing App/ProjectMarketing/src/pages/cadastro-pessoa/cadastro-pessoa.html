@@ -1,0 +1,56 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Cadastro Pessoa</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <form [formGroup]="form" (submit)="cadastre()">
+
+        <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+
+        <div class="profile-image-wrapper" (click)="selecioneImagem()">
+            <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
+                <ion-icon name="add"></ion-icon>
+                <div>
+                    teste
+                </div>
+            </div>
+            <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
+        </div>
+
+        <ion-list>
+            <ion-item>
+                <ion-label fixed>Nome</ion-label>
+                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Email</ion-label>
+                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Senha</ion-label>
+                <ion-input type="password" [(ngModel)]="pessoa.Senha" formControlName="senha"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Cpf/Cnpj</ion-label>
+                <ion-input type="number" [(ngModel)]="pessoa.CpfCnpj" formControlName="cpfcnpj"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Telefone</ion-label>
+                <ion-input type="number" [(ngModel)]="pessoa.Telefone" formControlName="telefone"></ion-input>
+            </ion-item>
+
+            <div padding>
+                <button ion-button color="primary" block>Salvar</button>
+            </div>
+        </ion-list>
+    </form>
+</ion-content>

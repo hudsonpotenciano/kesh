@@ -4,9 +4,9 @@ using ProjetoMarketing.Areas.Empresa.Context;
 using ProjetoMarketing.Autentication.Context;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
-using ProjetoMarketing.Areas.Pessoa.Controllers;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Entidade.Empresa;
+using ProjetoMarketing.Controllers;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -57,44 +57,27 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var empresas = (from empresa in _context.Empresa
-                            join perfil in _context.PerfilEmpresa on empresa.IdEmpresa equals perfil.IdEmpresa
-                            select new
-                            {
-                                empresa.Email,
-                                empresa.IdEmpresa,
-                                empresa.Nome,
-                                empresa.Telefone,
-                                perfil.Latitude,
-                                perfil.Longitude,
-                                perfil.PontosPorReal,
-                                perfil.RecompensaCompartilhamento,
-                                perfil.RecompensaPontos,
-                                perfil.Resumo,
-                                perfil.Categorias
-                            }).ToList();
-
             var retorno = new RetornoRequestModel
             {
-                Result = empresas
+                Result = new EmpresaDAO(_context).SelectEmpresas()
             };
 
             return retorno;
         }
 
-        //[Authorize("Bearer")]
-        //[HttpGet("ObtenhaEmpresas")]
-        //public RetornoRequestModel ObtenhaPerfilEmpresa(ParametrosObtenhaEmpresa parametros)
-        //{
-        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
-        //        return RetornoRequestModel.CrieFalhaLogin();
+        [Authorize("Bearer")]
+        [HttpGet("ObtenhaEmpresas")]
+        public RetornoRequestModel ObtenhaPerfilEmpresa(ParametrosObtenhaEmpresa parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
 
-        //    var retorno = new RetornoRequestModel
-        //    {
-        //        Result = Projecoes.ProjecaoPerfilEmpresa(_context.PerfilEmpresa.Where(e => e.IdEmpresa == parametros.IdEmpresa).FirstOrDefault())
-        //    };
+            var retorno = new RetornoRequestModel
+            {
+                Result = Projecoes.ProjecaoPerfilEmpresa(_context.PerfilEmpresa.Where(e => e.IdEmpresa == parametros.IdEmpresa).FirstOrDefault())
+            };
 
-        //    return retorno;
-        //}
+            return retorno;
+        }
     }
 }

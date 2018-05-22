@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Autentication.Context;
+using Newtonsoft.Json.Serialization;
 
 namespace ProjetoMarketing
 {
@@ -36,7 +37,7 @@ namespace ProjetoMarketing
 
             services.AddEntityFrameworkNpgsql().AddDbContext<UsuarioContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
-           
+
             //Token
             var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);
@@ -82,7 +83,17 @@ namespace ProjetoMarketing
                     .RequireAuthenticatedUser().Build());
             });
 
-            services.AddMvc();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFromAll",
+                    builder => builder
+                    .WithMethods("GET", "POST", "OPTIONS")
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader());
+            }); ;
+
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +103,8 @@ namespace ProjetoMarketing
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowFromAll");
 
             app.UseMvc(routes =>
             {
