@@ -1,27 +1,27 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CadastroEmpresaModel } from '../../models/pessoa.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PessoaProvider } from '../../providers/pessoa/pessoa';
-import { CadastroPessoaModel } from '../../models/pessoa.model';
+import { EmpresaProvider } from '../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
-  selector: 'page-cadastro-pessoa',
-  templateUrl: 'cadastro-pessoa.html',
+  selector: 'page-cadastro-empresa',
+  templateUrl: 'cadastro-empresa.html',
 })
-export class CadastroPessoaPage {
-
-  @ViewChild('fileInput') fileInput;
-
-  pessoa: CadastroPessoaModel = new CadastroPessoaModel();
+export class CadastroEmpresaPage {
+ 
+  empresa: CadastroEmpresaModel = new CadastroEmpresaModel();
   form: FormGroup;
   isReadyToSave: boolean;
+
+  @ViewChild('fileInput') fileInput;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     formBuilder: FormBuilder,
-    private pessoaProvider: PessoaProvider) {
+    private empresaProvider: EmpresaProvider) {
 
     this.form = formBuilder.group({
       profilePic: [''],
@@ -52,8 +52,8 @@ export class CadastroPessoaPage {
 
       let imageData = (readerEvent.target as any).result;
       this.form.patchValue({ 'profilePic': imageData });
-      this.pessoa.Foto = imageData.split(',')[1];
-    };    
+      this.empresa.Foto = imageData.split(',')[1];
+    };
 
     reader.readAsDataURL(event.target.files[0]);
   }
@@ -64,9 +64,10 @@ export class CadastroPessoaPage {
 
   cadastre() {
     debugger;
-    this.pessoaProvider.CadastrePessoa(this.pessoa)
-    .then(()=>{
+    this.empresaProvider.CadastreEmpresa(this.empresa)
+      .then(() => {
 
-    })
+      })
   }
+
 }

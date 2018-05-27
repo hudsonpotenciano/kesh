@@ -11,7 +11,7 @@ namespace ProjetoMarketing.Entidade.Empresa
         [Key]
         public Guid Id { get; set; }
         public int IdEmpresa { get; set; }
-        public string Imagem { get; set; }
+        public byte[] Imagem { get; set; }
         public int Tipo { get; set; }
     }
 }

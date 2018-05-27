@@ -33,5 +33,4 @@ export class LoginPessoaPage {
   abraCadastro() {
     this.navCtrl.push("CadastroPessoaPage");
   }
-
 }

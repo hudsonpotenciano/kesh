@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { CadastroPessoaModel } from '../../models/pessoa.model';
+import { ComunicacaoSettings } from '../../comunicacao.settings';
 
 @Injectable()
 export class PessoaProvider {
@@ -14,5 +15,9 @@ export class PessoaProvider {
       .then(() => {
 
       });
+  }
+
+  ObtenhaFotoPessoa(idPessoa: number) {
+    return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
   }
 }

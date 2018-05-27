@@ -35,6 +35,15 @@ export class CadastroPessoaModel {
     Foto: any;
 }
 
+export class CadastroEmpresaModel {
+    CpfCnpj: string;
+    Nome: string;
+    Email: string;
+    Telefone: string;
+    Senha: string;
+    Foto: any;
+}
+
 export class Pessoa {
     IdPessoa: number;
     CpfCnpj: string;

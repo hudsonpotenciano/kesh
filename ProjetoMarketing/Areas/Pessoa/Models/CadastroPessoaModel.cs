@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ProjetoMarketing.Areas.Pessoa.Models
+﻿namespace ProjetoMarketing.Areas.Pessoa.Models
 {
     public class CadastroPessoaModel
     {

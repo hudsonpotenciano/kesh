@@ -8,6 +8,8 @@ using ProjetoMarketing.Models;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Areas.Pessoa.Models;
 using System;
+using ProjetoMarketing.Autentication;
+using ProjetoMarketing.Data;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -27,33 +29,16 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         [AllowAnonymous]
         [HttpPost("CadastrePessoa")]
-        public RetornoRequestModel CadastrePessoa([FromBody] CadastroPessoaModel model)
+        public RetornoRequestModel CadastrePessoa([FromBody] CadastroPessoaModel model,
+                                                [FromServices]SigningConfigurations signingConfigurations,
+                                                [FromServices]TokenConfigurations tokenConfigurations)
         {
             if (_context.Pessoa.Any(p => p.CpfCnpj == model.CpfCnpj || p.Email == model.Email))
             {
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var pessoaDAO = new PessoaDAO(_context);
-
-            // CRIAR TUDO ISSO DENTRO DO PESSOADAO COMO TRANSACAO
-            var pessoa = new Entidade.Pessoa.Pessoa()
-            {
-                CpfCnpj = model.CpfCnpj,
-                Email = model.CpfCnpj,
-                Nome = model.Nome,
-                Telefone = model.Telefone
-            };
-
-            pessoaDAO.Add(pessoa);
-
-            var perfil = new Entidade.Pessoa.PerfilPessoa()
-            {
-                Foto = Convert.FromBase64String(model.Foto),
-                IdPessoa = pessoa.IdPessoa
-            };
-
-            pessoaDAO.AddPerfil(perfil);
+            var pessoa = new PessoaDAO(_context).Add(model);
 
             var usuario = new Entidade.Usuario()
             {
@@ -64,12 +49,25 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             new UsuarioDAO(_contextUsuario).Add(usuario);
 
+            var user = new User(usuario.Login, usuario.Senha);
+
             var retorno = new RetornoRequestModel
             {
-                Result = Projecoes.ProjecaoRetornoCadastroPessoa(pessoa, usuario)
+                Result = Projecoes.ProjecaoRetornoCadastroUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
             };
 
             return retorno;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ObtenhaFotoPessoa")]
+        public ActionResult ObtenhaFotoPessoa(int idPessoa)
+        {
+            var foto = _context.PerfilPessoa.First(p => p.IdPessoa.Equals(idPessoa))?.Foto;
+
+            if (foto == null) return null;
+
+            return File(foto, "image/jpeg");
         }
     }
 }

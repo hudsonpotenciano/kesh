@@ -24,9 +24,6 @@ export class ComunicacaoProvider {
     return this.http.get(ComunicacaoSettings.UrlApiBase + servico, reqOpts)
       .toPromise()
       .catch((e: any) => this.trateErros(e))
-      .then((resposta: any) => {
-        resposta;
-      });
   }
 
   post(servico: string, body: any) {

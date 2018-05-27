@@ -21,40 +21,38 @@ namespace ProjetoMarketing
             };
         }
 
-        public static dynamic ProjecaoRetornoCadastroPessoa(Pessoa pessoa, Usuario usuario)
+        public static dynamic ProjecaoRetornoCadastroUsuario(Usuario usuario, string token)
         {
             return new
             {
-                pessoa.Email,
-                pessoa.CpfCnpj,
-                pessoa.Nome,
-                pessoa.IdPessoa,
-                pessoa.Telefone,
-                usuario.Token
+                usuario.Token,
+                usuario.IdPessoa,
+                usuario.IdEmpresa,
+                AccessToken = token
             };
         }
 
-        public static dynamic ProjecaoRetornoCadastroEmpresa(Empresa empresa, Usuario usuario, PerfilEmpresa perfil)
-        {
-            return new
-            {
-                empresa.Cnpj,
-                empresa.Email,
-                empresa.IdEmpresa,
-                empresa.Telefone,
-                empresa.Nome,
-                usuario.Login,
-                usuario.Senha,
-                usuario.Token,
-                perfil.Latitude,
-                perfil.Longitude,
-                perfil.PontosPorReal,
-                perfil.RecompensaCompartilhamento,
-                perfil.RecompensaPontos,
-                perfil.Resumo,
-                perfil.Categorias
-            };
-        }
+        //public static dynamic ProjecaoRetornoCadastroEmpresa(Empresa empresa, Usuario usuario, PerfilEmpresa perfil)
+        //{
+        //    return new
+        //    {
+        //        empresa.Cnpj,
+        //        empresa.Email,
+        //        empresa.IdEmpresa,
+        //        empresa.Telefone,
+        //        empresa.Nome,
+        //        usuario.Login,
+        //        usuario.Senha,
+        //        usuario.Token,
+        //        perfil.Latitude,
+        //        perfil.Longitude,
+        //        perfil.PontosPorReal,
+        //        perfil.RecompensaCompartilhamento,
+        //        perfil.RecompensaPontos,
+        //        perfil.Resumo,
+        //        perfil.Categorias
+        //    };
+        //}
 
         public static dynamic ProjecaoEmpresas(List<Empresa> empresa)
         {

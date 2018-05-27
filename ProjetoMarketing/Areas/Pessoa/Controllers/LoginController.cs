@@ -39,30 +39,11 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
                 if (usuarioAutenticado != null)
                 {
-                    ClaimsIdentity identity = new ClaimsIdentity(
-                        new GenericIdentity(usuario.Login, "Login"),
-                        new[] { new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Login)
-                   });
 
-                    DateTime dataCriacao = DateTime.Now;
-                    DateTime dataExpiracao = dataCriacao + TimeSpan.FromSeconds(tokenConfigurations.Seconds);
-
-                    var handler = new JwtSecurityTokenHandler();
-                    var securityToken = handler.CreateToken(new SecurityTokenDescriptor
-                    {
-                        Issuer = tokenConfigurations.Issuer,
-                        Audience = tokenConfigurations.Audience,
-                        SigningCredentials = signingConfigurations.SigningCredentials,
-                        Subject = identity,
-                        NotBefore = dataCriacao,
-                        Expires = dataExpiracao
-                    });
-
-                    var token = handler.WriteToken(securityToken);
+                    var token = GenerateAcessToken(usuario, signingConfigurations, tokenConfigurations);
 
                     retorno.Authenticated = true;
-                    retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado,token);
+                    retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
                 }
                 else
                 {

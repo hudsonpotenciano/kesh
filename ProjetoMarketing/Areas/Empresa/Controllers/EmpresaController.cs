@@ -7,6 +7,9 @@ using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Controllers;
+using ProjetoMarketing.Areas.Empresa.Models;
+using ProjetoMarketing.Autentication;
+using ProjetoMarketing.Data;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -24,27 +27,32 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("CadastrePessoa")]
-        public RetornoRequestModel CadastrePessoa(Entidade.Empresa.Empresa empresa, PerfilEmpresa perfil, Entidade.Usuario usuario)
+        [HttpPost("CadastreEmpresa")]
+        public RetornoRequestModel CadastreEmpresa(CadastroEmpresaModel model,
+                                                [FromServices]SigningConfigurations signingConfigurations,
+                                                [FromServices]TokenConfigurations tokenConfigurations)
         {
-            if (_context.Empresa.Any(e => e.Cnpj == empresa.Cnpj || e.Email == empresa.Email)
-                || _contextUsuario.Usuario.Any(u => u.Login == usuario.Login))
+            if (_context.Empresa.Any(e => e.Cnpj == model.Cnpj || e.Email == model.Email))
             {
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var empresaDAO = new EmpresaDAO(_context);
-            empresaDAO.Add(empresa);
-            perfil.IdEmpresa = empresa.IdEmpresa;
-            empresaDAO.Add(perfil);
+            var empresa = new EmpresaDAO(_context).Add(model);
 
-            usuario.IdEmpresa = empresa.IdEmpresa;
+            var usuario = new Entidade.Usuario()
+            {
+                IdEmpresa = empresa.IdEmpresa,
+                Login = model.Email,
+                Senha = model.Senha
+            };
 
             new UsuarioDAO(_contextUsuario).Add(usuario);
 
+            var user = new User(usuario.Login, usuario.Senha);
+
             var retorno = new RetornoRequestModel
             {
-                Result = Projecoes.ProjecaoRetornoCadastroEmpresa(empresa, usuario, perfil)
+                Result = Projecoes.ProjecaoRetornoCadastroUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
             };
 
             return retorno;

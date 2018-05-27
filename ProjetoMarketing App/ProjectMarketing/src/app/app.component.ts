@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: 'app.html'
+
 })
 export class MyApp {
   
@@ -14,6 +15,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   constructor(
+
     platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
@@ -28,7 +30,6 @@ export class MyApp {
   }
 
   initTranslate() {
-
     // Definir o idioma padrão para as sequências de tradução e o idioma atual.
     this.translate.setDefaultLang('pt-br');
 

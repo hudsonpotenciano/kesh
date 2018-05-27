@@ -15,16 +15,41 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public void Add(Entidade.Pessoa.Pessoa usuario)
+        public Entidade.Pessoa.Pessoa Add(Models.CadastroPessoaModel model)
         {
-            _context.Pessoa.Add(usuario);
-            _context.SaveChanges();
-        }
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var pessoa = new Entidade.Pessoa.Pessoa()
+                    {
+                        CpfCnpj = model.CpfCnpj,
+                        Email = model.CpfCnpj,
+                        Nome = model.Nome,
+                        Telefone = model.Telefone
+                    };
 
-        public void AddPerfil(Entidade.Pessoa.PerfilPessoa perfil)
-        {
-            _context.PerfilPessoa.Add(perfil);
-            _context.SaveChanges();
+                    _context.Pessoa.Add(pessoa);
+                    _context.SaveChanges();
+
+                    var perfil = new Entidade.Pessoa.PerfilPessoa()
+                    {
+                        Foto = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
+                        IdPessoa = pessoa.IdPessoa
+                    };
+
+                    _context.PerfilPessoa.Add(perfil);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+
+                    return pessoa;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
         }
 
         public void Remove(Entidade.Pessoa.Pessoa pessoa)

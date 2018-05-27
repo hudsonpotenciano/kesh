@@ -1,4 +1,6 @@
 ﻿using ProjetoMarketing.Areas.Empresa.Context;
+using ProjetoMarketing.Areas.Empresa.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,11 +15,60 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public void Add(Entidade.Empresa.Empresa empresa)
+        public Entidade.Empresa.Empresa Add(CadastroEmpresaModel model)
         {
-            _context.Empresa.Add(empresa);
-            _context.SaveChanges();
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var empresa = new Entidade.Empresa.Empresa()
+                    {
+                        Cnpj = model.Cnpj,
+                        Email = model.Email,
+                        Nome = model.Nome,
+                        Telefone = model.Telefone,
+                        Telefone2 = model.Telefone2
+                    };
+
+                    _context.Empresa.Add(empresa);
+                    _context.SaveChanges();
+
+                    var perfil = new Entidade.Empresa.PerfilEmpresa()
+                    {
+                        IdEmpresa = empresa.IdEmpresa,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude,
+                        PontosPorReal = model.PontosPorReal,
+                        RecompensaCompartilhamento = model.RecompensaCompartilhamento,
+                        RecompensaPontos = model.RecompensaPontos,
+                        Resumo = model.Resumo,
+                        Categorias = model.Categorias
+                    };
+
+                    _context.PerfilEmpresa.Add(perfil);
+                    _context.SaveChanges();
+
+                    var imagensEmpresa = new Entidade.Empresa.ImagensEmpresa()
+                    {
+                        IdEmpresa = empresa.IdEmpresa,
+                        Imagem = model.Logo,
+                        Tipo = 1
+                    };
+
+                    _context.ImagensEmpresa.Add(imagensEmpresa);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+
+                    return empresa;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
         }
+
         public void Add(Entidade.Empresa.PerfilEmpresa perfil)
         {
             _context.PerfilEmpresa.Add(perfil);

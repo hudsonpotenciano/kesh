@@ -30,9 +30,17 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public void Add(Usuario usuario)
         {
-            usuario.Token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
-            _context.Usuario.Add(usuario);
-            _context.SaveChanges();
+            try
+            {
+                usuario.Token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+                _context.Usuario.Add(usuario);
+                _context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                //Salve Log
+            }
+            
         }
 
         public void Remove(Usuario usuario)

@@ -14,6 +14,7 @@ import { MyApp } from './app.component';
 import { ComunicacaoProvider } from '../providers/comunicacao/comunicacao';
 import { MylocalStorageProvider } from '../providers/mylocal-storage/mylocal-storage';
 import { PessoaProvider } from '../providers/pessoa/pessoa';
+import { EmpresaProvider } from '../providers/empresa/empresa';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/linguagens/', '.json');
@@ -45,7 +46,8 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ComunicacaoProvider,
     MylocalStorageProvider,
-    PessoaProvider
+    PessoaProvider,
+    EmpresaProvider
   ]
 })
 
