@@ -1,8 +1,10 @@
 ﻿using ProjetoMarketing.Areas.Pessoa.Context;
+using ProjetoMarketing.Autentication.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 {
@@ -15,11 +17,11 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public Entidade.Pessoa.Pessoa Add(Models.CadastroPessoaModel model)
+        public Entidade.Usuario AddPessoaUsuario(Models.CadastroPessoaModel model, UsuarioContext _contextUsuario)
         {
-            using (var transaction = _context.Database.BeginTransaction())
+            try
             {
-                try
+                using (TransactionScope scope = new TransactionScope())
                 {
                     var pessoa = new Entidade.Pessoa.Pessoa()
                     {
@@ -41,15 +43,26 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     _context.PerfilPessoa.Add(perfil);
                     _context.SaveChanges();
 
-                    transaction.Commit();
+                    var usuario = new Entidade.Usuario()
+                    {
+                        IdPessoa = pessoa.IdPessoa,
+                        Login = model.Email,
+                        Senha = model.Senha
+                    };
 
-                    return pessoa;
-                }
-                catch (Exception)
-                {
-                    throw;
+                    new UsuarioDAO(_contextUsuario).Add(usuario);
+
+                    scope.Complete();
+
+                    return usuario;
                 }
             }
+            catch (Exception)
+            {
+                //SALVE LOG
+            }
+
+            return null;
         }
 
         public void Remove(Entidade.Pessoa.Pessoa pessoa)

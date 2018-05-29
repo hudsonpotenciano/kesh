@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RetornoLogin } from '../../models/pessoa.model';
 
 @Injectable()
-export class MylocalStorageProvider {
+export class StorageProvider {
 
   constructor() {
   }

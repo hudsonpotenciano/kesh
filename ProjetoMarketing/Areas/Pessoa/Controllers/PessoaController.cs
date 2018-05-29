@@ -10,6 +10,8 @@ using ProjetoMarketing.Areas.Pessoa.Models;
 using System;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -38,22 +40,14 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var pessoa = new PessoaDAO(_context).Add(model);
 
-            var usuario = new Entidade.Usuario()
-            {
-                IdPessoa = pessoa.IdPessoa,
-                Login = model.Email,
-                Senha = model.Senha
-            };
-
-            new UsuarioDAO(_contextUsuario).Add(usuario);
+            var usuario = new PessoaDAO(_context).AddPessoaUsuario(model,_contextUsuario);
 
             var user = new User(usuario.Login, usuario.Senha);
 
             var retorno = new RetornoRequestModel
             {
-                Result = Projecoes.ProjecaoRetornoCadastroUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
+                Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
             };
 
             return retorno;

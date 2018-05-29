@@ -12,9 +12,8 @@
         public string Resumo { get; set; }
         public int RecompensaCompartilhamento { get; set; }
         public int RecompensaPontos { get; set; }
-        public int PontosPorReal { get; set; }
-        public long Latitude { get; set; }
-        public long Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public int[] Categorias { get; set; }
     }
 }

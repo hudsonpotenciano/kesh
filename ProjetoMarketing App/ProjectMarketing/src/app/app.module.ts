@@ -12,9 +12,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { MyApp } from './app.component';
 import { ComunicacaoProvider } from '../providers/comunicacao/comunicacao';
-import { MylocalStorageProvider } from '../providers/mylocal-storage/mylocal-storage';
 import { PessoaProvider } from '../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../providers/empresa/empresa';
+import { StorageProvider } from '../providers/storage/storage';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/linguagens/', '.json');
@@ -45,7 +45,7 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ComunicacaoProvider,
-    MylocalStorageProvider,
+    StorageProvider,
     PessoaProvider,
     EmpresaProvider
   ]

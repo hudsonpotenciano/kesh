@@ -14,7 +14,7 @@ using ProjetoMarketing.Data;
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Empresa")]
+    [Route("api/Empresa/Empresa")]
     public class EmpresaController : ControladorBase
     {
         private readonly EmpresaContext _context;
@@ -28,7 +28,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
         [AllowAnonymous]
         [HttpPost("CadastreEmpresa")]
-        public RetornoRequestModel CadastreEmpresa(CadastroEmpresaModel model,
+        public RetornoRequestModel CadastreEmpresa([FromBody]CadastroEmpresaModel model,
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
@@ -37,22 +37,13 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var empresa = new EmpresaDAO(_context).Add(model);
-
-            var usuario = new Entidade.Usuario()
-            {
-                IdEmpresa = empresa.IdEmpresa,
-                Login = model.Email,
-                Senha = model.Senha
-            };
-
-            new UsuarioDAO(_contextUsuario).Add(usuario);
+            var usuario = new EmpresaDAO(_context).AddEmpresaUsuario(model, _contextUsuario);
 
             var user = new User(usuario.Login, usuario.Senha);
 
             var retorno = new RetornoRequestModel
             {
-                Result = Projecoes.ProjecaoRetornoCadastroUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
+                Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
             };
 
             return retorno;

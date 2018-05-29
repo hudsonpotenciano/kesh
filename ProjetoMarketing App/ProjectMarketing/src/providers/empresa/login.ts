@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { RetornoRequestModel, RetornoLogin, User } from '../../models/pessoa.model';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { RetornoLogin, User, RetornoRequestModel } from '../../models/pessoa.model';
 import { StorageProvider } from '../storage/storage';
 
 @Injectable()
-export class LoginPessoaProvider {
+export class LoginEmpresaProvider {
 
   constructor(
     private comunicacao: ComunicacaoProvider,

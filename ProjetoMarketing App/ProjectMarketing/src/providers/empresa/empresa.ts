@@ -9,15 +9,15 @@ export class EmpresaProvider {
   constructor(private comunicacao: ComunicacaoProvider) {
   }
 
-  CadastreEmpresa(pessoa: CadastroEmpresaModel) {
+  CadastreEmpresa(empresa: CadastroEmpresaModel) {
 
-    return this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", pessoa)
+    return this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", empresa)
       .then(() => {
 
       });
   }
 
-  ObtenhaFotoPessoa(idEmpresa: number) {
-    return ComunicacaoSettings.UrlApiBase + "Empresa/Empresa/ObtenhaFotoEmpresa?idEmpresa=" + idEmpresa;
+  ObtenhaLogoEmpresa(idEmpresa: number) {
+    return ComunicacaoSettings.UrlApiBase + "Empresa/Empresa/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
   }
 }

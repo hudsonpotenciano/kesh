@@ -36,12 +36,19 @@ export class CadastroPessoaModel {
 }
 
 export class CadastroEmpresaModel {
-    CpfCnpj: string;
+    Cnpj: string;
     Nome: string;
     Email: string;
     Telefone: string;
+    Telefone2: string;
     Senha: string;
-    Foto: any;
+    Logo: any;
+    Resumo : string;
+    RecompensaCompartilhamento : number;
+    RecompensaPontos:number;
+    Latitude:string;
+    Longitude:string;
+    Categorias: number[];
 }
 
 export class Pessoa {

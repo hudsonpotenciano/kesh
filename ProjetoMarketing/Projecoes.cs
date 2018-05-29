@@ -21,7 +21,18 @@ namespace ProjetoMarketing
             };
         }
 
-        public static dynamic ProjecaoRetornoCadastroUsuario(Usuario usuario, string token)
+        public static dynamic ProjecaoRetornoCadastroUsuarioEmpresa(Usuario usuario, string token)
+        {
+            return new
+            {
+                usuario.Token,
+                usuario.IdPessoa,
+                usuario.IdEmpresa,
+                AccessToken = token
+            };
+        }
+
+        public static dynamic ProjecaoRetornoCadastroPessoaUsuario(Usuario usuario, string token)
         {
             return new
             {
@@ -73,7 +84,6 @@ namespace ProjetoMarketing
                 perfil.IdEmpresa,
                 perfil.Latitude,
                 perfil.Longitude,
-                perfil.PontosPorReal,
                 perfil.RecompensaCompartilhamento,
                 perfil.RecompensaPontos,
                 perfil.Resumo,

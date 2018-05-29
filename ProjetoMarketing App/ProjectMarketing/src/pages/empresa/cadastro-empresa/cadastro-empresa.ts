@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CadastroEmpresaModel } from '../../models/pessoa.model';
+import { CadastroEmpresaModel } from '../../../models/pessoa.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { EmpresaProvider } from '../../providers/empresa/empresa';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -52,7 +52,7 @@ export class CadastroEmpresaPage {
 
       let imageData = (readerEvent.target as any).result;
       this.form.patchValue({ 'profilePic': imageData });
-      this.empresa.Foto = imageData.split(',')[1];
+      this.empresa.Logo = imageData.split(',')[1];
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -63,7 +63,14 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
-    debugger;
+    
+    this.empresa.Resumo = "";
+    this.empresa.RecompensaCompartilhamento = 1;
+    this.empresa.RecompensaPontos = 1;
+    this.empresa.Latitude = "1";
+    this.empresa.Longitude = "1";
+    this.empresa.Categorias = [1];
+
     this.empresaProvider.CadastreEmpresa(this.empresa)
       .then(() => {
 

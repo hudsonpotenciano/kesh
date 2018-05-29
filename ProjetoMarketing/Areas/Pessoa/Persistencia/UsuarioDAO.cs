@@ -36,9 +36,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 _context.Usuario.Add(usuario);
                 _context.SaveChanges();
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 //Salve Log
+                throw e;
             }
             
         }

@@ -1,8 +1,10 @@
 ﻿using ProjetoMarketing.Areas.Empresa.Context;
 using ProjetoMarketing.Areas.Empresa.Models;
+using ProjetoMarketing.Autentication.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 
 namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 {
@@ -15,11 +17,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public Entidade.Empresa.Empresa Add(CadastroEmpresaModel model)
+        public Entidade.Usuario AddEmpresaUsuario(CadastroEmpresaModel model, UsuarioContext _contextUsuario)
         {
-            using (var transaction = _context.Database.BeginTransaction())
+
+            try
             {
-                try
+                using (var transaction = _context.Database.BeginTransaction())
                 {
                     var empresa = new Entidade.Empresa.Empresa()
                     {
@@ -38,7 +41,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         IdEmpresa = empresa.IdEmpresa,
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
-                        PontosPorReal = model.PontosPorReal,
                         RecompensaCompartilhamento = model.RecompensaCompartilhamento,
                         RecompensaPontos = model.RecompensaPontos,
                         Resumo = model.Resumo,
@@ -58,15 +60,26 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     _context.ImagensEmpresa.Add(imagensEmpresa);
                     _context.SaveChanges();
 
+                    var usuario = new Entidade.Usuario()
+                    {
+                        IdEmpresa = empresa.IdEmpresa,
+                        Login = model.Email,
+                        Senha = model.Senha
+                    };
+
                     transaction.Commit();
 
-                    return empresa;
-                }
-                catch (Exception)
-                {
-                    throw;
+                    new UsuarioDAO(_contextUsuario).Add(usuario);
+
+                    return usuario;
                 }
             }
+            catch (Exception e)
+            {
+                //SALVE LOG
+                throw e;
+            }
+
         }
 
         public void Add(Entidade.Empresa.PerfilEmpresa perfil)
@@ -87,7 +100,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         empresa.Telefone,
                         perfil.Latitude,
                         perfil.Longitude,
-                        perfil.PontosPorReal,
                         perfil.RecompensaCompartilhamento,
                         perfil.RecompensaPontos,
                         perfil.Resumo,

@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PessoaProvider } from '../../providers/pessoa/pessoa';
-import { CadastroPessoaModel } from '../../models/pessoa.model';
+import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { CadastroPessoaModel } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({

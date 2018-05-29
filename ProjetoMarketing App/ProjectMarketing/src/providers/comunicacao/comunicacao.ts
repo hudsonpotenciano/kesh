@@ -1,14 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
-import { MylocalStorageProvider } from '../mylocal-storage/mylocal-storage';
+import { StorageProvider } from '../storage/storage';
 
 @Injectable()
 export class ComunicacaoProvider {
 
   constructor(
     public http: HttpClient,
-    private mylocalStorage: MylocalStorageProvider) {
+    private storage: StorageProvider) {
   }
 
   get(servico: string, params?: any) {
@@ -44,7 +44,7 @@ export class ComunicacaoProvider {
 
   monteBodyBase(body: any) {
 
-    let dadosAcesso = this.mylocalStorage.recupereDadosAcesso();
+    let dadosAcesso = this.storage.recupereDadosAcesso();
     if (!dadosAcesso) return;
 
     body.Token = dadosAcesso.Token;
