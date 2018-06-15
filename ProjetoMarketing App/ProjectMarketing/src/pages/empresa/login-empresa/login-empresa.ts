@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LoginEmpresaProvider } from '../../../providers/empresa/login';
 import { User } from '../../../models/pessoa.model';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ export class LoginEmpresaPage {
   constructor(
     public navCtrl: NavController,
      public navParams: NavParams,
-    private loginProvider : LoginEmpresaProvider) {
+    private empresaProvider : EmpresaProvider) {
   }
 
   ionViewDidLoad() {
@@ -23,7 +23,7 @@ export class LoginEmpresaPage {
   
   login() {
 
-    this.loginProvider.realizeLogin(this.usuario)
+    this.empresaProvider.realizeLogin(this.usuario)
       .then(() => {
         debugger;
         this.navCtrl.push("HomePage");

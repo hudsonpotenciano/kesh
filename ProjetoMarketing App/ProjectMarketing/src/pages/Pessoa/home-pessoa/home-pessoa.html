@@ -1,0 +1,18 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>HomePessoa</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <button ion-button color="primary" block (click)="obtenhaEmpresas()">empresas</button>
+    <ion-list>
+        <ion-item *ngFor="let empresa of empresas">
+            <h2>{{empresa.Nome}}</h2>
+            <p>{{empresa.Cnpj}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>

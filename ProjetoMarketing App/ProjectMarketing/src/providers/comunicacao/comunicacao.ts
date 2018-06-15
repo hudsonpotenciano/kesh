@@ -21,7 +21,7 @@ export class ComunicacaoProvider {
       }
     }
 
-    return this.http.get(ComunicacaoSettings.UrlApiBase + servico, reqOpts)
+    return this.http.get(ComunicacaoSettings.UrlApiBase + servico, this.monteOptions())
       .toPromise()
       .catch((e: any) => this.trateErros(e))
   }
@@ -30,11 +30,14 @@ export class ComunicacaoProvider {
 
     this.monteBodyBase(body);
 
-    debugger;
-    
-    return this.http.post(ComunicacaoSettings.UrlApiBase + servico, body)
-      .toPromise()
-      .catch((e: any) => this.trateErros(e));
+    return new Promise<any>(resolve => {
+      this.http.post(ComunicacaoSettings.UrlApiBase + servico, body, this.monteOptions())
+        .toPromise()
+        .then((response: any) => {
+          resolve(response);
+        })
+        .catch((e: any) => this.trateErros(e))
+    });
   }
 
   trateErros(erro: any) {
@@ -45,9 +48,20 @@ export class ComunicacaoProvider {
   monteBodyBase(body: any) {
 
     let dadosAcesso = this.storage.recupereDadosAcesso();
-    if (!dadosAcesso) return;
+    body.Token = dadosAcesso ? dadosAcesso.Token : "";
+  }
 
-    body.Token = dadosAcesso.Token;
-    body.AcessToken = dadosAcesso.AccessToken;
+  monteOptions(): any {
+
+    let dadosAcesso = this.storage.recupereDadosAcesso();
+
+    let headers = {};
+    headers['Access-Control-Allow-Origin'] = '*';
+    headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS, PUT';
+    headers['Accept'] = 'application/json';
+    headers['Content-Type'] = 'application/json';
+    headers['Authorization'] = 'Bearer ' + (dadosAcesso != null ? dadosAcesso.AccessToken : "");
+
+    return {headers};
   }
 }

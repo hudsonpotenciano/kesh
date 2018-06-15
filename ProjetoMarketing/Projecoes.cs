@@ -26,7 +26,6 @@ namespace ProjetoMarketing
             return new
             {
                 usuario.Token,
-                usuario.IdPessoa,
                 usuario.IdEmpresa,
                 AccessToken = token
             };
@@ -38,7 +37,6 @@ namespace ProjetoMarketing
             {
                 usuario.Token,
                 usuario.IdPessoa,
-                usuario.IdEmpresa,
                 AccessToken = token
             };
         }

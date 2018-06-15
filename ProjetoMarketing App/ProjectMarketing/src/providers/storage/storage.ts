@@ -22,9 +22,7 @@ export class StorageProvider {
     var objArmazenado = null;
     if (strArmazenado != null) {
       try {
-        objArmazenado = JSON.parse(strArmazenado, (value) => {
-          return value;
-        });
+        objArmazenado = JSON.parse(strArmazenado);
       }
       catch (e) {
         objArmazenado = strArmazenado;

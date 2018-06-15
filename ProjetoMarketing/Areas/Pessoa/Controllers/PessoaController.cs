@@ -41,7 +41,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             }
 
 
-            var usuario = new PessoaDAO(_context).AddPessoaUsuario(model,_contextUsuario);
+            var usuario = new PessoaDAO(_context).AddPessoaUsuario(model, _contextUsuario);
 
             var user = new User(usuario.Login, usuario.Senha);
 

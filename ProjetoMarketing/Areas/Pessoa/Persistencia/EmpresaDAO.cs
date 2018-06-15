@@ -1,9 +1,11 @@
-﻿using ProjetoMarketing.Areas.Empresa.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoMarketing.Areas.Empresa.Context;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Autentication.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace ProjetoMarketing.Areas.Pessoa.Persistencia
@@ -22,8 +24,11 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
             try
             {
-                using (var transaction = _context.Database.BeginTransaction())
+                //using (var transaction = _context.Database.BeginTransaction())
+                //{
+                using (var scope = new TransactionScope())
                 {
+
                     var empresa = new Entidade.Empresa.Empresa()
                     {
                         Cnpj = model.Cnpj,
@@ -67,9 +72,11 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         Senha = model.Senha
                     };
 
-                    transaction.Commit();
+                    //transaction.Commit();
 
                     new UsuarioDAO(_contextUsuario).Add(usuario);
+
+                    scope.Complete();
 
                     return usuario;
                 }
@@ -90,21 +97,30 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public dynamic SelectEmpresas()
         {
-            return (from empresa in _context.Empresa
-                    join perfil in _context.PerfilEmpresa on empresa.IdEmpresa equals perfil.IdEmpresa
-                    select new
-                    {
-                        empresa.Email,
-                        empresa.IdEmpresa,
-                        empresa.Nome,
-                        empresa.Telefone,
-                        perfil.Latitude,
-                        perfil.Longitude,
-                        perfil.RecompensaCompartilhamento,
-                        perfil.RecompensaPontos,
-                        perfil.Resumo,
-                        perfil.Categorias
-                    }).ToList();
+            try
+            {
+                //return (from empresa in _context.Empresa
+                //        join perfil in _context.PerfilEmpresa on empresa.IdEmpresa equals perfil.IdEmpresa
+                //        select new
+                //        {
+                //            empresa.Email,
+                //            empresa.IdEmpresa,
+                //            empresa.Nome,
+                //            empresa.Telefone,
+                //            perfil.Latitude,
+                //            perfil.Longitude,
+                //            perfil.RecompensaCompartilhamento,
+                //            perfil.RecompensaPontos,
+                //            perfil.Resumo,
+                //            perfil.Categorias
+                //        }).ToList();
+                return _context.Empresa.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }

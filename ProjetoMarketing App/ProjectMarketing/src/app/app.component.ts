@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Config, Nav } from 'ionic-angular';
+import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class MyApp {
   
   
-  rootPage: any = "LoginEmpresaPage";
+  rootPage: any = "LoginPessoaPage";
   @ViewChild(Nav) nav: Nav;
 
   constructor(

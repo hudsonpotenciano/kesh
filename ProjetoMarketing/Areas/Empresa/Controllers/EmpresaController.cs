@@ -10,6 +10,7 @@ using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
+using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -50,30 +51,30 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpGet("ObtenhaEmpresas")]
-        public RetornoRequestModel ObtenhaEmpresas(ParametrosObtenhaEmpresas parametros)
+        [HttpPost("ObtenhaEmpresas")]
+        public async Task<RetornoRequestModel> ObtenhaEmpresas([FromBody]ParametrosObtenhaEmpresas parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
             {
-                Result = new EmpresaDAO(_context).SelectEmpresas()
+                Result = await new EmpresaDAO(_context).SelectEmpresas()
             };
 
             return retorno;
         }
 
         [Authorize("Bearer")]
-        [HttpGet("ObtenhaEmpresas")]
-        public RetornoRequestModel ObtenhaPerfilEmpresa(ParametrosObtenhaEmpresa parametros)
+        [HttpPost("ObtenhaPerfilEmpresa")]
+        public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody] ParametrosObtenhaEmpresa parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
             {
-                Result = Projecoes.ProjecaoPerfilEmpresa(_context.PerfilEmpresa.Where(e => e.IdEmpresa == parametros.IdEmpresa).FirstOrDefault())
+                Result = await Projecoes.ProjecaoPerfilEmpresa(_context.PerfilEmpresa.Where(e => e.IdEmpresa == parametros.IdEmpresa).FirstOrDefault())
             };
 
             return retorno;
