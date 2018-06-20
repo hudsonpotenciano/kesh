@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class MyApp {
   
   
-  rootPage: any = "LoginPessoaPage";
+  rootPage: any = "LoginEmpresaPage";
   @ViewChild(Nav) nav: Nav;
 
   constructor(

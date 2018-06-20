@@ -26,7 +26,6 @@ export class PessoaProvider {
 
     return this.comunicacao.post("pessoa/login/realizelogin", usuario)
       .then((resposta: RetornoRequestModel) => {
-        debugger;
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);
       });
@@ -35,8 +34,11 @@ export class PessoaProvider {
   CadastrePessoa(pessoa: CadastroPessoaModel) {
 
     return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
-      .then(() => {
+      .then((resposta: RetornoRequestModel) => {
 
+        if (resposta.Erro == 2) {
+          alert("Este email já existe");
+        }
       });
   }
 

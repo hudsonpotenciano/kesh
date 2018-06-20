@@ -38,14 +38,25 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var usuario = new EmpresaDAO(_context).AddEmpresaUsuario(model, _contextUsuario);
+            var retorno = new RetornoRequestModel();
 
-            var user = new User(usuario.Login, usuario.Senha);
+            var empresa = new Entidade.Empresa.Empresa();
+            new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa);
 
-            var retorno = new RetornoRequestModel
+            var usuario = new Entidade.Usuario()
             {
-                Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
+                IdEmpresa = empresa.IdEmpresa,
+                Login = model.Email,
+                Senha = model.Senha
             };
+
+            if (empresa.IdEmpresa != 0)
+            {
+                new UsuarioDAO(_contextUsuario).Add(usuario);
+                var user = new User(usuario.Login, usuario.Senha);
+
+                retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+            }
 
             return retorno;
         }

@@ -33,7 +33,7 @@ export class ComunicacaoProvider {
     return new Promise<any>(resolve => {
       this.http.post(ComunicacaoSettings.UrlApiBase + servico, body, this.monteOptions())
         .toPromise()
-        .then((response: any) => {
+        .then((response) => {
           resolve(response);
         })
         .catch((e: any) => this.trateErros(e))
@@ -42,6 +42,7 @@ export class ComunicacaoProvider {
 
   trateErros(erro: any) {
 
+    alert(erro);
     console.error(erro);
   }
 
@@ -62,6 +63,6 @@ export class ComunicacaoProvider {
     headers['Content-Type'] = 'application/json';
     headers['Authorization'] = 'Bearer ' + (dadosAcesso != null ? dadosAcesso.AccessToken : "");
 
-    return {headers};
+    return { headers };
   }
 }

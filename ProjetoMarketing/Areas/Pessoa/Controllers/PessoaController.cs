@@ -35,20 +35,31 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
-            if (_context.Pessoa.Any(p => p.CpfCnpj == model.CpfCnpj || p.Email == model.Email))
+            if (_context.Pessoa.Any(p => p.Email == model.Email))
             {
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
+            var retorno = new RetornoRequestModel();
 
-            var usuario = new PessoaDAO(_context).AddPessoaUsuario(model, _contextUsuario);
+            var pessoa = new Entidade.Pessoa.Pessoa();
 
-            var user = new User(usuario.Login, usuario.Senha);
+            new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa);
 
-            var retorno = new RetornoRequestModel
+            if (pessoa.IdPessoa != 0)
             {
-                Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations))
-            };
+                var usuario = new Entidade.Usuario()
+                {
+                    IdPessoa = pessoa.IdPessoa,
+                    Login = model.Email,
+                    Senha = model.Senha
+                };
+
+                new UsuarioDAO(_contextUsuario).Add(usuario);
+                var user = new User(usuario.Login, usuario.Senha);
+
+                retorno.Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+            }
 
             return retorno;
         }

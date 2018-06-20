@@ -19,17 +19,13 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public Entidade.Usuario AddEmpresaUsuario(CadastroEmpresaModel model, UsuarioContext _contextUsuario)
+        public void AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa)
         {
-
             try
             {
-                //using (var transaction = _context.Database.BeginTransaction())
-                //{
                 using (var scope = new TransactionScope())
                 {
-
-                    var empresa = new Entidade.Empresa.Empresa()
+                    empresa = new Entidade.Empresa.Empresa()
                     {
                         Cnpj = model.Cnpj,
                         Email = model.Email,
@@ -60,25 +56,11 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         IdEmpresa = empresa.IdEmpresa,
                         Imagem = model.Logo,
                         Tipo = 1
+                        //ENUMERADOR 
                     };
 
                     _context.ImagensEmpresa.Add(imagensEmpresa);
                     _context.SaveChanges();
-
-                    var usuario = new Entidade.Usuario()
-                    {
-                        IdEmpresa = empresa.IdEmpresa,
-                        Login = model.Email,
-                        Senha = model.Senha
-                    };
-
-                    //transaction.Commit();
-
-                    new UsuarioDAO(_contextUsuario).Add(usuario);
-
-                    scope.Complete();
-
-                    return usuario;
                 }
             }
             catch (Exception e)

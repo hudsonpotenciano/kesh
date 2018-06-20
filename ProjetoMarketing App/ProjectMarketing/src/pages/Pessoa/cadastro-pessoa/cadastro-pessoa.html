@@ -29,6 +29,13 @@
             </ion-item>
 
             <ion-item>
+                <ion-label fixed>Telefone</ion-label>
+                <ion-input type="number" [(ngModel)]="pessoa.Telefone" formControlName="telefone"></ion-input>
+            </ion-item>
+        </ion-list>
+
+        <ion-list>
+            <ion-item>
                 <ion-label fixed>Email</ion-label>
                 <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email"></ion-input>
             </ion-item>
@@ -39,20 +46,13 @@
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Cpf/Cnpj</ion-label>
-                <ion-input type="number" [(ngModel)]="pessoa.CpfCnpj" formControlName="cpfcnpj"></ion-input>
+                <ion-label fixed>Confirmação da senha</ion-label>
+                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" formControlName="confirmacaoDaSenha"></ion-input>
             </ion-item>
-
-            <ion-item>
-                <ion-label fixed>Telefone</ion-label>
-                <ion-input type="number" [(ngModel)]="pessoa.Telefone" formControlName="telefone"></ion-input>
-            </ion-item>
-
-            <div padding>
-                <button ion-button color="primary" block>Salvar</button>
-            </div>
         </ion-list>
-    </form>
 
-    <img src="{{pessoaProvider.ObtenhaFotoPessoa(23)}}" alt="">
+        <div padding>
+            <button ion-button color="primary" block>Salvar</button>
+        </div>
+    </form>
 </ion-content>

@@ -27,7 +27,6 @@ export class Usuario {
 }
 
 export class CadastroPessoaModel {
-    CpfCnpj: string;
     Nome: string;
     Email: string;
     Telefone: string;
@@ -43,17 +42,16 @@ export class CadastroEmpresaModel {
     Telefone2: string;
     Senha: string;
     Logo: any;
-    Resumo : string;
-    RecompensaCompartilhamento : number;
-    RecompensaPontos:number;
-    Latitude:string;
-    Longitude:string;
+    Resumo: string;
+    RecompensaCompartilhamento: number;
+    RecompensaPontos: number;
+    Latitude: string;
+    Longitude: string;
     Categorias: number[];
 }
 
 export class Pessoa {
     IdPessoa: number;
-    CpfCnpj: string;
     Nome: string;
     Email: string;
     Telefone: string;

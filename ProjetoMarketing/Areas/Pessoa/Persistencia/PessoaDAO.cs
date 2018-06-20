@@ -17,52 +17,39 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public Entidade.Usuario AddPessoaUsuario(Models.CadastroPessoaModel model, UsuarioContext _contextUsuario)
+        public void AddPessoaUsuario(Models.CadastroPessoaModel model, out Entidade.Pessoa.Pessoa pessoa)
         {
             try
             {
-                using (TransactionScope scope = new TransactionScope())
+                _context.Database.BeginTransaction();
+
+                pessoa = new Entidade.Pessoa.Pessoa()
                 {
-                    var pessoa = new Entidade.Pessoa.Pessoa()
-                    {
-                        CpfCnpj = model.CpfCnpj,
-                        Email = model.CpfCnpj,
-                        Nome = model.Nome,
-                        Telefone = model.Telefone
-                    };
+                    Email = model.Email,
+                    Nome = model.Nome,
+                    Telefone = model.Telefone
+                };
 
-                    _context.Pessoa.Add(pessoa);
-                    _context.SaveChanges();
+                _context.Pessoa.Add(pessoa);
+                _context.SaveChanges();
 
-                    var perfil = new Entidade.Pessoa.PerfilPessoa()
-                    {
-                        Foto = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
-                        IdPessoa = pessoa.IdPessoa
-                    };
+                var perfil = new Entidade.Pessoa.PerfilPessoa()
+                {
+                    Foto = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
+                    IdPessoa = pessoa.IdPessoa
+                };
 
-                    _context.PerfilPessoa.Add(perfil);
-                    _context.SaveChanges();
-
-                    var usuario = new Entidade.Usuario()
-                    {
-                        IdPessoa = pessoa.IdPessoa,
-                        Login = model.Email,
-                        Senha = model.Senha
-                    };
-
-                    new UsuarioDAO(_contextUsuario).Add(usuario);
-
-                    scope.Complete();
-
-                    return usuario;
-                }
-            }
-            catch (Exception)
+                _context.PerfilPessoa.Add(perfil);
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
+           }
+            catch (Exception e)
             {
                 //SALVE LOG
-            }
+                _context.Database.RollbackTransaction();
 
-            return null;
+                throw e;
+            }
         }
 
         public void Remove(Entidade.Pessoa.Pessoa pessoa)

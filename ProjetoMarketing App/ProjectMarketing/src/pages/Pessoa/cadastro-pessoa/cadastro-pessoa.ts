@@ -14,6 +14,7 @@ export class CadastroPessoaPage {
   @ViewChild('fileInput') fileInput;
 
   pessoa: CadastroPessoaModel = new CadastroPessoaModel();
+  confirmacaoDaSenha: string;
   form: FormGroup;
   isReadyToSave: boolean;
 
@@ -27,9 +28,9 @@ export class CadastroPessoaPage {
       profilePic: [''],
       nome: ['', Validators.required],
       email: ['', Validators.required],
-      cpfcnpj: ['', Validators.required],
       telefone: ['', Validators.required],
       senha: ['', Validators.required],
+      confirmacaoDaSenha: ['', Validators.required]
     });
 
     this.form.valueChanges.subscribe(() => {
@@ -53,7 +54,7 @@ export class CadastroPessoaPage {
       let imageData = (readerEvent.target as any).result;
       this.form.patchValue({ 'profilePic': imageData });
       this.pessoa.Foto = imageData.split(',')[1];
-    };    
+    };
 
     reader.readAsDataURL(event.target.files[0]);
   }
@@ -63,10 +64,10 @@ export class CadastroPessoaPage {
   }
 
   cadastre() {
-    debugger;
-    this.pessoaProvider.CadastrePessoa(this.pessoa)
-    .then(()=>{
 
-    })
+    this.pessoaProvider.CadastrePessoa(this.pessoa)
+      .then(() => {
+
+      })
   }
 }

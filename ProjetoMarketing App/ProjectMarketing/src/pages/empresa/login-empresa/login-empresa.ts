@@ -29,7 +29,7 @@ export class LoginEmpresaPage {
         this.navCtrl.push("HomePage");
       })
   }
-
+  
   abraCadastro() {
     this.navCtrl.push("CadastroEmpresaPage");
   }
