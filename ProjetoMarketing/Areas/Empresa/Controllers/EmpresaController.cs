@@ -70,7 +70,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             var retorno = new RetornoRequestModel
             {
-                Result = await new EmpresaDAO(_context).SelectEmpresas()
+                Result = Projecoes.ProjecaoEmpresas(await new EmpresaDAO(_context).SelectEmpresas())
             };
 
             return retorno;
@@ -78,14 +78,14 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPerfilEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody] ParametrosObtenhaEmpresa parametros)
+        public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody]ParametrosObtenhaEmpresa parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
             {
-                Result = await Projecoes.ProjecaoPerfilEmpresa(_context.PerfilEmpresa.Where(e => e.IdEmpresa == parametros.IdEmpresa).FirstOrDefault())
+                Result = Projecoes.ProjecaoPerfilEmpresa(await new EmpresaDAO(_context).SelectPerfilEmpresa(parametros.IdEmpresa))
             };
 
             return retorno;

@@ -1,30 +1,4 @@
-export class RetornoLogin {
-    Token: string;
-    IdPessoa: number;
-    IdEmpresa: number;
-    AccessToken: string;
-}
 
-export class RetornoRequestModel {
-    Mensagem: string;
-    AccessToken: string;
-    Result: any;
-    Erro: number;
-}
-
-export class User {
-    Login: string;
-    Senha: string;
-}
-
-export class Usuario {
-    Login: string;
-    Senha: string;
-    IdUsuario: number;
-    IdPessoa: number;
-    IdEmpresa: number;
-    Token: string;
-}
 
 export class CadastroPessoaModel {
     Nome: string;
@@ -43,8 +17,8 @@ export class CadastroEmpresaModel {
     Senha: string;
     Logo: any;
     Resumo: string;
-    RecompensaCompartilhamento: number;
-    RecompensaPontos: number;
+    DescontoCompartilhamento: number;
+    ValorPontos: number;
     Latitude: string;
     Longitude: string;
     Categorias: number[];
@@ -56,4 +30,3 @@ export class Pessoa {
     Email: string;
     Telefone: string;
 }
-

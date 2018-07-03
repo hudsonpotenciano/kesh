@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CadastroEmpresaModel, User, RetornoLogin, RetornoRequestModel } from '../../models/pessoa.model';
+import { CadastroEmpresaModel} from '../../models/pessoa.model';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
+import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
 
 @Injectable()
 export class EmpresaProvider {

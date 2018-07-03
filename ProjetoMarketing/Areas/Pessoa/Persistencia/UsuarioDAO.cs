@@ -19,7 +19,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         public Usuario Find(User usuario)
         {
             var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
-            return _context.Usuario.FirstOrDefault(u => u.Token == token);
+            return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdPessoa != null);
         }
 
         public bool Validate(string token)

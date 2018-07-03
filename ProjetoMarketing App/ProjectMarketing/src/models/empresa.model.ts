@@ -11,3 +11,13 @@ export class Empresa {
     Resumo: string;
     Categorias: number[];
 }
+
+export class PerfilEmpresa {
+    IdEmpresa : number;
+    Latitude : string;
+    Longitude : string;
+    RecompensaCompartilhamento : string;
+    RecompensaPontos : string;
+    Resumo : string;
+    Categorias : number[];
+}

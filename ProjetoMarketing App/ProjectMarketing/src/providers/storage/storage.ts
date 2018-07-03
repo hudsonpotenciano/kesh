@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RetornoLogin } from '../../models/pessoa.model';
+import { RetornoLogin } from '../../models/models.model';
 
 @Injectable()
 export class StorageProvider {

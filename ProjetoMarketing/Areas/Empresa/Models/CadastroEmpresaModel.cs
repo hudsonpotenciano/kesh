@@ -1,4 +1,6 @@
-﻿namespace ProjetoMarketing.Areas.Empresa.Models
+﻿using ProjetoMarketing.Entidade;
+
+namespace ProjetoMarketing.Areas.Empresa.Models
 {
     public class CadastroEmpresaModel
     {
@@ -10,8 +12,8 @@
         public string Cnpj { get; set; }
         public byte[] Logo { get; set; }
         public string Resumo { get; set; }
-        public int RecompensaCompartilhamento { get; set; }
-        public int RecompensaPontos { get; set; }
+        public decimal DescontoCompartilhamento { get; set; }
+        public decimal ValorPontos { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public int[] Categorias { get; set; }

@@ -47,6 +47,7 @@ namespace ProjetoMarketing.Negocio.Enumeradores
 
             return todos;
         }
+
         public static List<T> ObtenhaTodos(int[] codigos)
         {
             var todos = new List<T>();

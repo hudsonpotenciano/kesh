@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjetoMarketing.Entidade
 {
@@ -10,10 +8,13 @@ namespace ProjetoMarketing.Entidade
     {
         [Key]
         public Guid Id { get; set; }
-        public int IdPessoa { get; set; }
-        public int IdCupom { get; set; }
-        public int IdEmpresa { get; set; }
-        public DateTime Validade { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Token { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long IdCupom { get; set; }
+        public int IdPessoa { get; set; }
+        public int IdEmpresa { get; set; }
+        public decimal Desconto { get; set; }
+        public DateTime Validade { get; set; }
     }
 }

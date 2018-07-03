@@ -13,6 +13,7 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Autentication.Context;
 using Newtonsoft.Json.Serialization;
+using ProjetoMarketing.Contexts;
 
 namespace ProjetoMarketing
 {
@@ -36,6 +37,9 @@ namespace ProjetoMarketing
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
             services.AddEntityFrameworkNpgsql().AddDbContext<UsuarioContext>(opt =>
+            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<TransacaoContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
             //Token

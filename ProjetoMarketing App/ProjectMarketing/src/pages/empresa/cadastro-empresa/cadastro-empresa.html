@@ -48,6 +48,25 @@
                 <ion-input type="number" [(ngModel)]="empresa.Telefone" formControlName="telefone"></ion-input>
             </ion-item>
 
+            <ion-item>
+                <ion-label fixed>Telefone 2</ion-label>
+                <ion-input type="number" [(ngModel)]="empresa.Telefone2" formControlName="telefone2"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Resumo</ion-label>
+                <ion-input type="text" [(ngModel)]="empresa.Resumo" formControlName="telefone2"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Desconto por compartilhamento</ion-label>
+                <ion-input type="text" [(ngModel)]="empresa.DescontoCompartilhamento" formControlName="descontoCompartilhamento"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Valor dos pontos</ion-label>
+                <ion-input type="text" [(ngModel)]="empresa.ValorPontos" formControlName="valorPontos"></ion-input>
+            </ion-item>
             <div padding>
                 <button ion-button color="primary" block>Salvar</button>
             </div>

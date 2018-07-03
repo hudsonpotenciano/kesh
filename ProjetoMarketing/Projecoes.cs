@@ -10,7 +10,7 @@ namespace ProjetoMarketing
 {
     public class Projecoes
     {
-        public static dynamic ProjecaoRetornoLogin(Usuario usuario,string token)
+        public static dynamic ProjecaoRetornoLogin(Usuario usuario, string token)
         {
             return new
             {
@@ -71,7 +71,8 @@ namespace ProjetoMarketing
                        item.Nome,
                        item.Email,
                        item.Telefone,
-                       item.IdEmpresa
+                       item.IdEmpresa,
+                       item.Telefone2
                    };
         }
 
@@ -82,10 +83,34 @@ namespace ProjetoMarketing
                 perfil.IdEmpresa,
                 perfil.Latitude,
                 perfil.Longitude,
-                perfil.RecompensaCompartilhamento,
-                perfil.RecompensaPontos,
+                perfil.DescontoCompartilhamento,
+                perfil.ValorPontos,
                 perfil.Resumo,
                 perfil.Categorias
+            };
+        }
+
+        public static dynamic ProjecaoCupom(Cupom cupom)
+        {
+            return new
+            {
+                cupom.Desconto,
+                cupom.IdCupom,
+                cupom.Token,
+                cupom.Validade,
+                cupom.IdEmpresa,
+                cupom.IdPessoa
+            };
+        }
+        public static dynamic ProjecaoVenda(Venda venda)
+        {
+            return new
+            {
+                venda.IdCupom,
+                venda.IdVenda,
+                venda.IdPessoa,
+                venda.IdEmpresa,
+                venda.Valor
             };
         }
     }

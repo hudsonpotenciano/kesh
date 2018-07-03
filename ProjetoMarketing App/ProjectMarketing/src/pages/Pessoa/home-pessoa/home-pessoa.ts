@@ -17,9 +17,11 @@ export class HomePessoaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private pessoaProvider: PessoaProvider) {
+
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
+    this.obtenhaEmpresas();
   }
 
   obtenhaEmpresas() {
@@ -27,5 +29,9 @@ export class HomePessoaPage {
       .then((empresas: Empresa[]) => {
         this.empresas = empresas;
       })
+  }
+
+  abraPerfilEmpresa(empresa: Empresa) {
+    this.navCtrl.push("PerfilEmpresaPage", empresa);
   }
 }

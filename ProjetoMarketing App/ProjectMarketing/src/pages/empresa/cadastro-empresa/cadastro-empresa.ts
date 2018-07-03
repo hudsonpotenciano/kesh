@@ -10,7 +10,7 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
   templateUrl: 'cadastro-empresa.html',
 })
 export class CadastroEmpresaPage {
- 
+
   empresa: CadastroEmpresaModel = new CadastroEmpresaModel();
   form: FormGroup;
   isReadyToSave: boolean;
@@ -29,6 +29,9 @@ export class CadastroEmpresaPage {
       email: ['', Validators.required],
       cpfcnpj: ['', Validators.required],
       telefone: ['', Validators.required],
+      telefone2: ['', Validators.required],
+      descontoCompartilhamento: ['', Validators.required],
+      valorPontos: ['', Validators.required],
       senha: ['', Validators.required],
     });
 
@@ -63,10 +66,6 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
-    
-    this.empresa.Resumo = "";
-    this.empresa.RecompensaCompartilhamento = 1;
-    this.empresa.RecompensaPontos = 1;
     this.empresa.Latitude = "1";
     this.empresa.Longitude = "1";
     this.empresa.Categorias = [1];

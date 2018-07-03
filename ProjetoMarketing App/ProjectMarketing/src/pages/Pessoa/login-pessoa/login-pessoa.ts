@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { User } from '../../../models/pessoa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { User } from '../../../models/models.model';
 
 @IonicPage()
 @Component({
@@ -25,8 +25,7 @@ export class LoginPessoaPage {
 
     this.pessoaProvider.realizeLogin(this.usuario)
       .then(() => {
-        debugger;
-        this.navCtrl.push("HomePessoaPage");
+        this.navCtrl.setRoot("TabsPessoaPage");
       })
   }
 

@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { HomePage } from './home';
+import { HomeEmpresaPage } from './home-empresa';
 import { TranslateModule } from '@ngx-translate/core';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { QRScanner } from '@ionic-native/qr-scanner';
 
 @NgModule({
   declarations: [
-    HomePage,
+    HomeEmpresaPage,
   ],
   imports: [
-    IonicPageModule.forChild(HomePage),
+    IonicPageModule.forChild(HomeEmpresaPage),
     TranslateModule.forChild()
   ],
   exports: [
-    HomePage
+    HomeEmpresaPage
   ],
   providers:
   [

@@ -42,8 +42,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         IdEmpresa = empresa.IdEmpresa,
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
-                        RecompensaCompartilhamento = model.RecompensaCompartilhamento,
-                        RecompensaPontos = model.RecompensaPontos,
+                        DescontoCompartilhamento = model.DescontoCompartilhamento,
+                        ValorPontos = model.ValorPontos,
                         Resumo = model.Resumo,
                         Categorias = model.Categorias
                     };
@@ -77,26 +77,24 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context.SaveChanges();
         }
 
-        public dynamic SelectEmpresas()
+        public Task<List<Entidade.Empresa.Empresa>> SelectEmpresas()
         {
             try
             {
-                //return (from empresa in _context.Empresa
-                //        join perfil in _context.PerfilEmpresa on empresa.IdEmpresa equals perfil.IdEmpresa
-                //        select new
-                //        {
-                //            empresa.Email,
-                //            empresa.IdEmpresa,
-                //            empresa.Nome,
-                //            empresa.Telefone,
-                //            perfil.Latitude,
-                //            perfil.Longitude,
-                //            perfil.RecompensaCompartilhamento,
-                //            perfil.RecompensaPontos,
-                //            perfil.Resumo,
-                //            perfil.Categorias
-                //        }).ToList();
                 return _context.Empresa.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        public Task<Entidade.Empresa.PerfilEmpresa> SelectPerfilEmpresa(int idEmpresa)
+        {
+            try
+            {
+                return _context.PerfilEmpresa.FirstOrDefaultAsync(e => e.IdEmpresa == idEmpresa);
             }
             catch (Exception e)
             {
