@@ -1,15 +1,8 @@
-<ion-header>
-
-    <ion-navbar>
-        <ion-title>{{empresa.Nome}}</ion-title>
-    </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
-    <h1>{{empresa.Email}}</h1>
-    <h1>Resumo: {{perfilEmpresa.Resumo}}</h1>
+    <img class="logo" src="{{empresaProvider.ObtenhaLogoEmpresa(empresa.IdEmpresa)}}" alt="">
+
+    <p>{{empresa.Email}}</p>
+    <p>Resumo: {{perfilEmpresa.Resumo}}</p>
 
     <button ion-button (click)="compartilhe()">Compartilhar</button>
 </ion-content>

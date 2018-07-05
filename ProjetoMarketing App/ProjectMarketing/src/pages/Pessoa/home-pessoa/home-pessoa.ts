@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Empresa } from '../../../models/empresa.model';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -16,8 +17,9 @@ export class HomePessoaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private pessoaProvider: PessoaProvider) {
-
+    private pessoaProvider: PessoaProvider,
+    private empresaProvider: EmpresaProvider) {
+    this.empresaProvider;
   }
 
   ionViewDidEnter() {

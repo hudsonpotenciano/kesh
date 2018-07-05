@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Empresa, PerfilEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom } from '../../../models/models.model';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class PerfilEmpresaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public empresaProvider: EmpresaProvider,
     public pessoaProvider: PessoaProvider) {
 
   }
@@ -30,13 +32,13 @@ export class PerfilEmpresaPage {
 
         this.perfilEmpresa = retorno;
       });
-      
+
   }
 
   compartilhe() {
     this.pessoaProvider.GereCupom(this.empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((cupom: Cupom) => {
-        this.pessoaProvider.GereVenda(cupom.Token, 100);
+        // this.pessoaProvider.GereVenda(cupom.Token, 100);
         this.navCtrl.push("CupomPage", cupom);
       });
   }

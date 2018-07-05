@@ -10,9 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 })
 export class MyApp {
-  
-  
-  rootPage: any = "LoginPessoaPage";
+
+
+  rootPage: any = "IntroducaoPage";
   @ViewChild(Nav) nav: Nav;
 
   constructor(
@@ -23,7 +23,9 @@ export class MyApp {
     private translate: TranslateService) {
 
     platform.ready().then(() => {
-      statusBar.styleDefault();
+      statusBar.styleLightContent();
+      statusBar.overlaysWebView(false);
+      statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();
     });
 

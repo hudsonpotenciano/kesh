@@ -32,5 +32,4 @@ export class EmpresaProvider {
   ObtenhaLogoEmpresa(idEmpresa: number) {
     return ComunicacaoSettings.UrlApiBase + "Empresa/Empresa/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
   }
-
 }

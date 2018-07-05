@@ -8,6 +8,7 @@ import { User } from '../../../models/models.model';
   selector: 'page-login-pessoa',
   templateUrl: 'login-pessoa.html',
 })
+
 export class LoginPessoaPage {
 
   usuario: User = new User();

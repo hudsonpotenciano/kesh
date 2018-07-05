@@ -12,7 +12,5 @@ export class CupomPage {
   cupom: Cupom;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.cupom = this.navParams.data;
-
-    this.navCtrl.push("QrCodeScannerPage");
   }
 }

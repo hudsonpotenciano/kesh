@@ -90,5 +90,16 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             return retorno;
         }
+
+        [AllowAnonymous]
+        [HttpGet("ObtenhaLogoEmpresa")]
+        public ActionResult ObtenhaLogoEmpresa(int idEmpresa)
+        {
+            var foto = _context.ImagensEmpresa.FirstOrDefault(x => x.IdEmpresa == idEmpresa && x.Tipo == 1)?.Imagem;
+
+            if (foto == null) return null;
+
+            return File(foto, "image/jpeg");
+        }
     }
 }

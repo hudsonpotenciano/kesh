@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { PerfilEmpresaPage } from './perfil-empresa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
     IonicPageModule.forChild(PerfilEmpresaPage)
   ],
   providers:[
-    PessoaProvider
+    PessoaProvider,
+    EmpresaProvider
   ]
 })
 export class PerfilEmpresaPageModule {}
