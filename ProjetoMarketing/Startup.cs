@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using ProjetoMarketing.Areas.Pessoa.Context;
-using ProjetoMarketing.Areas.Empresa.Context;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
 using Microsoft.Extensions.Options;
@@ -30,10 +28,7 @@ namespace ProjetoMarketing
         public void ConfigureServices(IServiceCollection services)
         {
             //PostGree
-            services.AddEntityFrameworkNpgsql().AddDbContext<PessoaContext>(opt =>
-            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<EmpresaContext>(opt =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<PessoaEmpresaContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
             services.AddEntityFrameworkNpgsql().AddDbContext<UsuarioContext>(opt =>

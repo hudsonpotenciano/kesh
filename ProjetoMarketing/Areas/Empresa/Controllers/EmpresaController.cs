@@ -1,16 +1,15 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoMarketing.Areas.Empresa.Context;
 using ProjetoMarketing.Autentication.Context;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Models;
-using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
 using System.Threading.Tasks;
+using ProjetoMarketing.Contexts;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -18,10 +17,10 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
     [Route("api/Empresa/Empresa")]
     public class EmpresaController : ControladorBase
     {
-        private readonly EmpresaContext _context;
+        private readonly PessoaEmpresaContext _context;
         private readonly UsuarioContext _contextUsuario;
 
-        public EmpresaController(EmpresaContext context, UsuarioContext usuarioContext)
+        public EmpresaController(PessoaEmpresaContext context, UsuarioContext usuarioContext)
         {
             _context = context;
             _contextUsuario = usuarioContext;
@@ -78,7 +77,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPerfilEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody]ParametrosObtenhaEmpresa parametros)
+        public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody]ParametrosObtenhaDadosEmpresa parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();

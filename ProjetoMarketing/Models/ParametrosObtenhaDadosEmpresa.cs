@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Models
 {
-    public class ParametrosObtenhaEmpresa : ParametrosRequestModel
+    public class ParametrosObtenhaDadosEmpresa : ParametrosRequestModel
     {
         public int IdEmpresa { get; set; }
     }

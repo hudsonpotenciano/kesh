@@ -3,7 +3,7 @@
     <name>ProjectMarketing</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.15.11:8100" />
     <access origin="*" />
     <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
@@ -85,7 +85,7 @@
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.0" />
     <plugin name="cordova-plugin-qrscanner" spec="^2.6.0" />
-    <engine name="android" spec="7.0.0" />
     <allow-navigation href="http://192.168.15.11:8100" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
+    <engine name="android" spec="7.0.0" />
 </widget>

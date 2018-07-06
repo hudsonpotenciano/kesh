@@ -1,17 +1,15 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoMarketing.Areas.Pessoa.Context;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Autentication.Context;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Areas.Pessoa.Models;
-using System;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Transactions;
+using System.Threading.Tasks;
+using ProjetoMarketing.Contexts;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -19,14 +17,13 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
     [Route("api/Pessoa/Pessoa")]
     public class PessoaController : ControladorBase
     {
-        private readonly PessoaContext _context;
+        private readonly PessoaEmpresaContext _context;
         private readonly UsuarioContext _contextUsuario;
 
-        public PessoaController(PessoaContext context, UsuarioContext contextUsuario)
+        public PessoaController(PessoaEmpresaContext context, UsuarioContext contextUsuario)
         {
             _context = context;
             _contextUsuario = contextUsuario;
-
         }
 
         [AllowAnonymous]
@@ -60,6 +57,23 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
                 retorno.Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
             }
+
+            return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaPessoaEmpresas")]
+        public RetornoRequestModel ObtenhaPessoaEmpresas([FromBody]ParametrosObtenhaDadosPessoa parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var pessoaEmpresas = new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros.IdPessoa);
+
+            var retorno = new RetornoRequestModel
+            {
+                //Result = Projecoes.ProjecaoPessoaEmpresas()
+            };
 
             return retorno;
         }

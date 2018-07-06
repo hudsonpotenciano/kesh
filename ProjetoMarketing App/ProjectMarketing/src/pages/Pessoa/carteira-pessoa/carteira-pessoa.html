@@ -1,0 +1,19 @@
+<ion-content padding>
+    <p>Aqui ficara o historio de movimentacoes e cupons</p>
+
+    <ion-list>
+        Cupons
+        <ion-item *ngFor="let cupom of cupons" (click)="abraCupom(cupom)">
+            <h2>{{cupom.Token}}</h2>
+            <p>{{cupom.IdEmpresa}}</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-list>
+        Vendas
+        <ion-item *ngFor="let venda of Vendas">
+            <h2>{{venda.Valor}}</h2>
+            <p>{{venda.IdEmpresa}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -27,7 +27,7 @@ export class HomePessoaPage {
   }
 
   obtenhaEmpresas() {
-    this.pessoaProvider.ObtenhaEmpresas()
+    this.pessoaProvider.ObtenhaPessoaEmpresas()
       .then((empresas: Empresa[]) => {
         this.empresas = empresas;
       })

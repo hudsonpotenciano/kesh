@@ -102,6 +102,34 @@ namespace ProjetoMarketing
                 cupom.IdPessoa
             };
         }
+
+        public static dynamic ProjecaoCupons(List<Cupom> cupons)
+        {
+            return from cupom in cupons
+                   select new
+                   {
+                       cupom.IdCupom,
+                       cupom.Token,
+                       cupom.Validade,
+                       cupom.IdEmpresa,
+                       cupom.IdPessoa,
+                       cupom.Desconto
+                   };
+        }
+
+        public static dynamic ProjecaoVendas(List<Venda> vendas)
+        {
+            return from venda in vendas
+                   select new
+                   {
+                       venda.IdEmpresa,
+                       venda.IdPessoa,
+                       venda.IdVenda,
+                       venda.Valor,
+                       venda.IdCupom
+                   };
+        }
+
         public static dynamic ProjecaoVenda(Venda venda)
         {
             return new

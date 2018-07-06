@@ -1,6 +1,4 @@
-﻿
-using ProjetoMarketing.Areas.Pessoa.Context;
-using ProjetoMarketing.Autentication;
+﻿using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Autentication.Context;
 using ProjetoMarketing.Entidade;
 using System.Linq;

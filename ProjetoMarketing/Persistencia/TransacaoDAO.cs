@@ -1,4 +1,5 @@
-﻿using ProjetoMarketing.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Models;
@@ -38,7 +39,7 @@ namespace ProjetoMarketing.Persistencia
                 throw e;
             }
         }
-        
+
         public void GereVendaComCupom(ParametrosCupomVenda model, Cupom cupom, out Venda venda)
         {
             try
@@ -54,6 +55,58 @@ namespace ProjetoMarketing.Persistencia
 
                 _context.Venda.Add(venda);
                 _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public Task<List<Cupom>> ObtenhaCuponsEmpresa(int idEmpresa)
+        {
+            try
+            {
+                return _context.Cupom.Where(c => c.IdEmpresa == idEmpresa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public Task<List<Venda>> ObtenhaVendasEmpresa(int idEmpresa)
+        {
+            try
+            {
+                return _context.Venda.Where(v => v.IdEmpresa == idEmpresa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public Task<List<Cupom>> ObtenhaCuponsPessoa(int idPessoa)
+        {
+            try
+            {
+                return _context.Cupom.Where(c => c.IdPessoa == idPessoa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public Task<List<Venda>> ObtenhaVendasPessoa(int idPessoa)
+        {
+            try
+            {
+                return _context.Venda.Where(v => v.IdPessoa == idPessoa).ToListAsync();
             }
             catch (Exception e)
             {

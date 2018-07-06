@@ -1,18 +1,18 @@
-﻿using ProjetoMarketing.Areas.Pessoa.Context;
-using ProjetoMarketing.Autentication.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Entidade.Pessoa;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 {
     public class PessoaDAO
     {
-        private readonly PessoaContext _context;
+        private readonly PessoaEmpresaContext _context;
 
-        public PessoaDAO(PessoaContext context)
+        public PessoaDAO(PessoaEmpresaContext context)
         {
             _context = context;
         }
@@ -42,7 +42,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 _context.PerfilPessoa.Add(perfil);
                 _context.SaveChanges();
                 _context.Database.CommitTransaction();
-           }
+            }
             catch (Exception e)
             {
                 //SALVE LOG
@@ -75,6 +75,28 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             {
                 result = perfil;
                 _context.SaveChanges();
+            }
+        }
+
+        public List<PessoaEmpresa> ObtenhaPessoaEmpresas(int idPessoa)
+        {
+            try
+            {
+                return (from a in _context.Empresa
+                        join b in _context.PessoaEmpresa on a.IdEmpresa equals b.IdEmpresa into ab
+                        from pessoaEmpresa in ab.DefaultIfEmpty()
+                        select new PessoaEmpresa()
+                        {
+                            //IdEmpresa = pessoaEmpresa.IdEmpresa,
+                            //Comentario = pessoaEmpresa.Comentario,
+                            //IdPessoa = pessoaEmpresa.IdPessoa,
+                            //Nota = pessoaEmpresa.Nota,
+                            //Pontuacao = pessoaEmpresa.Pontuacao
+                        }).ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }

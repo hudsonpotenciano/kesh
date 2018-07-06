@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjetoMarketing.Areas.Empresa.Context;
 using ProjetoMarketing.Areas.Empresa.Models;
-using ProjetoMarketing.Autentication.Context;
+using ProjetoMarketing.Contexts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -12,9 +10,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 {
     public class EmpresaDAO
     {
-        private readonly EmpresaContext _context;
+        private readonly PessoaEmpresaContext _context;
 
-        public EmpresaDAO(EmpresaContext context)
+        public EmpresaDAO(PessoaEmpresaContext context)
         {
             _context = context;
         }
@@ -100,7 +98,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             {
                 throw e;
             }
-
         }
     }
 }

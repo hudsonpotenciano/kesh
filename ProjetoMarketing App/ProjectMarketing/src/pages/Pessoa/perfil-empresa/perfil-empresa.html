@@ -1,3 +1,11 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            {{empresa.Nome}}
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
 <ion-content padding>
     <img class="logo" src="{{empresaProvider.ObtenhaLogoEmpresa(empresa.IdEmpresa)}}" alt="">
 
@@ -5,4 +13,18 @@
     <p>Resumo: {{perfilEmpresa.Resumo}}</p>
 
     <button ion-button (click)="compartilhe()">Compartilhar</button>
+
+    <ion-list>
+        Cupons
+        <ion-item *ngFor="let cupom of cupons" (click)="abraCupom(cupom)">
+            <h2>{{cupom.Token}}</h2>
+        </ion-item>
+    </ion-list>
+
+    <ion-list>
+        Vendas
+        <ion-item *ngFor="let venda of Vendas">
+            <h2>{{venda.Valor}}</h2>
+        </ion-item>
+    </ion-list>
 </ion-content>
