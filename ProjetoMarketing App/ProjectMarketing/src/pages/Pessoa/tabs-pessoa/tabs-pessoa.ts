@@ -10,8 +10,8 @@ export class TabsPessoaPage {
 
   homePage: any = "HomePessoaPage";
   carteiraPage: any = "CarteiraPessoaPage";
+  mapsPessoaPage: any = "MapsPessoaPage";
 
-  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

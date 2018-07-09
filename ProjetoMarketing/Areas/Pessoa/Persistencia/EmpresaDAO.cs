@@ -99,5 +99,17 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 throw e;
             }
         }
+
+        public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfilEmpresas()
+        {
+            try
+            {
+                return _context.PerfilEmpresa.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

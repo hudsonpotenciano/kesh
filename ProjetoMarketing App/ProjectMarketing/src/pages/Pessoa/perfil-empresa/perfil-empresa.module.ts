@@ -3,8 +3,8 @@ import { IonicPageModule } from 'ionic-angular';
 import { PerfilEmpresaPage } from './perfil-empresa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { StorageProvider } from '../../../providers/storage/storage';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
+import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
 
 @NgModule({
   declarations: [
@@ -16,8 +16,8 @@ import { TransacaoProvider } from '../../../providers/transacao/transacao';
   providers: [
     PessoaProvider,
     EmpresaProvider,
-    StorageProvider,
-    TransacaoProvider
+    TransacaoProvider,
+    StorageTransacaoProvider
   ]
 })
 export class PerfilEmpresaPageModule { }

@@ -10,7 +10,6 @@ export class TransacaoProvider {
   }
 
   GereCupom(idEmpresa: number, idPessoa: number) {
-
     return new Promise<Cupom>(resolve => {
       this.comunicacao.post("Transacao/GereCupom", { IdEmpresa: idEmpresa, IdPessoa: idPessoa })
         .then((retorno: RetornoRequestModel) => {
@@ -20,7 +19,6 @@ export class TransacaoProvider {
   }
 
   GereVenda(tokenCupom: string, valorVenda: number) {
-
     return new Promise<Venda>(resolve => {
       this.comunicacao.post("Cupom/GereVendaComCupom", { TokenCupom: tokenCupom, ValorDaVenda: valorVenda })
         .then((retorno: RetornoRequestModel) => {

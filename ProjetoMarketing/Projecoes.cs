@@ -76,6 +76,31 @@ namespace ProjetoMarketing
                    };
         }
 
+        public static dynamic PessoaEmpresas(List<DTOPessoaEmpresa> pessoaEmpresas)
+        {
+            return from item in pessoaEmpresas
+                   select new
+                   {
+                       Empresa = ProjecaoEmpresa(item.Empresa),
+                       item.Pontuacao,
+                       item.Nota,
+                       item.Comentario,
+                       item.NotaGeral
+                   };
+        }
+
+        public static dynamic ProjecaoEmpresa(Empresa empresa)
+        {
+            return new
+            {
+                empresa.Nome,
+                empresa.Email,
+                empresa.Telefone,
+                empresa.IdEmpresa,
+                empresa.Telefone2
+            };
+        }
+
         public static dynamic ProjecaoPerfilEmpresa(PerfilEmpresa perfil)
         {
             return new
@@ -88,6 +113,21 @@ namespace ProjetoMarketing
                 perfil.Resumo,
                 perfil.Categorias
             };
+        }
+
+        public static dynamic ProjecaoPerfilEmpresas(List<PerfilEmpresa> perfilEmpresas)
+        {
+            return from perfil in perfilEmpresas
+                   select new
+                   {
+                       perfil.IdEmpresa,
+                       perfil.Latitude,
+                       perfil.Longitude,
+                       perfil.DescontoCompartilhamento,
+                       perfil.ValorPontos,
+                       perfil.Resumo,
+                       perfil.Categorias
+                   };
         }
 
         public static dynamic ProjecaoCupom(Cupom cupom)

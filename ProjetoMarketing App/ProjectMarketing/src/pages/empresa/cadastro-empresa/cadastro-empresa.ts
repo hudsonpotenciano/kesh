@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CadastroEmpresaModel } from '../../../models/pessoa.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { CadastroEmpresaModel, Empresa } from '../../../models/empresa.model';
 
 @IonicPage()
 @Component({
@@ -66,14 +66,12 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
-    this.empresa.Latitude = "1";
-    this.empresa.Longitude = "1";
     this.empresa.Categorias = [1];
 
     this.empresaProvider.CadastreEmpresa(this.empresa)
       .then(() => {
-
-      })
+        this.empresa = new CadastroEmpresaModel();
+      });
   }
 
 }

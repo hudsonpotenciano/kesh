@@ -61,6 +61,15 @@
             <div padding>
                 <button ion-button color="primary" block>Salvar</button>
             </div>
+
+            <ion-item>
+                <ion-label fixed>Latitude</ion-label>
+                <ion-input type="number" [(ngModel)]="empresa.Latitude" formControlName="nome"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>Longitude</ion-label>
+                <ion-input type="number" [(ngModel)]="empresa.Longitude" formControlName="nome"></ion-input>
+            </ion-item>
         </ion-list>
     </form>
 

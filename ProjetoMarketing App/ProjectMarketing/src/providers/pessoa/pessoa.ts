@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { CadastroPessoaModel } from '../../models/pessoa.model';
+import { CadastroPessoaModel, PessoaEmpresa, DadosPessoaPerfilEmpresa } from '../../models/pessoa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
-import { Empresa, PerfilEmpresa } from '../../models/empresa.model';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
+import { StoragePessoaProvider } from '../storage/storage-pessoa';
 
 @Injectable()
 export class PessoaProvider {
@@ -12,16 +12,23 @@ export class PessoaProvider {
   dadosAcesso: RetornoLogin;
 
   constructor(private storage: StorageProvider,
+    private storagePessoa: StoragePessoaProvider,
     private comunicacao: ComunicacaoProvider) {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
-  ObtenhaPessoaEmpresas() {
+  ObtenhaPessoaEPerfilEmpresas() {
 
-    return new Promise<Empresa[]>(resolve => {
-      this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEmpresas", { IdPessoa: this.dadosAcesso.IdPessoa })
+    return new Promise<PessoaEmpresa[]>(resolve => {
+      this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas", { IdPessoa: this.dadosAcesso.IdPessoa })
         .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
+
+          let dados = retorno.Result as DadosPessoaPerfilEmpresa;
+          
+          resolve(dados.PessoaEmpresas);
+
+          this.storagePessoa.armazenePessoaEmpresas(dados.PessoaEmpresas);
+          this.storagePessoa.armazenePerfilEmpresas(dados.PerfilEmpresas);
         });
     });
   }
@@ -46,14 +53,25 @@ export class PessoaProvider {
       });
   }
 
-  ObtenhaPerfilEmpresa(idEmpresa: number) {
-    return new Promise<PerfilEmpresa>(resolve => {
-      this.comunicacao.post("Empresa/Empresa/ObtenhaPerfilEmpresa", { IdEmpresa: idEmpresa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
-    });
-  }
+  // ObtenhaPerfilEmpresa(idEmpresa: number) {
+  //   return new Promise<PerfilEmpresa>(resolve => {
+  //     this.comunicacao.post("Empresa/Empresa/ObtenhaPerfilEmpresa", { IdEmpresa: idEmpresa })
+  //       .then((retorno: RetornoRequestModel) => {
+  //         resolve(retorno.Result);
+  //       });
+  //   });
+  // }
+
+  // ObtenhaPerfilEmpresas() {
+  //   return new Promise<PerfilEmpresa[]>(resolve => {
+  //     this.comunicacao.post("Empresa/Empresa/ObtenhaPerfilEmpresas", {})
+  //       .then((retorno: RetornoRequestModel) => {
+          
+  //         this.storagePessoa.armazenePerfilEmpresas(retorno.Result);
+  //         resolve(retorno.Result);
+  //       });
+  //   });
+  // }
 
   ObtenhaFotoPessoa(idPessoa: number) {
     return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;

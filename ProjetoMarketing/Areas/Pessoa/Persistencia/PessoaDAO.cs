@@ -78,21 +78,20 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
         }
 
-        public List<PessoaEmpresa> ObtenhaPessoaEmpresas(int idPessoa)
+        public Task<List<Entidade.DTOPessoaEmpresa>> ObtenhaPessoaEmpresas(int idPessoa)
         {
             try
             {
                 return (from a in _context.Empresa
                         join b in _context.PessoaEmpresa on a.IdEmpresa equals b.IdEmpresa into ab
-                        from pessoaEmpresa in ab.DefaultIfEmpty()
-                        select new PessoaEmpresa()
+                        select new Entidade.DTOPessoaEmpresa()
                         {
-                            //IdEmpresa = pessoaEmpresa.IdEmpresa,
-                            //Comentario = pessoaEmpresa.Comentario,
-                            //IdPessoa = pessoaEmpresa.IdPessoa,
-                            //Nota = pessoaEmpresa.Nota,
-                            //Pontuacao = pessoaEmpresa.Pontuacao
-                        }).ToList();
+                            Empresa = a,
+                            Comentario = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Comentario,
+                            Nota = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Nota,
+                            Pontuacao = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Pontuacao,
+                            NotaGeral = ab.Any() ? (ab.Sum(p=>p.Nota) / ab.Count(p=>p.Nota != null)) : null
+                        }).ToListAsync();
             }
             catch (Exception e)
             {

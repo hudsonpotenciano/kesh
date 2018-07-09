@@ -62,17 +62,22 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpPost("ObtenhaPessoaEmpresas")]
-        public RetornoRequestModel ObtenhaPessoaEmpresas([FromBody]ParametrosObtenhaDadosPessoa parametros)
+        [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
+        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaDadosPessoa parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var pessoaEmpresas = new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros.IdPessoa);
+            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros.IdPessoa);
+            var perfilEmpresas = await new EmpresaDAO(_context).SelectPerfilEmpresas();
 
             var retorno = new RetornoRequestModel
             {
-                //Result = Projecoes.ProjecaoPessoaEmpresas()
+                Result = new
+                {
+                    PessoaEmpresas = Projecoes.PessoaEmpresas(pessoaEmpresas),
+                    PerfilEmpresas = Projecoes.ProjecaoPerfilEmpresas(perfilEmpresas)
+                }
             };
 
             return retorno;

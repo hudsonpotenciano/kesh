@@ -1,11 +1,14 @@
-<ion-content padding>
+<ion-content>
     <ion-list>
-        <ion-item *ngFor="let empresa of empresas" (click)="abraPerfilEmpresa(empresa)">
-            <ion-avatar item-start>
-                <img [src]="empresaProvider.ObtenhaLogoEmpresa(empresa.IdEmpresa)">
-            </ion-avatar>
-            <h2>{{empresa.Nome}}</h2>
-            <p>{{empresa.Email}}</p>
-        </ion-item>
+        <button ion-item *ngFor="let pessoaEmpresa of pessoaEmpresas" (click)="abraPerfilEmpresa(pessoaEmpresa)">
+            <div item-start class="avatar">
+                <img [src]="empresaProvider.ObtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
+            </div>
+            <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
+            <div item-end *ngIf="pessoaEmpresa.NotaGeral" class="estrela-nota">
+                <p>{{pessoaEmpresa.NotaGeral}}</p>
+                <img src="../../../assets/svg/estrela.svg" alt="">
+            </div>
+        </button>
     </ion-list>
 </ion-content>

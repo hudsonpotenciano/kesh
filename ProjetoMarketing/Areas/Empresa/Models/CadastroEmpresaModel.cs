@@ -14,8 +14,8 @@ namespace ProjetoMarketing.Areas.Empresa.Models
         public string Resumo { get; set; }
         public decimal DescontoCompartilhamento { get; set; }
         public decimal ValorPontos { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public int[] Categorias { get; set; }
     }
 }

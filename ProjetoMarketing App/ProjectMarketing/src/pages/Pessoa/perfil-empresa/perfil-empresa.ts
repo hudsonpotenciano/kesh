@@ -4,8 +4,9 @@ import { Empresa, PerfilEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom, Venda } from '../../../models/models.model';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { StorageProvider } from '../../../providers/storage/storage';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
+import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
+import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 
 @IonicPage()
 @Component({
@@ -24,8 +25,9 @@ export class PerfilEmpresaPage {
     public navParams: NavParams,
     public empresaProvider: EmpresaProvider,
     public pessoaProvider: PessoaProvider,
-    public storage: StorageProvider,
-    private transacaoProvider: TransacaoProvider) {
+    public storageTransacaoProvider: StorageTransacaoProvider,
+    private transacaoProvider: TransacaoProvider,
+    private storagePessoaProvider: StoragePessoaProvider) {
     this.empresaProvider;
   }
 
@@ -33,16 +35,13 @@ export class PerfilEmpresaPage {
 
     this.empresa = this.navParams.data;
 
-    this.pessoaProvider.ObtenhaPerfilEmpresa(this.empresa.IdEmpresa)
-      .then((retorno) => {
-        this.perfilEmpresa = retorno;
-      });
+    this.perfilEmpresa = this.storagePessoaProvider.recuperePerfilEmpresa(this.empresa.IdEmpresa);
 
     this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.empresa.IdEmpresa)
       .then((cuponsEVendas: any) => {
         this.cupons = cuponsEVendas.Cupons;
         this.Vendas = cuponsEVendas.Vendas;
-      })
+      });
   }
 
   compartilhe() {
@@ -51,10 +50,15 @@ export class PerfilEmpresaPage {
 
         this.transacaoProvider.GereVenda(cupom.Token, 100);
 
-        this.storage.armazeneCupom(cupom);
+        this.storageTransacaoProvider.armazeneCupom(cupom);
 
         this.navCtrl.push("CupomPage", cupom);
       });
+  }
+
+  maps() {
+    debugger;
+    this.navCtrl.push("MapsPage", { latitude: this.perfilEmpresa.Latitude, longitude: this.perfilEmpresa.Longitude });
   }
 
   abraCupom(cupom: Cupom) {

@@ -9,8 +9,8 @@ namespace ProjetoMarketing.Entidade.Pessoa
         public Guid Id { get; set; }
         public int IdPessoa { get; set; }
         public int IdEmpresa { get; set; }
-        public int Pontuacao { get; set; }
-        public int Nota { get; set; }
+        public int? Pontuacao { get; set; }
+        public int? Nota { get; set; }
         public string Comentario { get; set; }
     }
 }

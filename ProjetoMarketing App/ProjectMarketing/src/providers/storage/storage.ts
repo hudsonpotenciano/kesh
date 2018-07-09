@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { RetornoLogin, Cupom } from '../../models/models.model';
+import { RetornoLogin } from '../../models/models.model';
 
 @Injectable()
 export class StorageProvider {
 
+  DADOS_ACESSO = "DADOS_ACESSO";
+  CACHE_1DIA = "CACHE_1DIA";
+
   constructor() {
   }
-
-  DADOS_ACESSO = "DADOS_ACESSO";
-  CUPONS = "CUPONS";
 
   armazene(chave, valor) {
     if (typeof valor == 'object') {
@@ -47,21 +47,5 @@ export class StorageProvider {
 
   removaDadosAcesso() {
     this.remova(this.DADOS_ACESSO);
-  }
-
-  //CUPOM
-  armazeneCupom(value: Cupom) {
-    var cupons = this.recupereCupons();
-    if (!cupons) cupons = [];
-    cupons.push(value);
-    this.armazene(this.CUPONS, cupons);
-  }
-
-  recupereCupons(): Cupom[] {
-    return this.recupere(this.CUPONS);
-  }
-
-  removaCupons() {
-    this.remova(this.CUPONS);
   }
 }

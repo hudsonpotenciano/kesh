@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
-import { Empresa } from '../../../models/empresa.model';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { PessoaEmpresa } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 export class HomePessoaPage {
 
-  empresas: Empresa[] = [];
+  pessoaEmpresas: PessoaEmpresa[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -22,18 +22,22 @@ export class HomePessoaPage {
     this.empresaProvider;
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
     this.obtenhaEmpresas();
   }
 
+  ionViewDidEnter() {
+    
+  }
+
   obtenhaEmpresas() {
-    this.pessoaProvider.ObtenhaPessoaEmpresas()
-      .then((empresas: Empresa[]) => {
-        this.empresas = empresas;
+    this.pessoaProvider.ObtenhaPessoaEPerfilEmpresas()
+      .then((retorno: PessoaEmpresa[]) => {
+        this.pessoaEmpresas = retorno;
       })
   }
 
-  abraPerfilEmpresa(empresa: Empresa) {
-    this.navCtrl.push("PerfilEmpresaPage", empresa);
+  abraPerfilEmpresa(empresa: PessoaEmpresa) {
+    this.navCtrl.push("PerfilEmpresaPage", empresa.Empresa);
   }
 }
