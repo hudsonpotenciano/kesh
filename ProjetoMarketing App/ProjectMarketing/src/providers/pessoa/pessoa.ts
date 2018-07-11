@@ -19,12 +19,16 @@ export class PessoaProvider {
 
   ObtenhaPessoaEPerfilEmpresas() {
 
+    let latitude = -16.60150553;
+    let longitude = -49.30649101;
+
     return new Promise<PessoaEmpresa[]>(resolve => {
-      this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas", { IdPessoa: this.dadosAcesso.IdPessoa })
+      this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
+        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
         .then((retorno: RetornoRequestModel) => {
 
           let dados = retorno.Result as DadosPessoaPerfilEmpresa;
-          
+
           resolve(dados.PessoaEmpresas);
 
           this.storagePessoa.armazenePessoaEmpresas(dados.PessoaEmpresas);
@@ -66,7 +70,7 @@ export class PessoaProvider {
   //   return new Promise<PerfilEmpresa[]>(resolve => {
   //     this.comunicacao.post("Empresa/Empresa/ObtenhaPerfilEmpresas", {})
   //       .then((retorno: RetornoRequestModel) => {
-          
+
   //         this.storagePessoa.armazenePerfilEmpresas(retorno.Result);
   //         resolve(retorno.Result);
   //       });

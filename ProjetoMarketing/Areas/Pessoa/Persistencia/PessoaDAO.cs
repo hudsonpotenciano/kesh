@@ -45,7 +45,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
             catch (Exception e)
             {
-                //SALVE LOG
                 _context.Database.RollbackTransaction();
 
                 throw e;
@@ -78,11 +77,13 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
         }
 
-        public Task<List<Entidade.DTOPessoaEmpresa>> ObtenhaPessoaEmpresas(int idPessoa)
+        public Task<List<Entidade.DTOPessoaEmpresa>> ObtenhaPessoaEmpresas(int idPessoa, double latitude, double longitude)
         {
             try
             {
-                return (from a in _context.Empresa
+                //OBTEM EMPRESAS NO RAIO DE 50KM
+                return (from a in _context.Empresa.FromSql($@"select * from public.empresa
+                                                              where (select public.geodistance({latitude},{longitude},latitude,longitude) < 50)")
                         join b in _context.PessoaEmpresa on a.IdEmpresa equals b.IdEmpresa into ab
                         select new Entidade.DTOPessoaEmpresa()
                         {
@@ -90,7 +91,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             Comentario = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Comentario,
                             Nota = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Nota,
                             Pontuacao = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Pontuacao,
-                            NotaGeral = ab.Any() ? (ab.Sum(p=>p.Nota) / ab.Count(p=>p.Nota != null)) : null
+                            NotaGeral = ab.Any() ? (ab.Sum(p => p.Nota) / ab.Count(p => p.Nota != null)) : null
                         }).ToListAsync();
             }
             catch (Exception e)

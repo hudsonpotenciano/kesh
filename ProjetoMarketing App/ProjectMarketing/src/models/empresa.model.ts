@@ -8,6 +8,8 @@ export class Empresa {
     RecompensaPontos: number;
     Resumo: string;
     Categorias: number[];
+    Latitude : number;
+    Longitude : number;
 }
 
 export class CadastroEmpresaModel {
@@ -28,8 +30,6 @@ export class CadastroEmpresaModel {
 
 export class PerfilEmpresa {
     IdEmpresa : number;
-    Latitude : number;
-    Longitude : number;
     RecompensaCompartilhamento : string;
     RecompensaPontos : string;
     Resumo : string;

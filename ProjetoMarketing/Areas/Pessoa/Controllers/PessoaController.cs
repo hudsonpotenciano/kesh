@@ -63,12 +63,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
-        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaDadosPessoa parametros)
+        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros.IdPessoa);
+            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros.IdPessoa, parametros.Latitude, parametros.Longitude);
             var perfilEmpresas = await new EmpresaDAO(_context).SelectPerfilEmpresas();
 
             var retorno = new RetornoRequestModel

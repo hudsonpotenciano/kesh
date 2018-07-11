@@ -72,7 +72,9 @@ namespace ProjetoMarketing
                        item.Email,
                        item.Telefone,
                        item.IdEmpresa,
-                       item.Telefone2
+                       item.Telefone2,
+                       item.Latitude,
+                       item.Longitude
                    };
         }
 
@@ -97,7 +99,9 @@ namespace ProjetoMarketing
                 empresa.Email,
                 empresa.Telefone,
                 empresa.IdEmpresa,
-                empresa.Telefone2
+                empresa.Telefone2,
+                empresa.Latitude,
+                empresa.Longitude
             };
         }
 
@@ -106,8 +110,6 @@ namespace ProjetoMarketing
             return new
             {
                 perfil.IdEmpresa,
-                perfil.Latitude,
-                perfil.Longitude,
                 perfil.DescontoCompartilhamento,
                 perfil.ValorPontos,
                 perfil.Resumo,
@@ -121,8 +123,6 @@ namespace ProjetoMarketing
                    select new
                    {
                        perfil.IdEmpresa,
-                       perfil.Latitude,
-                       perfil.Longitude,
                        perfil.DescontoCompartilhamento,
                        perfil.ValorPontos,
                        perfil.Resumo,

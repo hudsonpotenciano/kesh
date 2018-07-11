@@ -43,8 +43,6 @@ namespace ProjetoMarketing.Controllers
 
             new TransacaoDAO(_contextTransacao).GereCupom(parametros, perfilDaEmpresa, out cupom);
 
-            var qrCode = new QrCode().GereQrCode(cupom.Token.ToString());
-
             var retorno = new RetornoRequestModel
             {
                 Result = Projecoes.ProjecaoCupom(cupom)

@@ -17,49 +17,46 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public void AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa)
+        public void AddEmpresa(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa)
         {
             try
             {
-                using (var scope = new TransactionScope())
+                empresa = new Entidade.Empresa.Empresa()
                 {
-                    empresa = new Entidade.Empresa.Empresa()
-                    {
-                        Cnpj = model.Cnpj,
-                        Email = model.Email,
-                        Nome = model.Nome,
-                        Telefone = model.Telefone,
-                        Telefone2 = model.Telefone2
-                    };
+                    Cnpj = model.Cnpj,
+                    Email = model.Email,
+                    Nome = model.Nome,
+                    Telefone = model.Telefone,
+                    Telefone2 = model.Telefone2,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude
+                };
 
-                    _context.Empresa.Add(empresa);
-                    _context.SaveChanges();
+                _context.Empresa.Add(empresa);
+                _context.SaveChanges();
 
-                    var perfil = new Entidade.Empresa.PerfilEmpresa()
-                    {
-                        IdEmpresa = empresa.IdEmpresa,
-                        Latitude = model.Latitude,
-                        Longitude = model.Longitude,
-                        DescontoCompartilhamento = model.DescontoCompartilhamento,
-                        ValorPontos = model.ValorPontos,
-                        Resumo = model.Resumo,
-                        Categorias = model.Categorias
-                    };
+                var perfil = new Entidade.Empresa.PerfilEmpresa()
+                {
+                    IdEmpresa = empresa.IdEmpresa,
+                    DescontoCompartilhamento = model.DescontoCompartilhamento,
+                    ValorPontos = model.ValorPontos,
+                    Resumo = model.Resumo,
+                    Categorias = model.Categorias
+                };
 
-                    _context.PerfilEmpresa.Add(perfil);
-                    _context.SaveChanges();
+                _context.PerfilEmpresa.Add(perfil);
+                _context.SaveChanges();
 
-                    var imagensEmpresa = new Entidade.Empresa.ImagensEmpresa()
-                    {
-                        IdEmpresa = empresa.IdEmpresa,
-                        Imagem = model.Logo,
-                        Tipo = 1
-                        //ENUMERADOR 
-                    };
+                var imagensEmpresa = new Entidade.Empresa.ImagensEmpresa()
+                {
+                    IdEmpresa = empresa.IdEmpresa,
+                    Imagem = model.Logo,
+                    Tipo = 1
+                    //ENUMERADOR 
+                };
 
-                    _context.ImagensEmpresa.Add(imagensEmpresa);
-                    _context.SaveChanges();
-                }
+                _context.ImagensEmpresa.Add(imagensEmpresa);
+                _context.SaveChanges();
             }
             catch (Exception e)
             {

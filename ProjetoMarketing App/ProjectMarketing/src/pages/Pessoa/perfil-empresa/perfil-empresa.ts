@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Empresa, PerfilEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom, Venda } from '../../../models/models.model';
@@ -27,7 +27,8 @@ export class PerfilEmpresaPage {
     public pessoaProvider: PessoaProvider,
     public storageTransacaoProvider: StorageTransacaoProvider,
     private transacaoProvider: TransacaoProvider,
-    private storagePessoaProvider: StoragePessoaProvider) {
+    private storagePessoaProvider: StoragePessoaProvider,
+    private platform: Platform) {
     this.empresaProvider;
   }
 
@@ -57,8 +58,20 @@ export class PerfilEmpresaPage {
   }
 
   maps() {
-    debugger;
-    this.navCtrl.push("MapsPage", { latitude: this.perfilEmpresa.Latitude, longitude: this.perfilEmpresa.Longitude });
+    this.navCtrl.push("MapsPage", { latitude: this.empresa.Latitude, longitude: this.empresa.Longitude });
+  }
+
+  rota() {
+
+    let destination = this.empresa.Latitude + ',' + this.empresa.Longitude;
+
+    if (this.platform.is('ios')) {
+      window.open('maps://?q=' + destination, '_system');
+    }
+    else if (this.platform.is('android')) {
+      let label = encodeURI(this.empresa.Nome);
+      window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
+    }
   }
 
   abraCupom(cupom: Cupom) {

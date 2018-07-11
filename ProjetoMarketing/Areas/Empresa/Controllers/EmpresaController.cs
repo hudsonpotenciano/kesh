@@ -10,6 +10,7 @@ using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
 using System.Threading.Tasks;
 using ProjetoMarketing.Contexts;
+using System;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -39,22 +40,30 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             var retorno = new RetornoRequestModel();
 
-            var empresa = new Entidade.Empresa.Empresa();
-            new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa);
-
-            var usuario = new Entidade.Usuario()
+            for (int i = 0; i < 500; i++)
             {
-                IdEmpresa = empresa.IdEmpresa,
-                Login = model.Email,
-                Senha = model.Senha
-            };
+                Random rnd = new Random();
 
-            if (empresa.IdEmpresa != 0)
-            {
-                new UsuarioDAO(_contextUsuario).Add(usuario);
-                var user = new User(usuario.Login, usuario.Senha);
+                model.Cnpj = rnd.Next(100000, 898989988).ToString();
+                model.Email =  rnd.Next(155, 500000).ToString() + model.Email;
 
-                retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+                var empresa = new Entidade.Empresa.Empresa();
+                new EmpresaDAO(_context).AddEmpresa(model, out empresa);
+
+                var usuario = new Entidade.Usuario()
+                {
+                    IdEmpresa = empresa.IdEmpresa,
+                    Login = model.Email,
+                    Senha = model.Senha
+                };
+
+                if (empresa.IdEmpresa != 0)
+                {
+                    new UsuarioDAO(_contextUsuario).Add(usuario);
+                    var user = new User(usuario.Login, usuario.Senha);
+
+                    retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+                }
             }
 
             return retorno;

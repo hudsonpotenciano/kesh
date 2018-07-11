@@ -1,3 +1,40 @@
 .qrCodeView {
     background: transparent !important;
 }
+
+.fakeItem {
+    h2,
+    h3,
+    p {
+        background-color: lightgrey;
+        opacity: 0.5;
+        height: 1em;
+        margin-top: 10px;
+    }
+    h2 {
+        width: 35%;
+    }
+    h3 {
+        width: 40%;
+    }
+    p {
+        width: 60%;
+    }
+}
+
+ion-icon {
+    &[class*="custom"] {
+        mask-size: contain;
+        mask-position: 50% 50%;
+        mask-repeat: no-repeat;
+        background: currentColor;
+        width: 1em;
+        height: 1em;
+    }
+    &[class*="md-custom-carteira"] {
+        mask-image: url(../assets/svg/md-carteira.svg);
+    }
+    &[class*="ios-custom-carteira"] {
+        mask-image: url(../assets/svg/ios-carteira.svg);
+    }
+}

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { CadastroEmpresaModel, Empresa } from '../../../models/empresa.model';
+import { CadastroEmpresaModel } from '../../../models/empresa.model';
 
 @IonicPage()
 @Component({

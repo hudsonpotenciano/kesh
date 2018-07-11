@@ -4,15 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjetoMarketing.Entidade
 {
+    [Table("venda")]
     public class Venda
     {
         [Key]
+        [Column("id")]
         public Guid Id { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("idvenda")]
         public int IdVenda { get; set; }
+        [Column("idempresa")]
         public int IdEmpresa { get; set; }
+        [Column("idpessoa")]
         public int IdPessoa { get; set; }
+        [Column("idcupom")]
         public long IdCupom { get; set; }
+        [Column("valor")]
         public decimal Valor { get; set; }
     }
 }
