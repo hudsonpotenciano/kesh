@@ -23,6 +23,16 @@
             };
         }
 
+        public static RetornoRequestModel CrieFalha()
+        {
+            return new RetornoRequestModel
+            {
+                Mensagem = "",
+                Erro = -1,
+                Authenticated = false
+            };
+        }
+
         public static RetornoRequestModel CrieSucesso()
         {
             return new RetornoRequestModel();

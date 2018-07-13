@@ -5,6 +5,7 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
+import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { StorageTransacaoProvider } from '../../../providers/storage/storage-tra
     PessoaProvider,
     EmpresaProvider,
     TransacaoProvider,
-    StorageTransacaoProvider
+    StorageTransacaoProvider,
+    SocialSharing
   ]
 })
 export class PerfilEmpresaPageModule { }

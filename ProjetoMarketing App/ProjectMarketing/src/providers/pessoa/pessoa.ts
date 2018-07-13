@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { CadastroPessoaModel, PessoaEmpresa, DadosPessoaPerfilEmpresa } from '../../models/pessoa.model';
+import { CadastroPessoaModel, PessoaEmpresa, DadosPessoaPerfilEmpresa, Pessoa } from '../../models/pessoa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
@@ -33,6 +33,20 @@ export class PessoaProvider {
 
           this.storagePessoa.armazenePessoaEmpresas(dados.PessoaEmpresas);
           this.storagePessoa.armazenePerfilEmpresas(dados.PerfilEmpresas);
+        });
+    });
+  }
+
+  ObtenhaPessoasCompartilhamento(idEmpresa: number) {
+
+    let latitude = -16.60150553;
+    let longitude = -49.30649101;
+
+    return new Promise<Pessoa[]>(resolve => {
+      this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaParaCompartilhamento",
+        { IdPessoa: this.dadosAcesso.IdPessoa, IdEmpresa: idEmpresa, Latitude: latitude, Longitude: longitude })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
         });
     });
   }

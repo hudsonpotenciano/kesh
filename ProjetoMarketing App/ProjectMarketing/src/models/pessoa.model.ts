@@ -7,6 +7,8 @@ export class CadastroPessoaModel {
     Telefone: string;
     Senha: string;
     Foto: any;
+    Latitude: number;
+    Longitude: number;
 }
 
 export class Pessoa {
@@ -14,6 +16,8 @@ export class Pessoa {
     Nome: string;
     Email: string;
     Telefone: string;
+    Latitude: number;
+    Longitude: number;
 }
 
 export class PessoaEmpresa {

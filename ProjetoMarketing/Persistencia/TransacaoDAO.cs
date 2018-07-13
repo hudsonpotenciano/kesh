@@ -19,7 +19,28 @@ namespace ProjetoMarketing.Persistencia
             _context = context;
         }
 
-        public void GereCupom(ParametrosGeracaoDeCupom model, PerfilEmpresa perfilEmpresa, out Cupom cupom)
+        public void GereCompartilhamento(ParametrosCompartilhamento parametros, out Compartilhamento compartilhamento)
+        {
+            try
+            {
+                compartilhamento = new Compartilhamento()
+                {
+                    IdEmpresa = parametros.IdEmpresa,
+                    IdPessoa = parametros.IdPessoa,
+                    IdsPessoas = parametros.IdsPessoas,
+                    Data = DateTime.Today                   
+                };
+
+                _context.Compartilhamento.Add(compartilhamento);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void GereCupom(ParametrosCompartilhamento model, PerfilEmpresa perfilEmpresa, out Cupom cupom, long idCompartilhamento)
         {
             try
             {
@@ -28,7 +49,8 @@ namespace ProjetoMarketing.Persistencia
                     Desconto = perfilEmpresa.DescontoCompartilhamento,
                     IdEmpresa = model.IdEmpresa,
                     IdPessoa = model.IdPessoa,
-                    Validade = DateTime.Now
+                    Data = DateTime.Now,
+                    IdCompartilhamento = idCompartilhamento
                 };
 
                 _context.Cupom.Add(cupom);

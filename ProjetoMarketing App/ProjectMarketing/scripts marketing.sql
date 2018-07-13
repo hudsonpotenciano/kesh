@@ -44,6 +44,8 @@ CREATE TABLE public.pessoa
     cpfcnpj text,
     email text NOT NULL,
     telefone text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
     CONSTRAINT pk_pessoa PRIMARY KEY (id),
     CONSTRAINT uk_pessoa UNIQUE (idpessoa),
     CONSTRAINT uk_pessoa_email UNIQUE (email)
@@ -121,10 +123,11 @@ CREATE TABLE public.cupom
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idpessoa integer NOT NULL,
     idempresa integer NOT NULL,
-    validade date NOT NULL,
+    data date NOT NULL,
     token uuid NOT NULL DEFAULT uuid_generate_v4(),
     idCupom bigint NOT NULL DEFAULT nextval('sq_cupom'),
     desconto numeric NOT NULL,
+    idcompartilhamento bigint NOT NULL,
     CONSTRAINT pk_cupom PRIMARY KEY (id),
     CONSTRAINT uk_cupom UNIQUE (idCupom),
     CONSTRAINT uk_cupom_token UNIQUE (idpessoa, idempresa, token),    
@@ -135,7 +138,11 @@ CREATE TABLE public.cupom
     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_compartilhamento FOREIGN KEY (idcompartilhamento)
+    REFERENCES public.compartilhamento (idcompartilhamento) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE
@@ -277,3 +284,30 @@ SELECT asin(
 $BODY$
   LANGUAGE sql IMMUTABLE
   COST 100;
+
+  CREATE TABLE public.compartilhamento
+(
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    idcompartilhamento bigint NOT NULL DEFAULT nextval('sq_compartilhamento'::regclass),
+    idpessoa integer NOT NULL,
+    idspessoas integer[] NOT NULL,
+    idempresa integer NOT NULL,
+    data date NOT NULL,
+    CONSTRAINT pk_compartilhamento PRIMARY KEY (id),
+    CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
+    CONSTRAINT uk_compartilhamento_2 UNIQUE (idpessoa, idempresa, idspessoas, data),
+    CONSTRAINT fk_pessoa_compartilhamento FOREIGN KEY (idpessoa)
+        REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT fk_empresa_compartilhamento FOREIGN KEY (idempresa)
+        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.compartilhamento
+    OWNER to postgres;

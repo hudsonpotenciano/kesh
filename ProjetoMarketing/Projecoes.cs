@@ -78,6 +78,16 @@ namespace ProjetoMarketing
                    };
         }
 
+        public static dynamic PessoasCompartilhamento(List<Pessoa> pessoas)
+        {
+            return from pessoa in pessoas
+                   select new
+                   {
+                       pessoa.IdPessoa,
+                       pessoa.Nome
+                   };
+        }
+
         public static dynamic PessoaEmpresas(List<DTOPessoaEmpresa> pessoaEmpresas)
         {
             return from item in pessoaEmpresas
@@ -137,7 +147,7 @@ namespace ProjetoMarketing
                 cupom.Desconto,
                 cupom.IdCupom,
                 cupom.Token,
-                cupom.Validade,
+                cupom.Data,
                 cupom.IdEmpresa,
                 cupom.IdPessoa
             };
@@ -150,7 +160,7 @@ namespace ProjetoMarketing
                    {
                        cupom.IdCupom,
                        cupom.Token,
-                       cupom.Validade,
+                       cupom.Data,
                        cupom.IdEmpresa,
                        cupom.IdPessoa,
                        cupom.Desconto

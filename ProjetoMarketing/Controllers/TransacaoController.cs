@@ -31,24 +31,31 @@ namespace ProjetoMarketing.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpPost("GereCupom")]
-        public RetornoRequestModel GereCupom([FromBody]ParametrosGeracaoDeCupom parametros)
+        [HttpPost("GereCompartilhamento")]
+        public RetornoRequestModel GereCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var perfilDaEmpresa = _contextPessoaEmpresa.PerfilEmpresa.FirstOrDefault(p => p.IdEmpresa == parametros.IdEmpresa);
+            var compartilhamento = new Compartilhamento();
+            new TransacaoDAO(_contextTransacao).GereCompartilhamento(parametros, out compartilhamento);
 
-            var cupom = new Cupom();
-
-            new TransacaoDAO(_contextTransacao).GereCupom(parametros, perfilDaEmpresa, out cupom);
-
-            var retorno = new RetornoRequestModel
+            if (compartilhamento.IdCompartilhamento != 0)
             {
-                Result = Projecoes.ProjecaoCupom(cupom)
-            };
+                var perfilDaEmpresa = _contextPessoaEmpresa.PerfilEmpresa.FirstOrDefault(p => p.IdEmpresa == parametros.IdEmpresa);
 
-            return retorno;
+                var cupom = new Cupom();
+                new TransacaoDAO(_contextTransacao).GereCupom(parametros, perfilDaEmpresa, out cupom, compartilhamento.IdCompartilhamento);
+
+                var retorno = new RetornoRequestModel()
+                {
+                    Result = Projecoes.ProjecaoCupom(cupom)
+                };
+
+                return retorno;
+            }
+
+            return RetornoRequestModel.CrieFalha();
         }
 
         [Authorize("Bearer")]
@@ -63,12 +70,17 @@ namespace ProjetoMarketing.Controllers
 
             new TransacaoDAO(_contextTransacao).GereVendaComCupom(parametros, cupom, out venda);
 
-            var retorno = new RetornoRequestModel
+            if (venda.IdVenda != 0)
             {
-                Result = Projecoes.ProjecaoVenda(venda)
-            };
+                var retorno = new RetornoRequestModel
+                {
+                    Result = Projecoes.ProjecaoVenda(venda)
+                };
 
-            return retorno;
+                return retorno;
+            }
+
+            return RetornoRequestModel.CrieFalha();
         }
 
         [Authorize("Bearer")]

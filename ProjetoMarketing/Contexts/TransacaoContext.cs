@@ -11,6 +11,7 @@ namespace ProjetoMarketing.Contexts
     {
         public TransacaoContext(DbContextOptions<TransacaoContext> options) : base(options) { }
         public DbSet<Cupom> Cupom { get; set; }
+        public DbSet<Compartilhamento> Compartilhamento { get; set; }
         public DbSet<Venda> Venda { get; set; }
     }
 }

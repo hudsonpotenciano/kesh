@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Models
 {
-    public class ParametrosGeracaoDeCupom : ParametrosRequestModel
+    public class ParametrosCompartilhamento : ParametrosRequestModel
     {
         public int IdEmpresa { get; set; }
         public int IdPessoa { get; set; }
+        public int[] IdsPessoas { get; set; }
     }
 }

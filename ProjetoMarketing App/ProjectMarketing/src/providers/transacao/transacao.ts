@@ -9,12 +9,13 @@ export class TransacaoProvider {
 
   }
 
-  GereCupom(idEmpresa: number, idPessoa: number) {
+  GereCompartilhamento(idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
+   
     return new Promise<Cupom>(resolve => {
-      this.comunicacao.post("Transacao/GereCupom", { IdEmpresa: idEmpresa, IdPessoa: idPessoa })
+      this.comunicacao.post("Transacao/GereCompartilhamento", { IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
-        }); 
+        });
     });
   }
 
@@ -26,7 +27,7 @@ export class TransacaoProvider {
         });
     });
   }
-  
+
   ObtenhaCuponsEVendasEmpresa(idEmpresa: number) {
     return new Promise<any>(resolve => {
       this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresa", { IdEmpresa: idEmpresa })

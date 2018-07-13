@@ -65,9 +65,9 @@ export class CadastroPessoaPage {
 
   cadastre() {
 
-    this.pessoaProvider.CadastrePessoa(this.pessoa)
-      .then(() => {
+    this.pessoa.Latitude = -16.605996;
+    this.pessoa.Longitude = -49.316249;
 
-      })
+    this.pessoaProvider.CadastrePessoa(this.pessoa);
   }
 }

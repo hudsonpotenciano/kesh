@@ -83,6 +83,24 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             return retorno;
         }
 
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaPessoaParaCompartilhamento")]
+        public async Task<RetornoRequestModel> ObtenhaPessoaParaCompartilhamento([FromBody]ParametrosObtenhaPessoasCompartilhamento parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+
+            var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
+
+            var retorno = new RetornoRequestModel
+            {
+                Result = Projecoes.PessoasCompartilhamento(pessoas)
+            };
+
+            return retorno;
+        }
+
         [AllowAnonymous]
         [HttpGet("ObtenhaFotoPessoa")]
         public ActionResult ObtenhaFotoPessoa(int idPessoa)

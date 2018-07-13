@@ -19,5 +19,9 @@ namespace ProjetoMarketing.Entidade.Pessoa
         public string Email { get; set; }
         [Column("telefone")]
         public string Telefone { get; set; }
+        [Column("latitude")]
+        public double Latitude { get; set; }
+        [Column("longitude")]
+        public double Longitude { get; set; }
     }
 }

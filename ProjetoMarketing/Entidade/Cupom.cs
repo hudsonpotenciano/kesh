@@ -22,7 +22,9 @@ namespace ProjetoMarketing.Entidade
         public int IdEmpresa { get; set; }
         [Column("desconto")]
         public decimal Desconto { get; set; }
-        [Column("validade")]
-        public DateTime Validade { get; set; }
-    }
+        [Column("data")]
+        public DateTime Data { get; set; }
+        [Column("idcompartilhamento")]
+        public long IdCompartilhamento { get; set; }
+    };
 }

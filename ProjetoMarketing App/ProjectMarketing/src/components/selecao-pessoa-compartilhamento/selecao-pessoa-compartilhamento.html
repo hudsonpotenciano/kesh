@@ -1,0 +1,12 @@
+<ion-content>
+    <ion-list [virtualScroll]="pessoas">
+        <button ion-item *virtualItem="let pessoa" (click)="selecione(pessoa)">
+        <h2>{{pessoa.Nome}}</h2>
+        <p *ngIf="estaSelecionado(pessoa)">selecionado</p>
+      </button>
+    </ion-list>
+
+    <ion-fab right bottom (click)="retorneSelecionados()">
+        <button ion-fab>Button</button>
+    </ion-fab>
+</ion-content>
