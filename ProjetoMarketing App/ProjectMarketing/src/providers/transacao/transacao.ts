@@ -9,10 +9,9 @@ export class TransacaoProvider {
 
   }
 
-  GereCompartilhamento(idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
-   
+  GereCupomCompartilhamento(idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
     return new Promise<Cupom>(resolve => {
-      this.comunicacao.post("Transacao/GereCompartilhamento", { IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })
+      this.comunicacao.post("Transacao/GereCupomCompartilhamento", { IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
@@ -31,6 +30,17 @@ export class TransacaoProvider {
   ObtenhaCuponsEVendasEmpresa(idEmpresa: number) {
     return new Promise<any>(resolve => {
       this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresa", { IdEmpresa: idEmpresa })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
+        });
+    });
+  }
+
+  PessoaPodeCompartilhar(idEmpresa: number, idPessoa: number) {
+
+    return new Promise<boolean>(resolve => {
+      this.comunicacao.post("Transacao/PessoaPodeCompartilhar",
+        { IdPessoa: idPessoa, IdEmpresa: idEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });

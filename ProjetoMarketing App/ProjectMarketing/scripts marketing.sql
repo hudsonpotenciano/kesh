@@ -295,7 +295,7 @@ $BODY$
     data date NOT NULL,
     CONSTRAINT pk_compartilhamento PRIMARY KEY (id),
     CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
-    CONSTRAINT uk_compartilhamento_2 UNIQUE (idpessoa, idempresa, idspessoas, data),
+    CONSTRAINT uk_compartilhamento_mesmodia UNIQUE (idpessoa, idempresa, idspessoas, data),
     CONSTRAINT fk_pessoa_compartilhamento FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION

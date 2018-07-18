@@ -18,6 +18,7 @@ import { Pessoa } from '../../../models/pessoa.model';
 export class PerfilEmpresaPage {
 
   empresa: Empresa = new Empresa();
+  podeCompartilhar = false;
   perfilEmpresa: PerfilEmpresa = new PerfilEmpresa();
   cupons: Cupom[] = [];
   Vendas: Venda[] = [];
@@ -48,6 +49,11 @@ export class PerfilEmpresaPage {
       .then((cuponsEVendas: any) => {
         this.cupons = cuponsEVendas.Cupons;
         this.Vendas = cuponsEVendas.Vendas;
+      });
+
+    this.transacaoProvider.PessoaPodeCompartilhar(this.empresa.IdEmpresa,this.pessoaProvider.dadosAcesso.IdPessoa)
+      .then((podeCompartilhar: boolean) => {
+        this.podeCompartilhar = podeCompartilhar;
       });
   }
 
@@ -85,12 +91,14 @@ export class PerfilEmpresaPage {
     profileModal.present();
 
     profileModal.onDidDismiss((pessoas: Pessoa[]) => {
-      
+
+      if (!pessoas) return;
+
       let idsPessoas = pessoas.map(p => p.IdPessoa);
-      
+
       this.transacaoProvider
-        .GereCompartilhamento(this.empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa, idsPessoas)
-        .then(()=>{
+        .GereCupomCompartilhamento(this.empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa, idsPessoas)
+        .then(() => {
 
         });
     })

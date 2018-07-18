@@ -4,6 +4,7 @@ using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -107,12 +108,17 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             try
             {
-                return (from a in _context.Pessoa.FromSql($@"select * from pessoa
-                                                              where (select public.geodistance({parametros.Latitude},{parametros.Longitude},latitude,longitude) < 50)
+                var nfi = new NumberFormatInfo
+                {
+                    NumberDecimalSeparator = "."
+                };
+
+                RawSqlString sql = $@"select * from pessoa where (select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision), cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) < 50)
                                                               and not exists (select idcupom from cupom where idpessoa = public.pessoa.idpessoa
                                                               and idempresa = {parametros.IdEmpresa}
-                                                              and (cupom.data < {DateTime.Today.AddDays(-10)} 
-                                                              or exists (select idvenda from venda where venda.idcupom = cupom.idcupom)))")
+                                                              and cupom.data >= '{DateTime.Today.AddDays(-10).ToString("yyyy-MM-dd")}')";
+
+                return (from a in _context.Pessoa.FromSql(sql)
                         select new Entidade.Pessoa.Pessoa()
                         {
                             Nome = a.Nome,

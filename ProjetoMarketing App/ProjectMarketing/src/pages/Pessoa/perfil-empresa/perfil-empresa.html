@@ -12,7 +12,7 @@
     <p>{{empresa.Email}}</p>
     <p>Resumo: {{perfilEmpresa.Resumo}}</p>
 
-    <button ion-button (click)="compartilhe()">Compartilhar</button>
+    <button ion-button *ngIf="podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
     <button ion-button (click)="maps()">Maps</button>
     <button ion-button (click)="rota()">Rota</button>
 

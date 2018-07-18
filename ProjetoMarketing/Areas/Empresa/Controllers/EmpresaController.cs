@@ -10,7 +10,6 @@ using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
 using System.Threading.Tasks;
 using ProjetoMarketing.Contexts;
-using System;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -40,30 +39,22 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             var retorno = new RetornoRequestModel();
 
-            for (int i = 0; i < 500; i++)
+            var empresa = new Entidade.Empresa.Empresa();
+            new EmpresaDAO(_context).AddEmpresa(model, out empresa);
+
+            var usuario = new Entidade.Usuario()
             {
-                Random rnd = new Random();
+                IdEmpresa = empresa.IdEmpresa,
+                Login = model.Email,
+                Senha = model.Senha
+            };
 
-                model.Cnpj = rnd.Next(100000, 898989988).ToString();
-                model.Email =  rnd.Next(155, 500000).ToString() + model.Email;
+            if (empresa.IdEmpresa != 0)
+            {
+                new UsuarioDAO(_contextUsuario).Add(usuario);
+                var user = new User(usuario.Login, usuario.Senha);
 
-                var empresa = new Entidade.Empresa.Empresa();
-                new EmpresaDAO(_context).AddEmpresa(model, out empresa);
-
-                var usuario = new Entidade.Usuario()
-                {
-                    IdEmpresa = empresa.IdEmpresa,
-                    Login = model.Email,
-                    Senha = model.Senha
-                };
-
-                if (empresa.IdEmpresa != 0)
-                {
-                    new UsuarioDAO(_contextUsuario).Add(usuario);
-                    var user = new User(usuario.Login, usuario.Senha);
-
-                    retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
-                }
+                retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
             }
 
             return retorno;
@@ -84,20 +75,20 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             return retorno;
         }
 
-        [Authorize("Bearer")]
-        [HttpPost("ObtenhaPerfilEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody]ParametrosObtenhaDadosEmpresa parametros)
-        {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
+        //[Authorize("Bearer")]
+        //[HttpPost("ObtenhaPerfilEmpresa")]
+        //public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody]ParametrosObtenhaDadosEmpresa parametros)
+        //{
+        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
+        //        return RetornoRequestModel.CrieFalhaLogin();
 
-            var retorno = new RetornoRequestModel
-            {
-                Result = Projecoes.ProjecaoPerfilEmpresa(await new EmpresaDAO(_context).SelectPerfilEmpresa(parametros.IdEmpresa))
-            };
+        //    var retorno = new RetornoRequestModel
+        //    {
+        //        Result = Projecoes.ProjecaoPerfilEmpresa(await new EmpresaDAO(_context).SelectPerfilEmpresa(parametros.IdEmpresa))
+        //    };
 
-            return retorno;
-        }
+        //    return retorno;
+        //}
 
         [AllowAnonymous]
         [HttpGet("ObtenhaLogoEmpresa")]

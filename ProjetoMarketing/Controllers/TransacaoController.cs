@@ -31,8 +31,8 @@ namespace ProjetoMarketing.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpPost("GereCompartilhamento")]
-        public RetornoRequestModel GereCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
+        [HttpPost("GereCupomCompartilhamento")]
+        public RetornoRequestModel GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
@@ -119,6 +119,16 @@ namespace ProjetoMarketing.Controllers
             };
 
             return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("PessoaPodeCompartilhar")]
+        public async Task<RetornoRequestModel> PessoaPodeCompartilhar([FromBody]ParametrosObtenhaPessoasCompartilhamento parametros)
+        {
+            return new RetornoRequestModel
+            {
+                Result = !await new TransacaoDAO(_contextTransacao).PessoaPodeCompartilhar(parametros)
+            };
         }
     }
 }

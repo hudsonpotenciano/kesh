@@ -63,7 +63,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
-        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
+        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros, [FromServices]TransacaoContext contextTransacao)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
@@ -89,7 +89,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
-
 
             var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
 

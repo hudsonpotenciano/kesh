@@ -28,7 +28,7 @@ namespace ProjetoMarketing.Persistencia
                     IdEmpresa = parametros.IdEmpresa,
                     IdPessoa = parametros.IdPessoa,
                     IdsPessoas = parametros.IdsPessoas,
-                    Data = DateTime.Today                   
+                    Data = DateTime.Today
                 };
 
                 _context.Compartilhamento.Add(compartilhamento);
@@ -133,6 +133,20 @@ namespace ProjetoMarketing.Persistencia
             catch (Exception e)
             {
 
+                throw e;
+            }
+        }
+
+        public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)
+        {
+            try
+            {
+                return _context.Compartilhamento.FromSql($@"select idcompartilhamento from compartilhamento where compartilhamento.idpessoa = {parametros.IdPessoa}
+                                                          and compartilhamento.idempresa = {parametros.IdEmpresa}
+                                                          and compartilhamento.data >= {DateTime.Today}").AnyAsync();
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
         }
