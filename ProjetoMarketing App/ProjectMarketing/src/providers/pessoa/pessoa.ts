@@ -5,6 +5,7 @@ import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
 import { StoragePessoaProvider } from '../storage/storage-pessoa';
+import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
 
 @Injectable()
 export class PessoaProvider {
@@ -17,7 +18,7 @@ export class PessoaProvider {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
-  ObtenhaPessoaEPerfilEmpresas() {
+  obtenhaPessoaEPerfilEmpresas() {
 
     let latitude = -16.60150553;
     let longitude = -49.30649101;
@@ -37,7 +38,7 @@ export class PessoaProvider {
     });
   }
 
-  ObtenhaPessoasCompartilhamento(idEmpresa: number) {
+  obtenhaPessoasCompartilhamento(idEmpresa: number) {
 
     let latitude = -16.60150553;
     let longitude = -49.30649101;
@@ -51,6 +52,23 @@ export class PessoaProvider {
     });
   }
 
+  ObtenhaComentarioENotaPessoasEmpresas(idEmpresa: number) {
+
+    return new Promise<NotaComentarioPessoaEmpresa[]>(resolve => {
+      this.comunicacao.post("Pessoa/Pessoa/ObtenhaComentarioENotaPessoasEmpresas",
+        { IdPessoa: this.dadosAcesso.IdPessoa, IdEmpresa: idEmpresa })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
+        });
+    });
+  }
+
+  atualizeDadosPessoaEmpresa(idEmpresa: number, comentario: string, nota: number) {
+
+    return this.comunicacao.post("Pessoa/Pessoa/AtualizeDadosPessoaEmpresa",
+      { IdPessoa: this.dadosAcesso.IdPessoa, IdEmpresa: idEmpresa, comentario: comentario, Nota: nota });
+  }
+
   realizeLogin(usuario: User) {
 
     return this.comunicacao.post("pessoa/login/realizelogin", usuario)
@@ -60,38 +78,18 @@ export class PessoaProvider {
       });
   }
 
-  CadastrePessoa(pessoa: CadastroPessoaModel) {
+  cadastrePessoa(pessoa: CadastroPessoaModel) {
 
     return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
-      .then((resposta: RetornoRequestModel) => {
-
-        if (resposta.Erro == 2) {
+      .catch((retorno: RetornoRequestModel) => {
+        
+        if (retorno && retorno.Erro == 2) {
           alert("Este email já existe");
-        }
+        };
       });
   }
 
-  // ObtenhaPerfilEmpresa(idEmpresa: number) {
-  //   return new Promise<PerfilEmpresa>(resolve => {
-  //     this.comunicacao.post("Empresa/Empresa/ObtenhaPerfilEmpresa", { IdEmpresa: idEmpresa })
-  //       .then((retorno: RetornoRequestModel) => {
-  //         resolve(retorno.Result);
-  //       });
-  //   });
-  // }
-
-  // ObtenhaPerfilEmpresas() {
-  //   return new Promise<PerfilEmpresa[]>(resolve => {
-  //     this.comunicacao.post("Empresa/Empresa/ObtenhaPerfilEmpresas", {})
-  //       .then((retorno: RetornoRequestModel) => {
-
-  //         this.storagePessoa.armazenePerfilEmpresas(retorno.Result);
-  //         resolve(retorno.Result);
-  //       });
-  //   });
-  // }
-
-  ObtenhaFotoPessoa(idPessoa: number) {
+  obtenhaFotoPessoa(idPessoa: number) {
     return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
   }
 }

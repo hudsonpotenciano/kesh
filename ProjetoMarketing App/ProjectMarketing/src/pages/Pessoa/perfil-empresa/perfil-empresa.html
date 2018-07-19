@@ -13,8 +13,20 @@
     <p>Resumo: {{perfilEmpresa.Resumo}}</p>
 
     <button ion-button *ngIf="podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
+    <button ion-button disabled *ngIf="!podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
     <button ion-button (click)="maps()">Maps</button>
     <button ion-button (click)="rota()">Rota</button>
+
+    <ion-item>
+        <ion-label fixed>Nota</ion-label>
+        <ion-input type="number" [(ngModel)]="pessoaEmpresa.Nota" name="nota"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label fixed>Comentario</ion-label>
+        <ion-input type="text" [(ngModel)]="pessoaEmpresa.Comentario" name="comentario"></ion-input>
+    </ion-item>
+    <button ion-button (click)="atualizeDadosPessoaEmpresa()">Atualzar dados</button>
 
     <ion-list>
         Cupons
@@ -25,8 +37,18 @@
 
     <ion-list>
         Vendas
-        <ion-item *ngFor="let venda of Vendas">
+        <ion-item *ngFor="let venda of vendas">
             <h2>{{venda.Valor}}</h2>
+        </ion-item>
+    </ion-list>
+
+
+    <ion-list>
+        notas comentarios
+        <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
+            <h2>{{notaComentarios.Nome}}</h2>
+            <p>{{notaComentarios.Comentario}}</p>
+            <p>{{notaComentarios.Nota}}</p>
         </ion-item>
     </ion-list>
 </ion-content>

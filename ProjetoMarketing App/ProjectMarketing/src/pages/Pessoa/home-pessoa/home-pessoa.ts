@@ -27,16 +27,12 @@ export class HomePessoaPage {
     }
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     this.obtenhaEmpresas();
   }
 
-  ionViewDidEnter() {
-
-  }
-
   obtenhaEmpresas() {
-    this.pessoaProvider.ObtenhaPessoaEPerfilEmpresas()
+    this.pessoaProvider.obtenhaPessoaEPerfilEmpresas()
       .then((retorno: PessoaEmpresa[]) => {
         this.pessoaEmpresas = retorno;
         this.fakeItens = null;

@@ -28,8 +28,24 @@ export class StoragePessoaProvider {
         this.storage.armazene(this.PESSOA_EMPRESAS, value);
     }
 
+    atualizePessoaEmpresa(value: PessoaEmpresa) {
+        
+        var pessoaEmpresas = this.recuperePessoaEmpresas();
+        pessoaEmpresas.filter(p => p.Empresa.IdEmpresa == value.Empresa.IdEmpresa).forEach(element => {
+            element;
+            element = value;
+        });
+        
+        this.armazenePessoaEmpresas(pessoaEmpresas);
+    }
+
     recuperePessoaEmpresas(): PessoaEmpresa[] {
         return this.storage.recupere(this.PESSOA_EMPRESAS);
+    }
+
+    recuperePessoaEmpresa(idEmpresa: number): PessoaEmpresa {
+        let perfilEmpresas = this.recuperePessoaEmpresas();
+        return perfilEmpresas.find(p => p.Empresa.IdEmpresa == idEmpresa);
     }
 
     removaPessoaEmpresas() {

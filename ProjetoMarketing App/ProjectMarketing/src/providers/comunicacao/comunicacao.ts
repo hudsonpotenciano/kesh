@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
+import { RetornoRequestModel } from '../../models/models.model';
 
 @Injectable()
 export class ComunicacaoProvider {
@@ -30,11 +31,19 @@ export class ComunicacaoProvider {
 
     this.monteBodyBase(body);
 
-    return new Promise<any>(resolve => {
+    return new Promise<any>((resolve, reject) => {
       this.http.post(ComunicacaoSettings.UrlApiBase + servico, body, this.monteOptions())
         .toPromise()
         .then((response) => {
-          resolve(response);
+
+          let retorno: RetornoRequestModel = response as any;
+
+          if (retorno.Erro != 0) {
+            reject(retorno);
+            return;
+          }
+
+          resolve(retorno);
         })
         .catch((e: any) => this.trateErros(e))
     });

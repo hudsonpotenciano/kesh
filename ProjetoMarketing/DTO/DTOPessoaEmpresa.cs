@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ProjetoMarketing.Entidade.Empresa;
 
-namespace ProjetoMarketing.Entidade
+namespace ProjetoMarketing.DTO
 {
     public class DTOPessoaEmpresa
     {
-        public Empresa.Empresa Empresa { get; set; }
+        public Empresa Empresa { get; set; }
         public int? Pontuacao { get; set; }
-        public int? NotaGeral { get; set; }
-        public int? Nota { get; set; }
+        public decimal? NotaGeral { get; set; }
+        public decimal? Nota { get; set; }
         public string Comentario { get; set; }
     }
 }

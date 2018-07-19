@@ -56,19 +56,21 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 var user = new User(usuario.Login, usuario.Senha);
 
                 retorno.Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+
+                return retorno;
             }
 
-            return retorno;
+            return RetornoRequestModel.CrieFalha();
         }
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
-        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros, [FromServices]TransacaoContext contextTransacao)
+        public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros.IdPessoa, parametros.Latitude, parametros.Longitude);
+            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros);
             var perfilEmpresas = await new EmpresaDAO(_context).SelectPerfilEmpresas();
 
             var retorno = new RetornoRequestModel
@@ -78,6 +80,23 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                     PessoaEmpresas = Projecoes.PessoaEmpresas(pessoaEmpresas),
                     PerfilEmpresas = Projecoes.ProjecaoPerfilEmpresas(perfilEmpresas)
                 }
+            };
+
+            return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaComentarioENotaPessoasEmpresas")]
+        public async Task<RetornoRequestModel> ObtenhaComentarioENotaPessoasEmpresas([FromBody]ParametrosObtenhaNotasComentarios parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaComentarioENotaPessoasEmpresas(parametros);
+
+            var retorno = new RetornoRequestModel
+            {
+                Result = Projecoes.NotasEComentariosPessoasEmpresas(pessoaEmpresas)
             };
 
             return retorno;
@@ -98,6 +117,24 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             };
 
             return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("AtualizeDadosPessoaEmpresa")]
+        public RetornoRequestModel AtualizeDadosPessoaEmpresa([FromBody]ParametrosAtualizeDadosPessoaEmpresa parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            try
+            {
+                new PessoaDAO(_context).AddOrUpdatePessoaEmpresa(parametros);
+                return RetornoRequestModel.CrieSucesso();
+            }
+            catch
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
         }
 
         [AllowAnonymous]

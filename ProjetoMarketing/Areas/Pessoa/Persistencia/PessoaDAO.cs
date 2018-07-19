@@ -71,6 +71,38 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
         }
 
+        public void AddOrUpdatePessoaEmpresa(ParametrosAtualizeDadosPessoaEmpresa parametros)
+        {
+            try
+            {
+                var pessoaEmpresaBd = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdEmpresa == parametros.IdEmpresa);
+                if (pessoaEmpresaBd != null)
+                {
+                    pessoaEmpresaBd.Comentario = parametros.Comentario;
+                    pessoaEmpresaBd.Nota = parametros.Nota;
+                    _context.PessoaEmpresa.Update(pessoaEmpresaBd);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    var PessoaEmpresa = new PessoaEmpresa()
+                    {
+                        IdEmpresa = parametros.IdEmpresa,
+                        IdPessoa = parametros.IdPessoa,
+                        Nota = parametros.Nota,
+                        Comentario = parametros.Comentario
+                    };
+
+                    _context.PessoaEmpresa.Add(PessoaEmpresa);
+                    _context.SaveChanges();
+                };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public void Update(Entidade.Pessoa.PerfilPessoa perfil)
         {
             var result = _context.PerfilPessoa.SingleOrDefault(p => p.IdPessoa == perfil.IdPessoa);
@@ -81,21 +113,41 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
         }
 
-        public Task<List<Entidade.DTOPessoaEmpresa>> ObtenhaPessoaEmpresas(int idPessoa, double latitude, double longitude)
+        public Task<List<DTO.DTOPessoaEmpresa>> ObtenhaPessoaEmpresas(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
             try
             {
                 //OBTEM EMPRESAS NO RAIO DE 50KM
                 return (from a in _context.Empresa.FromSql($@"select * from public.empresa
-                                                              where (select public.geodistance({latitude},{longitude},latitude,longitude) < 50)")
+                                                              where (select public.geodistance({parametros.Latitude},{parametros.Longitude},latitude,longitude) < 50)")
                         join b in _context.PessoaEmpresa on a.IdEmpresa equals b.IdEmpresa into ab
-                        select new Entidade.DTOPessoaEmpresa()
+                        select new DTO.DTOPessoaEmpresa()
                         {
                             Empresa = a,
-                            Comentario = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Comentario,
-                            Nota = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Nota,
-                            Pontuacao = ab.FirstOrDefault(p => p.IdPessoa == idPessoa).Pontuacao,
+                            Comentario = ab.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa).Comentario,
+                            Nota = ab.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa).Nota,
+                            Pontuacao = ab.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa).Pontuacao,
                             NotaGeral = ab.Any() ? (ab.Sum(p => p.Nota) / ab.Count(p => p.Nota != null)) : null
+                        }).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public Task<List<DTO.DTONotasComentariosPessoasEmpresas>> ObtenhaComentarioENotaPessoasEmpresas(ParametrosObtenhaNotasComentarios parametros)
+        {
+            try
+            {
+                return (from pe in _context.PessoaEmpresa.Where(p=>p.IdEmpresa == parametros.IdEmpresa)
+                        join p in _context.Pessoa on pe.IdPessoa equals p.IdPessoa
+                        select new DTO.DTONotasComentariosPessoasEmpresas()
+                        {
+                            Comentario = pe.Comentario,
+                            Nota = pe.Nota,
+                            IdPessoa = p.IdPessoa,
+                            Nome = p.Nome
                         }).ToListAsync();
             }
             catch (Exception e)

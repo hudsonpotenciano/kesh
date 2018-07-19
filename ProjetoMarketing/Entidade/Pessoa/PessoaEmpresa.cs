@@ -17,7 +17,7 @@ namespace ProjetoMarketing.Entidade.Pessoa
         [Column("pontuacao")]
         public int? Pontuacao { get; set; }
         [Column("nota")]
-        public int? Nota { get; set; }
+        public decimal? Nota { get; set; }
         [Column("comentario")]
         public string Comentario { get; set; }
     }

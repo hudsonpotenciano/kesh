@@ -88,7 +88,7 @@ namespace ProjetoMarketing
                    };
         }
 
-        public static dynamic PessoaEmpresas(List<DTOPessoaEmpresa> pessoaEmpresas)
+        public static dynamic PessoaEmpresas(List<DTO.DTOPessoaEmpresa> pessoaEmpresas)
         {
             return from item in pessoaEmpresas
                    select new
@@ -100,6 +100,19 @@ namespace ProjetoMarketing
                        item.NotaGeral
                    };
         }
+
+        public static dynamic NotasEComentariosPessoasEmpresas(List<DTO.DTONotasComentariosPessoasEmpresas> pessoaEmpresas)
+        {
+            return from item in pessoaEmpresas
+                   select new
+                   {
+                       item.Comentario,
+                       item.Nota,
+                       item.Nome,
+                       item.IdPessoa
+                   };
+        }
+
 
         public static dynamic ProjecaoEmpresa(Empresa empresa)
         {

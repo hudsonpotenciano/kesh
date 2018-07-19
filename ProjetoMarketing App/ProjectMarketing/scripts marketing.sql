@@ -252,8 +252,9 @@ ALTER TABLE public.perfilempresa
     idempresa integer NOT NULL,
     pontuacao integer,
     comentario text,
-    nota integer,
-    PRIMARY KEY (idpessoa),
+    nota numeric,
+    CONSTRAINT pk_pessoaempresa PRIMARY KEY (id),
+    CONSTRAINT uk_pessoaempresa UNIQUE (idpessoa, idempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
