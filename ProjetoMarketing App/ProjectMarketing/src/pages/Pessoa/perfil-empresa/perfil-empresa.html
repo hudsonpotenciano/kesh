@@ -46,6 +46,9 @@
     <ion-list>
         notas comentarios
         <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
+            <ion-avatar item-start>
+                <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
+            </ion-avatar>
             <h2>{{notaComentarios.Nome}}</h2>
             <p>{{notaComentarios.Comentario}}</p>
             <p>{{notaComentarios.Nota}}</p>

@@ -137,6 +137,21 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
+        public Task<Cupom> ObtenhaCupomPeloToken(ParametrosObtenhaCupom parametros)
+        {
+            try
+            {
+                return _context.Cupom.FromSql($@"select * from public.cupom
+                                                 where cupom.token = {parametros.CupomToken} and cupom.idempresa = {parametros.IdEmpresa}
+                                                 and not exists (select idvenda from venda where venda.idcupom = cupom.idcupom)").FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
         public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
             try

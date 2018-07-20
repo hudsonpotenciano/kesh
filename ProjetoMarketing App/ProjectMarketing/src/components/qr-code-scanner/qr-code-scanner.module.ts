@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { QrCodeScannerPage } from './qr-code-scanner';
 import { QRScanner } from '@ionic-native/qr-scanner';
+import { EmpresaProvider } from '../../providers/empresa/empresa';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { QRScanner } from '@ionic-native/qr-scanner';
     IonicPageModule.forChild(QrCodeScannerPage),
   ],
   providers:[
-    QRScanner
+    QRScanner,
+    EmpresaProvider
   ]
 })
 export class QrCodeScannerPageModule {}

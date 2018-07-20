@@ -1,0 +1,16 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>venda</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-item>
+        <ion-label fixed>Valor</ion-label>
+        <ion-input type="number" [(ngModel)]="venda.Valor" name="valor"></ion-input>
+    </ion-item>
+    <button ion-button (click)="realizeVenda()">Venda</button>
+</ion-content>

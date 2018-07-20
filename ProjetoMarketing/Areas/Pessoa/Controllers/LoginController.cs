@@ -35,7 +35,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Senha))
             {
-                var usuarioAutenticado = new UsuarioDAO(_context).Find(usuario);
+                var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
 
                 if (usuarioAutenticado != null)
                 {

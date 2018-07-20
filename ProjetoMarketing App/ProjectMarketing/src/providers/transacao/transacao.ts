@@ -20,7 +20,7 @@ export class TransacaoProvider {
 
   GereVenda(tokenCupom: string, valorVenda: number) {
     return new Promise<Venda>(resolve => {
-      this.comunicacao.post("Cupom/GereVendaComCupom", { TokenCupom: tokenCupom, ValorDaVenda: valorVenda })
+      this.comunicacao.post("Transacao/GereVendaComCupom", { TokenCupom: tokenCupom, ValorDaVenda: valorVenda })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
@@ -53,6 +53,15 @@ export class TransacaoProvider {
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
+    });
+  }
+
+  ObtenhaCupomPeloToken(token: string, idEmpresa: number) {
+    return new Promise<Cupom>((resolve, reject) => {
+      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdEmpresa: idEmpresa })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
+        }).catch(() => { reject(); });
     });
   }
 }

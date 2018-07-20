@@ -130,5 +130,31 @@ namespace ProjetoMarketing.Controllers
                 Result = !await new TransacaoDAO(_contextTransacao).PessoaPodeCompartilhar(parametros)
             };
         }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaCupomPeloToken")]
+        public async Task<RetornoRequestModel> ObtenhaCupomPeloToken([FromBody]ParametrosObtenhaCupom parametros)
+        {
+            if (parametros == null || parametros.CupomToken == null) return RetornoRequestModel.CrieFalha();
+
+            try
+            {
+                var cupom = await new TransacaoDAO(_contextTransacao).ObtenhaCupomPeloToken(parametros);
+
+                if (cupom != null)
+                {
+                    return new RetornoRequestModel
+                    {
+                        Result = cupom
+                    };
+                }
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
+
+            return RetornoRequestModel.CrieFalha();
+        }
     }
 }

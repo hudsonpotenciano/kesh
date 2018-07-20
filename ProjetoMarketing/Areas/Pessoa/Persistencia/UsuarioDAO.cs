@@ -14,10 +14,15 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public Usuario Find(User usuario)
+        public Usuario FindUsuarioPessoa(User usuario)
         {
             var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
             return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdPessoa != null);
+        }
+        public Usuario FindUsuarioEmpresa(User usuario)
+        {
+            var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+            return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdEmpresa != null);
         }
 
         public bool Validate(string token)

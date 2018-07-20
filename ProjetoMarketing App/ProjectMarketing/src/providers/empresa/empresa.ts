@@ -8,8 +8,11 @@ import { CadastroEmpresaModel } from '../../models/empresa.model';
 @Injectable()
 export class EmpresaProvider {
 
+  dadosAcesso: RetornoLogin;
+
   constructor(private storage: StorageProvider,
     private comunicacao: ComunicacaoProvider) {
+      this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
   realizeLogin(usuario: User) {
