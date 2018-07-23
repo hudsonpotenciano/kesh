@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace ProjetoMarketing.Areas.Pessoa.Persistencia
+namespace ProjetoMarketing.Areas.Empresa.Persistencia
 {
     public class EmpresaDAO
     {
@@ -47,15 +47,13 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 _context.PerfilEmpresa.Add(perfil);
                 _context.SaveChanges();
 
-                var imagensEmpresa = new Entidade.Empresa.ImagensEmpresa()
+                var imagemPerfilEmpresa = new Entidade.ImagemPerfil()
                 {
                     IdEmpresa = empresa.IdEmpresa,
                     Imagem = model.Logo,
-                    Tipo = 1
-                    //ENUMERADOR 
                 };
 
-                _context.ImagensEmpresa.Add(imagensEmpresa);
+                _context.ImagemPerfil.Add(imagemPerfilEmpresa);
                 _context.SaveChanges();
             }
             catch (Exception e)

@@ -71,7 +71,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros);
-            var perfilEmpresas = await new EmpresaDAO(_context).SelectPerfilEmpresas();
+            var perfilEmpresas = await new Empresa.Persistencia.EmpresaDAO(_context).SelectPerfilEmpresas();
 
             var retorno = new RetornoRequestModel
             {

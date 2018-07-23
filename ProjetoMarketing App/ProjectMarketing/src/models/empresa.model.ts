@@ -42,3 +42,8 @@ export class NotaComentarioPessoaEmpresa {
     Nota: number;
     Comentario: string;
 }
+
+export class ImagemCatalogo {
+    IdImagem: number;
+    Imagem: any;
+}

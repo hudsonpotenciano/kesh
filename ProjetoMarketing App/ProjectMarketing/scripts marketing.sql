@@ -203,26 +203,6 @@ ALTER TABLE public.perfilpessoa
     ON UPDATE NO ACTION
     ON DELETE CASCADE;
 
-    CREATE TABLE public.imagensempresa
-(
-    id uuid NOT NULL DEFAULT uuid_generate_v4(),
-    idempresa integer NOT NULL,
-    imagem bytea NOT NULL,
-    tipo integer NOT NULL,
-    CONSTRAINT pk_imagensempresa PRIMARY KEY (idempresa),
-    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
-        REFERENCES public.empresa (idempresa) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE CASCADE
-)
-WITH (
-    OIDS = FALSE
-);
-
-ALTER TABLE public.imagensempresa
-    OWNER to postgres;
-
-
 CREATE TABLE public.perfilempresa
 (
     id uuid NOT NULL,
@@ -231,6 +211,7 @@ CREATE TABLE public.perfilempresa
     descontocompartilhamento numeric NOT NULL,
     valorpontos numeric NOT NULL,
     categorias integer[] NOT NULL,
+    COLUMN imagem bytea,
     PRIMARY KEY (idempresa),
     CONSTRAINT uk_perfilempresa UNIQUE (idempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
@@ -311,4 +292,45 @@ WITH (
 );
 
 ALTER TABLE public.compartilhamento
+    OWNER to postgres;
+
+    CREATE TABLE public.imagemperfil
+(
+    id uuid NOT NULL,
+    idempresa integer,
+    idpessoa integer,
+    imagem bytea NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
+        REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
+        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.imagemperfil
+    OWNER to postgres;
+
+    CREATE TABLE public."imagemCatalogo"
+(
+    id uuid NOT NULL,
+    idempresa integer NOT NULL,
+    idimagem bigint NOT NULL DEFAULT nextval('sq_imagem'::regclass),
+    PRIMARY KEY (id),
+    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
+        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."imagemCatalogo"
     OWNER to postgres;

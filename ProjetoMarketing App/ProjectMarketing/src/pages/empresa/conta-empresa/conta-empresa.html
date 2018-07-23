@@ -1,0 +1,14 @@
+<ion-content>
+
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+
+    <ion-slides pager="true">
+        <ion-slide *ngFor="let imagem of imagensCatalogo">
+            <img src="data:image/jpg;base64,{{imagem}}" alt="">
+        </ion-slide>
+    </ion-slides>
+
+    <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
+    <button ion-button (click)="salveImagensCatalogo()"> Salvar</button>
+
+</ion-content>

@@ -29,7 +29,7 @@ export class LoginEmpresaPage {
     this.empresaProvider.realizeLogin(this.usuario)
       .then(() => {
 
-        this.navCtrl.push("HomeEmpresaPage");
+        this.navCtrl.push("TabsEmpresaPage");
       })
       .catch(() => { })
   }

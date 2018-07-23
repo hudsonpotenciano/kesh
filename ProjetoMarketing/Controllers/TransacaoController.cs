@@ -7,7 +7,6 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Persistencia;
-using ProjetoMarketing.Utilidades;
 
 namespace ProjetoMarketing.Controllers
 {

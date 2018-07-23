@@ -40,7 +40,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             var retorno = new RetornoRequestModel();
 
             var empresa = new Entidade.Empresa.Empresa();
-            new EmpresaDAO(_context).AddEmpresa(model, out empresa);
+            new Persistencia.EmpresaDAO(_context).AddEmpresa(model, out empresa);
 
             var usuario = new Entidade.Usuario()
             {
@@ -69,36 +69,10 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             var retorno = new RetornoRequestModel
             {
-                Result = Projecoes.ProjecaoEmpresas(await new EmpresaDAO(_context).SelectEmpresas())
+                Result = Projecoes.ProjecaoEmpresas(await new Persistencia.EmpresaDAO(_context).SelectEmpresas())
             };
 
             return retorno;
-        }
-
-        //[Authorize("Bearer")]
-        //[HttpPost("ObtenhaPerfilEmpresa")]
-        //public async Task<RetornoRequestModel> ObtenhaPerfilEmpresa([FromBody]ParametrosObtenhaDadosEmpresa parametros)
-        //{
-        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
-        //        return RetornoRequestModel.CrieFalhaLogin();
-
-        //    var retorno = new RetornoRequestModel
-        //    {
-        //        Result = Projecoes.ProjecaoPerfilEmpresa(await new EmpresaDAO(_context).SelectPerfilEmpresa(parametros.IdEmpresa))
-        //    };
-
-        //    return retorno;
-        //}
-
-        [AllowAnonymous]
-        [HttpGet("ObtenhaLogoEmpresa")]
-        public ActionResult ObtenhaLogoEmpresa(int idEmpresa)
-        {
-            var foto = _context.ImagensEmpresa.FirstOrDefault(x => x.IdEmpresa == idEmpresa && x.Tipo == 1)?.Imagem;
-
-            if (foto == null) return null;
-
-            return File(foto, "image/jpeg");
         }
     }
 }

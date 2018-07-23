@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Utilidades\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

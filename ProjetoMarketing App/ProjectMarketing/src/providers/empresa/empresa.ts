@@ -12,7 +12,7 @@ export class EmpresaProvider {
 
   constructor(private storage: StorageProvider,
     private comunicacao: ComunicacaoProvider) {
-      this.dadosAcesso = this.storage.recupereDadosAcesso();
+    this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
   realizeLogin(usuario: User) {
@@ -24,7 +24,7 @@ export class EmpresaProvider {
       });
   }
 
-  CadastreEmpresa(empresa: CadastroEmpresaModel) {
+  cadastreEmpresa(empresa: CadastroEmpresaModel) {
 
     return this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", empresa)
       .then(() => {
@@ -32,7 +32,15 @@ export class EmpresaProvider {
       });
   }
 
-  ObtenhaLogoEmpresa(idEmpresa: number) {
-    return ComunicacaoSettings.UrlApiBase + "Empresa/Empresa/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
+  obtenhaLogoEmpresa(idEmpresa: number) {
+    return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
+  }
+
+  atualizeCatalogo(imagens: any[]) {
+
+    return this.comunicacao.post("Empresa/Imagem/AtualizeCatalogo", { Imagens: imagens, IdEmpresa: this.dadosAcesso.IdEmpresa })
+      .then(() => {
+
+      });
   }
 }

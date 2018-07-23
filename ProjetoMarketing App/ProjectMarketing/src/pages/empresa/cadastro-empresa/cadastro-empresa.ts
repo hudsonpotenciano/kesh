@@ -68,7 +68,7 @@ export class CadastroEmpresaPage {
   cadastre() {
     this.empresa.Categorias = [1];
 
-    this.empresaProvider.CadastreEmpresa(this.empresa)
+    this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
         this.empresa = new CadastroEmpresaModel();
       });
