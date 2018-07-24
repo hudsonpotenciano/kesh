@@ -4,6 +4,8 @@ import { HomeEmpresaPage } from './home-empresa';
 import { TranslateModule } from '@ngx-translate/core';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { QRScanner } from '@ionic-native/qr-scanner';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { QRScanner } from '@ionic-native/qr-scanner';
   providers:
   [
     SocialSharing,
-    QRScanner
+    QRScanner,
+    EmpresaProvider,
+    StorageEmpresaProvider
   ]
 })
 export class HomePageModule {}

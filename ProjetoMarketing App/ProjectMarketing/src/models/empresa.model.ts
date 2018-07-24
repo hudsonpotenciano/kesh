@@ -34,6 +34,7 @@ export class PerfilEmpresa {
     RecompensaPontos: string;
     Resumo: string;
     Categorias: number[];
+    Catalogo: ImagemCatalogo[];
 }
 
 export class NotaComentarioPessoaEmpresa {
@@ -46,4 +47,9 @@ export class NotaComentarioPessoaEmpresa {
 export class ImagemCatalogo {
     IdImagem: number;
     Imagem: any;
+}
+
+export class DadosEmpresa {
+    Empresa: Empresa;
+    PerfilEmpresa: PerfilEmpresa;
 }

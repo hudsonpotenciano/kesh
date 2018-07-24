@@ -1,8 +1,10 @@
-﻿namespace ProjetoMarketing.Areas.Empresa.Models
+﻿using System.Collections.Generic;
+
+namespace ProjetoMarketing.Areas.Empresa.Models
 {
     public class ParametrosAtualizeImagensCatalogo : ProjetoMarketing.Models.ParametrosRequestModel
     {
-        public byte[][] Imagens { get; set; }
+        public List<ImagemCatalogoModel> Imagens { get; set; }
         public int IdEmpresa { get; set; }
     }
 }

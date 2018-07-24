@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder } from '../../../../node_modules/@angular/forms';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { ImagemCatalogo, DadosEmpresa } from '../../../models/empresa.model';
+import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 
 @IonicPage()
 @Component({
@@ -13,12 +15,21 @@ export class ContaEmpresaPage {
 
   @ViewChild('fileInput') fileInput;
   form: FormGroup;
-  imagensCatalogo: any[] = [];
+  imagensCatalogo: ImagemCatalogo[];
+  dadosEmpresa: DadosEmpresa;
 
   constructor(public navCtrl: NavController,
     formBuilder: FormBuilder,
     public navParams: NavParams,
-    private empresaProvider: EmpresaProvider) {
+    private empresaProvider: EmpresaProvider,
+    private storageEmpresa: StorageEmpresaProvider) {
+
+    this.empresaProvider.obtenhaDadosEmpresa()
+      .then((retorno: DadosEmpresa) => {
+        this.dadosEmpresa = retorno;
+        this.imagensCatalogo = this.dadosEmpresa.PerfilEmpresa.Catalogo;
+        debugger;
+      });
 
     this.form = formBuilder.group({
     });
@@ -36,14 +47,22 @@ export class ContaEmpresaPage {
 
     let reader = new FileReader();
     reader.onloadend = (readerEvent) => {
-      debugger;
-      this.imagensCatalogo[this.imagensCatalogo.length] = (readerEvent.target as any).result.split(",")[1];
+
+      if (!this.imagensCatalogo[this.imagensCatalogo.length])
+        this.imagensCatalogo[this.imagensCatalogo.length] = new ImagemCatalogo();
+
+      this.imagensCatalogo[this.imagensCatalogo.length - 1].Imagem = (readerEvent.target as any).result.split(",")[1];
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
   salveImagensCatalogo() {
-    this.empresaProvider.atualizeCatalogo(this.imagensCatalogo);
+
+    this.dadosEmpresa.PerfilEmpresa.Catalogo = this.imagensCatalogo;
+  
+    this.empresaProvider.atualizeCatalogo(this.imagensCatalogo).then(() => {
+      this.storageEmpresa.armazeneDadosEmpresa(this.dadosEmpresa);
+    });
   }
 }

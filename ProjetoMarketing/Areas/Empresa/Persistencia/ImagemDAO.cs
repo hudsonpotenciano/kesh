@@ -7,13 +7,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 {
     public class ImagemDAO
     {
-        //private readonly Contexts.PessoaEmpresaContext _context;
-
-        //public ImagemDAO(Contexts.PessoaEmpresaContext context)
-        //{
-        //    _context = context;
-        //}
-
         private const string CaminhoImagens = @"D:\ImagensProjetoMarketing\";
         public Task<byte[]> GetImagemCatalogo(long idImagem)
         {
@@ -32,26 +25,33 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
         public void AtualizeImagensCatalogo(Models.ParametrosAtualizeImagensCatalogo parametros, Contexts.PessoaEmpresaContext context)
         {
-            var imagensSalvas = context.ImagemCatalogo.Where(a => a.IdEmpresa == parametros.IdEmpresa);
+            var imagensSalvas = context.ImagemCatalogo.Where(a=>a.IdEmpresa == parametros.IdEmpresa);
 
-            context.ImagemCatalogo.RemoveRange(imagensSalvas);
-
-            foreach (var img in imagensSalvas)
-            {
-                DeleteImagemCatalogo(img.IdImagem);
-            }
-
-            foreach (var bytea in parametros.Imagens)
+            foreach (var item in parametros.Imagens)
             {
                 var imagem = new Entidade.Empresa.ImagemCatalogo()
                 {
-                    IdEmpresa = parametros.IdEmpresa
+                    IdEmpresa = parametros.IdEmpresa,
+                    IdImagem = item.IdImagem
                 };
 
-                context.ImagemCatalogo.Add(imagem);
-                context.SaveChanges();
-                
-                SaveImagemCatalogo(bytea, imagem.IdImagem);
+                if (imagem.IdImagem == 0)
+                {
+                    context.ImagemCatalogo.Add(imagem);
+                    context.SaveChanges();
+                    SaveImagemCatalogo(item.Imagem, imagem.IdImagem);
+                }
+                else
+                {
+                    DeleteImagemCatalogo(item.IdImagem);
+                    SaveImagemCatalogo(item.Imagem, imagem.IdImagem);
+                }
+            }
+
+            foreach (var item in imagensSalvas.Select(a=>a.IdImagem).Except(parametros.Imagens.Select(a=>a.IdImagem)))
+            {
+                DeleteImagemCatalogo(item);
+                context.ImagemCatalogo.Remove(imagensSalvas.FirstOrDefault(a => a.IdImagem == item));
             }
         }
     }

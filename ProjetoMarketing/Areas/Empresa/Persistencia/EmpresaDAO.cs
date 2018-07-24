@@ -3,6 +3,7 @@ using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Contexts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -81,6 +82,30 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 throw e;
             }
 
+        }
+
+        public Task<Entidade.Empresa.Empresa> SelectEmpresa(int idEmpresa)
+        {
+            try
+            {
+                return _context.Empresa.FirstOrDefaultAsync(e => e.IdEmpresa == idEmpresa);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public Task<List<Entidade.Empresa.ImagemCatalogo>> SelectCatalogoEmpresa(int idEmpresa)
+        {
+            try
+            {
+                return _context.ImagemCatalogo.Where(a => a.IdEmpresa == idEmpresa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Task<Entidade.Empresa.PerfilEmpresa> SelectPerfilEmpresa(int idEmpresa)

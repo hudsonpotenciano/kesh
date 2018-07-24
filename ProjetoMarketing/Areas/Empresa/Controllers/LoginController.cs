@@ -18,10 +18,12 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
     public class LoginController : ControladorBase
     {
         private readonly UsuarioContext _context;
+        private readonly UsuarioContext _contextUsuario;
 
-        public LoginController(UsuarioContext context)
+        public LoginController(UsuarioContext context, UsuarioContext contextUsuario)
         {
             _context = context;
+            _contextUsuario = contextUsuario;
         }
 
         [AllowAnonymous]
@@ -55,5 +57,17 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             return retorno;
         }
+
+        //[AllowAnonymous]
+        //[HttpPost("ObtenhaBearerToken")]
+        //public RetornoRequestModel RealizeLogin([FromBody] ParametrosRequestModel parametros,
+        //                                      [FromServices]SigningConfigurations signingConfigurations,
+        //                                      [FromServices]TokenConfigurations tokenConfigurations)
+        //{
+        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
+        //        return RetornoRequestModel.CrieFalhaLogin();
+
+        //    return new RetornoRequestModel().Result = new { token = GenerateAcessToken(usuario, signingConfigurations, tokenConfigurations) }
+        //}
     }
 }

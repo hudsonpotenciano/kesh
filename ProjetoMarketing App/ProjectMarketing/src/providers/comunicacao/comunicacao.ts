@@ -10,6 +10,7 @@ export class ComunicacaoProvider {
   constructor(
     public http: HttpClient,
     private storage: StorageProvider) {
+
   }
 
   get(servico: string, params?: any) {
@@ -24,7 +25,7 @@ export class ComunicacaoProvider {
 
     return this.http.get(ComunicacaoSettings.UrlApiBase + servico, this.monteOptions())
       .toPromise()
-      .catch((e: any) => this.trateErros(e))
+      .catch((e: any) => alert(e))
   }
 
   post(servico: string, body: any) {
@@ -45,14 +46,15 @@ export class ComunicacaoProvider {
 
           resolve(retorno);
         })
-        .catch((e: any) => this.trateErros(e))
+        .catch((e: any) => {
+          // if(e.status = 401){
+          //   this.post("empresa/login/realizelogin", this.storage).then
+          // }
+          // else{
+          alert(e);
+          // }
+        });
     });
-  }
-
-  trateErros(erro: any) {
-
-    alert(erro);
-    console.error(erro);
   }
 
   monteBodyBase(body: any) {

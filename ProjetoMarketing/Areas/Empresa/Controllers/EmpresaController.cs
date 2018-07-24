@@ -10,6 +10,7 @@ using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
 using System.Threading.Tasks;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Areas.Empresa.Persistencia;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -58,6 +59,27 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             }
 
             return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaDadosEmpresa")]
+        public async Task<RetornoRequestModel> ObtenhaDadosEmpresa([FromBody]ParametrosObtenhaEmpresas parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var empresa = await new EmpresaDAO(_context).SelectEmpresa(parametros.IdEmpresa);
+            var perfilEmpresa = await new EmpresaDAO(_context).SelectPerfilEmpresa(parametros.IdEmpresa);
+            var catalogo = await new EmpresaDAO(_context).SelectCatalogoEmpresa(parametros.IdEmpresa);
+
+            return new RetornoRequestModel()
+            {
+                Result = new
+                {
+                    Empresa = Projecoes.ProjecaoEmpresa(empresa),
+                    PerfilEmpresa = Projecoes.ProjecaoPerfilEmpresa(perfilEmpresa, catalogo)
+                }
+            };
         }
 
         [Authorize("Bearer")]

@@ -3,8 +3,9 @@
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
     <ion-slides pager="true">
-        <ion-slide *ngFor="let imagem of imagensCatalogo">
-            <img src="data:image/jpg;base64,{{imagem}}" alt="">
+        <ion-slide *ngFor="let imagemCatalogo of imagensCatalogo">
+            <img *ngIf="!imagemCatalogo.Imagem" src="{{empresaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)}}" alt="">
+            <img *ngIf="imagemCatalogo.Imagem" src="data:image/jpg;base64,{{imagemCatalogo.Imagem}}" alt="">
         </ion-slide>
     </ion-slides>
 

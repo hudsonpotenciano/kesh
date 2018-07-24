@@ -128,7 +128,7 @@ namespace ProjetoMarketing
             };
         }
 
-        public static dynamic ProjecaoPerfilEmpresa(PerfilEmpresa perfil)
+        public static dynamic ProjecaoPerfilEmpresa(PerfilEmpresa perfil, List<ImagemCatalogo> catalogo)
         {
             return new
             {
@@ -136,7 +136,8 @@ namespace ProjetoMarketing
                 perfil.DescontoCompartilhamento,
                 perfil.ValorPontos,
                 perfil.Resumo,
-                perfil.Categorias
+                perfil.Categorias,
+                Catalogo = catalogo
             };
         }
 
