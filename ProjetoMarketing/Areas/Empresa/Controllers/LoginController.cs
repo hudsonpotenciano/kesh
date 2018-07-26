@@ -40,7 +40,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
                 if (usuarioAutenticado != null)
                 {
-                    var token = GenerateAcessToken(usuario, signingConfigurations, tokenConfigurations);
+                    var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
 
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
@@ -58,16 +58,25 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             return retorno;
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("ObtenhaBearerToken")]
-        //public RetornoRequestModel RealizeLogin([FromBody] ParametrosRequestModel parametros,
-        //                                      [FromServices]SigningConfigurations signingConfigurations,
-        //                                      [FromServices]TokenConfigurations tokenConfigurations)
-        //{
-        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
-        //        return RetornoRequestModel.CrieFalhaLogin();
+        [AllowAnonymous]
+        [HttpPost("ObtenhaBearerToken")]
+        public RetornoRequestModel RealizeLogin([FromBody] ParametrosRequestModel parametros,
+                                              [FromServices]SigningConfigurations signingConfigurations,
+                                              [FromServices]TokenConfigurations tokenConfigurations)
+        {
+            var usuario = _contextUsuario.Usuario.FirstOrDefault(u => u.Token == parametros.Token);
 
-        //    return new RetornoRequestModel().Result = new { token = GenerateAcessToken(usuario, signingConfigurations, tokenConfigurations) }
-        //}
+            if (usuario != null)
+            {
+                var retorno = new RetornoRequestModel()
+                {
+                    Result = new { AcessToken = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations) }
+                };
+
+                return retorno;
+            }
+            else
+                return RetornoRequestModel.CrieFalhaLogin();
+        }
     }
 }

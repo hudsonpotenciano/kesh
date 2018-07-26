@@ -30,7 +30,7 @@ export class EmpresaProvider {
     return new Promise<DadosEmpresa>(resolve => {
       this.comunicacao.post("empresa/empresa/ObtenhaDadosEmpresa", { IdEmpresa: this.dadosAcesso.IdEmpresa })
         .then((resposta: RetornoRequestModel) => {
-
+          debugger;
           resolve(resposta.Result);
           this.storageEmpresa.armazeneDadosEmpresa(resposta.Result);
         });

@@ -41,7 +41,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             var pessoa = new Entidade.Pessoa.Pessoa();
 
-            new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa);
+            new PessoaDAO(_context).AddPessoa(model, out pessoa);
 
             if (pessoa.IdPessoa != 0)
             {
@@ -55,7 +55,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 new UsuarioDAO(_contextUsuario).Add(usuario);
                 var user = new User(usuario.Login, usuario.Senha);
 
-                retorno.Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+                retorno.Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user.Login, signingConfigurations, tokenConfigurations));
 
                 return retorno;
             }
@@ -141,7 +141,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpGet("ObtenhaFotoPessoa")]
         public ActionResult ObtenhaFotoPessoa(int idPessoa)
         {
-            var foto = _context.PerfilPessoa.First(p => p.IdPessoa.Equals(idPessoa))?.Foto;
+            var foto = _context.ImagemPerfil.First(p => p.IdPessoa == idPessoa)?.Imagem;
 
             if (foto == null) return null;
 

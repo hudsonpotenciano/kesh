@@ -10,7 +10,13 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         private const string CaminhoImagens = @"D:\ImagensProjetoMarketing\";
         public Task<byte[]> GetImagemCatalogo(long idImagem)
         {
+            if (!ImagemExiste(idImagem)) return null;
             return File.ReadAllBytesAsync(CaminhoImagens + idImagem + ".jpg");
+        }
+
+        private bool ImagemExiste(long idImagem)
+        {
+            return File.Exists(CaminhoImagens + idImagem + ".jpg");
         }
 
         private Task SaveImagemCatalogo(byte[] imagem, long idImagem)
@@ -25,9 +31,9 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
         public void AtualizeImagensCatalogo(Models.ParametrosAtualizeImagensCatalogo parametros, Contexts.PessoaEmpresaContext context)
         {
-            var imagensSalvas = context.ImagemCatalogo.Where(a=>a.IdEmpresa == parametros.IdEmpresa);
+            var imagensSalvas = context.ImagemCatalogo.Where(a => a.IdEmpresa == parametros.IdEmpresa);
 
-            foreach (var item in parametros.Imagens)
+            foreach (var item in parametros.Imagens.Where(i => i.Imagem != null))
             {
                 var imagem = new Entidade.Empresa.ImagemCatalogo()
                 {
@@ -39,6 +45,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 {
                     context.ImagemCatalogo.Add(imagem);
                     context.SaveChanges();
+                    item.IdImagem = imagem.IdImagem;
                     SaveImagemCatalogo(item.Imagem, imagem.IdImagem);
                 }
                 else
@@ -48,10 +55,11 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 }
             }
 
-            foreach (var item in imagensSalvas.Select(a=>a.IdImagem).Except(parametros.Imagens.Select(a=>a.IdImagem)))
+            foreach (var item in imagensSalvas.Select(a => a.IdImagem).Except(parametros.Imagens.Select(a => a.IdImagem)))
             {
                 DeleteImagemCatalogo(item);
                 context.ImagemCatalogo.Remove(imagensSalvas.FirstOrDefault(a => a.IdImagem == item));
+                context.SaveChanges();
             }
         }
     }

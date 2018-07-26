@@ -183,25 +183,25 @@ WITH (
 ALTER TABLE public.venda
     OWNER to postgres;
 
-    CREATE TABLE public.perfilpessoa
-(
-    id uuid NOT NULL DEFAULT uuid_generate_v4(),
-    idpessoa integer NOT NULL,
-    foto bytea,
-    PRIMARY KEY (id)
-)
-WITH (
-    OIDS = FALSE
-);
+--     CREATE TABLE public.perfilpessoa
+-- (
+--     id uuid NOT NULL DEFAULT uuid_generate_v4(),
+--     idpessoa integer NOT NULL,
+--     foto bytea,
+--     PRIMARY KEY (id)
+-- )
+-- WITH (
+--     OIDS = FALSE
+-- );
 
-ALTER TABLE public.perfilpessoa
-    OWNER to postgres;
+-- ALTER TABLE public.perfilpessoa
+--     OWNER to postgres;
 
-ALTER TABLE public.perfilpessoa
-    ADD CONSTRAINT pessoa_pk FOREIGN KEY (idpessoa)
-    REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+-- ALTER TABLE public.perfilpessoa
+--     ADD CONSTRAINT pessoa_pk FOREIGN KEY (idpessoa)
+--     REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
+--     ON UPDATE NO ACTION
+--     ON DELETE CASCADE;
 
 CREATE TABLE public.perfilempresa
 (

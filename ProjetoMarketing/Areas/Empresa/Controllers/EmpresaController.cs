@@ -55,7 +55,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                 new UsuarioDAO(_contextUsuario).Add(usuario);
                 var user = new User(usuario.Login, usuario.Senha);
 
-                retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user, signingConfigurations, tokenConfigurations));
+                retorno.Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(user.Login, signingConfigurations, tokenConfigurations));
             }
 
             return retorno;

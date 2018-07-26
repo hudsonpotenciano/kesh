@@ -12,9 +12,9 @@ namespace ProjetoMarketing.Entidade
         [Column("id")]
         public Guid Id { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public int? IdPessoa { get; set; }
         [Column("idempresa")]
-        public int IdEmpresa { get; set; }
+        public int? IdEmpresa { get; set; }
         [Column("imagem")]
         public byte[] Imagem { get; set; }
     }

@@ -7,6 +7,8 @@ import { RetornoRequestModel } from '../../models/models.model';
 @Injectable()
 export class ComunicacaoProvider {
 
+  tentativasDePost: number = 0;
+
   constructor(
     public http: HttpClient,
     private storage: StorageProvider) {
@@ -47,12 +49,36 @@ export class ComunicacaoProvider {
           resolve(retorno);
         })
         .catch((e: any) => {
-          // if(e.status = 401){
-          //   this.post("empresa/login/realizelogin", this.storage).then
-          // }
-          // else{
-          alert(e);
-          // }
+
+          if (e.status = 401) {
+            
+            alert(this.tentativasDePost);
+
+            if (this.tentativasDePost++ >= 3) {
+              //REALIZE LOGIN NOVAMENTE
+              this.tentativasDePost = 0;
+            }
+            else {
+
+              var dadosAcesso = this.storage.recupereDadosAcesso();
+              this.http.post(ComunicacaoSettings.UrlApiBase + "empresa/login/ObtenhaBearerToken", { Token: dadosAcesso.Token }, this.monteOptions())
+                .toPromise()
+                .then((retorno: any) => {
+
+                  dadosAcesso.AccessToken = retorno.Result.AcessToken;
+                  this.storage.armazeneDadosAcesso(dadosAcesso);
+
+                  this.post(servico, body)
+                    .then((result) => {
+                      resolve(result);
+                      this.tentativasDePost = 0;
+                    });
+                });
+            }
+          }
+          else {
+            alert(e);
+          }
         });
     });
   }

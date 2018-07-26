@@ -18,12 +18,12 @@ namespace ProjetoMarketing.Controllers
             return new UsuarioDAO(_contextUsuario).Validate(token);
         }
 
-        public string GenerateAcessToken(User usuario, SigningConfigurations signingConfigurations, TokenConfigurations tokenConfigurations)
+        public string GenerateAcessToken(string usuarioLogin, SigningConfigurations signingConfigurations, TokenConfigurations tokenConfigurations)
         {
             ClaimsIdentity identity = new ClaimsIdentity(
-                      new GenericIdentity(usuario.Login, "Login"),
+                      new GenericIdentity(usuarioLogin, "Login"),
                       new[] { new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Login)
+                        new Claim(JwtRegisteredClaimNames.UniqueName, usuarioLogin)
                  });
 
             DateTime dataCriacao = DateTime.Now;

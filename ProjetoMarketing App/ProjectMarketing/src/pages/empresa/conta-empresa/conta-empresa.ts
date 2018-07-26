@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { FormGroup, FormBuilder } from '../../../../node_modules/@angular/forms';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { ImagemCatalogo, DadosEmpresa } from '../../../models/empresa.model';
@@ -14,8 +14,10 @@ import { StorageEmpresaProvider } from '../../../providers/storage/storage-empre
 export class ContaEmpresaPage {
 
   @ViewChild('fileInput') fileInput;
+  @ViewChild('slides') Slides: Slides;
+
   form: FormGroup;
-  imagensCatalogo: ImagemCatalogo[];
+  imagensCatalogo: ImagemCatalogo[] = [];
   dadosEmpresa: DadosEmpresa;
 
   constructor(public navCtrl: NavController,
@@ -57,10 +59,15 @@ export class ContaEmpresaPage {
     reader.readAsDataURL(event.target.files[0]);
   }
 
+  removaImagem(i: number) {
+    this.imagensCatalogo.splice(i, 1);
+    this.Slides.slidePrev();
+  }
+
   salveImagensCatalogo() {
 
     this.dadosEmpresa.PerfilEmpresa.Catalogo = this.imagensCatalogo;
-  
+
     this.empresaProvider.atualizeCatalogo(this.imagensCatalogo).then(() => {
       this.storageEmpresa.armazeneDadosEmpresa(this.dadosEmpresa);
     });

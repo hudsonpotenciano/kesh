@@ -51,7 +51,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 var imagemPerfilEmpresa = new Entidade.ImagemPerfil()
                 {
                     IdEmpresa = empresa.IdEmpresa,
-                    Imagem = model.Logo,
+                    Imagem = model.Logo
                 };
 
                 _context.ImagemPerfil.Add(imagemPerfilEmpresa);
@@ -62,7 +62,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 //SALVE LOG
                 throw e;
             }
-
         }
 
         public void Add(Entidade.Empresa.PerfilEmpresa perfil)

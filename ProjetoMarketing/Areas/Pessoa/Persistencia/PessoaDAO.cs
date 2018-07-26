@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
 using System;
@@ -19,7 +20,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public void AddPessoaUsuario(Models.CadastroPessoaModel model, out Entidade.Pessoa.Pessoa pessoa)
+        public void AddPessoa(Models.CadastroPessoaModel model, out Entidade.Pessoa.Pessoa pessoa)
         {
             try
             {
@@ -37,13 +38,13 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 _context.Pessoa.Add(pessoa);
                 _context.SaveChanges();
 
-                var perfil = new PerfilPessoa()
+                var imagemPerfil = new ImagemPerfil()
                 {
-                    Foto = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
+                    Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
                     IdPessoa = pessoa.IdPessoa
                 };
 
-                _context.PerfilPessoa.Add(perfil);
+                _context.ImagemPerfil.Add(imagemPerfil);
                 _context.SaveChanges();
                 _context.Database.CommitTransaction();
             }
@@ -100,16 +101,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             catch (Exception e)
             {
                 throw e;
-            }
-        }
-
-        public void Update(Entidade.Pessoa.PerfilPessoa perfil)
-        {
-            var result = _context.PerfilPessoa.SingleOrDefault(p => p.IdPessoa == perfil.IdPessoa);
-            if (result != null)
-            {
-                result = perfil;
-                _context.SaveChanges();
             }
         }
 

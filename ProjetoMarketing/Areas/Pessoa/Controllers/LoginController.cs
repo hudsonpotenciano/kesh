@@ -40,7 +40,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 if (usuarioAutenticado != null)
                 {
 
-                    var token = GenerateAcessToken(usuario, signingConfigurations, tokenConfigurations);
+                    var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
 
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);

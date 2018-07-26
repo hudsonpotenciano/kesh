@@ -30,7 +30,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.Usuario.FirstOrDefault(u => u.Token == token) != null;
         }
 
-
         public void Add(Usuario usuario)
         {
             try
