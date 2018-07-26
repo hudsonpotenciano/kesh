@@ -1,15 +1,20 @@
 <ion-content>
     <ion-list [virtualScroll]="pessoaEmpresas">
-        <button ion-item *virtualItem="let pessoaEmpresa" (click)="abraPerfilEmpresa(pessoaEmpresa)">
-                <div item-start class="avatar">
-                    <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
-                </div>
-                <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
-                <div item-end *ngIf="pessoaEmpresa.NotaGeral" class="estrela-nota">
-                    <p>{{pessoaEmpresa.NotaGeral}}</p>
-                    <img src="./assets/svg/estrela.svg" alt="">
-                </div>
-            </button>
+        <div ion-item *virtualItem="let pessoaEmpresa" (click)="abraPerfilEmpresa(pessoaEmpresa)">
+            <div item-start class="avatar">
+                <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
+            </div>
+            <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
+            <div item-end *ngIf="pessoaEmpresa.NotaGeral" class="estrela-nota">
+                <p>{{pessoaEmpresa.NotaGeral}}</p>
+                <img src="./assets/svg/estrela.svg" alt="">
+            </div>
+            <ion-slides pager="true">
+                <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
+                    <div class="imagem-catalogo" [style.background-image]="'url(' + empresaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+                </ion-slide>
+            </ion-slides>
+        </div>
 
         <ion-item *ngFor="let fake of fakeItens" class="fakeItem">
             <h2></h2>

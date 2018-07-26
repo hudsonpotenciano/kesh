@@ -12,8 +12,8 @@ namespace ProjetoMarketing.Entidade.Pessoa
         public Guid Id { get; set; }
         [Column("idpessoa")]
         public int IdPessoa { get; set; }
-        [Column("idempresa")]
-        public int IdEmpresa { get; set; }
+        [Column("idperfilempresa")]
+        public long IdPerfilEmpresa { get; set; }
         [Column("pontuacao")]
         public int? Pontuacao { get; set; }
         [Column("nota")]

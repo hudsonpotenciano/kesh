@@ -8,5 +8,6 @@ namespace ProjetoMarketing.Models
     public class ParametrosObtenhaEmpresas : ParametrosRequestModel
     {
         public int IdEmpresa { get; set; }
+        public int IdPerfilEmpresa { get; set; }
     }
 }

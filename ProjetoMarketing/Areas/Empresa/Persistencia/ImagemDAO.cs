@@ -31,13 +31,13 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
         public void AtualizeImagensCatalogo(Models.ParametrosAtualizeImagensCatalogo parametros, Contexts.PessoaEmpresaContext context)
         {
-            var imagensSalvas = context.ImagemCatalogo.Where(a => a.IdEmpresa == parametros.IdEmpresa);
+            var imagensSalvas = context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
 
             foreach (var item in parametros.Imagens.Where(i => i.Imagem != null))
             {
                 var imagem = new Entidade.Empresa.ImagemCatalogo()
                 {
-                    IdEmpresa = parametros.IdEmpresa,
+                    IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                     IdImagem = item.IdImagem
                 };
 

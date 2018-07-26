@@ -1,8 +1,7 @@
 {
-    "name": "ProjectMarketing",
-    "app_id": "",
-    "type": "ionic-angular",
-    "integrations": {
-        "cordova": {}
-    }
+  "name": "ProjectMarketing",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
 }

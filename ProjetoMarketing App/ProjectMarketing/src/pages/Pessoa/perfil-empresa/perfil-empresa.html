@@ -1,16 +1,16 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            {{empresa.Nome}}
+            {{dadosPessoaEmpresa.PerfilEmpresa.Descricao}}
         </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(empresa.IdEmpresa)}}" alt="">
+    <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
 
-    <p>{{empresa.Email}}</p>
-    <p>Resumo: {{perfilEmpresa.Resumo}}</p>
+    <p>{{dadosPessoaEmpresa.Empresa.Email}}</p>
+    <p>Resumo: {{dadosPessoaEmpresa.ContaEmpresa.Resumo}}</p>
 
     <button ion-button *ngIf="podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
     <button ion-button disabled *ngIf="!podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
@@ -19,12 +19,12 @@
 
     <ion-item>
         <ion-label fixed>Nota</ion-label>
-        <ion-input type="number" [(ngModel)]="pessoaEmpresa.Nota" name="nota"></ion-input>
+        <ion-input type="number" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Nota" name="nota"></ion-input>
     </ion-item>
 
     <ion-item>
         <ion-label fixed>Comentario</ion-label>
-        <ion-input type="text" [(ngModel)]="pessoaEmpresa.Comentario" name="comentario"></ion-input>
+        <ion-input type="text" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Comentario" name="comentario"></ion-input>
     </ion-item>
     <button ion-button (click)="atualizeDadosPessoaEmpresa()">Atualzar dados</button>
 

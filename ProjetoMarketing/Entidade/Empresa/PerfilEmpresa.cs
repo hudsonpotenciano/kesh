@@ -12,13 +12,18 @@ namespace ProjetoMarketing.Entidade.Empresa
         public Guid Id { get; set; }
         [Column("idempresa")]
         public int IdEmpresa { get; set; }
-        [Column("resumo")]
-        public string Resumo { get; set; }
-        [Column("descontocompartilhamento")]
-        public decimal DescontoCompartilhamento { get; set; }
-        [Column("valorpontos")]
-        public decimal ValorPontos { get; set; }
-        [Column("categorias")]
-        public int[] Categorias { get; set; }
+        [Column("idperfilempresa")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long IdPerfilEmpresa { get; set; }
+        [Column("descricao")]
+        public string Descricao { get; set; }
+        [Column("latitude")]
+        public double Latitude { get; set; }
+        [Column("longitude")]
+        public double Longitude { get; set; }
+        [Column("telefone")]
+        public string Telefone { get; set; }
+        [Column("telefone2")]
+        public string Telefone2 { get; set; }
     }
 }

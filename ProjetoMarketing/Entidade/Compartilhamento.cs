@@ -15,8 +15,8 @@ namespace ProjetoMarketing.Entidade
         public int IdPessoa { get; set; }
         [Column("idspessoas")]
         public int[] IdsPessoas { get; set; }
-        [Column("idempresa")]
-        public int IdEmpresa { get; set; }
+        [Column("idperfilempresa")]
+        public long IdPerfilEmpresa { get; set; }
         [Column("data")]
         public DateTime Data { get; set; }
     }

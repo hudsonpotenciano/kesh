@@ -1,4 +1,5 @@
-﻿using ProjetoMarketing.Entidade;
+﻿using ProjetoMarketing.Areas.Empresa;
+using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Entidade.Pessoa;
 using System;
@@ -10,6 +11,22 @@ namespace ProjetoMarketing
 {
     public class Projecoes
     {
+        public static dynamic DadosEmpresa(DTODadosEmpresa dadosEmpresa)
+        {
+            return new
+            {
+                Empresa = ProjecaoEmpresa(dadosEmpresa.Empresa),
+                PerfilEmpresa = ProjecaoPerfilEmpresa(dadosEmpresa.PerfilEmpresa),
+                Conta = ProjecaoContaEmpresa(dadosEmpresa.ContaEmpresa),
+                Catalogo = from imagem in dadosEmpresa.ImagensCatalogo
+                           select new
+                           {
+                               imagem.IdPerfilEmpresa,
+                               imagem.IdImagem
+                           }
+            };
+        }
+
         public static dynamic ProjecaoRetornoLogin(Usuario usuario, string token)
         {
             return new
@@ -41,43 +58,6 @@ namespace ProjetoMarketing
             };
         }
 
-        //public static dynamic ProjecaoRetornoCadastroEmpresa(Empresa empresa, Usuario usuario, PerfilEmpresa perfil)
-        //{
-        //    return new
-        //    {
-        //        empresa.Cnpj,
-        //        empresa.Email,
-        //        empresa.IdEmpresa,
-        //        empresa.Telefone,
-        //        empresa.Nome,
-        //        usuario.Login,
-        //        usuario.Senha,
-        //        usuario.Token,
-        //        perfil.Latitude,
-        //        perfil.Longitude,
-        //        perfil.PontosPorReal,
-        //        perfil.RecompensaCompartilhamento,
-        //        perfil.RecompensaPontos,
-        //        perfil.Resumo,
-        //        perfil.Categorias
-        //    };
-        //}
-
-        public static dynamic ProjecaoEmpresas(List<Empresa> empresa)
-        {
-            return from item in empresa
-                   select new
-                   {
-                       item.Nome,
-                       item.Email,
-                       item.Telefone,
-                       item.IdEmpresa,
-                       item.Telefone2,
-                       item.Latitude,
-                       item.Longitude
-                   };
-        }
-
         public static dynamic PessoasCompartilhamento(List<Pessoa> pessoas)
         {
             return from pessoa in pessoas
@@ -94,10 +74,16 @@ namespace ProjetoMarketing
                    select new
                    {
                        Empresa = ProjecaoEmpresa(item.Empresa),
-                       item.Pontuacao,
-                       item.Nota,
-                       item.Comentario,
-                       item.NotaGeral
+                       Perfil = ProjecaoPerfilEmpresa(item.PerfilEmpresa),
+                       PessoaEmpresa = ProjecaoPessoaEmpresa(item.PessoaEmpresa),
+                       Conta = ProjecaoContaEmpresa(item.ContaEmpresa),
+                       item.NotaGeral,
+                       Catalogo = from imagem in item.Catalogo
+                                  select new
+                                  {
+                                      imagem.IdPerfilEmpresa,
+                                      imagem.IdImagem
+                                  }
                    };
         }
 
@@ -120,38 +106,8 @@ namespace ProjetoMarketing
             {
                 empresa.Nome,
                 empresa.Email,
-                empresa.Telefone,
-                empresa.IdEmpresa,
-                empresa.Telefone2,
-                empresa.Latitude,
-                empresa.Longitude
+                empresa.IdEmpresa
             };
-        }
-
-        public static dynamic ProjecaoPerfilEmpresa(PerfilEmpresa perfil, List<ImagemCatalogo> catalogo)
-        {
-            return new
-            {
-                perfil.IdEmpresa,
-                perfil.DescontoCompartilhamento,
-                perfil.ValorPontos,
-                perfil.Resumo,
-                perfil.Categorias,
-                Catalogo = catalogo
-            };
-        }
-
-        public static dynamic ProjecaoPerfilEmpresas(List<PerfilEmpresa> perfilEmpresas)
-        {
-            return from perfil in perfilEmpresas
-                   select new
-                   {
-                       perfil.IdEmpresa,
-                       perfil.DescontoCompartilhamento,
-                       perfil.ValorPontos,
-                       perfil.Resumo,
-                       perfil.Categorias
-                   };
         }
 
         public static dynamic ProjecaoCupom(Cupom cupom)
@@ -205,5 +161,45 @@ namespace ProjetoMarketing
                 venda.Valor
             };
         }
+
+        #region private
+        private static dynamic ProjecaoContaEmpresa(ContaEmpresa conta)
+        {
+            return new
+            {
+                conta.IdEmpresa,
+                conta.Categorias,
+                conta.DescontoCompartilhamento,
+                conta.Resumo,
+                conta.ValorPontos,
+            };
+        }
+
+        private static dynamic ProjecaoPerfilEmpresa(PerfilEmpresa perfil)
+        {
+            return new
+            {
+                perfil.IdEmpresa,
+                perfil.IdPerfilEmpresa,
+                perfil.Descricao,
+                perfil.Latitude,
+                perfil.Longitude,
+                perfil.Telefone,
+                perfil.Telefone2
+            };
+        }
+
+        private static dynamic ProjecaoPessoaEmpresa(PessoaEmpresa pessoaEmpresa)
+        {
+            return new
+            {
+                pessoaEmpresa.Comentario,
+                pessoaEmpresa.IdPerfilEmpresa,
+                pessoaEmpresa.IdPessoa,
+                pessoaEmpresa.Nota,
+                pessoaEmpresa.Pontuacao
+            };
+        }
+        #endregion
     }
 }

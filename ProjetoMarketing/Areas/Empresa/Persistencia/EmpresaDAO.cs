@@ -26,68 +26,76 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 {
                     Cnpj = model.Cnpj,
                     Email = model.Email,
-                    Nome = model.Nome,
-                    Telefone = model.Telefone,
-                    Telefone2 = model.Telefone2,
-                    Latitude = model.Latitude,
-                    Longitude = model.Longitude
+                    Nome = model.Nome
                 };
 
                 _context.Empresa.Add(empresa);
                 _context.SaveChanges();
 
-                var perfil = new Entidade.Empresa.PerfilEmpresa()
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public Task AddConta(CadastroContaModel model)
+        {
+            try
+            {
+                var conta = new Entidade.Empresa.ContaEmpresa()
                 {
-                    IdEmpresa = empresa.IdEmpresa,
                     DescontoCompartilhamento = model.DescontoCompartilhamento,
                     ValorPontos = model.ValorPontos,
                     Resumo = model.Resumo,
-                    Categorias = model.Categorias
+                    Categorias = model.Categorias,
+                    IdEmpresa = model.IdEmpresa
                 };
 
-                _context.PerfilEmpresa.Add(perfil);
-                _context.SaveChanges();
 
                 var imagemPerfilEmpresa = new Entidade.ImagemPerfil()
                 {
-                    IdEmpresa = empresa.IdEmpresa,
+                    IdEmpresa = model.IdEmpresa,
                     Imagem = model.Logo
                 };
 
+                _context.ContaEmpresa.Add(conta);
                 _context.ImagemPerfil.Add(imagemPerfilEmpresa);
-                _context.SaveChanges();
+                return _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                //SALVE LOG
                 throw e;
             }
         }
 
-        public void Add(Entidade.Empresa.PerfilEmpresa perfil)
+        public Task AddPerfil(CadastroPerfilModel model)
         {
+            var perfil = new Entidade.Empresa.PerfilEmpresa()
+            {
+                IdEmpresa = model.IdEmpresa,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                Descricao = model.Descricao,
+                Telefone = model.Telefone,
+                Telefone2 = model.Telefone2,
+            };
+
             _context.PerfilEmpresa.Add(perfil);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public Task<List<Entidade.Empresa.Empresa>> SelectEmpresas()
+        public Task<DTODadosEmpresa> SelectEmpresa(int idEmpresa, long idPerfilEmpresa)
         {
             try
             {
-                return _context.Empresa.ToListAsync();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-
-        public Task<Entidade.Empresa.Empresa> SelectEmpresa(int idEmpresa)
-        {
-            try
-            {
-                return _context.Empresa.FirstOrDefaultAsync(e => e.IdEmpresa == idEmpresa);
+                return Task.Factory.StartNew(() => new DTODadosEmpresa()
+                {
+                    Empresa = _context.Empresa.First(a => a.IdEmpresa == idEmpresa),
+                    PerfilEmpresa = _context.PerfilEmpresa.First(a => a.IdPerfilEmpresa == idPerfilEmpresa),
+                    ContaEmpresa = _context.ContaEmpresa.First(a => a.IdEmpresa == idEmpresa),
+                    ImagensCatalogo = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa).ToList()
+                });
             }
             catch (Exception e)
             {
@@ -95,35 +103,11 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             }
         }
 
-        public Task<List<Entidade.Empresa.ImagemCatalogo>> SelectCatalogoEmpresa(int idEmpresa)
+        public Task<decimal> SelectDesconto(int idEmpresa)
         {
             try
             {
-                return _context.ImagemCatalogo.Where(a => a.IdEmpresa == idEmpresa).ToListAsync();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public Task<Entidade.Empresa.PerfilEmpresa> SelectPerfilEmpresa(int idEmpresa)
-        {
-            try
-            {
-                return _context.PerfilEmpresa.FirstOrDefaultAsync(e => e.IdEmpresa == idEmpresa);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfilEmpresas()
-        {
-            try
-            {
-                return _context.PerfilEmpresa.ToListAsync();
+                return _context.ContaEmpresa.Select(a => a.DescontoCompartilhamento).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {

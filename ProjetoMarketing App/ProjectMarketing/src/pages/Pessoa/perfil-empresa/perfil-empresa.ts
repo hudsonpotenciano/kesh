@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, ModalController } from 'ionic-angular';
-import { Empresa, PerfilEmpresa, NotaComentarioPessoaEmpresa } from '../../../models/empresa.model';
+import { NotaComentarioPessoaEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom, Venda } from '../../../models/models.model';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
@@ -8,7 +8,7 @@ import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
 import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
-import { Pessoa, PessoaEmpresa } from '../../../models/pessoa.model';
+import { Pessoa, DadosPessoaEmpresa } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({
@@ -17,10 +17,8 @@ import { Pessoa, PessoaEmpresa } from '../../../models/pessoa.model';
 })
 export class PerfilEmpresaPage {
 
-  empresa: Empresa = new Empresa();
+  dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
   podeCompartilhar = false;
-  perfilEmpresa: PerfilEmpresa = new PerfilEmpresa();
-  pessoaEmpresa: PessoaEmpresa = new PessoaEmpresa();
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
   cupons: Cupom[] = [];
   vendas: Venda[] = [];
@@ -43,23 +41,20 @@ export class PerfilEmpresaPage {
 
   ionViewDidLoad() {
 
-    this.empresa = this.navParams.data;
+    this.dadosPessoaEmpresa = this.storagePessoaProvider.recupereDadosPessoaEmpresa(this.navParams.get("IdEmpresa"));
 
-    this.perfilEmpresa = this.storagePessoaProvider.recuperePerfilEmpresa(this.empresa.IdEmpresa);
-    this.pessoaEmpresa = this.storagePessoaProvider.recuperePessoaEmpresa(this.empresa.IdEmpresa);
-
-    this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.empresa.IdEmpresa)
+    this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosPessoaEmpresa.Empresa.IdEmpresa)
       .then((cuponsEVendas: any) => {
         this.cupons = cuponsEVendas.Cupons;
         this.vendas = cuponsEVendas.Vendas;
       });
 
-    this.transacaoProvider.PessoaPodeCompartilhar(this.empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
+    this.transacaoProvider.PessoaPodeCompartilhar(this.dadosPessoaEmpresa.Empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((podeCompartilhar: boolean) => {
         this.podeCompartilhar = podeCompartilhar;
       });
 
-    this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.empresa.IdEmpresa)
+    this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Empresa.IdEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
         debugger;
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
@@ -68,18 +63,18 @@ export class PerfilEmpresaPage {
 
   atualizeDadosPessoaEmpresa() {
 
-    this.pessoaProvider.atualizeDadosPessoaEmpresa(this.empresa.IdEmpresa,
-      this.pessoaEmpresa.Comentario,
-      this.pessoaEmpresa.Nota)
+    this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Empresa.IdEmpresa,
+      this.dadosPessoaEmpresa.PessoaEmpresa.Comentario,
+      this.dadosPessoaEmpresa.PessoaEmpresa.Nota)
       .then(() => {
 
-        this.storagePessoaProvider.atualizePessoaEmpresa(this.pessoaEmpresa);
+        this.storagePessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa);
       });
   }
 
   compartilhe() {
 
-    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage", { idEmpresa: this.empresa.IdEmpresa });
+    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage", { idEmpresa: this.dadosPessoaEmpresa.Empresa.IdEmpresa });
     profileModal.onDidDismiss(data => {
       console.log(data);
     });
@@ -92,7 +87,7 @@ export class PerfilEmpresaPage {
       let idsPessoas = pessoas.map(p => p.IdPessoa);
 
       this.transacaoProvider
-        .GereCupomCompartilhamento(this.empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa, idsPessoas)
+        .GereCupomCompartilhamento(this.dadosPessoaEmpresa.Empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa, idsPessoas)
         .then(() => {
           this.podeCompartilhar = false;
         });
@@ -101,18 +96,18 @@ export class PerfilEmpresaPage {
 
   maps() {
 
-    this.navCtrl.push("MapsPage", { latitude: this.empresa.Latitude, longitude: this.empresa.Longitude });
+    this.navCtrl.push("MapsPage", { latitude: this.dadosPessoaEmpresa.Perfil.Latitude, longitude: this.dadosPessoaEmpresa.Perfil.Longitude });
   }
 
   rota() {
 
-    let destination = this.empresa.Latitude + ',' + this.empresa.Longitude;
+    let destination = this.dadosPessoaEmpresa.Perfil.Latitude + ',' + this.dadosPessoaEmpresa.Perfil.Longitude;
 
     if (this.platform.is('ios')) {
       window.open('maps://?q=' + destination, '_system');
     }
     else if (this.platform.is('android')) {
-      let label = encodeURI(this.empresa.Nome);
+      let label = encodeURI(this.dadosPessoaEmpresa.Perfil.Descricao);
       window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
     }
   }

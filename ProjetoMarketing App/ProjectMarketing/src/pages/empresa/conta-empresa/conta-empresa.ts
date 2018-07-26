@@ -29,7 +29,7 @@ export class ContaEmpresaPage {
     this.empresaProvider.obtenhaDadosEmpresa()
       .then((retorno: DadosEmpresa) => {
         this.dadosEmpresa = retorno;
-        this.imagensCatalogo = this.dadosEmpresa.PerfilEmpresa.Catalogo;
+        this.imagensCatalogo = this.dadosEmpresa.Catalogo;
         debugger;
       });
 
@@ -66,7 +66,7 @@ export class ContaEmpresaPage {
 
   salveImagensCatalogo() {
 
-    this.dadosEmpresa.PerfilEmpresa.Catalogo = this.imagensCatalogo;
+    this.dadosEmpresa.Catalogo = this.imagensCatalogo;
 
     this.empresaProvider.atualizeCatalogo(this.imagensCatalogo).then(() => {
       this.storageEmpresa.armazeneDadosEmpresa(this.dadosEmpresa);

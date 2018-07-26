@@ -31,7 +31,7 @@ namespace ProjetoMarketing.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("GereCupomCompartilhamento")]
-        public RetornoRequestModel GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
+        public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
@@ -41,10 +41,10 @@ namespace ProjetoMarketing.Controllers
 
             if (compartilhamento.IdCompartilhamento != 0)
             {
-                var perfilDaEmpresa = _contextPessoaEmpresa.PerfilEmpresa.FirstOrDefault(p => p.IdEmpresa == parametros.IdEmpresa);
+                var desconto = await new Areas.Empresa.Persistencia.EmpresaDAO(_contextPessoaEmpresa).SelectDesconto(parametros.IdEmpresa);
 
                 var cupom = new Cupom();
-                new TransacaoDAO(_contextTransacao).GereCupom(parametros, perfilDaEmpresa, out cupom, compartilhamento.IdCompartilhamento);
+                await new TransacaoDAO(_contextTransacao).GereCupom(parametros, desconto, out cupom, compartilhamento.IdCompartilhamento);
 
                 var retorno = new RetornoRequestModel()
                 {
@@ -59,15 +59,15 @@ namespace ProjetoMarketing.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("GereVendaComCupom")]
-        public RetornoRequestModel GereVendaComCupom([FromBody]ParametrosCupomVenda parametros)
+        public async Task<RetornoRequestModel> GereVendaComCupom([FromBody]ParametrosCupomVenda parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var cupom = _contextTransacao.Cupom.FirstOrDefault(p => p.Token.Equals(parametros.TokenCupom));
+            var cupom = await new TransacaoDAO(_contextTransacao).SelectCupom(parametros.TokenCupom);
             var venda = new Venda();
 
-            new TransacaoDAO(_contextTransacao).GereVendaComCupom(parametros, cupom, out venda);
+            await new TransacaoDAO(_contextTransacao).GereVendaComCupom(parametros, cupom, out venda);
 
             if (venda.IdVenda != 0)
             {

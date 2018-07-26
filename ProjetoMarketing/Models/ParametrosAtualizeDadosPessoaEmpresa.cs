@@ -10,6 +10,6 @@ namespace ProjetoMarketing.Models
         public decimal Nota { get; set; }
         public string Comentario { get; set; }
         public int IdPessoa { get; set; }
-        public int IdEmpresa { get; set; }
+        public long IdPerfilEmpresa { get; set; }
     }
 }

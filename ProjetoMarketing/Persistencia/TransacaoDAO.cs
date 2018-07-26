@@ -25,7 +25,7 @@ namespace ProjetoMarketing.Persistencia
             {
                 compartilhamento = new Compartilhamento()
                 {
-                    IdEmpresa = parametros.IdEmpresa,
+                    IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                     IdPessoa = parametros.IdPessoa,
                     IdsPessoas = parametros.IdsPessoas,
                     Data = DateTime.Today
@@ -40,13 +40,13 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public void GereCupom(ParametrosCompartilhamento model, PerfilEmpresa perfilEmpresa, out Cupom cupom, long idCompartilhamento)
+        public Task GereCupom(ParametrosCompartilhamento model, decimal desconto, out Cupom cupom, long idCompartilhamento)
         {
             try
             {
                 cupom = new Cupom()
                 {
-                    Desconto = perfilEmpresa.DescontoCompartilhamento,
+                    Desconto = desconto,
                     IdEmpresa = model.IdEmpresa,
                     IdPessoa = model.IdPessoa,
                     Data = DateTime.Now,
@@ -54,7 +54,7 @@ namespace ProjetoMarketing.Persistencia
                 };
 
                 _context.Cupom.Add(cupom);
-                _context.SaveChanges();
+                return _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -62,7 +62,7 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public void GereVendaComCupom(ParametrosCupomVenda model, Cupom cupom, out Venda venda)
+        public Task GereVendaComCupom(ParametrosCupomVenda model, Cupom cupom, out Venda venda)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace ProjetoMarketing.Persistencia
                 };
 
                 _context.Venda.Add(venda);
-                _context.SaveChanges();
+                return _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -129,6 +129,19 @@ namespace ProjetoMarketing.Persistencia
             try
             {
                 return _context.Venda.Where(v => v.IdPessoa == idPessoa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public Task<Cupom> SelectCupom(Guid token)
+        {
+            try
+            {
+                return _context.Cupom.FirstOrDefaultAsync(a => a.Token.Equals(token));
             }
             catch (Exception e)
             {

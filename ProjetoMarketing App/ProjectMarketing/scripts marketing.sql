@@ -64,11 +64,7 @@ CREATE TABLE public.empresa
     idempresa integer NOT NULL DEFAULT nextval('sq_empresa'),
     nome text NOT NULL,
     cnpj text NOT NULL,
-    email text NOT NULL,
-    telefone text NOT NULL,
-    telefone2 text NOT NULL,
-    latitude double precision NOT NULL,
-    longitude double precision NOT NULL,
+    email text NOT NULL
     CONSTRAINT pk_empresa PRIMARY KEY (id),
     CONSTRAINT uk_empresa UNIQUE (idempresa),
     CONSTRAINT uk_empresa_cnpj UNIQUE (cnpj)
@@ -202,18 +198,23 @@ ALTER TABLE public.venda
 --     REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
 --     ON UPDATE NO ACTION
 --     ON DELETE CASCADE;
+CREATE SEQUENCE public.sq_perfilempresa
+    INCREMENT 1
+    START 1
+    MINVALUE 1;
+
+ALTER SEQUENCE public.sq_perfilempresa
+    OWNER TO postgres;
 
 CREATE TABLE public.perfilempresa
 (
     id uuid NOT NULL,
     idempresa integer NOT NULL,
-    resumo text NOT NULL,
-    descontocompartilhamento numeric NOT NULL,
-    valorpontos numeric NOT NULL,
-    categorias integer[] NOT NULL,
-    COLUMN imagem bytea,
+    idperfilempresa bigint NOT NULL DEFAULT nextval('sq_perfilempresa'::regclass),
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
     PRIMARY KEY (idempresa),
-    CONSTRAINT uk_perfilempresa UNIQUE (idempresa),
+    CONSTRAINT uk_perfilempresa UNIQUE (idperfilempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -230,14 +231,14 @@ ALTER TABLE public.perfilempresa
 (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idpessoa integer NOT NULL,
-    idempresa integer NOT NULL,
+    idperfilempresa bigint NOT NULL,
     pontuacao integer,
     comentario text,
     nota numeric,
     CONSTRAINT pk_pessoaempresa PRIMARY KEY (id),
-    CONSTRAINT uk_pessoaempresa UNIQUE (idpessoa, idempresa),
-    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
-        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+    CONSTRAINT uk_pessoaempresa UNIQUE (idpessoa, idperfilempresa),
+    CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
+        REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
@@ -273,17 +274,17 @@ $BODY$
     idcompartilhamento bigint NOT NULL DEFAULT nextval('sq_compartilhamento'::regclass),
     idpessoa integer NOT NULL,
     idspessoas integer[] NOT NULL,
-    idempresa integer NOT NULL,
+    idperfilempresa integer NOT NULL,
     data date NOT NULL,
     CONSTRAINT pk_compartilhamento PRIMARY KEY (id),
     CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
-    CONSTRAINT uk_compartilhamento_mesmodia UNIQUE (idpessoa, idempresa, idspessoas, data),
+    CONSTRAINT uk_compartilhamento_mesmodia UNIQUE (idpessoa, idperfilempresa, idspessoas, data),
     CONSTRAINT fk_pessoa_compartilhamento FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
-    CONSTRAINT fk_empresa_compartilhamento FOREIGN KEY (idempresa)
-        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+    CONSTRAINT fk_empresa_compartilhamento FOREIGN KEY (idperfilempresa)
+        REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 )
@@ -317,12 +318,43 @@ WITH (
 ALTER TABLE public.imagemperfil
     OWNER to postgres;
 
-    CREATE TABLE public."imagemCatalogo"
+
+CREATE SEQUENCE public.sq_imagemcatalogo
+    INCREMENT 1
+    START 1
+    MINVALUE 1;
+
+ALTER SEQUENCE public.sq_imagemcatalogo
+    OWNER TO postgres;
+
+    CREATE TABLE public.imagemcatalogo
 (
     id uuid NOT NULL,
-    idempresa integer NOT NULL,
-    idimagem bigint NOT NULL DEFAULT nextval('sq_imagem'::regclass),
+    idperfilempresa bigint NOT NULL,
+    idimagem bigint NOT NULL DEFAULT nextval('sq_imagemcatalogo'::regclass),
     PRIMARY KEY (id),
+    CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
+    REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.imagemcatalogo
+    OWNER to postgres;
+
+CREATE TABLE public.contaempresa
+(
+    id uuid NOT NULL,
+    resumo text NOT NULL,
+    descontocompartilhamento numeric NOT NULL,
+    valorpontos numeric NOT NULL,
+    categorias integer[] NOT NULL,
+    idempresa integer NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT uk_contaempresa UNIQUE (idempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -332,5 +364,5 @@ WITH (
     OIDS = FALSE
 );
 
-ALTER TABLE public."imagemCatalogo"
+ALTER TABLE public.contaempresa
     OWNER to postgres;

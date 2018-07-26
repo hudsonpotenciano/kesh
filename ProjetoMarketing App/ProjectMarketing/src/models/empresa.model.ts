@@ -2,14 +2,39 @@ export class Empresa {
     Email: string;
     IdEmpresa: number;
     Nome: string;
-    Telefone: string;
-    Telefone2: string;
     RecompensaCompartilhamento: number;
     RecompensaPontos: number;
     Resumo: string;
     Categorias: number[];
+}
+
+export class Conta {
+    IdEmpresa: number;
+    Categorias: number;
+    DescontoCompartilhamento: number;
+    Resumo: string;
+    ValorPontos: number;
+}
+
+export class Perfil {
+    Descricao:string;
+    IdEmpresa: number;
+    Telefone: string;
+    Telefone2: string;
     Latitude: number;
     Longitude: number;
+}
+
+export class NotaComentarioPessoaEmpresa {
+    Nome: string;
+    IdPessoa: number;
+    Nota: number;
+    Comentario: string;
+}
+
+export class ImagemCatalogo {
+    IdImagem: number;
+    Imagem: any;
 }
 
 export class CadastroEmpresaModel {
@@ -28,28 +53,9 @@ export class CadastroEmpresaModel {
     Categorias: number[];
 }
 
-export class PerfilEmpresa {
-    IdEmpresa: number;
-    RecompensaCompartilhamento: string;
-    RecompensaPontos: string;
-    Resumo: string;
-    Categorias: number[];
-    Catalogo: ImagemCatalogo[];
-}
-
-export class NotaComentarioPessoaEmpresa {
-    Nome: string;
-    IdPessoa: number;
-    Nota: number;
-    Comentario: string;
-}
-
-export class ImagemCatalogo {
-    IdImagem: number;
-    Imagem: any;
-}
-
 export class DadosEmpresa {
     Empresa: Empresa;
-    PerfilEmpresa: PerfilEmpresa;
+    PerfilEmpresa: Perfil;
+    Conta: Conta;
+    Catalogo: ImagemCatalogo[];
 }

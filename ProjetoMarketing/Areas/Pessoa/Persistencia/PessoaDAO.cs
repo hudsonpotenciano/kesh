@@ -76,7 +76,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             try
             {
-                var pessoaEmpresaBd = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdEmpresa == parametros.IdEmpresa);
+                var pessoaEmpresaBd = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
                 if (pessoaEmpresaBd != null)
                 {
                     pessoaEmpresaBd.Comentario = parametros.Comentario;
@@ -88,7 +88,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 {
                     var PessoaEmpresa = new PessoaEmpresa()
                     {
-                        IdEmpresa = parametros.IdEmpresa,
+                        IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                         IdPessoa = parametros.IdPessoa,
                         Nota = parametros.Nota,
                         Comentario = parametros.Comentario
@@ -109,16 +109,19 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             try
             {
                 //OBTEM EMPRESAS NO RAIO DE 50KM
-                return (from a in _context.Empresa.FromSql($@"select * from public.empresa
-                                                              where (select public.geodistance({parametros.Latitude},{parametros.Longitude},latitude,longitude) < 50)")
-                        join b in _context.PessoaEmpresa on a.IdEmpresa equals b.IdEmpresa into ab
+                return (from perfil in _context.PerfilEmpresa.FromSql($@"select * from public.perfilempresa where (select public.geodistance({parametros.Latitude},{parametros.Longitude},latitude,longitude) < 50)")
+                        let empresa = _context.Empresa.First(a => a.IdEmpresa == perfil.IdEmpresa)
+                        let pessoasEmpresa = _context.PessoaEmpresa.Where(a => a.IdPerfilEmpresa == perfil.IdPerfilEmpresa)
+                        let conta = _context.ContaEmpresa.First(a => a.IdEmpresa == empresa.IdEmpresa)
+                        let imagensCatalogo = _context.ImagemCatalogo.Where(a=>a.IdPerfilEmpresa == perfil.IdEmpresa)
                         select new DTO.DTOPessoaEmpresa()
                         {
-                            Empresa = a,
-                            Comentario = ab.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa).Comentario,
-                            Nota = ab.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa).Nota,
-                            Pontuacao = ab.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa).Pontuacao,
-                            NotaGeral = ab.Any() ? (ab.Sum(p => p.Nota) / ab.Count(p => p.Nota != null)) : null
+                            Empresa = empresa,
+                            Catalogo = imagensCatalogo,
+                            ContaEmpresa = conta,
+                            PerfilEmpresa = perfil,
+                            PessoaEmpresa = pessoasEmpresa.First(p => p.IdPessoa == parametros.IdPessoa),
+                            NotaGeral = pessoasEmpresa.Any() ? (pessoasEmpresa.Sum(p => p.Nota) / pessoasEmpresa.Count(p => p.Nota != null)) : null
                         }).ToListAsync();
             }
             catch (Exception e)
@@ -131,7 +134,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             try
             {
-                return (from pe in _context.PessoaEmpresa.Where(p=>p.IdEmpresa == parametros.IdEmpresa)
+                return (from pe in _context.PessoaEmpresa.Where(p=>p.IdPerfilEmpresa == parametros.IdPerfilEmpresa)
                         join p in _context.Pessoa on pe.IdPessoa equals p.IdPessoa
                         select new DTO.DTONotasComentariosPessoasEmpresas()
                         {

@@ -1,4 +1,4 @@
-import { Empresa, PerfilEmpresa } from "./empresa.model";
+import { Empresa, Perfil, ImagemCatalogo, Conta } from "./empresa.model";
 
 
 export class CadastroPessoaModel {
@@ -22,13 +22,18 @@ export class Pessoa {
 
 export class PessoaEmpresa {
     Empresa: Empresa;
+    Catalogo: ImagemCatalogo[];
     Comentario: string;
     Nota: number;
     Pontuacao: number;
     NotaGeral: number;
 }
 
-export class DadosPessoaPerfilEmpresa {
-    PessoaEmpresas: PessoaEmpresa[];
-    PerfilEmpresas: PerfilEmpresa[];
+export class DadosPessoaEmpresa {
+    Empresa:Empresa;
+    Perfil:Perfil;
+    PessoaEmpresa:PessoaEmpresa;
+    Conta:Conta;
+    NotaGeral:number;
+    Catalogo:ImagemCatalogo[];
 }

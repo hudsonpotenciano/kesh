@@ -69,17 +69,18 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
-
-            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros);
-            var perfilEmpresas = await new Empresa.Persistencia.EmpresaDAO(_context).SelectPerfilEmpresas();
+            try
+            {
+                var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros);
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
 
             var retorno = new RetornoRequestModel
             {
-                Result = new
-                {
-                    PessoaEmpresas = Projecoes.PessoaEmpresas(pessoaEmpresas),
-                    PerfilEmpresas = Projecoes.ProjecaoPerfilEmpresas(perfilEmpresas)
-                }
+                //Result = Projecoes.PessoaEmpresas(pessoaEmpresas)
             };
 
             return retorno;
