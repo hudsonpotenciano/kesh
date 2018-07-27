@@ -42,14 +42,14 @@ export class Cupom {
     IdCupom: number;
     Token: string;
     Validade: Date;
-    IdEmpresa: number;
+    IdPerfilEmpresa: number;
     IdPessoa: number;
 }
 
 export class Venda {
     IdCupom: number;
     Valor: number;
-    IdEmpresa: number;
+    IdPerfilEmpresa: number;
     IdPessoa: number;
 }
 

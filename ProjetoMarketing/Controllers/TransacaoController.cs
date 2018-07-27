@@ -93,8 +93,8 @@ namespace ProjetoMarketing.Controllers
             {
                 Result = new
                 {
-                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsEmpresa(parametros.IdEmpresa)),
-                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasEmpresa(parametros.IdEmpresa))
+                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsEmpresa(parametros.IdPerfilEmpresa)),
+                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasEmpresa(parametros.IdPerfilEmpresa))
                 }
             };
 

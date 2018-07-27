@@ -26,6 +26,7 @@ export class CadastroEmpresaPage {
     this.form = formBuilder.group({
       profilePic: [''],
       nome: ['', Validators.required],
+      descricao: ['', Validators.required],
       email: ['', Validators.required],
       cpfcnpj: ['', Validators.required],
       telefone: ['', Validators.required],
@@ -66,6 +67,7 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
+
     this.empresa.Categorias = [1];
 
     this.empresaProvider.cadastreEmpresa(this.empresa)

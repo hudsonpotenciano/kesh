@@ -18,8 +18,8 @@ namespace ProjetoMarketing.Entidade
         public long IdCupom { get; set; }
         [Column("idpessoa")]
         public int IdPessoa { get; set; }
-        [Column("idempresa")]
-        public int IdEmpresa { get; set; }
+        [Column("idperfilempresa")]
+        public long IdPerfilEmpresa { get; set; }
         [Column("desconto")]
         public decimal Desconto { get; set; }
         [Column("data")]

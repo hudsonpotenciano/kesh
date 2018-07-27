@@ -108,20 +108,32 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             try
             {
+                var nfi = new NumberFormatInfo
+                {
+                    NumberDecimalSeparator = "."
+                };
+
                 //OBTEM EMPRESAS NO RAIO DE 50KM
-                return (from perfil in _context.PerfilEmpresa.FromSql($@"select * from public.perfilempresa where (select public.geodistance({parametros.Latitude},{parametros.Longitude},latitude,longitude) < 50)")
-                        let empresa = _context.Empresa.First(a => a.IdEmpresa == perfil.IdEmpresa)
-                        let pessoasEmpresa = _context.PessoaEmpresa.Where(a => a.IdPerfilEmpresa == perfil.IdPerfilEmpresa)
-                        let conta = _context.ContaEmpresa.First(a => a.IdEmpresa == empresa.IdEmpresa)
-                        let imagensCatalogo = _context.ImagemCatalogo.Where(a=>a.IdPerfilEmpresa == perfil.IdEmpresa)
+                RawSqlString sqlPerfis = $@"select * from public.perfilempresa where 
+                                                                        (select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
+                                                                        cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) < 50)";
+
+                return (from perfil in _context.PerfilEmpresa.FromSql(sqlPerfis)
+                        let idPerfilEmpresa = perfil.IdPerfilEmpresa                        
+                        let pessoasEmpresa = _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
+                        let imagensCatalogo = _context.ImagemCatalogo.Where(d => d.IdPerfilEmpresa == idPerfilEmpresa)
+                        let empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == perfil.IdEmpresa)
+                        let conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == empresa.IdEmpresa)
+                        let pessoaEmpresa = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa)
+                        let notaGeral = _context.PessoaEmpresa.Sum(p => p.Nota) / _context.PessoaEmpresa.Count(p => p.Nota != null)
                         select new DTO.DTOPessoaEmpresa()
                         {
                             Empresa = empresa,
                             Catalogo = imagensCatalogo,
                             ContaEmpresa = conta,
                             PerfilEmpresa = perfil,
-                            PessoaEmpresa = pessoasEmpresa.First(p => p.IdPessoa == parametros.IdPessoa),
-                            NotaGeral = pessoasEmpresa.Any() ? (pessoasEmpresa.Sum(p => p.Nota) / pessoasEmpresa.Count(p => p.Nota != null)) : null
+                            PessoaEmpresa = pessoaEmpresa,
+                            NotaGeral = notaGeral
                         }).ToListAsync();
             }
             catch (Exception e)
@@ -134,7 +146,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             try
             {
-                return (from pe in _context.PessoaEmpresa.Where(p=>p.IdPerfilEmpresa == parametros.IdPerfilEmpresa)
+                return (from pe in _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == parametros.IdPerfilEmpresa)
                         join p in _context.Pessoa on pe.IdPessoa equals p.IdPessoa
                         select new DTO.DTONotasComentariosPessoasEmpresas()
                         {
@@ -161,7 +173,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
                 RawSqlString sql = $@"select * from pessoa where (select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision), cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) < 50)
                                                               and not exists (select idcupom from cupom where idpessoa = public.pessoa.idpessoa
-                                                              and idempresa = {parametros.IdEmpresa}
+                                                              and idperfilempresa = {parametros.IdPerfilEmpresa}
                                                               and cupom.data >= '{DateTime.Today.AddDays(-10).ToString("yyyy-MM-dd")}')";
 
                 return (from a in _context.Pessoa.FromSql(sql)

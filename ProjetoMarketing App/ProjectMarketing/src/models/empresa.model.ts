@@ -18,6 +18,7 @@ export class Conta {
 
 export class Perfil {
     Descricao:string;
+    IdPerfilEmpresa:number;
     IdEmpresa: number;
     Telefone: string;
     Telefone2: string;
@@ -41,6 +42,7 @@ export class CadastroEmpresaModel {
     Cnpj: string;
     Nome: string;
     Email: string;
+    Descricao: string;
     Telefone: string;
     Telefone2: string;
     Senha: string;

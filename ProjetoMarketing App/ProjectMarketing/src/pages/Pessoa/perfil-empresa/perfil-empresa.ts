@@ -37,24 +37,23 @@ export class PerfilEmpresaPage {
 
     this.empresaProvider;
     this.socialSharing;
+    this.dadosPessoaEmpresa = this.navParams.data;
   }
 
   ionViewDidLoad() {
 
-    this.dadosPessoaEmpresa = this.storagePessoaProvider.recupereDadosPessoaEmpresa(this.navParams.get("IdEmpresa"));
-
-    this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosPessoaEmpresa.Empresa.IdEmpresa)
+    this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((cuponsEVendas: any) => {
         this.cupons = cuponsEVendas.Cupons;
         this.vendas = cuponsEVendas.Vendas;
       });
 
-    this.transacaoProvider.PessoaPodeCompartilhar(this.dadosPessoaEmpresa.Empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
+    this.transacaoProvider.PessoaPodeCompartilhar(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((podeCompartilhar: boolean) => {
         this.podeCompartilhar = podeCompartilhar;
       });
 
-    this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Empresa.IdEmpresa)
+    this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
         debugger;
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
@@ -63,7 +62,7 @@ export class PerfilEmpresaPage {
 
   atualizeDadosPessoaEmpresa() {
 
-    this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Empresa.IdEmpresa,
+    this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
       this.dadosPessoaEmpresa.PessoaEmpresa.Comentario,
       this.dadosPessoaEmpresa.PessoaEmpresa.Nota)
       .then(() => {
@@ -74,7 +73,7 @@ export class PerfilEmpresaPage {
 
   compartilhe() {
 
-    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage", { idEmpresa: this.dadosPessoaEmpresa.Empresa.IdEmpresa });
+    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage", { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
     profileModal.onDidDismiss(data => {
       console.log(data);
     });
@@ -87,7 +86,10 @@ export class PerfilEmpresaPage {
       let idsPessoas = pessoas.map(p => p.IdPessoa);
 
       this.transacaoProvider
-        .GereCupomCompartilhamento(this.dadosPessoaEmpresa.Empresa.IdEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa, idsPessoas)
+        .GereCupomCompartilhamento(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
+          this.dadosPessoaEmpresa.Empresa.IdEmpresa,
+          this.pessoaProvider.dadosAcesso.IdPessoa,
+          idsPessoas)
         .then(() => {
           this.podeCompartilhar = false;
         });

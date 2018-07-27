@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            {{dadosPessoaEmpresa.PerfilEmpresa.Descricao}}
+            {{dadosPessoaEmpresa.Perfil.Descricao}}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -10,7 +10,7 @@
     <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
 
     <p>{{dadosPessoaEmpresa.Empresa.Email}}</p>
-    <p>Resumo: {{dadosPessoaEmpresa.ContaEmpresa.Resumo}}</p>
+    <p>Resumo: {{dadosPessoaEmpresa.Conta.Resumo}}</p>
 
     <button ion-button *ngIf="podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
     <button ion-button disabled *ngIf="!podeCompartilhar" (click)="compartilhe()">Compartilhar</button>

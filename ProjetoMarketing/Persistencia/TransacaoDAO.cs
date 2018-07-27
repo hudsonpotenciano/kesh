@@ -47,7 +47,7 @@ namespace ProjetoMarketing.Persistencia
                 cupom = new Cupom()
                 {
                     Desconto = desconto,
-                    IdEmpresa = model.IdEmpresa,
+                    IdPerfilEmpresa = model.IdPerfilEmpresa,
                     IdPessoa = model.IdPessoa,
                     Data = DateTime.Now,
                     IdCompartilhamento = idCompartilhamento
@@ -70,7 +70,7 @@ namespace ProjetoMarketing.Persistencia
                 {
                     IdCupom = cupom.IdCupom,
                     IdPessoa = cupom.IdPessoa,
-                    IdEmpresa = cupom.IdEmpresa,
+                    IdPerfilEmpresa = cupom.IdPerfilEmpresa,
                     Valor = model.ValorDaVenda
                     //Fazer calculo do valor
                 };
@@ -85,11 +85,11 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public Task<List<Cupom>> ObtenhaCuponsEmpresa(int idEmpresa)
+        public Task<List<Cupom>> ObtenhaCuponsEmpresa(long idPerfilEmpresa)
         {
             try
             {
-                return _context.Cupom.Where(c => c.IdEmpresa == idEmpresa).ToListAsync();
+                return _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa).ToListAsync();
             }
             catch (Exception e)
             {
@@ -98,11 +98,11 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public Task<List<Venda>> ObtenhaVendasEmpresa(int idEmpresa)
+        public Task<List<Venda>> ObtenhaVendasEmpresa(long idPerfilEmpresa)
         {
             try
             {
-                return _context.Venda.Where(v => v.IdEmpresa == idEmpresa).ToListAsync();
+                return _context.Venda.Where(v => v.IdPerfilEmpresa == idPerfilEmpresa).ToListAsync();
             }
             catch (Exception e)
             {
@@ -170,7 +170,7 @@ namespace ProjetoMarketing.Persistencia
             try
             {
                 return _context.Compartilhamento.FromSql($@"select idcompartilhamento from compartilhamento where compartilhamento.idpessoa = {parametros.IdPessoa}
-                                                          and compartilhamento.idempresa = {parametros.IdEmpresa}
+                                                          and compartilhamento.idperfilempresa = {parametros.IdPerfilEmpresa}
                                                           and compartilhamento.data >= {DateTime.Today}").AnyAsync();
             }
             catch (Exception e)

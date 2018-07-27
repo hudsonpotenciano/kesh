@@ -19,7 +19,7 @@ export class SelecaoPessoaCompartilhamentoPage {
   }
 
   ionViewDidLoad() {
-    this.pessoaProvider.obtenhaPessoasCompartilhamento(this.navParams.get('idEmpresa'))
+    this.pessoaProvider.obtenhaPessoasCompartilhamento(this.navParams.get('idPerfilEmpresa'))
       .then((pessoas: Pessoa[]) => {
         console.log(pessoas);
         this.pessoas = pessoas;

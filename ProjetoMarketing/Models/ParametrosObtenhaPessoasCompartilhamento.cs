@@ -8,7 +8,7 @@ namespace ProjetoMarketing.Models
     public class ParametrosObtenhaPessoasCompartilhamento : ParametrosRequestModel
     {
         public int IdPessoa { get; set; }
-        public int IdEmpresa { get; set; }
+        public long IdPerfilEmpresa { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     }

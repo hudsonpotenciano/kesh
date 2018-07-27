@@ -29,7 +29,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
         [AllowAnonymous]
         [HttpPost("CadastreEmpresa")]
-        public RetornoRequestModel CadastreEmpresa([FromBody]CadastroEmpresaModel model,
+        public async Task<RetornoRequestModel> CadastreEmpresa([FromBody]CadastroEmpresaModel model,
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
@@ -41,7 +41,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             var retorno = new RetornoRequestModel();
 
             var empresa = new Entidade.Empresa.Empresa();
-            new EmpresaDAO(_context).AddEmpresa(model, out empresa);
+            await new EmpresaDAO(_context).AddEmpresa(model, out empresa);
 
             var usuario = new Entidade.Usuario()
             {
@@ -74,25 +74,13 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpPost("SalveContaEmpresa")]
-        public async Task<RetornoRequestModel> SalveContaEmpresa([FromBody]CadastroContaModel parametros)
-        {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
-            await new EmpresaDAO(_context).AddConta(parametros);
-
-            return RetornoRequestModel.CrieSucesso();
-        }
-
-        [Authorize("Bearer")]
         [HttpPost("ObtenhaDadosEmpresa")]
         public async Task<RetornoRequestModel> ObtenhaDadosEmpresa([FromBody]ParametrosObtenhaEmpresas parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresa(parametros.IdEmpresa, parametros.IdPerfilEmpresa);
+            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresa(parametros.IdEmpresa);
 
             return new RetornoRequestModel()
             {

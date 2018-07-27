@@ -16,7 +16,7 @@ namespace ProjetoMarketing
             return new
             {
                 Empresa = ProjecaoEmpresa(dadosEmpresa.Empresa),
-                PerfilEmpresa = ProjecaoPerfilEmpresa(dadosEmpresa.PerfilEmpresa),
+                PerfilEmpresa = dadosEmpresa.PerfilEmpresa != null ? ProjecaoPerfilEmpresa(dadosEmpresa.PerfilEmpresa) : new PerfilEmpresa(),
                 Conta = ProjecaoContaEmpresa(dadosEmpresa.ContaEmpresa),
                 Catalogo = from imagem in dadosEmpresa.ImagensCatalogo
                            select new
@@ -75,8 +75,8 @@ namespace ProjetoMarketing
                    {
                        Empresa = ProjecaoEmpresa(item.Empresa),
                        Perfil = ProjecaoPerfilEmpresa(item.PerfilEmpresa),
-                       PessoaEmpresa = ProjecaoPessoaEmpresa(item.PessoaEmpresa),
                        Conta = ProjecaoContaEmpresa(item.ContaEmpresa),
+                       PessoaEmpresa = item.PessoaEmpresa != null ? ProjecaoPessoaEmpresa(item.PessoaEmpresa) : new PessoaEmpresa(),
                        item.NotaGeral,
                        Catalogo = from imagem in item.Catalogo
                                   select new
@@ -118,7 +118,7 @@ namespace ProjetoMarketing
                 cupom.IdCupom,
                 cupom.Token,
                 cupom.Data,
-                cupom.IdEmpresa,
+                cupom.IdPerfilEmpresa,
                 cupom.IdPessoa
             };
         }
@@ -131,7 +131,7 @@ namespace ProjetoMarketing
                        cupom.IdCupom,
                        cupom.Token,
                        cupom.Data,
-                       cupom.IdEmpresa,
+                       cupom.IdPerfilEmpresa,
                        cupom.IdPessoa,
                        cupom.Desconto
                    };
@@ -142,7 +142,7 @@ namespace ProjetoMarketing
             return from venda in vendas
                    select new
                    {
-                       venda.IdEmpresa,
+                       venda.IdPerfilEmpresa,
                        venda.IdPessoa,
                        venda.IdVenda,
                        venda.Valor,
@@ -157,7 +157,7 @@ namespace ProjetoMarketing
                 venda.IdCupom,
                 venda.IdVenda,
                 venda.IdPessoa,
-                venda.IdEmpresa,
+                venda.IdPerfilEmpresa,
                 venda.Valor
             };
         }

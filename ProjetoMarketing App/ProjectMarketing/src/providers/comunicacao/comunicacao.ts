@@ -50,7 +50,7 @@ export class ComunicacaoProvider {
         })
         .catch((e: any) => {
 
-          if (e.status = 401) {
+          if (e.status == 401) {
             
             alert(this.tentativasDePost);
 

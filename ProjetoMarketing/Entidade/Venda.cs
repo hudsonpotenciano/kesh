@@ -13,8 +13,8 @@ namespace ProjetoMarketing.Entidade
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("idvenda")]
         public int IdVenda { get; set; }
-        [Column("idempresa")]
-        public int IdEmpresa { get; set; }
+        [Column("idperfilempresa")]
+        public long IdPerfilEmpresa { get; set; }
         [Column("idpessoa")]
         public int IdPessoa { get; set; }
         [Column("idcupom")]

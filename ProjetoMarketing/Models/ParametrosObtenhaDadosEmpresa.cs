@@ -7,6 +7,6 @@ namespace ProjetoMarketing.Models
 {
     public class ParametrosObtenhaDadosEmpresa : ParametrosRequestModel
     {
-        public int IdEmpresa { get; set; }
+        public long IdPerfilEmpresa { get; set; }
     }
 }

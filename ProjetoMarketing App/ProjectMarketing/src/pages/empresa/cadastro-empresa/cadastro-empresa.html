@@ -20,6 +20,11 @@
             </ion-item>
 
             <ion-item>
+                <ion-label fixed>Descricao</ion-label>
+                <ion-input type="text" [(ngModel)]="empresa.Descricao" formControlName="descricao"></ion-input>
+            </ion-item>
+
+            <ion-item>
                 <ion-label fixed>Email</ion-label>
                 <ion-input type="email" [(ngModel)]="empresa.Email" formControlName="email"></ion-input>
             </ion-item>
@@ -66,6 +71,7 @@
                 <ion-label fixed>Latitude</ion-label>
                 <ion-input type="number" [(ngModel)]="empresa.Latitude" formControlName="nome"></ion-input>
             </ion-item>
+
             <ion-item>
                 <ion-label fixed>Longitude</ion-label>
                 <ion-input type="number" [(ngModel)]="empresa.Longitude" formControlName="nome"></ion-input>

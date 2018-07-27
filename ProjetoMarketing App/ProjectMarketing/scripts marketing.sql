@@ -118,7 +118,7 @@ CREATE TABLE public.cupom
 (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idpessoa integer NOT NULL,
-    idempresa integer NOT NULL,
+    idperfilempresa integer NOT NULL,
     data date NOT NULL,
     token uuid NOT NULL DEFAULT uuid_generate_v4(),
     idCupom bigint NOT NULL DEFAULT nextval('sq_cupom'),
@@ -126,9 +126,9 @@ CREATE TABLE public.cupom
     idcompartilhamento bigint NOT NULL,
     CONSTRAINT pk_cupom PRIMARY KEY (id),
     CONSTRAINT uk_cupom UNIQUE (idCupom),
-    CONSTRAINT uk_cupom_token UNIQUE (idpessoa, idempresa, token),    
-    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
-        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+    CONSTRAINT uk_cupom_token UNIQUE (idpessoa, idperfilempresa, token),    
+    CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
+        REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
@@ -154,11 +154,11 @@ CREATE TABLE public.venda
     idvenda bigint NOT NULL DEFAULT nextval('sq_venda'),
     idcupom bigint,
     idpessoa integer NOT NULL,
-    idempresa integer NOT NULL,
+    idperfilempresa integer NOT NULL,
     valor money NOT NULL,
     CONSTRAINT pk_venda PRIMARY KEY (id),
     CONSTRAINT uk_venda UNIQUE (idvenda),
-    CONSTRAINT uk_venda_cupom UNIQUE (idcupom, idpessoa, idempresa),    
+    CONSTRAINT uk_venda_cupom UNIQUE (idcupom, idpessoa, idperfilempresa),    
     CONSTRAINT fk_cupom FOREIGN KEY (idcupom)
         REFERENCES public.cupom (idcupom) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -167,8 +167,8 @@ CREATE TABLE public.venda
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
-    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
-        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+    CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
+        REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 )
@@ -213,6 +213,9 @@ CREATE TABLE public.perfilempresa
     idperfilempresa bigint NOT NULL DEFAULT nextval('sq_perfilempresa'::regclass),
     latitude double precision NOT NULL,
     longitude double precision NOT NULL,
+    descricao text NOT NULL,
+    telefone text NOT NULL,
+    telefone2 text,
     PRIMARY KEY (idempresa),
     CONSTRAINT uk_perfilempresa UNIQUE (idperfilempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)

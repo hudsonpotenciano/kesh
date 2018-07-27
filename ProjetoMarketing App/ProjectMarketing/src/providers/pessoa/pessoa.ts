@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { CadastroPessoaModel, PessoaEmpresa, DadosPessoaPerfilEmpresa, Pessoa } from '../../models/pessoa.model';
+import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa } from '../../models/pessoa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
@@ -23,50 +23,49 @@ export class PessoaProvider {
     let latitude = -16.60150553;
     let longitude = -49.30649101;
 
-    return new Promise<PessoaEmpresa[]>(resolve => {
+    return new Promise<DadosPessoaEmpresa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
         { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
         .then((retorno: RetornoRequestModel) => {
 
-          let dados = retorno.Result as DadosPessoaPerfilEmpresa;
+          let dados = retorno.Result as DadosPessoaEmpresa[];
 
-          resolve(dados.PessoaEmpresas);
+          resolve(dados);
 
-          this.storagePessoa.armazenePessoaEmpresas(dados.PessoaEmpresas);
-          this.storagePessoa.armazenePerfilEmpresas(dados.PerfilEmpresas);
+          this.storagePessoa.armazeneDadosPessoaEmpresa(dados);
         });
     });
   }
 
-  obtenhaPessoasCompartilhamento(idEmpresa: number) {
+  obtenhaPessoasCompartilhamento(idPerfilEmpresa: number) {
 
     let latitude = -16.60150553;
     let longitude = -49.30649101;
 
     return new Promise<Pessoa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaParaCompartilhamento",
-        { IdPessoa: this.dadosAcesso.IdPessoa, IdEmpresa: idEmpresa, Latitude: latitude, Longitude: longitude })
+        { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, Latitude: latitude, Longitude: longitude })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
     });
   }
 
-  ObtenhaComentarioENotaPessoasEmpresas(idEmpresa: number) {
+  ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: number) {
 
     return new Promise<NotaComentarioPessoaEmpresa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaComentarioENotaPessoasEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, IdEmpresa: idEmpresa })
+        { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
     });
   }
 
-  atualizeDadosPessoaEmpresa(idEmpresa: number, comentario: string, nota: number) {
+  atualizeDadosPessoaEmpresa(idPerfilEmpresa: number, comentario: string, nota: number) {
 
     return this.comunicacao.post("Pessoa/Pessoa/AtualizeDadosPessoaEmpresa",
-      { IdPessoa: this.dadosAcesso.IdPessoa, IdEmpresa: idEmpresa, comentario: comentario, Nota: nota });
+      { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, comentario: comentario, Nota: nota });
   }
 
   realizeLogin(usuario: User) {

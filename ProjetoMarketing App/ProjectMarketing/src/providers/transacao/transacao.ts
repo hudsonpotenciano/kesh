@@ -9,9 +9,9 @@ export class TransacaoProvider {
 
   }
 
-  GereCupomCompartilhamento(idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
+  GereCupomCompartilhamento(idPerfilEmpresa: number, idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
     return new Promise<Cupom>(resolve => {
-      this.comunicacao.post("Transacao/GereCupomCompartilhamento", { IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })
+      this.comunicacao.post("Transacao/GereCupomCompartilhamento", { IdPerfilEmpresa: idPerfilEmpresa, IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
@@ -27,20 +27,20 @@ export class TransacaoProvider {
     });
   }
 
-  ObtenhaCuponsEVendasEmpresa(idEmpresa: number) {
+  ObtenhaCuponsEVendasEmpresa(idPerfilEmpresa: number) {
     return new Promise<any>(resolve => {
-      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresa", { IdEmpresa: idEmpresa })
+      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresa", { IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
     });
   }
 
-  PessoaPodeCompartilhar(idEmpresa: number, idPessoa: number) {
+  PessoaPodeCompartilhar(idPerfilEmpresa: number, idPessoa: number) {
 
     return new Promise<boolean>(resolve => {
       this.comunicacao.post("Transacao/PessoaPodeCompartilhar",
-        { IdPessoa: idPessoa, IdEmpresa: idEmpresa })
+        { IdPessoa: idPessoa, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
@@ -56,9 +56,9 @@ export class TransacaoProvider {
     });
   }
 
-  ObtenhaCupomPeloToken(token: string, idEmpresa: number) {
+  ObtenhaCupomPeloToken(token: string, idPerfilEmpresa: number) {
     return new Promise<Cupom>((resolve, reject) => {
-      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdEmpresa: idEmpresa })
+      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         }).catch(() => { reject(); });
