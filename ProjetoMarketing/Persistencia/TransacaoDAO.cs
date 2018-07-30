@@ -2,6 +2,7 @@
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
+using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace ProjetoMarketing.Persistencia
 {
     public class TransacaoDAO
     {
-        private readonly TransacaoContext _context;
+        private readonly PessoaEmpresaContext _context;
 
-        public TransacaoDAO(TransacaoContext context)
+        public TransacaoDAO(PessoaEmpresaContext context)
         {
             _context = context;
         }
@@ -98,7 +99,7 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public Task<List<Cupom>> ObtenhaCuponsPessoaEmpresa(long idPerfilEmpresa,int idPessoa)
+        public Task<List<Cupom>> ObtenhaCuponsPessoaEmpresa(long idPerfilEmpresa, int idPessoa)
         {
             try
             {
@@ -111,11 +112,22 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public Task<List<Venda>> ObtenhaVendasEmpresa(long idPerfilEmpresa)
+        public Task<List<DTO.DTOVendaPessoa>> ObtenhaVendasEmpresaPessoas(long idPerfilEmpresa)
         {
             try
             {
-                return _context.Venda.Where(v => v.IdPerfilEmpresa == idPerfilEmpresa).ToListAsync();
+                return (from venda in _context.Venda
+                        where venda.IdPerfilEmpresa == idPerfilEmpresa
+                        let pessoaNome = _context.Pessoa.Where(p=>p.IdPessoa == venda.IdPessoa).Select(a=>a.Nome).FirstOrDefault()
+                        select new DTO.DTOVendaPessoa()
+                        {
+                            IdVenda = venda.IdVenda,
+                            IdCupom = venda.IdCupom,
+                            IdPerfilEmpresa = venda.IdPerfilEmpresa,
+                            IdPessoa = venda.IdPessoa,
+                            Valor = venda.Valor,
+                            Nome = pessoaNome
+                        }).ToListAsync();
             }
             catch (Exception e)
             {
@@ -124,7 +136,7 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public Task<List<Venda>> ObtenhaVendasPessoaEmpresa(long idPerfilEmpresa,int idPessoa)
+        public Task<List<Venda>> ObtenhaVendasPessoaEmpresa(long idPerfilEmpresa, int idPessoa)
         {
             try
             {
@@ -181,7 +193,7 @@ namespace ProjetoMarketing.Persistencia
             try
             {
                 return _context.Cupom.FromSql($@"select * from public.cupom
-                                                 where cupom.token = {parametros.CupomToken} and cupom.idempresa = {parametros.IdEmpresa}
+                                                 where cupom.token = {parametros.CupomToken}
                                                  and not exists (select idvenda from venda where venda.idcupom = cupom.idcupom)").FirstOrDefaultAsync();
             }
             catch (Exception e)

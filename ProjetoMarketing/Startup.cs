@@ -34,9 +34,6 @@ namespace ProjetoMarketing
             services.AddEntityFrameworkNpgsql().AddDbContext<UsuarioContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
-            services.AddEntityFrameworkNpgsql().AddDbContext<TransacaoContext>(opt =>
-            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
-
             //Token
             var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);

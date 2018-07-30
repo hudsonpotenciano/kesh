@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { Cupom, Venda } from '../../../models/models.model';
+import { Cupom, VendaPessoa } from '../../../models/models.model';
 import { DadosEmpresaLoja } from '../../../models/empresa.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
+import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 
 @IonicPage()
 @Component({
@@ -13,14 +14,15 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
 export class HomeEmpresaLojaPage {
 
   dadosEmpresa: DadosEmpresaLoja;
-  cupons: Cupom[];
-  vendas: Venda[];
+  vendas: VendaPessoa[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public empresaLojaProvider: EmpresaLojaProvider,
     public modalCtrl: ModalController,
-    private transacaoProvider: TransacaoProvider) {
+    private transacaoProvider: TransacaoProvider,
+    private pessoaProvider: PessoaProvider) {
+    this.pessoaProvider;
   }
 
   ionViewDidLoad() {
@@ -38,7 +40,6 @@ export class HomeEmpresaLojaPage {
   obtenhaCuponsEVendas() {
     this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa)
       .then((cuponsEVendas: any) => {
-        this.cupons = cuponsEVendas.Cupons;
         this.vendas = cuponsEVendas.Vendas;
       });
   }

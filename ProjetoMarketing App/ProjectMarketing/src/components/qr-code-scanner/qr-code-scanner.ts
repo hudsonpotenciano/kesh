@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { QRScannerStatus, QRScanner } from '@ionic-native/qr-scanner';
 import { TransacaoProvider } from '../../providers/transacao/transacao';
 import { Cupom } from '../../models/models.model';
-import { EmpresaProvider } from '../../providers/empresa/empresa';
 
 
 @IonicPage()
@@ -17,8 +16,7 @@ export class QrCodeScannerPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     private qrScanner: QRScanner,
-    private transacaoProvider: TransacaoProvider,
-    private empresaProvider: EmpresaProvider) {
+    private transacaoProvider: TransacaoProvider) {
   }
 
   ionViewDidLeave() {
@@ -53,7 +51,7 @@ export class QrCodeScannerPage {
 
   valideCupom(text: string) {
     //exiba carregando
-    this.transacaoProvider.ObtenhaCupomPeloToken(text,this.empresaProvider.dadosAcesso.IdEmpresa)
+    this.transacaoProvider.ObtenhaCupomPeloToken(text)
       .then((cupom: Cupom) => {
         debugger;
         this.viewCtrl.dismiss(cupom);

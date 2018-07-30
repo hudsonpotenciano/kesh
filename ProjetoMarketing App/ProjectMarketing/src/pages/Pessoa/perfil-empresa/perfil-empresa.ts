@@ -41,13 +41,7 @@ export class PerfilEmpresaPage {
   }
 
   ionViewDidLoad() {
-
-    this.transacaoProvider.ObtenhaCuponsEVendasPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,this.pessoaProvider.dadosAcesso.IdPessoa)
-      .then((cuponsEVendas: any) => {
-        this.cupons = cuponsEVendas.Cupons;
-        this.vendas = cuponsEVendas.Vendas;
-      });
-
+    
     this.transacaoProvider.PessoaPodeCompartilhar(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((podeCompartilhar: boolean) => {
         this.podeCompartilhar = podeCompartilhar;

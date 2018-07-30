@@ -15,18 +15,15 @@ namespace ProjetoMarketing.Controllers
     public class TransacaoController : ControladorBase
     {
         private readonly UsuarioContext _contextUsuario;
-        private readonly TransacaoContext _contextTransacao;
-        private readonly PessoaEmpresaContext _contextPessoaEmpresa;
+        private readonly PessoaEmpresaContext _context;
 
 
         public TransacaoController(
             UsuarioContext usuarioContext,
-            TransacaoContext transacaoContext,
             PessoaEmpresaContext pessoaContext)
         {
             _contextUsuario = usuarioContext;
-            _contextTransacao = transacaoContext;
-            _contextPessoaEmpresa = pessoaContext;
+            _context = pessoaContext;
         }
 
         [Authorize("Bearer")]
@@ -37,14 +34,14 @@ namespace ProjetoMarketing.Controllers
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var compartilhamento = new Compartilhamento();
-            new TransacaoDAO(_contextTransacao).GereCompartilhamento(parametros, out compartilhamento);
+            new TransacaoDAO(_context).GereCompartilhamento(parametros, out compartilhamento);
 
             if (compartilhamento.IdCompartilhamento != 0)
             {
-                var desconto = await new Areas.Empresa.Persistencia.EmpresaDAO(_contextPessoaEmpresa).SelectDesconto(parametros.IdEmpresa);
+                var desconto = await new Areas.Empresa.Persistencia.EmpresaDAO(_context).SelectDesconto(parametros.IdEmpresa);
 
                 var cupom = new Cupom();
-                await new TransacaoDAO(_contextTransacao).GereCupom(parametros, desconto, out cupom, compartilhamento.IdCompartilhamento);
+                await new TransacaoDAO(_context).GereCupom(parametros, desconto, out cupom, compartilhamento.IdCompartilhamento);
 
                 var retorno = new RetornoRequestModel()
                 {
@@ -64,10 +61,10 @@ namespace ProjetoMarketing.Controllers
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var cupom = await new TransacaoDAO(_contextTransacao).SelectCupom(parametros.TokenCupom);
+            var cupom = await new TransacaoDAO(_context).SelectCupom(parametros.TokenCupom);
             var venda = new Venda();
 
-            await new TransacaoDAO(_contextTransacao).GereVendaComCupom(parametros, cupom, out venda);
+            await new TransacaoDAO(_context).GereVendaComCupom(parametros, cupom, out venda);
 
             if (venda.IdVenda != 0)
             {
@@ -93,8 +90,8 @@ namespace ProjetoMarketing.Controllers
             {
                 Result = new
                 {
-                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsEmpresa(parametros.IdPerfilEmpresa)),
-                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasEmpresa(parametros.IdPerfilEmpresa))
+                    //Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEmpresa(parametros.IdPerfilEmpresa)),
+                    Vendas = await new TransacaoDAO(_context).ObtenhaVendasEmpresaPessoas(parametros.IdPerfilEmpresa)
                 }
             };
 
@@ -112,8 +109,8 @@ namespace ProjetoMarketing.Controllers
             {
                 Result = new
                 {
-                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsPessoaEmpresa(parametros.IdPerfilEmpresa,parametros.IdPessoa)),
-                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasPessoaEmpresa(parametros.IdPerfilEmpresa,parametros.IdPessoa))
+                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsPessoaEmpresa(parametros.IdPerfilEmpresa, parametros.IdPessoa)),
+                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_context).ObtenhaVendasPessoaEmpresa(parametros.IdPerfilEmpresa, parametros.IdPessoa))
                 }
             };
 
@@ -131,8 +128,8 @@ namespace ProjetoMarketing.Controllers
             {
                 Result = new
                 {
-                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsPessoa(parametros.IdPessoa)),
-                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasPessoa(parametros.IdPessoa))
+                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsPessoa(parametros.IdPessoa)),
+                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_context).ObtenhaVendasPessoa(parametros.IdPessoa))
                 }
             };
 
@@ -145,7 +142,7 @@ namespace ProjetoMarketing.Controllers
         {
             return new RetornoRequestModel
             {
-                Result = !await new TransacaoDAO(_contextTransacao).PessoaPodeCompartilhar(parametros)
+                Result = !await new TransacaoDAO(_context).PessoaPodeCompartilhar(parametros)
             };
         }
 
@@ -157,7 +154,7 @@ namespace ProjetoMarketing.Controllers
 
             try
             {
-                var cupom = await new TransacaoDAO(_contextTransacao).ObtenhaCupomPeloToken(parametros);
+                var cupom = await new TransacaoDAO(_context).ObtenhaCupomPeloToken(parametros);
 
                 if (cupom != null)
                 {

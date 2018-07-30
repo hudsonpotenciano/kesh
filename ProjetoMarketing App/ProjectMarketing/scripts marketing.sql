@@ -166,11 +166,11 @@ CREATE TABLE public.venda
     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE,
+        ON DELETE NO ACTION,
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
         REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE NO ACTION
 )
 WITH (
     OIDS = FALSE

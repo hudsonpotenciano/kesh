@@ -29,21 +29,6 @@
     <button ion-button (click)="atualizeDadosPessoaEmpresa()">Atualzar dados</button>
 
     <ion-list>
-        Cupons
-        <ion-item *ngFor="let cupom of cupons" (click)="abraCupom(cupom)">
-            <h2>{{cupom.Token}}</h2>
-        </ion-item>
-    </ion-list>
-
-    <ion-list>
-        Vendas
-        <ion-item *ngFor="let venda of vendas">
-            <h2>{{venda.Valor}}</h2>
-        </ion-item>
-    </ion-list>
-
-
-    <ion-list>
         notas comentarios
         <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
             <ion-avatar item-start>

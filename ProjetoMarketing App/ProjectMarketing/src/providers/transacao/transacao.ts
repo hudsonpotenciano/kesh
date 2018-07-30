@@ -65,9 +65,9 @@ export class TransacaoProvider {
     });
   }
 
-  ObtenhaCupomPeloToken(token: string, idPerfilEmpresa: number) {
+  ObtenhaCupomPeloToken(token: string) {
     return new Promise<Cupom>((resolve, reject) => {
-      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdPerfilEmpresa: idPerfilEmpresa })
+      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         }).catch(() => { reject(); });

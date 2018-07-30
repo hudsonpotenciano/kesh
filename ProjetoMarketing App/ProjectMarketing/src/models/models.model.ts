@@ -53,6 +53,15 @@ export class Venda {
     IdPessoa: number;
 }
 
+export class VendaPessoa {
+    Nome: string;
+    IdPessoa: number;
+    IdVenda: number;
+    Valor: number;
+    IdCupom: number;
+    IdPerfilEmpresa: number;
+}
+
 export class GoogleMaps {
     static Style: any = [
         {
