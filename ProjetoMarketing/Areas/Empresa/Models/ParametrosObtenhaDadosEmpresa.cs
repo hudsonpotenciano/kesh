@@ -1,10 +1,6 @@
 ﻿using ProjetoMarketing.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ProjetoMarketing.Areas.Empresa.Models
+namespace ProjetoMarketing.Entidade.Empresa.Models
 {
     public class ParametrosObtenhaDadosEmpresa : ParametrosRequestModel
     {

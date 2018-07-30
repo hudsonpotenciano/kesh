@@ -36,6 +36,15 @@ export class TransacaoProvider {
     });
   }
 
+  ObtenhaCuponsEVendasPessoaEmpresa(idPerfilEmpresa: number, idPessoa: number) {
+    return new Promise<any>(resolve => {
+      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasPessoaEmpresa", { IdPerfilEmpresa: idPerfilEmpresa, IdPessoa: idPessoa })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
+        });
+    });
+  }
+
   PessoaPodeCompartilhar(idPerfilEmpresa: number, idPessoa: number) {
 
     return new Promise<boolean>(resolve => {

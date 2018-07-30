@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { LoginEmpresaPage } from './login-empresa';
+import { PerfilEmpresaLojaPage } from './perfil-empresa-loja';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 
 @NgModule({
   declarations: [
-    LoginEmpresaPage,
+    PerfilEmpresaLojaPage,
   ],
   imports: [
-    IonicPageModule.forChild(LoginEmpresaPage),
+    IonicPageModule.forChild(PerfilEmpresaLojaPage),
   ],
-  providers:
-    [
-      EmpresaProvider,
-      StorageEmpresaProvider
-    ] 
+  providers:[
+    StorageEmpresaProvider,
+    EmpresaProvider
+  ]
 })
-export class LoginEmpresaPageModule {}
+export class PerfilEmpresaLojaPageModule {}

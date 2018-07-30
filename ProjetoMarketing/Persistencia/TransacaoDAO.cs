@@ -98,11 +98,37 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
+        public Task<List<Cupom>> ObtenhaCuponsPessoaEmpresa(long idPerfilEmpresa,int idPessoa)
+        {
+            try
+            {
+                return _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa && c.IdPessoa == idPessoa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
         public Task<List<Venda>> ObtenhaVendasEmpresa(long idPerfilEmpresa)
         {
             try
             {
                 return _context.Venda.Where(v => v.IdPerfilEmpresa == idPerfilEmpresa).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public Task<List<Venda>> ObtenhaVendasPessoaEmpresa(long idPerfilEmpresa,int idPessoa)
+        {
+            try
+            {
+                return _context.Venda.Where(v => v.IdPerfilEmpresa == idPerfilEmpresa && v.IdPessoa == idPessoa).ToListAsync();
             }
             catch (Exception e)
             {

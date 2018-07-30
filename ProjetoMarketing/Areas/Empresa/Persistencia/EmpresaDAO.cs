@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjetoMarketing.Areas.Empresa.DTO;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Contexts;
 using System;
@@ -85,17 +86,47 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task<DTODadosEmpresa> SelectEmpresa(int idEmpresa)
+        public Task<DTODadosEmpresaAdmin> SelectEmpresaAdmin(int idEmpresa)
         {
             try
             {
-                return Task.Factory.StartNew(() => new DTODadosEmpresa()
+                return Task.Factory.StartNew(() => new DTODadosEmpresaAdmin()
                 {
                     Empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == idEmpresa),
-                    PerfisEmpresa = _context.PerfilEmpresa.FirstOrDefault(a => a.IdPerfilEmpresa == idEmpresa),
+                    PerfisEmpresa = _context.PerfilEmpresa.Where(a => a.IdEmpresa == idEmpresa),
                     ContaEmpresa = _context.ContaEmpresa.FirstOrDefault(a => a.IdEmpresa == idEmpresa),
-                    ImagensCatalogo = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == idEmpresa).ToList()
                 });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public Task<DTODadosEmpresaLoja> SelectEmpresaLoja(int idEmpresa, long idPerfilEmpresa)
+        {
+            try
+            {
+                return Task.Factory.StartNew(() => new DTODadosEmpresaLoja()
+                {
+                    Empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == idEmpresa),
+                    PerfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(a => a.IdPerfilEmpresa == idPerfilEmpresa),
+                    ContaEmpresa = _context.ContaEmpresa.FirstOrDefault(a => a.IdEmpresa == idEmpresa),
+                    ImagensCatalogo = _context.ImagemCatalogo.Where(i=>i.IdPerfilEmpresa == idPerfilEmpresa)
+                });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfisEmpresa(int idEmpresa)
+        {
+            try
+            {
+                return _context.PerfilEmpresa.Where(p => p.IdEmpresa == idEmpresa).ToListAsync();
             }
             catch (Exception e)
             {

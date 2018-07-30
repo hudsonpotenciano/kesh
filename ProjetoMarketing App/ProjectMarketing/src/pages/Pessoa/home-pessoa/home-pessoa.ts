@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
+import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 
 @IonicPage()
 @Component({
@@ -19,8 +20,10 @@ export class HomePessoaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private pessoaProvider: PessoaProvider,
-    private empresaProvider: EmpresaProvider) {
+    private empresaProvider: EmpresaProvider,
+    private empresaLojaProvider: EmpresaLojaProvider) {
     this.empresaProvider;
+    this.empresaLojaProvider;
 
     for (let i = 0; i < 30; i++) {
       this.fakeItens[i] = i;

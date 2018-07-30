@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { User } from '../../../models/models.model';
+import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
+import { Perfil } from '../../../models/empresa.model';
 
 @IonicPage()
 @Component({
@@ -15,7 +17,9 @@ export class LoginEmpresaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private empresaProvider: EmpresaProvider) {
+    private empresaProvider: EmpresaProvider,
+    private popOverCtrl: PopoverController,
+    private storageEmpresa: StorageEmpresaProvider) {
 
     this.usuario.Login = "adidas@gmail.com";
     this.usuario.Senha = "123456";
@@ -28,10 +32,37 @@ export class LoginEmpresaPage {
 
     this.empresaProvider.realizeLogin(this.usuario)
       .then(() => {
-
-        this.navCtrl.push("TabsEmpresaPage");
+        this.abraModalSelecaoTipoLoginEmpresa();
       })
       .catch(() => { })
+  }
+
+  abraModalSelecaoTipoLoginEmpresa() {
+
+    var popOver = this.popOverCtrl.create("SelecaoTipoLoginEmpresaPage", {}, { enableBackdropDismiss: false });
+    popOver.present();
+
+    popOver.onDidDismiss((selecao: number) => {
+      alert(selecao);
+      if (selecao == 0)
+        this.navCtrl.setRoot("TabsEmpresaPage");
+      else if (selecao == 1)
+        this.abraModalSelecaoPerfisEmpresa();
+    });
+  }
+
+  abraModalSelecaoPerfisEmpresa() {
+
+    var popOver = this.popOverCtrl.create("SelecaoPerfisEmpresaPage", {}, { enableBackdropDismiss: false });
+    popOver.present();
+
+    popOver.onDidDismiss((perfil: Perfil) => {
+      if (!perfil)
+        popOver.present();
+
+      this.storageEmpresa.armazeneIdPerfilEmpresa(perfil.IdPerfilEmpresa);
+      this.navCtrl.setRoot("TabsEmpresaLojaPage");
+    });
   }
 
   abraCadastro() {

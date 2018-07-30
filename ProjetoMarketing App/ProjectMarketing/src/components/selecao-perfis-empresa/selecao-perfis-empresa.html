@@ -1,0 +1,7 @@
+<ion-content>
+    <ion-list>
+        <button ion-item *ngFor="let perfil of perfis" (click)="selecione(perfil)">
+          <h2>{{perfil.Descricao}}</h2>
+        </button>
+    </ion-list>
+</ion-content>

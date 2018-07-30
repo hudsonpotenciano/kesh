@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { HomePessoaPage } from './home-pessoa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
   providers:
   [
     PessoaProvider,
-    EmpresaProvider
+    EmpresaProvider,
+    EmpresaLojaProvider
   ]
 })
 export class HomePessoaPageModule {}

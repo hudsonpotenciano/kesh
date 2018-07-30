@@ -11,12 +11,22 @@ namespace ProjetoMarketing
 {
     public class Projecoes
     {
-        public static dynamic DadosEmpresa(DTODadosEmpresa dadosEmpresa)
+        public static dynamic DadosEmpresaAdmin(Areas.Empresa.DTO.DTODadosEmpresaAdmin dadosEmpresa)
         {
             return new
             {
                 Empresa = ProjecaoEmpresa(dadosEmpresa.Empresa),
-                PerfilEmpresa = dadosEmpresa.PerfilEmpresa != null ? ProjecaoPerfilEmpresa(dadosEmpresa.PerfilEmpresa) : new PerfilEmpresa(),
+                PerfisEmpresa = dadosEmpresa.PerfisEmpresa.Any() ? ProjecaoPerfisEmpresa(dadosEmpresa.PerfisEmpresa) : null,
+                Conta = ProjecaoContaEmpresa(dadosEmpresa.ContaEmpresa)
+            };
+        }
+
+        public static dynamic DadosEmpresaLoja(Areas.Empresa.DTO.DTODadosEmpresaLoja dadosEmpresa)
+        {
+            return new
+            {
+                Empresa = ProjecaoEmpresa(dadosEmpresa.Empresa),
+                Perfil = dadosEmpresa.PerfilEmpresa != null ? ProjecaoPerfilEmpresa(dadosEmpresa.PerfilEmpresa) : new PerfilEmpresa(),
                 Conta = ProjecaoContaEmpresa(dadosEmpresa.ContaEmpresa),
                 Catalogo = from imagem in dadosEmpresa.ImagensCatalogo
                            select new
@@ -25,6 +35,17 @@ namespace ProjetoMarketing
                                imagem.IdImagem
                            }
             };
+        }
+
+        public static dynamic ProjecaoPerfisEmpresaParcial(IEnumerable<PerfilEmpresa> perfis)
+        {
+            return from perfil in perfis
+                   select new
+                   {
+                       perfil.IdEmpresa,
+                       perfil.IdPerfilEmpresa,
+                       perfil.Descricao
+                   };
         }
 
         public static dynamic ProjecaoRetornoLogin(Usuario usuario, string token)
@@ -187,6 +208,21 @@ namespace ProjetoMarketing
                 perfil.Telefone,
                 perfil.Telefone2
             };
+        }
+
+        private static dynamic ProjecaoPerfisEmpresa(IEnumerable<PerfilEmpresa> perfis)
+        {
+            return from perfil in perfis
+                   select new
+                   {
+                       perfil.IdEmpresa,
+                       perfil.IdPerfilEmpresa,
+                       perfil.Descricao,
+                       perfil.Latitude,
+                       perfil.Longitude,
+                       perfil.Telefone,
+                       perfil.Telefone2
+                   };
         }
 
         private static dynamic ProjecaoPessoaEmpresa(PessoaEmpresa pessoaEmpresa)

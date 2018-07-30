@@ -16,6 +16,7 @@ import { StorageProvider } from '../providers/storage/storage';
 import { TransacaoProvider } from '../providers/transacao/transacao';
 import { StoragePessoaProvider } from '../providers/storage/storage-pessoa';
 import { StorageEmpresaProvider } from '../providers/storage/storage-empresa';
+import { EmpresaLojaProvider } from '../providers/empresa-loja/empresa-loja';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/linguagens/', '.json');
@@ -49,7 +50,8 @@ export function createTranslateLoader(http: HttpClient) {
     StorageProvider,
     TransacaoProvider,
     StoragePessoaProvider,
-    StorageEmpresaProvider]
+    StorageEmpresaProvider,
+    EmpresaLojaProvider]
 })
 
 export class AppModule { }

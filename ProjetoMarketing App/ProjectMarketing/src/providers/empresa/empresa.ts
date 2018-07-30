@@ -3,7 +3,7 @@ import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
-import { CadastroEmpresaModel, ImagemCatalogo, DadosEmpresa } from '../../models/empresa.model';
+import { CadastroEmpresaModel, Perfil, DadosEmpresaAdmin } from '../../models/empresa.model';
 import { StorageEmpresaProvider } from '../storage/storage-empresa';
 
 @Injectable()
@@ -26,13 +26,23 @@ export class EmpresaProvider {
       });
   }
 
-  obtenhaDadosEmpresa() {
-    return new Promise<DadosEmpresa>(resolve => {
-      this.comunicacao.post("empresa/empresa/ObtenhaDadosEmpresa", { IdEmpresa: this.dadosAcesso.IdEmpresa })
+  obtenhaDadosEmpresaAdmin() {
+    return new Promise<DadosEmpresaAdmin>(resolve => {
+      this.comunicacao.post("empresa/empresa/ObtenhaDadosEmpresaAdmin", { IdEmpresa: this.dadosAcesso.IdEmpresa })
         .then((resposta: RetornoRequestModel) => {
-          debugger;
+
           resolve(resposta.Result);
-          this.storageEmpresa.armazeneDadosEmpresa(resposta.Result);
+          this.storageEmpresa.armazeneDadosEmpresaAdmin(resposta.Result);
+        });
+    });
+  }
+
+  obtenhaPerfisEmpresa() {
+    return new Promise<Perfil[]>(resolve => {
+      this.comunicacao.post("empresa/empresa/ObtenhaPerfisDaEmpresaParaSelecao", { IdEmpresa: this.dadosAcesso.IdEmpresa })
+        .then((resposta: RetornoRequestModel) => {
+
+          resolve(resposta.Result);
         });
     });
   }
@@ -47,17 +57,5 @@ export class EmpresaProvider {
 
   obtenhaLogoEmpresa(idEmpresa: number) {
     return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
-  }
-
-  obtenhaImagemCatalogo(idImagem: number) {
-    return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaImagemCatalogo?idImagem=" + idImagem;
-  }
-
-  atualizeCatalogo(imagens: ImagemCatalogo[]) {
-
-    return this.comunicacao.post("Empresa/Imagem/AtualizeCatalogo", { Imagens: imagens, IdEmpresa: this.dadosAcesso.IdEmpresa })
-      .then(() => {
-
-      });
   }
 }

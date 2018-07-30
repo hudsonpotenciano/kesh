@@ -4,8 +4,8 @@ using ProjetoMarketing.Autentication.Context;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Models;
-using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Areas.Empresa.Models;
+using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Data;
 using System.Threading.Tasks;
@@ -73,18 +73,49 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             return RetornoRequestModel.CrieSucesso();
         }
 
+
         [Authorize("Bearer")]
-        [HttpPost("ObtenhaDadosEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaDadosEmpresa([FromBody]ParametrosObtenhaEmpresas parametros)
+        [HttpPost("ObtenhaPerfisDaEmpresaParaSelecao")]
+        public async Task<RetornoRequestModel> ObtenhaPerfisDaEmpresaParaSelecao([FromBody]ParametrosObtenhaDadosEmpresa parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresa(parametros.IdEmpresa);
+            var perfisEmpresa = await new EmpresaDAO(_context).SelectPerfisEmpresa(parametros.IdEmpresa);
 
             return new RetornoRequestModel()
             {
-                Result = Projecoes.DadosEmpresa(dadosEmpresa)
+                Result = Projecoes.ProjecaoPerfisEmpresaParcial(perfisEmpresa)
+            };
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaDadosEmpresaLoja")]
+        public async Task<RetornoRequestModel> ObtenhaDadosEmpresaLoja([FromBody]ParametrosObtenhaEmpresaLoja parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresaLoja(parametros.IdEmpresa,parametros.IdPerfilEmpresa);
+
+            return new RetornoRequestModel()
+            {
+                Result = Projecoes.DadosEmpresaLoja(dadosEmpresa)
+            };
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaDadosEmpresaAdmin")]
+        public async Task<RetornoRequestModel> ObtenhaDadosEmpresaAdmin([FromBody]ParametrosObtenhaDadosEmpresa parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresaAdmin(parametros.IdEmpresa);
+
+            return new RetornoRequestModel()
+            {
+                Result = Projecoes.DadosEmpresaAdmin(dadosEmpresa)
             };
         }
     }

@@ -1,0 +1,8 @@
+<ion-content id="home-container">
+    <h2 *ngIf="dadosEmpresa"> {{dadosEmpresa.Perfil.Descricao}} </h2>
+    <ion-fab right bottom (click)="valideCupomVenda()">
+        <button ion-fab>             
+             <ion-icon name="qr-scanner"></ion-icon>
+              </button>
+    </ion-fab>
+</ion-content>

@@ -55,9 +55,15 @@ export class CadastroEmpresaModel {
     Categorias: number[];
 }
 
-export class DadosEmpresa {
+export class DadosEmpresaLoja {
     Empresa: Empresa;
-    PerfilEmpresa: Perfil;
+    Perfil: Perfil;
     Conta: Conta;
     Catalogo: ImagemCatalogo[];
+}
+
+export class DadosEmpresaAdmin {
+    Empresa: Empresa;
+    PerfisEmpresa: Perfil[];
+    Conta: Conta;
 }

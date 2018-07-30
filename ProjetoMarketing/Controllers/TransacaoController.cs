@@ -84,7 +84,7 @@ namespace ProjetoMarketing.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaCuponsEVendasEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]ParametrosObtenhaDadosEmpresa parametros)
+        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]Areas.Empresa.Models.ParametrosObtenhaEmpresaLoja parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
@@ -95,6 +95,25 @@ namespace ProjetoMarketing.Controllers
                 {
                     Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsEmpresa(parametros.IdPerfilEmpresa)),
                     Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasEmpresa(parametros.IdPerfilEmpresa))
+                }
+            };
+
+            return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaCuponsEVendasPessoaEmpresa")]
+        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasPessoaEmpresa([FromBody]ParametrosObtenhaDadosPessoaEmpresa parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var retorno = new RetornoRequestModel
+            {
+                Result = new
+                {
+                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_contextTransacao).ObtenhaCuponsPessoaEmpresa(parametros.IdPerfilEmpresa,parametros.IdPessoa)),
+                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_contextTransacao).ObtenhaVendasPessoaEmpresa(parametros.IdPerfilEmpresa,parametros.IdPessoa))
                 }
             };
 

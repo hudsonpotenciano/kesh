@@ -42,7 +42,7 @@ export class PerfilEmpresaPage {
 
   ionViewDidLoad() {
 
-    this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
+    this.transacaoProvider.ObtenhaCuponsEVendasPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((cuponsEVendas: any) => {
         this.cupons = cuponsEVendas.Cupons;
         this.vendas = cuponsEVendas.Vendas;

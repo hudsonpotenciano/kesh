@@ -11,7 +11,7 @@
             </div>
             <ion-slides pager="true">
                 <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
-                    <div class="imagem-catalogo" [style.background-image]="'url(' + empresaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+                    <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
                 </ion-slide>
             </ion-slides>
         </div>

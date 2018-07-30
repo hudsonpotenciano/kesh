@@ -1,26 +1,49 @@
 import { Injectable } from '@angular/core';
-import { DadosEmpresa } from '../../models/empresa.model';
 import { StorageProvider } from './storage';
+import { DadosEmpresaLoja, DadosEmpresaAdmin } from '../../models/empresa.model';
 
 @Injectable()
 export class StorageEmpresaProvider {
 
-    DADOS_EMPRESA = "EMPRESA_DADOS_EMPRESA"
+    DADOS_EMPRESA_LOJA = "EMPRESA_DADOS_EMPRESA"
+    ID_PERFIL_EMPRESA_SELECIONADO = "PERFIL_EMPRESA_SELECIONADO"
+
     //KEYS 
 
     constructor(private storage: StorageProvider) {
     }
 
-    //DADOS EMPRESA
-    armazeneDadosEmpresa(value: DadosEmpresa) {
-        this.storage.armazene(this.DADOS_EMPRESA, value);
+    armazeneIdPerfilEmpresa(value: number) {
+        this.storage.armazene(this.ID_PERFIL_EMPRESA_SELECIONADO, value);
     }
 
-    recupereDadosEmpresa(): DadosEmpresa {
-        return this.storage.recupere(this.DADOS_EMPRESA);
+    recupereIdPerfilEmpresa(): number {
+        return this.storage.recupere(this.ID_PERFIL_EMPRESA_SELECIONADO);
     }
 
-    removaDadosEmpresa() {
-        this.storage.remova(this.DADOS_EMPRESA);
+    //DADOS EMPRESA LOJA
+    armazeneDadosEmpresaLoja(value: DadosEmpresaLoja) {
+        this.storage.armazene(this.DADOS_EMPRESA_LOJA, value);
+    }
+
+    recupereDadosEmpresaLoja(): DadosEmpresaLoja {
+        return this.storage.recupere(this.DADOS_EMPRESA_LOJA);
+    }
+
+    removaDadosEmpresaLoja() {
+        this.storage.remova(this.DADOS_EMPRESA_LOJA);
+    }
+
+    //DADOS EMPRESA ADMIN
+    armazeneDadosEmpresaAdmin(value: DadosEmpresaAdmin) {
+        this.storage.armazene(this.DADOS_EMPRESA_LOJA, value);
+    }
+
+    recupereDadosEmpresaAdmin(): DadosEmpresaAdmin {
+        return this.storage.recupere(this.DADOS_EMPRESA_LOJA);
+    }
+
+    removaDadosEmpresaAdmin() {
+        this.storage.remova(this.DADOS_EMPRESA_LOJA);
     }
 }
