@@ -3,7 +3,7 @@ import { StorageEmpresaProvider } from '../storage/storage-empresa';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { StorageProvider } from '../storage/storage';
 import { RetornoRequestModel, RetornoLogin } from '../../models/models.model';
-import { DadosEmpresaLoja, ImagemCatalogo } from '../../models/empresa.model';
+import { DadosEmpresaLoja, ImagemCatalogo, AtualizePerfilModel } from '../../models/empresa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 
 @Injectable()
@@ -36,6 +36,14 @@ export class EmpresaLojaProvider {
   //chamado no html
   obtenhaImagemCatalogo(idImagem: number) {
     return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaImagemCatalogo?idImagem=" + idImagem;
+  }
+
+  atualizePerfilEmpresa(perfil: AtualizePerfilModel) {
+
+    return this.comunicacao.post("Empresa/Empresa/AtualizePerfilEmpresa", perfil)
+      .then(() => {
+
+      });
   }
 
   atualizeCatalogo(imagens: ImagemCatalogo[]) {

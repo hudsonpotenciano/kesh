@@ -49,7 +49,7 @@ export class ComunicacaoProvider {
           resolve(retorno);
         })
         .catch((e: any) => {
-
+                  
           if (e.status == 401) {
             
             alert(this.tentativasDePost);

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
+import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 
 @IonicPage()
@@ -14,6 +14,7 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
 export class HomePessoaPage {
 
   pessoaEmpresas: DadosPessoaEmpresa[] = [];
+  pessoa: Pessoa;
   fakeItens: any = [];
 
   constructor(
@@ -31,7 +32,13 @@ export class HomePessoaPage {
   }
 
   ionViewDidEnter() {
+    
     this.obtenhaEmpresas();
+
+    this.pessoaProvider.ObtenhaDadosPessoa()
+      .then((pessoa: Pessoa) => {
+        this.pessoa = pessoa;
+      })
   }
 
   obtenhaEmpresas() {

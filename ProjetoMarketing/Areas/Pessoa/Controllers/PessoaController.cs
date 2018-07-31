@@ -28,7 +28,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         [AllowAnonymous]
         [HttpPost("CadastrePessoa")]
-        public RetornoRequestModel CadastrePessoa([FromBody] CadastroPessoaModel model,
+        public RetornoRequestModel CadastrePessoa([FromBody] ParametrosCadastroPessoa model,
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
@@ -61,6 +61,21 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             }
 
             return RetornoRequestModel.CrieFalha();
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaDadosPessoa")]
+        public async Task<RetornoRequestModel> ObtenhaDadosPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            var retorno = new RetornoRequestModel
+            {
+                Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Select(parametros.IdPessoa))
+            };
+
+            return retorno;
         }
 
         [Authorize("Bearer")]
@@ -129,6 +144,18 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 return RetornoRequestModel.CrieFalha();
             }
         }
+
+        //[Authorize("Bearer")]
+        //[HttpGet("AtualizeFotoPessoa")]
+        //public async Task<RetornoRequestModel> AtualizeFotoPessoa([FromBody] ParametrosAtualizeFoto parametros)
+        //{
+        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
+        //        return RetornoRequestModel.CrieFalhaLogin();
+
+        //    await new PessoaDAO(_context).UpdateImagemPerfil(parametros);
+
+        //    return RetornoRequestModel.CrieSucesso();
+        //}
 
         [AllowAnonymous]
         [HttpGet("ObtenhaFotoPessoa")]

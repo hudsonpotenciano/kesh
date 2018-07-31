@@ -62,13 +62,25 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpPost("SalvePerfilEmpresa")]
-        public async Task<RetornoRequestModel> SalvePerfilEmpresa([FromBody]CadastroPerfilModel parametros)
+        [HttpPost("AtualizeContaEmpresa")]
+        public async Task<RetornoRequestModel> AtualizeContaEmpresa([FromBody]AtualizeContaModel parametros)
         {
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            await new EmpresaDAO(_context).AddPerfil(parametros);
+            await new EmpresaDAO(_context).UpdateConta(parametros);
+
+            return RetornoRequestModel.CrieSucesso();
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("AtualizePerfilEmpresa")]
+        public async Task<RetornoRequestModel> AtualizePerfilEmpresa([FromBody]CadastroPerfilModel parametros)
+        {
+            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+                return RetornoRequestModel.CrieFalhaLogin();
+
+            await new EmpresaDAO(_context).UpdatePerfil(parametros);
 
             return RetornoRequestModel.CrieSucesso();
         }
@@ -96,7 +108,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             if (!EstaAutenticado(_contextUsuario, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
-            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresaLoja(parametros.IdEmpresa,parametros.IdPerfilEmpresa);
+            var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresaLoja(parametros.IdEmpresa, parametros.IdPerfilEmpresa);
 
             return new RetornoRequestModel()
             {

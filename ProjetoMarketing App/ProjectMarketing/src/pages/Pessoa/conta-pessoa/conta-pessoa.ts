@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Pessoa } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({
@@ -8,10 +9,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ContaPessoaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  pessoa: Pessoa;
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
+    
   }
 
 }

@@ -29,6 +29,7 @@ export class CadastroEmpresaPage {
       descricao: ['', Validators.required],
       email: ['', Validators.required],
       cpfcnpj: ['', Validators.required],
+      resumo: ['', Validators.required],
       telefone: ['', Validators.required],
       telefone2: ['', Validators.required],
       descontoCompartilhamento: ['', Validators.required],
@@ -69,7 +70,9 @@ export class CadastroEmpresaPage {
   cadastre() {
 
     this.empresa.Categorias = [1];
-
+    this.empresa.Latitude = -16.6093353;
+    this.empresa.Longitude = -49.3171053;
+    
     this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
         this.empresa = new CadastroEmpresaModel();

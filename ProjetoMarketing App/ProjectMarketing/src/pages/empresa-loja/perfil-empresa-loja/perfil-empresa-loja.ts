@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides } from 'ionic-angular';
+import { IonicPage, Slides, ModalController } from 'ionic-angular';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
-import { DadosEmpresaLoja, ImagemCatalogo } from '../../../models/empresa.model';
-import { FormGroup, FormBuilder } from '../../../../node_modules/@angular/forms';
+import { DadosEmpresaLoja, ImagemCatalogo, AtualizePerfilModel } from '../../../models/empresa.model';
+import { FormGroup, FormBuilder, Validators } from '../../../../node_modules/@angular/forms';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 
 @IonicPage()
@@ -10,6 +10,7 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
   selector: 'page-perfil-empresa-loja',
   templateUrl: 'perfil-empresa-loja.html',
 })
+
 export class PerfilEmpresaLojaPage {
 
   @ViewChild('fileInput') fileInput;
@@ -21,15 +22,41 @@ export class PerfilEmpresaLojaPage {
 
   constructor(private storageEmpresa: StorageEmpresaProvider,
     private empresaLojaProvider: EmpresaLojaProvider,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private modalCtrl: ModalController) {
+
+    this.form = this.formBuilder.group({
+      descricao: ['', Validators.required],
+      telefone: ['', Validators.required],
+      telefone2: ['', Validators.required],
+    });
 
     this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaLoja()
 
     this.imagensCatalogo = this.dadosEmpresa.Catalogo;
 
-    this.form = this.formBuilder.group({
-    });
   };
+
+  ionViewDidLoad() {
+
+  }
+
+  selecioneLocalizacao() {
+    var modal = this.modalCtrl.create("SelecaoLocalizacaoPage", {
+      lat: this.dadosEmpresa.Perfil.Latitude,
+      long: this.dadosEmpresa.Perfil.Longitude
+    },{enableBackdropDismiss:false});
+
+    modal.present();
+
+    modal.onDidDismiss((coodenadas) => {
+
+      if (!coodenadas) modal.present();
+
+      this.dadosEmpresa.Perfil.Latitude = coodenadas.lat;
+      this.dadosEmpresa.Perfil.Longitude = coodenadas.lng;
+    });
+  }
 
   selecioneImagem() {
     this.fileInput.nativeElement.click();
@@ -52,6 +79,21 @@ export class PerfilEmpresaLojaPage {
   removaImagem(i: number) {
     this.imagensCatalogo.splice(i, 1);
     this.Slides.slidePrev();
+  }
+
+  atualizePerfil() {
+
+    let perfil: AtualizePerfilModel = new AtualizePerfilModel();
+
+    perfil.Descricao = this.dadosEmpresa.Perfil.Descricao;
+    perfil.Telefone = this.dadosEmpresa.Perfil.Telefone;
+    perfil.Telefone2 = this.dadosEmpresa.Perfil.Telefone2;
+    perfil.IdPerfilEmpresa = this.dadosEmpresa.Perfil.IdPerfilEmpresa;
+
+    this.empresaLojaProvider.atualizePerfilEmpresa(perfil)
+      .then(() => {
+        this.storageEmpresa.armazeneDadosEmpresaLoja(this.dadosEmpresa);
+      });
   }
 
   salveImagensCatalogo() {

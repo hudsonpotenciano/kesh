@@ -17,8 +17,8 @@ export class Conta {
 }
 
 export class Perfil {
-    Descricao:string;
-    IdPerfilEmpresa:number;
+    Descricao: string;
+    IdPerfilEmpresa: number;
     IdEmpresa: number;
     Telefone: string;
     Telefone2: string;
@@ -31,11 +31,30 @@ export class NotaComentarioPessoaEmpresa {
     IdPessoa: number;
     Nota: number;
     Comentario: string;
+    DataAvaliacao: Date;
 }
 
 export class ImagemCatalogo {
     IdImagem: number;
     Imagem: any;
+}
+
+export class AtualizeContaModel {
+    IdEmpresa: number;
+    Resumo: string;
+    DescontoCompartilhamento: number;
+    ValorPontos: number;
+    Categorias: number[];
+    Logo: any;
+}
+
+export class AtualizePerfilModel {
+    IdPerfilEmpresa: number;
+    Descricao: string;
+    Latitude: number;
+    Longitude: number;
+    Telefone: string;
+    Telefone2: string;
 }
 
 export class CadastroEmpresaModel {

@@ -20,5 +20,7 @@ namespace ProjetoMarketing.Entidade.Pessoa
         public decimal? Nota { get; set; }
         [Column("comentario")]
         public string Comentario { get; set; }
+        [Column("dataavaliacao")]
+        public DateTime? DataAvaliacao { get; set; }
     }
 }

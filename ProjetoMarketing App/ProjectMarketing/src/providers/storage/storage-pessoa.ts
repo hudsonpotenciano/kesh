@@ -1,28 +1,38 @@
 import { Injectable } from '@angular/core';
 import { StorageProvider } from './storage';
-import { DadosPessoaEmpresa } from '../../models/pessoa.model';
+import { DadosPessoaEmpresa, Pessoa } from '../../models/pessoa.model';
 
 @Injectable()
 export class StoragePessoaProvider {
 
-    //CACHE
-    // umDiaEmSegundos: number = 86400;
-
-    //KEYS 
+    DADOS_PESSOA = "DADOS_PESSOA";
     DADOS_PESSOA_EMPRESAS = "DADOS_PESSOA_EMPRESAS";
-    // CACHE_1DIA_PESSOAPERFILEMPRESAS = "CACHE_1DIA_PESSOAPERFILEMPRESAS";
+
 
     constructor(private storage: StorageProvider) { }
 
     atualizeDadosPessoaEmpresa(value: DadosPessoaEmpresa) {
-        
+
         var dados = this.recupereDadosPessoaEmpresas();
         dados.filter(p => p.Empresa.IdEmpresa == value.Empresa.IdEmpresa).forEach(element => {
             element;
             element = value;
         });
-        
+
         this.armazeneDadosPessoaEmpresa(dados);
+    }
+
+    //Dados Pessoa
+    armazeneDadosPessoa(value: Pessoa[]) {
+        this.storage.armazene(this.DADOS_PESSOA, value);
+    }
+
+    recupereDadosPessoa(): Pessoa {
+        return this.storage.recupere(this.DADOS_PESSOA);
+    }
+
+    removaDadosPessoa() {
+        this.storage.remova(this.DADOS_PESSOA);
     }
 
     //Dados Pessoa Empresa

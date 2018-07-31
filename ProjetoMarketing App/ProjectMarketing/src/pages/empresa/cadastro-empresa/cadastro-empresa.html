@@ -6,9 +6,6 @@
         <div class="profile-image-wrapper" (click)="selecioneImagem()">
             <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
                 <ion-icon name="add"></ion-icon>
-                <div>
-                    teste
-                </div>
             </div>
             <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
         </div>
@@ -51,7 +48,7 @@
 
             <ion-item>
                 <ion-label fixed>Resumo</ion-label>
-                <ion-input type="text" [(ngModel)]="empresa.Resumo" formControlName="telefone2"></ion-input>
+                <ion-input type="text" [(ngModel)]="empresa.Resumo" formControlName="resumo"></ion-input>
             </ion-item>
 
             <ion-item>
@@ -66,18 +63,6 @@
             <div padding>
                 <button ion-button color="primary" block>Salvar</button>
             </div>
-
-            <ion-item>
-                <ion-label fixed>Latitude</ion-label>
-                <ion-input type="number" [(ngModel)]="empresa.Latitude" formControlName="nome"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label fixed>Longitude</ion-label>
-                <ion-input type="number" [(ngModel)]="empresa.Longitude" formControlName="nome"></ion-input>
-            </ion-item>
         </ion-list>
     </form>
-
-    <img src="{{empresaProvider.obtenhaLogoEmpresa(1)}}" alt="">
 </ion-content>

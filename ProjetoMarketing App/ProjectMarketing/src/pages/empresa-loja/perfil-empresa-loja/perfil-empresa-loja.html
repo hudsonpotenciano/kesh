@@ -1,4 +1,23 @@
 <ion-content>
+
+    <form [formGroup]="form" (submit)="atualizePerfil()">
+        <ion-item>
+            <ion-label fixed>Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="dadosEmpresa.Perfil.Descricao" formControlName="descricao"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label fixed>Telefone</ion-label>
+            <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone" formControlName="telefone"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label fixed>Telefone Secundário</ion-label>
+            <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone2" formControlName="telefone2"></ion-input>
+        </ion-item>
+    </form>
+
+    <button ion-button (click)="selecioneLocalizacao()">Localizacao</button>
+
+
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
     <ion-slides #slides pager="true">
@@ -12,5 +31,7 @@
     </ion-slides>
 
     <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
-    <button ion-button (click)="salveImagensCatalogo()"> Salvar</button>
+    <button ion-button (click)="salveImagensCatalogo()"> Salvar Catalogo</button>
+    <button ion-button (click)="atualizePerfil()"> Salvar Perfil</button>
+
 </ion-content>

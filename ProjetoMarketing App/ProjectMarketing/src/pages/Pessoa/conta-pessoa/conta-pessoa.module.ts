@@ -9,5 +9,7 @@ import { ContaPessoaPage } from './conta-pessoa';
   imports: [
     IonicPageModule.forChild(ContaPessoaPage),
   ],
+  providers:[
+  ]
 })
 export class ContaPessoaPageModule {}

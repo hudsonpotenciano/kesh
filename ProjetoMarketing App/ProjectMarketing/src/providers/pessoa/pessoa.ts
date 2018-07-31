@@ -68,6 +68,19 @@ export class PessoaProvider {
       { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, comentario: comentario, Nota: nota });
   }
 
+  ObtenhaDadosPessoa() {
+
+    return new Promise<Pessoa>(resolve => {
+
+      this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
+        .then((resposta: RetornoRequestModel) => {
+
+          resolve(resposta.Result);
+          this.storagePessoa.armazeneDadosPessoa(resposta.Result);
+        });
+    });
+  }
+
   realizeLogin(usuario: User) {
 
     return this.comunicacao.post("pessoa/login/realizelogin", usuario)
@@ -81,7 +94,7 @@ export class PessoaProvider {
 
     return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
       .catch((retorno: RetornoRequestModel) => {
-        
+
         if (retorno && retorno.Erro == 2) {
           alert("Este email já existe");
         };

@@ -11,6 +11,19 @@ namespace ProjetoMarketing
 {
     public class Projecoes
     {
+        public static dynamic DadosPessoa(Pessoa pessoa)
+        {
+            return new
+            {
+                pessoa.Email,
+                pessoa.IdPessoa,
+                pessoa.Latitude,
+                pessoa.Longitude,
+                pessoa.Nome,
+                pessoa.Telefone
+            };
+        }
+
         public static dynamic DadosEmpresaAdmin(Areas.Empresa.DTO.DTODadosEmpresaAdmin dadosEmpresa)
         {
             return new
@@ -116,7 +129,8 @@ namespace ProjetoMarketing
                        item.Comentario,
                        item.Nota,
                        item.Nome,
-                       item.IdPessoa
+                       item.IdPessoa,
+                       item.DataAvaliacao
                    };
         }
 

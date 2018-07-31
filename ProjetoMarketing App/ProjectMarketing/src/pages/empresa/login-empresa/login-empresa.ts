@@ -43,7 +43,6 @@ export class LoginEmpresaPage {
     popOver.present();
 
     popOver.onDidDismiss((selecao: number) => {
-      alert(selecao);
       if (selecao == 0)
         this.navCtrl.setRoot("TabsEmpresaPage");
       else if (selecao == 1)

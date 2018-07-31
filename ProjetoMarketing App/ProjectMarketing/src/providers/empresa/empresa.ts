@@ -3,7 +3,7 @@ import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
-import { CadastroEmpresaModel, Perfil, DadosEmpresaAdmin } from '../../models/empresa.model';
+import { CadastroEmpresaModel, Perfil, DadosEmpresaAdmin, AtualizeContaModel } from '../../models/empresa.model';
 import { StorageEmpresaProvider } from '../storage/storage-empresa';
 
 @Injectable()
@@ -45,6 +45,15 @@ export class EmpresaProvider {
           resolve(resposta.Result);
         });
     });
+  }
+
+  
+  atualizeConta(conta: AtualizeContaModel) {
+
+    return this.comunicacao.post("Empresa/Empresa/AtualizeContaEmpresa", conta)
+      .then(() => {
+
+      });
   }
 
   cadastreEmpresa(empresa: CadastroEmpresaModel) {

@@ -1,3 +1,28 @@
 <ion-content>
 
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+
+    <div class="div-avatar">
+        <img *ngIf="!novaImagem" (click)="selecioneImagem()" [src]="empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)" alt="">
+        <img *ngIf="novaImagem" (click)="selecioneImagem()" [src]="novaImagem" alt="">
+    </div>
+
+    <form [formGroup]="form" (submit)="atualizeConta()">
+
+        <ion-item>
+            <ion-label fixed>Resumo</ion-label>
+            <ion-input type="text" [(ngModel)]="dadosEmpresa.Conta.Resumo" formControlName="resumo"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label fixed>Desconto Compartilhamento</ion-label>
+            <ion-input type="number" [(ngModel)]="dadosEmpresa.Conta.DescontoCompartilhamento" formControlName="descontoCompartilhamento"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label fixed>Valor dos Pontos</ion-label>
+            <ion-input type="number" [(ngModel)]="dadosEmpresa.Conta.ValorPontos" formControlName="valorPontos"></ion-input>
+        </ion-item>
+        <button ion-button (click)="atualizeConta()">Salvar</button>
+    </form>
 </ion-content>

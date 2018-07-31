@@ -20,7 +20,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public void AddPessoa(Models.CadastroPessoaModel model, out Entidade.Pessoa.Pessoa pessoa)
+        public void AddPessoa(Models.ParametrosCadastroPessoa model, out Entidade.Pessoa.Pessoa pessoa)
         {
             try
             {
@@ -56,19 +56,43 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
         }
 
+        //public Task UpdateImagemPerfil(Models.ParametrosAtualizeFoto parametros)
+        //{
+        //    var imagemPerfil = new ImagemPerfil()
+        //    {
+        //        Imagem = parametros.Foto != null ? Convert.FromBase64String(parametros.Foto) : null,
+        //        IdPessoa = parametros.IdPessoa
+        //    };
+            
+        //    _context.ImagemPerfil.Update(imagemPerfil);
+        //    return _context.SaveChangesAsync();
+        //}
+
         public void Remove(Entidade.Pessoa.Pessoa pessoa)
         {
             _context.Pessoa.Remove(pessoa);
             _context.SaveChanges();
         }
 
-        public void Update(Entidade.Pessoa.Pessoa pessoa)
+        //public void Update(Entidade.Pessoa.Pessoa pessoa)
+        //{
+        //    var result = _context.Pessoa.SingleOrDefault(p => p.IdPessoa == pessoa.IdPessoa);
+        //    if (result != null)
+        //    {
+        //        result = pessoa;
+        //        _context.SaveChanges();
+        //    }
+        //}
+
+        public Task<Entidade.Pessoa.Pessoa> Select(int idPessoa)
         {
-            var result = _context.Pessoa.SingleOrDefault(p => p.IdPessoa == pessoa.IdPessoa);
-            if (result != null)
+            try
             {
-                result = pessoa;
-                _context.SaveChanges();
+                return _context.Pessoa.FirstOrDefaultAsync(p => p.IdPessoa == idPessoa);
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
@@ -81,6 +105,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 {
                     pessoaEmpresaBd.Comentario = parametros.Comentario;
                     pessoaEmpresaBd.Nota = parametros.Nota;
+                    pessoaEmpresaBd.DataAvaliacao = DateTime.Now;
                     _context.PessoaEmpresa.Update(pessoaEmpresaBd);
                     _context.SaveChanges();
                 }
@@ -91,6 +116,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                         IdPessoa = parametros.IdPessoa,
                         Nota = parametros.Nota,
+                        DataAvaliacao = DateTime.Now,
                         Comentario = parametros.Comentario
                     };
 
@@ -119,7 +145,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                                                                         cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) < 50)";
 
                 return (from perfil in _context.PerfilEmpresa.FromSql(sqlPerfis)
-                        let idPerfilEmpresa = perfil.IdPerfilEmpresa                        
+                        let idPerfilEmpresa = perfil.IdPerfilEmpresa
                         let pessoasEmpresa = _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
                         let imagensCatalogo = _context.ImagemCatalogo.Where(d => d.IdPerfilEmpresa == idPerfilEmpresa)
                         let empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == perfil.IdEmpresa)
@@ -153,7 +179,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             Comentario = pe.Comentario,
                             Nota = pe.Nota,
                             IdPessoa = p.IdPessoa,
-                            Nome = p.Nome
+                            Nome = p.Nome,
+                            DataAvaliacao = pe.DataAvaliacao
                         }).ToListAsync();
             }
             catch (Exception e)

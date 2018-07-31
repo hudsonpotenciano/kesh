@@ -238,6 +238,7 @@ ALTER TABLE public.perfilempresa
     pontuacao integer,
     comentario text,
     nota numeric,
+    dataavaliacao date,
     CONSTRAINT pk_pessoaempresa PRIMARY KEY (id),
     CONSTRAINT uk_pessoaempresa UNIQUE (idpessoa, idperfilempresa),
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
@@ -369,3 +370,30 @@ WITH (
 
 ALTER TABLE public.contaempresa
     OWNER to postgres;
+
+-- CREATE TABLE public.avaliacao
+-- (
+--     id uuid NOT NULL DEFAULT uuid_generate_v4(),
+--     idpessoa integer NOT NULL,
+--     idperfilempresa bigint NOT NULL,
+--     nomepessoa text NOT NULL,
+--     data date NOT NULL,
+--     nota integer NOT NULL,
+--     comentario text,
+--     PRIMARY KEY (id),
+--     CONSTRAINT uk_avaliacao UNIQUE (idpessoa, idperfilempresa),
+--     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
+--         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
+--         ON UPDATE NO ACTION
+--         ON DELETE CASCADE,
+--     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
+--         REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
+--         ON UPDATE NO ACTION
+--         ON DELETE CASCADE
+-- )
+-- WITH (
+--     OIDS = FALSE
+-- );
+
+-- ALTER TABLE public.avaliacao
+--     OWNER to postgres;

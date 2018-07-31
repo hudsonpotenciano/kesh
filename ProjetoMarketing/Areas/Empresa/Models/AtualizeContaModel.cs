@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Empresa.Models
 {
-    public class CadastroContaModel : ParametrosRequestModel
+    public class AtualizeContaModel : ParametrosRequestModel
     {
         public int IdEmpresa { get; set; }
         public string Resumo { get; set; }

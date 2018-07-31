@@ -1,1 +1,15 @@
-page-conta-empresa {}
+page-conta-empresa {
+    .div-avatar {
+        width: 100%;
+        img {
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+            display: table-cell;
+            height: 15vh;
+            width: 15vh;
+            border-radius: 50%;
+            // box-shadow: 1px 1px 4px 2px rgb(228, 228, 228);
+        }
+    }
+}
