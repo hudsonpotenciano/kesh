@@ -1,23 +1,31 @@
+<ion-header>
+    <ion-toolbar color="tema">
+
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
     <ion-list id="flex-box" no-lines>
         <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresas" (click)="abraPerfilEmpresa(pessoaEmpresa)">
-            <ion-item>
+            <ion-item class="item-header">
                 <ion-avatar item-start>
                     <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
                 </ion-avatar>
                 <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
-                <!-- <div *ngIf="pessoaEmpresa.NotaGeral" class="estrela-nota">
-                    <p>{{pessoaEmpresa.NotaGeral}}</p>
-                    <img src="./assets/svg/estrela.svg" alt="">
-                </div> -->
+                <p>{{pessoaEmpresa.Perfil.Descricao}}</p>
             </ion-item>
-            <ion-slides pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
+            <ion-slides color="tema" autoplay="true" effect="flip" loop="true" paginationType="bullets" pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
                 <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
                     <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
                 </ion-slide>
             </ion-slides>
-        </div>
 
+            <ion-item class="item-footer">
+                <p item-left><img src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}} km</p>
+                <p *ngIf="pessoaEmpresa.NotaGeral" item-right><img src="./assets/svg/estrela.svg" alt=""> {{pessoaEmpresa.NotaGeral}}</p>
+            </ion-item>
+
+        </div>
         <ion-item *ngFor="let fake of fakeItens" class="fakeItem">
             <h2></h2>
             <h3></h3>

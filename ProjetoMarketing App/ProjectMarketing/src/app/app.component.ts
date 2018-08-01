@@ -11,7 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class MyApp {
 
-
   rootPage: any = "IntroducaoPage";
   @ViewChild(Nav) nav: Nav;
 
@@ -22,10 +21,10 @@ export class MyApp {
     splashScreen: SplashScreen,
     private translate: TranslateService) {
 
-    platform.ready().then(() => {
+    platform.ready().then(() => { 
       statusBar.styleLightContent();
       statusBar.overlaysWebView(false);
-      statusBar.backgroundColorByHexString("#fcc000");
+      statusBar.backgroundColorByHexString("#fff");
       splashScreen.hide();
     });
 

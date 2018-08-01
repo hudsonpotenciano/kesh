@@ -30,10 +30,11 @@ export class PessoaEmpresa {
 }
 
 export class DadosPessoaEmpresa {
-    Empresa:Empresa;
-    Perfil:Perfil;
-    PessoaEmpresa:PessoaEmpresa;
-    Conta:Conta;
-    NotaGeral:number;
-    Catalogo:ImagemCatalogo[];
+    Empresa: Empresa;
+    Perfil: Perfil;
+    PessoaEmpresa: PessoaEmpresa;
+    Conta: Conta;
+    NotaGeral: number;
+    Distancia: number;
+    Catalogo: ImagemCatalogo[];
 }

@@ -112,6 +112,7 @@ namespace ProjetoMarketing
                        Conta = ProjecaoContaEmpresa(item.ContaEmpresa),
                        PessoaEmpresa = item.PessoaEmpresa != null ? ProjecaoPessoaEmpresa(item.PessoaEmpresa) : new PessoaEmpresa(),
                        item.NotaGeral,
+                       item.Distancia,
                        Catalogo = from imagem in item.Catalogo
                                   select new
                                   {

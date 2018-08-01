@@ -141,9 +141,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
                 //OBTEM EMPRESAS NO RAIO DE 50KM
                 RawSqlString sqlPerfis = $@"select * from public.perfilempresa where 
-                                                                        (select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
-                                                                        cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) < 50)";
-
+                                                                        ((select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
+                                                                        cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) as distancia) < 50)";
                 return (from perfil in _context.PerfilEmpresa.FromSql(sqlPerfis)
                         let idPerfilEmpresa = perfil.IdPerfilEmpresa
                         let pessoasEmpresa = _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
@@ -159,7 +158,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             ContaEmpresa = conta,
                             PerfilEmpresa = perfil,
                             PessoaEmpresa = pessoaEmpresa,
-                            NotaGeral = notaGeral
+                            NotaGeral = notaGeral,
+                            Distancia = 10
                         }).ToListAsync();
             }
             catch (Exception e)
