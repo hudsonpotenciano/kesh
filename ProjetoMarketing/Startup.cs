@@ -9,7 +9,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.AspNetCore.Authorization;
-using ProjetoMarketing.Autentication.Context;
 using Newtonsoft.Json.Serialization;
 using ProjetoMarketing.Contexts;
 
@@ -29,9 +28,6 @@ namespace ProjetoMarketing
         {
             //PostGree
             services.AddEntityFrameworkNpgsql().AddDbContext<PessoaEmpresaContext>(opt =>
-            opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<UsuarioContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
             //Token

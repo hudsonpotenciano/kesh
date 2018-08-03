@@ -1,15 +1,16 @@
 ﻿using ProjetoMarketing.Autentication;
-using ProjetoMarketing.Autentication.Context;
+using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 {
     public class UsuarioDAO
     {
-        private readonly UsuarioContext _context;
+        private readonly PessoaEmpresaContext _context;
 
-        public UsuarioDAO(UsuarioContext context)
+        public UsuarioDAO(PessoaEmpresaContext context)
         {
             _context = context;
         }
@@ -25,25 +26,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdEmpresa != null);
         }
 
-        public bool Validate(string token)
+        public bool ValideToken(string token)
         {
             return _context.Usuario.FirstOrDefault(u => u.Token == token) != null;
-        }
-
-        public void Add(Usuario usuario)
-        {
-            try
-            {
-                usuario.Token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
-                _context.Usuario.Add(usuario);
-                _context.SaveChanges();
-            }
-            catch (System.Exception e)
-            {
-                //Salve Log
-                throw e;
-            }
-            
         }
 
         public void Remove(Usuario usuario)

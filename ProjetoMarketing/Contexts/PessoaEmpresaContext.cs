@@ -1,4 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ProjetoMarketing.Contexts
 {
@@ -16,5 +21,32 @@ namespace ProjetoMarketing.Contexts
         public DbSet<Entidade.Cupom> Cupom { get; set; }
         public DbSet<Entidade.Compartilhamento> Compartilhamento { get; set; }
         public DbSet<Entidade.Venda> Venda { get; set; }
+        public DbSet<Entidade.Usuario> Usuario { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return base.SaveChangesAsync(cancellationToken);
+        }
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var saveChangesAsync = await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
+                Database.CommitTransaction();
+                return saveChangesAsync;
+            }
+            catch (System.Data.DBConcurrencyException e)
+            {
+                var a = e.Message;
+                Database.RollbackTransaction();
+            }
+            catch (Exception e)
+            {
+                var a = e.Message;
+                Database.RollbackTransaction();
+            }
+
+            return 0;
+        }
     }
 }

@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Autentication;
-using ProjetoMarketing.Autentication.Context;
+using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -17,13 +15,11 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
     [Route("api/Empresa/Login")]
     public class LoginController : ControladorBase
     {
-        private readonly UsuarioContext _context;
-        private readonly UsuarioContext _contextUsuario;
+        private readonly PessoaEmpresaContext _context;
 
-        public LoginController(UsuarioContext context, UsuarioContext contextUsuario)
+        public LoginController(PessoaEmpresaContext context)
         {
             _context = context;
-            _contextUsuario = contextUsuario;
         }
 
         [AllowAnonymous]
@@ -64,7 +60,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                                               [FromServices]SigningConfigurations signingConfigurations,
                                               [FromServices]TokenConfigurations tokenConfigurations)
         {
-            var usuario = _contextUsuario.Usuario.FirstOrDefault(u => u.Token == parametros.Token);
+            var usuario = _context.Usuario.FirstOrDefault(u => u.Token == parametros.Token);
 
             if (usuario != null)
             {

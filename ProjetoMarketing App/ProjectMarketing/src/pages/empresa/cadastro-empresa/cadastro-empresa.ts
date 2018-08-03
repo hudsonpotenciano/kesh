@@ -75,7 +75,6 @@ export class CadastroEmpresaPage {
     
     this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
-        this.empresa = new CadastroEmpresaModel();
       });
   }
 

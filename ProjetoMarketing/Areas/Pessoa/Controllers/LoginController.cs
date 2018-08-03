@@ -1,16 +1,12 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoMarketing.Autentication.Context;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using Microsoft.AspNetCore.Authorization;
 using ProjetoMarketing.Data;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Security.Principal;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Controllers;
+using ProjetoMarketing.Contexts;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -18,9 +14,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
     [Route("api/Pessoa/Login")]
     public class LoginController : ControladorBase
     {
-        private readonly UsuarioContext _context;
+        private readonly PessoaEmpresaContext _context;
 
-        public LoginController(UsuarioContext context)
+        public LoginController(PessoaEmpresaContext context)
         {
             _context = context;
         }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using ProjetoMarketing.Autentication.Context;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Controllers;
@@ -18,17 +17,15 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
     public class PessoaController : ControladorBase
     {
         private readonly PessoaEmpresaContext _context;
-        private readonly UsuarioContext _contextUsuario;
 
-        public PessoaController(PessoaEmpresaContext context, UsuarioContext contextUsuario)
+        public PessoaController(PessoaEmpresaContext context)
         {
             _context = context;
-            _contextUsuario = contextUsuario;
         }
 
         [AllowAnonymous]
         [HttpPost("CadastrePessoa")]
-        public RetornoRequestModel CadastrePessoa([FromBody] ParametrosCadastroPessoa model,
+        public async Task<RetornoRequestModel> CadastrePessoa([FromBody] ParametrosCadastroPessoa model,
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
@@ -37,25 +34,18 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var retorno = new RetornoRequestModel();
 
             var pessoa = new Entidade.Pessoa.Pessoa();
+            var usuario = new Entidade.Usuario();
 
-            new PessoaDAO(_context).AddPessoa(model, out pessoa);
+            await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
 
-            if (pessoa.IdPessoa != 0)
+            if (usuario.IdUsuario != 0)
             {
-                var usuario = new Entidade.Usuario()
+                var retorno = new RetornoRequestModel
                 {
-                    IdPessoa = pessoa.IdPessoa,
-                    Login = model.Email,
-                    Senha = model.Senha
+                    Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
                 };
-
-                new UsuarioDAO(_contextUsuario).Add(usuario);
-                var user = new User(usuario.Login, usuario.Senha);
-
-                retorno.Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(user.Login, signingConfigurations, tokenConfigurations));
 
                 return retorno;
             }
@@ -67,7 +57,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaDadosPessoa")]
         public async Task<RetornoRequestModel> ObtenhaDadosPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
@@ -82,7 +72,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
         public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
@@ -97,7 +87,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaComentarioENotaPessoasEmpresas")]
         public async Task<RetornoRequestModel> ObtenhaComentarioENotaPessoasEmpresas([FromBody]ParametrosObtenhaNotasComentarios parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaComentarioENotaPessoasEmpresas(parametros);
@@ -114,7 +104,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaPessoaParaCompartilhamento")]
         public async Task<RetornoRequestModel> ObtenhaPessoaParaCompartilhamento([FromBody]ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
@@ -129,14 +119,14 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("AtualizeDadosPessoaEmpresa")]
-        public RetornoRequestModel AtualizeDadosPessoaEmpresa([FromBody]ParametrosAtualizeDadosPessoaEmpresa parametros)
+        public async Task<RetornoRequestModel> AtualizeDadosPessoaEmpresa([FromBody]ParametrosAtualizeDadosPessoaEmpresa parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             try
             {
-                new PessoaDAO(_context).AddOrUpdatePessoaEmpresa(parametros);
+                await new PessoaDAO(_context).AddOrUpdatePessoaEmpresa(parametros);
                 return RetornoRequestModel.CrieSucesso();
             }
             catch

@@ -1,3 +1,18 @@
 page-introducao {
-
+    ion-slide {
+        background: #fcc000;
+    }
+    #selecao-tipo {
+        ion-row {
+            margin: 10px;
+            .selecao {
+                position: relative;
+                top: 35%;
+                width: 100%;
+                img {
+                    height: 100px;
+                }
+            }
+        }
+    }
 }

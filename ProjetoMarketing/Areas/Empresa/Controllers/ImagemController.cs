@@ -45,10 +45,9 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("AtualizeCatalogo")]
-        public async Task<RetornoRequestModel> AtualizeCatalogo([FromBody]ParametrosAtualizeImagensCatalogo parametros,
-                                                               [FromServices]Autentication.Context.UsuarioContext _contextUsuario)
+        public async Task<RetornoRequestModel> AtualizeCatalogo([FromBody]ParametrosAtualizeImagensCatalogo parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             try

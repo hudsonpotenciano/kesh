@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoMarketing.Autentication.Context;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
@@ -14,15 +12,11 @@ namespace ProjetoMarketing.Controllers
     [Route("api/Transacao")]
     public class TransacaoController : ControladorBase
     {
-        private readonly UsuarioContext _contextUsuario;
         private readonly PessoaEmpresaContext _context;
 
 
-        public TransacaoController(
-            UsuarioContext usuarioContext,
-            PessoaEmpresaContext pessoaContext)
+        public TransacaoController(PessoaEmpresaContext pessoaContext)
         {
-            _contextUsuario = usuarioContext;
             _context = pessoaContext;
         }
 
@@ -30,7 +24,7 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("GereCupomCompartilhamento")]
         public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var compartilhamento = new Compartilhamento();
@@ -58,7 +52,7 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("GereVendaComCupom")]
         public async Task<RetornoRequestModel> GereVendaComCupom([FromBody]ParametrosCupomVenda parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var cupom = await new TransacaoDAO(_context).SelectCupom(parametros.TokenCupom);
@@ -83,7 +77,7 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("ObtenhaCuponsEVendasEmpresa")]
         public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]Areas.Empresa.Models.ParametrosObtenhaEmpresaLoja parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
@@ -102,7 +96,7 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("ObtenhaCuponsEVendasPessoaEmpresa")]
         public async Task<RetornoRequestModel> ObtenhaCuponsEVendasPessoaEmpresa([FromBody]ParametrosObtenhaDadosPessoaEmpresa parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
@@ -121,7 +115,7 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("ObtenhaCuponsEVendasPessoa")]
         public async Task<RetornoRequestModel> ObtenhaCuponsEVendasPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)
         {
-            if (!EstaAutenticado(_contextUsuario, parametros.Token))
+            if (!EstaAutenticado(_context, parametros.Token))
                 return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel

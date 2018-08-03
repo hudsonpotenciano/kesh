@@ -14,7 +14,7 @@
                 <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
                 <p>{{pessoaEmpresa.Perfil.Descricao}}</p>
             </ion-item>
-            <ion-slides color="tema" autoplay="true" effect="flip" loop="true" paginationType="bullets" pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
+            <ion-slides color="tema" autoplay="2000" speed="2000" effect="fade" loop="true" paginationType="bullets" pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
                 <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
                     <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
                 </ion-slide>

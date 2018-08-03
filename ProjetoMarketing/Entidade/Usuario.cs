@@ -17,8 +17,6 @@ namespace ProjetoMarketing.Entidade
         public string Token { get; set; }
         [Column("login")]
         public string Login { get; set; }
-        [Column("senha")]
-        public string Senha { get; set; }
         [Column("idpessoa")]
         public int? IdPessoa { get; set; }
         [Column("idempresa")]

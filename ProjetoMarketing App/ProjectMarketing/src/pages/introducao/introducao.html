@@ -1,4 +1,18 @@
-<ion-content padding>
-    <button ion-button (click)="pessoa()">Pessoa</button>
-    <button ion-button (click)="empresa()">Empresa</button>
+<ion-content>
+    <ion-slides>
+        <ion-slide>
+            <div id="selecao-tipo">
+                <ion-row (click)="pessoa()">
+                    <div class="selecao">
+                        <img src="./assets/svg/pessoas.svg" alt="">
+                    </div>
+                </ion-row>
+                <ion-row (click)="empresa()">
+                    <div class="selecao">
+                        <img item-center src="./assets/svg/empresa.svg" alt="">
+                    </div>
+                </ion-row>
+            </div>
+        </ion-slide>
+    </ion-slides>
 </ion-content>
