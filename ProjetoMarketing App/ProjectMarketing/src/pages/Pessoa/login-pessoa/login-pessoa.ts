@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { User } from '../../../models/models.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,8 @@ export class LoginPessoaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public pessoaProvider: PessoaProvider) {
+    public pessoaProvider: PessoaProvider,
+    private utilitarioProvider: UtilitariosProvider) {
   }
 
   ionViewDidLoad() {
@@ -34,5 +36,9 @@ export class LoginPessoaPage {
 
   abraCadastro() {
     this.navCtrl.push("CadastroPessoaPage");
+  }
+
+  mostreInformacao(event: any) {
+    this.utilitarioProvider.mestrePopInformacao("adas", event);
   }
 }

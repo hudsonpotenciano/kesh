@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { LoginPessoaPage } from './login-pessoa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
   ],
   providers:
     [
-      PessoaProvider
+      PessoaProvider,
+      UtilitariosProvider
     ]
 })
 export class LoginPessoaPageModule { }

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { CadastroPessoaModel } from '../../../models/pessoa.model';
+import { RetornoRequestModel } from '../../../models/models.model';
 
 @IonicPage()
 @Component({
@@ -68,6 +69,12 @@ export class CadastroPessoaPage {
     this.pessoa.Latitude = -16.605996;
     this.pessoa.Longitude = -49.316249;
 
-    this.pessoaProvider.cadastrePessoa(this.pessoa);
+    this.pessoaProvider.cadastrePessoa(this.pessoa)
+      .then(() => {
+        this.navCtrl.setRoot("LoginPessoaPage");
+      })
+      .catch((e: RetornoRequestModel) => {
+        alert(e.Mensagem);
+      });
   }
 }

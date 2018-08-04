@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { CadastroEmpresaModel } from '../../../models/empresa.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -21,7 +22,8 @@ export class CadastroEmpresaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     formBuilder: FormBuilder,
-    private empresaProvider: EmpresaProvider) {
+    private empresaProvider: EmpresaProvider,
+    private utilitarioProvider: UtilitariosProvider) {
 
     this.form = formBuilder.group({
       profilePic: [''],
@@ -72,10 +74,13 @@ export class CadastroEmpresaPage {
     this.empresa.Categorias = [1];
     this.empresa.Latitude = -16.6093353;
     this.empresa.Longitude = -49.3171053;
-    
+
     this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
       });
   }
 
+  mostreInformacaoPontos(event:any){
+    this.utilitarioProvider.mestrePopInformacao("Valor de um ponto em dinheiro",event);
+  }
 }

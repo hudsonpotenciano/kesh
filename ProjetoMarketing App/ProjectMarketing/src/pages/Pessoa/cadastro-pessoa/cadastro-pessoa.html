@@ -3,42 +3,49 @@
 
         <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
-        <div class="profile-image-wrapper" (click)="selecioneImagem()">
-            <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
-                <ion-icon name="add"></ion-icon>
-                <div>
-                    teste
-                </div>
+        <div class="profile-image" (click)="selecioneImagem()">
+            <div class="image-wrapper" *ngIf="!this.form.controls.profilePic.value">
+                <ion-icon name="images"></ion-icon>
             </div>
-            <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
+            <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
         </div>
 
         <ion-list>
             <ion-item>
-                <ion-label fixed>Nome</ion-label>
-                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome"></ion-input>
+                <ion-label>
+                    <ion-icon name="person"></ion-icon>
+                </ion-label>
+                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome" placeholder="Nome"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Telefone</ion-label>
-                <ion-input type="number" [(ngModel)]="pessoa.Telefone" formControlName="telefone"></ion-input>
+                <ion-label>
+                    <ion-icon name="call"></ion-icon>
+                </ion-label>
+                <ion-input type="number" [(ngModel)]="pessoa.Telefone" formControlName="telefone" placeholder="Celular"></ion-input>
             </ion-item>
         </ion-list>
 
         <ion-list>
             <ion-item>
-                <ion-label fixed>Email</ion-label>
-                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email"></ion-input>
+                <ion-label>
+                    <ion-icon name="mail"></ion-icon>
+                </ion-label>
+                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email" placeholder="Email"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Senha</ion-label>
-                <ion-input type="password" [(ngModel)]="pessoa.Senha" formControlName="senha"></ion-input>
+                <ion-label>
+                    <ion-icon name="lock"></ion-icon>
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="pessoa.Senha" formControlName="senha" placeholder="Senha"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Confirmação da senha</ion-label>
-                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" formControlName="confirmacaoDaSenha"></ion-input>
+                <ion-label>
+                    <ion-icon name="lock"></ion-icon>
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" placeholder="Confirme a senha" formControlName="confirmacaoDaSenha"></ion-input>
             </ion-item>
         </ion-list>
 
