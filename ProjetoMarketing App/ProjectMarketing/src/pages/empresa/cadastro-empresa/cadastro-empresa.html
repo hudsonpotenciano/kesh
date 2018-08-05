@@ -1,15 +1,19 @@
 <ion-content>
+    <ion-fab right bottom (click)="proximoSlide()">
+        <button ion-fab>             
+                     <ion-icon name="arrow-round-forward"></ion-icon>
+                      </button>
+    </ion-fab>
 
-    <form [formGroup]="form" (submit)="cadastre()">
-
-        <ion-slides pager="true">
+    <form [formGroup]="form">
+        <ion-slides #slides>
             <ion-slide>
                 <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
-                <div class="profile-image-wrapper" (click)="selecioneImagem()">
-                    <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
-                        <ion-icon name="add"></ion-icon>
+                <div class="profile-image" (click)="selecioneImagem()">
+                    <div class="image-wrapper" *ngIf="!this.form.controls.profilePic.value">
+                        <ion-icon name="images"></ion-icon>
                     </div>
-                    <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
+                    <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
                 </div>
             </ion-slide>
             <ion-slide>
@@ -65,7 +69,7 @@
                 </ion-list>
             </ion-slide>
             <ion-slide>
-                <ion-list>
+                <ion-list padding>
                     <ion-item>
                         <ion-label>
                             <ion-icon name="paper"></ion-icon>
@@ -85,7 +89,7 @@
                             <ion-icon name="cash"></ion-icon>
                         </ion-label>
                         <ion-input type="number" [(ngModel)]="empresa.ValorPontos" placeholder="Ponto" formControlName="valorPontos"></ion-input>
-                        <ion-icon item-end name="information-circle" (click)="mostreInformacaoPontos($event)"></ion-icon>
+                        <ion-icon item-end class="icone-info" name="information-circle" (click)="mostreInformacaoPontos($event)"></ion-icon>
                     </ion-item>
                 </ion-list>
             </ion-slide>

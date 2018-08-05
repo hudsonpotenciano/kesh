@@ -1,6 +1,7 @@
 $font-path: "../assets/fonts";
 $app-direction: ltr;
 $tema:#fcc000;
+$primary:#488aff;
 $colors: ( primary: #488aff, tema:#fcc000, secondary: #32db64, danger: #f53d3d, light: #fff, dark: #222);
 @import "ionic.theme.default";
 @import "ionic.globals";

@@ -11,6 +11,6 @@ export class PopoverInformacaoPage {
   texto: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.texto = this.navParams.data
+    this.texto = this.navParams.get("informacao");
   }
 }

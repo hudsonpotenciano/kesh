@@ -1,3 +1,9 @@
 page-popover-informacao {
-
+    .info {
+        border-radius: 15px;
+        background-color: $tema;
+        color: white;
+        height: 50px;
+        width: 100px;
+    }
 }
