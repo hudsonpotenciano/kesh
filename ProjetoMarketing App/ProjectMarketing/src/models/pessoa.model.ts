@@ -4,18 +4,21 @@ import { Empresa, Perfil, ImagemCatalogo, Conta } from "./empresa.model";
 export class CadastroPessoaModel {
     Nome: string;
     Email: string;
-    Telefone: string;
     Senha: string;
     Foto: any;
-    Latitude: number;
-    Longitude: number;
+}
+
+export class CadastroPessoaRedeSocialModel {
+    Nome: string;
+    Email: string;
+    Id: string;
+    Foto: any;
 }
 
 export class Pessoa {
     IdPessoa: number;
     Nome: string;
     Email: string;
-    Telefone: string;
     Latitude: number;
     Longitude: number;
 }

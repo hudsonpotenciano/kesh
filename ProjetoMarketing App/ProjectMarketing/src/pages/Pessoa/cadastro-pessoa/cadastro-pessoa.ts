@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
-import { CadastroPessoaModel } from '../../../models/pessoa.model';
+import { CadastroPessoaModel, CadastroPessoaRedeSocialModel } from '../../../models/pessoa.model';
 import { RetornoRequestModel } from '../../../models/models.model';
 
 @IonicPage()
@@ -15,8 +15,11 @@ export class CadastroPessoaPage {
   @ViewChild('fileInput') fileInput;
 
   pessoa: CadastroPessoaModel = new CadastroPessoaModel();
+  pessoaRedeSocial: CadastroPessoaRedeSocialModel = new CadastroPessoaRedeSocialModel();
+
   confirmacaoDaSenha: string;
   form: FormGroup;
+  form2: FormGroup;
   isReadyToSave: boolean;
 
   constructor(
@@ -29,14 +32,19 @@ export class CadastroPessoaPage {
       profilePic: [''],
       nome: ['', Validators.required],
       email: ['', Validators.required],
-      telefone: ['', Validators.required],
       senha: ['', Validators.required],
       confirmacaoDaSenha: ['', Validators.required]
     });
 
-    this.form.valueChanges.subscribe(() => {
-      this.isReadyToSave = this.form.valid;
+    this.form2 = formBuilder.group({
+      nome: ['', Validators.required],
+      email: ['', Validators.required],
     });
+
+    if (this.navParams.get("CadastroPessoaRedeSocialModel")) {
+      debugger;
+      this.pessoaRedeSocial = this.navParams.get("CadastroPessoaRedeSocialModel");
+    }
   }
 
   ionViewDidLoad() {
@@ -65,16 +73,22 @@ export class CadastroPessoaPage {
   }
 
   cadastre() {
-
-    this.pessoa.Latitude = -16.605996;
-    this.pessoa.Longitude = -49.316249;
-
     this.pessoaProvider.cadastrePessoa(this.pessoa)
       .then(() => {
-        this.navCtrl.setRoot("LoginPessoaPage");
+        this.navCtrl.setRoot("TabsPessoaPage");
       })
       .catch((e: RetornoRequestModel) => {
         alert(e.Mensagem);
       });
+  }
+
+  cadastreRedeSocial(){
+    this.pessoaProvider.cadastrePessoaRedeSocial(this.pessoaRedeSocial)
+    .then(() => {
+      this.navCtrl.setRoot("TabsPessoaPage");
+    })
+    .catch((e: RetornoRequestModel) => {
+      alert(e.Mensagem);
+    });
   }
 }

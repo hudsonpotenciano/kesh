@@ -53,5 +53,38 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             return retorno;
         }
+
+        [AllowAnonymous]
+        [HttpPost("RealizeLoginRedeSocial")]
+        public RetornoRequestModel RealizeLoginRedeSocial([FromBody] SocialUser usuario,
+                                              [FromServices]SigningConfigurations signingConfigurations,
+                                              [FromServices]TokenConfigurations tokenConfigurations)
+        {
+            var retorno = new RetornoRequestModel();
+
+            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Id))
+            {
+                var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
+
+                if (usuarioAutenticado != null)
+                {
+
+                    var token = GenerateAcessToken(usuario.Email, signingConfigurations, tokenConfigurations);
+
+                    retorno.Authenticated = true;
+                    retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
+                }
+                else
+                {
+                    return RetornoRequestModel.CrieFalhaLogin();
+                }
+            }
+            else
+            {
+                return RetornoRequestModel.CrieFalhaLogin();
+            }
+
+            return retorno;
+        }
     }
 }

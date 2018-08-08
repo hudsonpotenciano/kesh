@@ -1,25 +1,22 @@
 <ion-content>
-    <form (submit)="login()">
-        <ion-list>
-
-            <ion-item>
-                <ion-label fixed>Email</ion-label>
-                <ion-input type="text" [(ngModel)]="usuario.Login" name="login"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label fixed>Senha</ion-label>
-                <ion-input type="password" [(ngModel)]="usuario.Senha" name="senha"></ion-input>
-            </ion-item>
-
-            <div>
-                <button ion-button color="primary" block>Login</button>
-            </div>
-
-
-        </ion-list>
-    </form>
-    <div>
-        <button ion-button color="primary" block (click)="abraCadastro()">Registrar</button>
+    <div class="form-login">
+        <div class="box">
+            <form (submit)="login()">
+                <ion-list>
+                    <ion-item>
+                        <ion-label fixed>Email</ion-label>
+                        <ion-input type="text" [(ngModel)]="usuario.Login" name="login"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label fixed>Senha</ion-label>
+                        <ion-input type="password" [(ngModel)]="usuario.Senha" name="senha"></ion-input>
+                    </ion-item>
+                    <div>
+                        <button ion-button color="primary" block>Login</button>
+                    </div>
+                </ion-list>
+            </form>
+            <button ion-button color="primary" block (click)="abraCadastro()">Registrar</button>
+        </div>
     </div>
 </ion-content>

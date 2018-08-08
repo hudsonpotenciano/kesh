@@ -22,7 +22,7 @@
                         <ion-label>
                             <ion-icon name="home"></ion-icon>
                         </ion-label>
-                        <ion-input type="text" [(ngModel)]="empresa.Nome" placeholder="Nome" formControlName="nome"></ion-input>
+                        <ion-input type="text" [(ngModel)]="empresa.Nome" placeholder="{{'NOME' | translate}}" formControlName="nome"></ion-input>
                     </ion-item>
 
                     <ion-item>
@@ -62,9 +62,12 @@
 
                     <ion-item>
                         <ion-label>
-                            <ion-icon name="call"></ion-icon>
+                            <ion-icon name="cart"></ion-icon>
                         </ion-label>
-                        <ion-input type="tel" [(ngModel)]="empresa.Telefone2" placeholder="Telefone 2" formControlName="telefone2"></ion-input>
+                        <ion-select interface="action-sheet" item-center [selectOptions]="{title: 'Categorias'}" [(ngModel)]="empresa.Categoria" formControlName="categoria">
+                            <ion-option *ngFor="let categoria of categorias" value="{{categoria.Codigo}}">{{categoria.Descricao}}</ion-option>
+                        </ion-select>
+                        <icone-informacao item-end [id]="'CATEGORIA'"></icone-informacao>
                     </ion-item>
                 </ion-list>
             </ion-slide>

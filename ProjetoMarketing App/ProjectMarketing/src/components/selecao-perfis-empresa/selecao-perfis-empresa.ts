@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Perfil } from '../../models/empresa.model';
-import { EmpresaProvider } from '../../providers/empresa/empresa';
-
 
 @IonicPage()
 @Component({
@@ -15,16 +13,12 @@ export class SelecaoPerfisEmpresaPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private viewCtrl: ViewController,
-    private empresaProvider: EmpresaProvider) {
-
+    private viewCtrl: ViewController) {
+      
+      this.perfis = this.navParams.get("perfis");
   }
 
   ionViewDidLoad() {
-    this.empresaProvider.obtenhaPerfisEmpresa()
-      .then((perfis: Perfil[]) => {
-        this.perfis = perfis;
-      })
   }
 
   selecione(perfil: Perfil) {

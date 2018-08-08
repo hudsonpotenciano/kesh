@@ -1,0 +1,7 @@
+<ion-content padding>
+    <ion-list>
+        <ion-item *ngFor="let categoria of categorias" (click)="selecione(categoria)">
+            <h2>{{categoria.Descricao}}</h2>
+        </ion-item>
+    </ion-list>
+</ion-content>

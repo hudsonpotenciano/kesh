@@ -41,6 +41,14 @@
     }
 }
 
+icone-informacao {
+    z-index: 1;
+}
+
+ion-select {
+    max-width: 100% !important;
+}
+
 ion-icon {
     &[class*="custom"] {
         mask-size: contain;

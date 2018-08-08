@@ -37,7 +37,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 DescontoCompartilhamento = model.DescontoCompartilhamento,
                 ValorPontos = model.ValorPontos,
                 Resumo = model.Resumo,
-                Categorias = model.Categorias,
+                Categoria = model.Categoria,
                 IdEmpresa = empresa.IdEmpresa
             };
 
@@ -93,7 +93,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             conta.Resumo = !string.IsNullOrEmpty(model.Resumo) ? model.Resumo : conta.Resumo;
             conta.ValorPontos = model.ValorPontos != 0 ? model.ValorPontos : conta.ValorPontos;
             conta.DescontoCompartilhamento = model.DescontoCompartilhamento != 0 ? model.DescontoCompartilhamento : conta.DescontoCompartilhamento;
-            conta.Categorias = model.Categorias != null ? model.Categorias : conta.Categorias;
+            conta.Categoria = model.Categoria != 0 ? model.Categoria : conta.Categoria;
 
             _context.ContaEmpresa.Update(conta);
 

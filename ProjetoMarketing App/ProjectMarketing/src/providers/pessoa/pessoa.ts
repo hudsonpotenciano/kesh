@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa } from '../../models/pessoa.model';
+import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa, CadastroPessoaRedeSocialModel } from '../../models/pessoa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
-import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
+import { User, RetornoRequestModel, RetornoLogin, SocialUser } from '../../models/models.model';
 import { StoragePessoaProvider } from '../storage/storage-pessoa';
 import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
 
@@ -90,9 +90,33 @@ export class PessoaProvider {
       });
   }
 
+
+  realizeLoginRedeSocial(usuario: SocialUser) {
+
+    return this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial", usuario)
+      .then((resposta: RetornoRequestModel) => {
+        let result: RetornoLogin = resposta.Result;
+        this.storage.armazeneDadosAcesso(result);
+      });
+  }
+
   cadastrePessoa(pessoa: CadastroPessoaModel) {
 
     return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
+      .then((resposta: RetornoRequestModel) => {
+        this.storage.armazeneDadosAcesso(resposta);
+      })
+      .catch((retorno: RetornoRequestModel) => {
+
+        if (retorno && retorno.Erro == 2) {
+          alert("Este email já existe");
+        };
+      });
+  }
+
+  cadastrePessoaRedeSocial(pessoa: CadastroPessoaRedeSocialModel) {
+
+    return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
       .catch((retorno: RetornoRequestModel) => {
 
         if (retorno && retorno.Erro == 2) {

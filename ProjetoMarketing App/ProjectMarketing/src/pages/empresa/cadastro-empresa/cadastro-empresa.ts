@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { CadastroEmpresaModel } from '../../../models/empresa.model';
-import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { Enumerador, EnumeradorDeCategorias } from '../../../models/enumeradores.model';
 
 @IonicPage()
 @Component({
@@ -12,6 +12,7 @@ import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios'
 })
 export class CadastroEmpresaPage {
 
+  categorias: Enumerador[] = new EnumeradorDeCategorias().obtenhaTodos();
   empresa: CadastroEmpresaModel = new CadastroEmpresaModel();
   form: FormGroup;
 
@@ -22,8 +23,7 @@ export class CadastroEmpresaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     formBuilder: FormBuilder,
-    private empresaProvider: EmpresaProvider,
-    private utilitarioProvider: UtilitariosProvider) {
+    private empresaProvider: EmpresaProvider) {
 
     this.form = formBuilder.group({
       profilePic: [''],
@@ -37,6 +37,7 @@ export class CadastroEmpresaPage {
       descontoCompartilhamento: ['', Validators.required],
       valorPontos: ['', Validators.required],
       senha: ['', Validators.required],
+      categoria: ['', Validators.required]
     });
   }
 
@@ -65,7 +66,6 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
-    this.empresa.Categorias = [1];
     this.empresa.Latitude = -16.6093353;
     this.empresa.Longitude = -49.3171053;
 
@@ -73,10 +73,6 @@ export class CadastroEmpresaPage {
       .then(() => {
         this.navCtrl.setRoot("LoginEmpresaPage");
       });
-  }
-
-  mostreInformacaoPontos(event: any) {
-    this.utilitarioProvider.mestrePopInformacao("Valor de um ponto em dinheiro", event);
   }
 
   valideImagem() {
@@ -104,7 +100,7 @@ export class CadastroEmpresaPage {
     }
 
     if (this.slides.getActiveIndex() == 2 && this.valideDadosConta()) {
-      
+
       if (!this.form.valid) {
         //mensagem de inconsistencia
       }
@@ -112,5 +108,10 @@ export class CadastroEmpresaPage {
       this.cadastre();
     }
 
+  }
+
+  obtenhaCategoriaSelecionada() {
+    if (this.empresa.Categoria)
+      return this.categorias.find(c => c.Codigo == this.empresa.Categoria).Descricao;
   }
 }

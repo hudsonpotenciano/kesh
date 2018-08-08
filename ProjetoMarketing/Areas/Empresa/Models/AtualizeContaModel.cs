@@ -12,7 +12,7 @@ namespace ProjetoMarketing.Areas.Empresa.Models
         public string Resumo { get; set; }
         public decimal DescontoCompartilhamento { get; set; }
         public decimal ValorPontos { get; set; }
-        public int[] Categorias { get; set; }
+        public int Categoria { get; set; }
         public byte[] Logo { get; set; }
     }
 }

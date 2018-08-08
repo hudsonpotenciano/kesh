@@ -17,6 +17,6 @@ namespace ProjetoMarketing.Areas.Empresa.Models
         public decimal ValorPontos { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public int[] Categorias { get; set; }
+        public int Categoria { get; set; }
     }
 }

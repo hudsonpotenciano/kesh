@@ -53,6 +53,36 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             return RetornoRequestModel.CrieFalha();
         }
 
+        [AllowAnonymous]
+        [HttpPost("CadastrePessoaRedeSocial")]
+        public async Task<RetornoRequestModel> CadastrePessoaRedeSocial([FromBody] ParametrosCadastroPessoaRedeSocial model,
+                                              [FromServices]SigningConfigurations signingConfigurations,
+                                              [FromServices]TokenConfigurations tokenConfigurations)
+        {
+            if (_context.Pessoa.Any(p => p.Email == model.Email))
+            {
+                return RetornoRequestModel.CrieFalhaDuplicidade();
+            }
+
+
+            var pessoa = new Entidade.Pessoa.Pessoa();
+            var usuario = new Entidade.Usuario();
+
+            await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
+
+            if (usuario.IdUsuario != 0)
+            {
+                var retorno = new RetornoRequestModel
+                {
+                    Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
+                };
+
+                return retorno;
+            }
+
+            return RetornoRequestModel.CrieFalha();
+        }
+
         [Authorize("Bearer")]
         [HttpPost("ObtenhaDadosPessoa")]
         public async Task<RetornoRequestModel> ObtenhaDadosPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)

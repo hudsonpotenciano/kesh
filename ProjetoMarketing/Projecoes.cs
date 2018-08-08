@@ -17,10 +17,7 @@ namespace ProjetoMarketing
             {
                 pessoa.Email,
                 pessoa.IdPessoa,
-                pessoa.Latitude,
-                pessoa.Longitude,
-                pessoa.Nome,
-                pessoa.Telefone
+                pessoa.Nome
             };
         }
 
@@ -204,7 +201,7 @@ namespace ProjetoMarketing
             return new
             {
                 conta.IdEmpresa,
-                conta.Categorias,
+                conta.Categoria,
                 conta.DescontoCompartilhamento,
                 conta.Resumo,
                 conta.ValorPontos,

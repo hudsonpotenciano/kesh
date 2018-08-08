@@ -38,6 +38,7 @@ export class EmpresaProvider {
   }
 
   obtenhaPerfisEmpresa() {
+    debugger;
     return new Promise<Perfil[]>(resolve => {
       this.comunicacao.post("empresa/empresa/ObtenhaPerfisDaEmpresaParaSelecao", { IdEmpresa: this.dadosAcesso.IdEmpresa })
         .then((resposta: RetornoRequestModel) => {
@@ -47,7 +48,7 @@ export class EmpresaProvider {
     });
   }
 
-  
+
   atualizeConta(conta: AtualizeContaModel) {
 
     return this.comunicacao.post("Empresa/Empresa/AtualizeContaEmpresa", conta)
@@ -59,8 +60,14 @@ export class EmpresaProvider {
   cadastreEmpresa(empresa: CadastroEmpresaModel) {
 
     return this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", empresa)
-      .then(() => {
+      .then((resposta: RetornoRequestModel) => {
+        this.storage.armazeneDadosAcesso(resposta);
+      })
+      .catch((retorno: RetornoRequestModel) => {
 
+        if (retorno && retorno.Erro == 2) {
+          alert("Este email já existe");
+        };
       });
   }
 

@@ -41,11 +41,7 @@ CREATE TABLE public.pessoa
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idpessoa integer NOT NULL DEFAULT nextval('sq_pessoa'),
     nome text NOT NULL,
-    cpfcnpj text,
     email text NOT NULL,
-    telefone text,
-    latitude double precision NOT NULL,
-    longitude double precision NOT NULL,
     CONSTRAINT pk_pessoa PRIMARY KEY (id),
     CONSTRAINT uk_pessoa UNIQUE (idpessoa),
     CONSTRAINT uk_pessoa_email UNIQUE (email)

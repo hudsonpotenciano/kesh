@@ -20,6 +20,13 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
             return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdPessoa != null);
         }
+
+        public Usuario FindUsuarioPessoa(SocialUser usuario)
+        {
+            var token = Seguranca.GerarHashMd5(usuario.Email, usuario.Id);
+            return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdPessoa != null);
+        }
+
         public Usuario FindUsuarioEmpresa(User usuario)
         {
             var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);

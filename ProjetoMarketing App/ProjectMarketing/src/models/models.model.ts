@@ -18,6 +18,11 @@ export class User {
     Senha: string;
 }
 
+export class SocialUser {
+    Email: string;
+    Id: string;
+}
+
 export class Usuario {
     Login: string;
     Senha: string;
@@ -25,16 +30,6 @@ export class Usuario {
     IdPessoa: number;
     IdEmpresa: number;
     Token: string;
-}
-
-export class Enumerador {
-    Codigo: number;
-    Descricao: number;
-
-    constructor(_codigo, _descricao) {
-        this.Codigo = _codigo;
-        this.Descricao = _descricao;
-    }
 }
 
 export class Cupom {

@@ -23,6 +23,7 @@
         "@angular/platform-browser-dynamic": "5.2.10",
         "@ionic-native/camera": "^4.7.0",
         "@ionic-native/core": "4.7.0",
+        "@ionic-native/facebook": "^4.11.0",
         "@ionic-native/geolocation": "^4.9.1",
         "@ionic-native/qr-scanner": "^4.7.0",
         "@ionic-native/social-sharing": "^4.7.0",
@@ -35,6 +36,7 @@
         "cordova-instagram-plugin": "^0.5.7",
         "cordova-plugin-camera": "^4.0.3",
         "cordova-plugin-device": "^2.0.2",
+        "cordova-plugin-facebook4": "^2.2.0",
         "cordova-plugin-geolocation": "^4.0.1",
         "cordova-plugin-ionic-keyboard": "^2.0.5",
         "cordova-plugin-ionic-webview": "^1.1.19",
@@ -69,10 +71,13 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-geolocation": {
                 "GEOLOCATION_USAGE_DESCRIPTION": "Para encontrar os estabelecimentos mais próximos"
+            },
+            "cordova-plugin-facebook4": {
+                "APP_ID": "295986914499333",
+                "APP_NAME": "Project Marketing",
+                "ANDROID_SDK_VERSION": "4.+"
             }
         },
-        "platforms": [
-            "android"
-        ]
+        "platforms": []
     }
 }

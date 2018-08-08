@@ -1,5 +1,5 @@
 <ion-content>
-    <form [formGroup]="form" (submit)="cadastre()">
+    <form *ngIf="!pessoaRedeSocial" [formGroup]="form" (submit)="cadastre()">
 
         <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
@@ -18,15 +18,6 @@
                 <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome" placeholder="Nome"></ion-input>
             </ion-item>
 
-            <ion-item>
-                <ion-label>
-                    <ion-icon name="call"></ion-icon>
-                </ion-label>
-                <ion-input type="number" [(ngModel)]="pessoa.Telefone" formControlName="telefone" placeholder="Celular"></ion-input>
-            </ion-item>
-        </ion-list>
-
-        <ion-list>
             <ion-item>
                 <ion-label>
                     <ion-icon name="mail"></ion-icon>
@@ -50,7 +41,32 @@
         </ion-list>
 
         <div padding>
-            <button ion-button color="primary" block>Salvar</button>
+            <button ion-button color="primary" block>Cadastrar</button>
+        </div>
+    </form>
+
+    <form *ngIf="pessoaRedeSocial" [formGroup]="form2" (submit)="cadastreRedeSocial()">
+
+        <img src="{{pessoaRedeSocial.Foto}}" alt="">
+
+        <ion-list>
+            <ion-item>
+                <ion-label>
+                    <ion-icon name="person"></ion-icon>
+                </ion-label>
+                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome" placeholder="Nome"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>
+                    <ion-icon name="mail"></ion-icon>
+                </ion-label>
+                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email" placeholder="Email"></ion-input>
+            </ion-item>
+        </ion-list>
+
+        <div padding>
+            <button ion-button color="primary" block>Cadastrar</button>
         </div>
     </form>
 </ion-content>

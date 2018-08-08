@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { LoginPessoaPage } from './login-pessoa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios'
   providers:
     [
       PessoaProvider,
-      UtilitariosProvider
+      UtilitariosProvider,
+      Facebook
     ]
 })
 export class LoginPessoaPageModule { }

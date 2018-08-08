@@ -28,9 +28,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             {
                 Email = model.Email,
                 Nome = model.Nome,
-                Telefone = model.Telefone,
-                Latitude = model.Latitude,
-                Longitude = model.Longitude
             };
 
             //Necessário para obter o IDPESSOA
@@ -56,6 +53,36 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.SaveChangesAsync();
         }
 
+        public Task AddPessoaUsuario(Models.ParametrosCadastroPessoaRedeSocial model, out Entidade.Pessoa.Pessoa pessoa, out Usuario usuario)
+        {
+            pessoa = new Entidade.Pessoa.Pessoa()
+            {
+                Email = model.Email,
+                Nome = model.Nome,
+            };
+
+            //Necessário para obter o IDPESSOA
+            _context.Pessoa.Add(pessoa);
+            _context.SaveChanges();
+
+            var imagemPerfil = new ImagemPerfil()
+            {
+                Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
+                IdPessoa = pessoa.IdPessoa
+            };
+
+            usuario = new Usuario()
+            {
+                IdPessoa = pessoa.IdPessoa,
+                Login = model.Email,
+                Token = Seguranca.GerarHashMd5(model.Email, model.Id)
+            };
+
+            _context.Usuario.Add(usuario);
+            _context.ImagemPerfil.Add(imagemPerfil);
+            _context.Database.CommitTransaction();
+            return _context.SaveChangesAsync();
+        }
 
         public void Remove(Entidade.Pessoa.Pessoa pessoa)
         {
@@ -103,17 +130,20 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             };
 
             //OBTEM EMPRESAS NO RAIO DE 50KM
-            RawSqlString sqlPerfis = $@"select * from public.perfilempresa where 
+            var sqlPerfis = $@"select * from public.perfilempresa where 
                                                                         ((select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
                                                                         cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) as distancia) < 50)";
+
             return (from perfil in _context.PerfilEmpresa.FromSql(sqlPerfis)
                     let idPerfilEmpresa = perfil.IdPerfilEmpresa
                     let pessoasEmpresa = _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
                     let imagensCatalogo = _context.ImagemCatalogo.Where(d => d.IdPerfilEmpresa == idPerfilEmpresa)
                     let empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == perfil.IdEmpresa)
                     let conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == empresa.IdEmpresa)
-                    let pessoaEmpresa = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa)
-                    let notaGeral = _context.PessoaEmpresa.Sum(p => p.Nota) / _context.PessoaEmpresa.Count(p => p.Nota != null)
+                    let pessoaEmpresa = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == idPerfilEmpresa)
+                    let notaGeral = _context.PessoaEmpresa
+                                    .Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
+                                    .Sum(p => p.Nota) / _context.PessoaEmpresa.Count(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null)
                     select new DTO.DTOPessoaEmpresa()
                     {
                         Empresa = empresa,
@@ -158,9 +188,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         Nome = a.Nome,
                         Email = a.Email,
                         IdPessoa = a.IdPessoa,
-                        Telefone = a.Telefone,
-                        Latitude = a.Latitude,
-                        Longitude = a.Longitude,
                     }).ToListAsync();
         }
     }

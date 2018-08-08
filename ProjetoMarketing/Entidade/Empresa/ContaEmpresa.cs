@@ -21,7 +21,7 @@ namespace ProjetoMarketing.Entidade.Empresa
         public decimal DescontoCompartilhamento { get; set; }
         [Column("valorpontos")]
         public decimal ValorPontos { get; set; }
-        [Column("categorias")]
-        public int[] Categorias { get; set; }
+        [Column("categoria")]
+        public int Categoria { get; set; }
     }
 }

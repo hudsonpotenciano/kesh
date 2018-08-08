@@ -43,16 +43,29 @@ export class LoginEmpresaPage {
     popOver.present();
 
     popOver.onDidDismiss((selecao: number) => {
-      if (selecao == 0)
+      if (selecao == 0) {
         this.navCtrl.setRoot("TabsEmpresaPage");
-      else if (selecao == 1)
-        this.abraModalSelecaoPerfisEmpresa();
+      }
+      else if (selecao == 1) {
+
+        this.empresaProvider.obtenhaPerfisEmpresa()
+          .then((perfis: Perfil[]) => {
+            
+            if (perfis && perfis.length == 1) {
+              this.storageEmpresa.armazeneIdPerfilEmpresa(perfis[0].IdPerfilEmpresa);
+              this.navCtrl.setRoot("TabsEmpresaLojaPage");
+            }
+            else{
+              this.abraModalSelecaoPerfisEmpresa(perfis);
+            }
+          });
+      }
     });
   }
 
-  abraModalSelecaoPerfisEmpresa() {
+  abraModalSelecaoPerfisEmpresa(perfis: Perfil[]) {
 
-    var popOver = this.popOverCtrl.create("SelecaoPerfisEmpresaPage", {}, { enableBackdropDismiss: false });
+    var popOver = this.popOverCtrl.create("SelecaoPerfisEmpresaPage", { perfis }, { enableBackdropDismiss: false });
     popOver.present();
 
     popOver.onDidDismiss((perfil: Perfil) => {

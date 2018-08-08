@@ -9,7 +9,7 @@ namespace ProjetoMarketing.Contexts
 {
     public class PessoaEmpresaContext : DbContext
     {
-        public PessoaEmpresaContext(DbContextOptions<PessoaEmpresaContext> options) : base(options) {}
+        public PessoaEmpresaContext(DbContextOptions<PessoaEmpresaContext> options) : base(options) { }
 
         public DbSet<Entidade.Pessoa.Pessoa> Pessoa { get; set; }
         public DbSet<Entidade.Pessoa.PessoaEmpresa> PessoaEmpresa { get; set; }
@@ -17,7 +17,7 @@ namespace ProjetoMarketing.Contexts
         public DbSet<Entidade.Empresa.ContaEmpresa> ContaEmpresa { get; set; }
         public DbSet<Entidade.Empresa.Empresa> Empresa { get; set; }
         public DbSet<Entidade.Empresa.ImagemCatalogo> ImagemCatalogo { get; set; }
-        public DbSet<Entidade.ImagemPerfil> ImagemPerfil { get; set; }    
+        public DbSet<Entidade.ImagemPerfil> ImagemPerfil { get; set; }
         public DbSet<Entidade.Cupom> Cupom { get; set; }
         public DbSet<Entidade.Compartilhamento> Compartilhamento { get; set; }
         public DbSet<Entidade.Venda> Venda { get; set; }
@@ -31,7 +31,7 @@ namespace ProjetoMarketing.Contexts
         {
             try
             {
-                var saveChangesAsync = await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
+                var saveChangesAsync = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
                 Database.CommitTransaction();
                 return saveChangesAsync;
             }
