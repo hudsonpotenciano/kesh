@@ -47,9 +47,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("AtualizeCatalogo")]
         public async Task<RetornoRequestModel> AtualizeCatalogo([FromBody]ParametrosAtualizeImagensCatalogo parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             try
             {
                 await Task.Factory.StartNew(() =>

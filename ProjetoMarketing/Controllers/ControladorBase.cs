@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Autentication;
-using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Data;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,11 +11,6 @@ namespace ProjetoMarketing.Controllers
 {
     public class ControladorBase : Controller
     {
-        public bool EstaAutenticado(PessoaEmpresaContext context, string token)
-        {
-            return new UsuarioDAO(context).ValideToken(token);
-        }
-
         public string GenerateAcessToken(string usuarioLogin, SigningConfigurations signingConfigurations, TokenConfigurations tokenConfigurations)
         {
             ClaimsIdentity identity = new ClaimsIdentity(

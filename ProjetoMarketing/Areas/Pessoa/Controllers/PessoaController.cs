@@ -87,9 +87,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaDadosPessoa")]
         public async Task<RetornoRequestModel> ObtenhaDadosPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             var retorno = new RetornoRequestModel
             {
                 Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Select(parametros.IdPessoa))
@@ -102,8 +99,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
         public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
 
             var retorno = new RetornoRequestModel
             {
@@ -117,8 +112,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaComentarioENotaPessoasEmpresas")]
         public async Task<RetornoRequestModel> ObtenhaComentarioENotaPessoasEmpresas([FromBody]ParametrosObtenhaNotasComentarios parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
 
             var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaComentarioENotaPessoasEmpresas(parametros);
 
@@ -134,9 +127,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaPessoaParaCompartilhamento")]
         public async Task<RetornoRequestModel> ObtenhaPessoaParaCompartilhamento([FromBody]ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
 
             var retorno = new RetornoRequestModel
@@ -151,9 +141,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("AtualizeDadosPessoaEmpresa")]
         public async Task<RetornoRequestModel> AtualizeDadosPessoaEmpresa([FromBody]ParametrosAtualizeDadosPessoaEmpresa parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             try
             {
                 await new PessoaDAO(_context).AddOrUpdatePessoaEmpresa(parametros);

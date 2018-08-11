@@ -11,6 +11,7 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Serialization;
 using ProjetoMarketing.Contexts;
+using Microsoft.AspNetCore.Http;
 
 namespace ProjetoMarketing
 {
@@ -75,7 +76,6 @@ namespace ProjetoMarketing
                     .RequireAuthenticatedUser().Build());
             });
 
-
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowFromAll",
@@ -83,7 +83,20 @@ namespace ProjetoMarketing
                     .WithMethods("GET", "POST", "OPTIONS")
                     .AllowAnyOrigin()
                     .AllowAnyHeader());
-            }); ;
+            });
+
+            //Redireciona http para https
+            //services.AddHttpsRedirection(options =>
+            //{
+            //    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+            //});
+
+            //services.AddHsts(options =>
+            //{
+            //    options.Preload = true;
+            //    options.IncludeSubDomains = true;
+            //    options.MaxAge = TimeSpan.FromDays(60);
+            //});
 
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
@@ -96,7 +109,13 @@ namespace ProjetoMarketing
                 app.UseDeveloperExceptionPage();
             }
 
+            //Redireciona http para https
+            //app.UseHsts();
+
             app.UseCors("AllowFromAll");
+
+            //Redireciona http para https
+            //app.UseHttpsRedirection();
 
             app.UseMvc(routes =>
             {

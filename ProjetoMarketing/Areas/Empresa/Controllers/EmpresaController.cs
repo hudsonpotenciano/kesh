@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Controllers;
@@ -57,9 +56,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("AtualizeContaEmpresa")]
         public async Task<RetornoRequestModel> AtualizeContaEmpresa([FromBody]AtualizeContaModel parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             await new EmpresaDAO(_context).UpdateConta(parametros);
 
             return RetornoRequestModel.CrieSucesso();
@@ -69,9 +65,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("AtualizePerfilEmpresa")]
         public async Task<RetornoRequestModel> AtualizePerfilEmpresa([FromBody]CadastroPerfilModel parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             await new EmpresaDAO(_context).UpdatePerfil(parametros);
 
             return RetornoRequestModel.CrieSucesso();
@@ -82,9 +75,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("ObtenhaPerfisDaEmpresaParaSelecao")]
         public async Task<RetornoRequestModel> ObtenhaPerfisDaEmpresaParaSelecao([FromBody]ParametrosObtenhaDadosEmpresa parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             var perfisEmpresa = await new EmpresaDAO(_context).SelectPerfisEmpresa(parametros.IdEmpresa);
 
             return new RetornoRequestModel()
@@ -97,9 +87,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("ObtenhaDadosEmpresaLoja")]
         public async Task<RetornoRequestModel> ObtenhaDadosEmpresaLoja([FromBody]ParametrosObtenhaEmpresaLoja parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresaLoja(parametros.IdEmpresa, parametros.IdPerfilEmpresa);
 
             return new RetornoRequestModel()
@@ -112,9 +99,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("ObtenhaDadosEmpresaAdmin")]
         public async Task<RetornoRequestModel> ObtenhaDadosEmpresaAdmin([FromBody]ParametrosObtenhaDadosEmpresa parametros)
         {
-            if (!EstaAutenticado(_context, parametros.Token))
-                return RetornoRequestModel.CrieFalhaLogin();
-
             var dadosEmpresa = await new EmpresaDAO(_context).SelectEmpresaAdmin(parametros.IdEmpresa);
 
             return new RetornoRequestModel()
