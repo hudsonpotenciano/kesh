@@ -75,7 +75,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             {
                 IdPessoa = pessoa.IdPessoa,
                 Login = model.Email,
-                Token = Seguranca.GerarHashMd5(model.Email, model.Id)
+                Token = Seguranca.GerarHashMd5(model.Email, model.Id),
+                RedeSocial = true
             };
 
             _context.Usuario.Add(usuario);

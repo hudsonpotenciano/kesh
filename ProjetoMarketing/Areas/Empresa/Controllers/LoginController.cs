@@ -53,26 +53,5 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             return retorno;
         }
-
-        [AllowAnonymous]
-        [HttpPost("ObtenhaBearerToken")]
-        public RetornoRequestModel RealizeLogin([FromBody] ParametrosRequestModel parametros,
-                                              [FromServices]SigningConfigurations signingConfigurations,
-                                              [FromServices]TokenConfigurations tokenConfigurations)
-        {
-            var usuario = _context.Usuario.FirstOrDefault(u => u.Token == parametros.Token);
-
-            if (usuario != null)
-            {
-                var retorno = new RetornoRequestModel()
-                {
-                    Result = new { AcessToken = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations) }
-                };
-
-                return retorno;
-            }
-            else
-                return RetornoRequestModel.CrieFalhaLogin();
-        }
     }
 }

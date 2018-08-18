@@ -30,16 +30,15 @@ export class LoginPessoaPage {
   }
 
   loginFacebook() {
-    debugger;
 
     this.fb.login(['public_profile', 'email'])
       .then((responseLogin: FacebookLoginResponse) => {
 
-        this.fb.api("/me?fields=name,email", new Array<string>())
-          .then(res => {
+        this.fb.api("/me?fields=name,email,picture.width(150).height(150)", new Array<string>())
+          .then(resFb => {
 
             var user: SocialUser = new SocialUser();
-            user.Email = res.email;
+            user.Email = resFb.email;
             user.Id = responseLogin.authResponse.userID;
 
             this.pessoaProvider.realizeLoginRedeSocial(user)
@@ -48,28 +47,18 @@ export class LoginPessoaPage {
               })
               .catch(() => {
 
-                var CadastroPessoaRedeSocialModel = {
-                  Email: res.email,
-                  Foto: this.obtenhaFotoFacebook(responseLogin.authResponse.userID),
-                  Nome: res.name,
-                  Id : responseLogin.authResponse.userID
+                var cadastroPessoaRedeSocialModel = {
+                  Email: resFb.email,
+                  Foto: resFb.picture.data.url,
+                  Nome: resFb.name,
+                  Id: responseLogin.authResponse.userID
                 } as CadastroPessoaRedeSocialModel;
 
-                this.navCtrl.push("CadastroPessoaPage", CadastroPessoaRedeSocialModel)
-              })
+                this.navCtrl.push("CadastroPessoaPage", { CadastroPessoaRedeSocialModel: cadastroPessoaRedeSocialModel });
+              });
           });
       })
       .catch(e => console.log('Error logging into Facebook', e));
-  }
-
-  obtenhaFotoFacebook(userId: string) {
-    this.fb.api(`/${userId}/picture`, new Array<string>())
-      .then(res => {
-        return this.getBase64Image(res.data.url);
-      })
-      .catch(() => {
-        return "";
-      })
   }
 
   login() {
@@ -77,7 +66,7 @@ export class LoginPessoaPage {
     this.pessoaProvider.realizeLogin(this.usuario)
       .then(() => {
         this.navCtrl.setRoot("TabsPessoaPage");
-      })
+      });
   }
 
   abraCadastro() {
@@ -86,22 +75,5 @@ export class LoginPessoaPage {
 
   mostreInformacao(event: any) {
     this.utilitarioProvider.mestrePopInformacao("adas", event);
-  }
-
-  getBase64Image(url: string) {
-
-    let img = document.createElement("img") as HTMLImageElement;
-    img.src = url;
-
-    img.onload = () => {
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      var dataURL = canvas.toDataURL("image/png");
-      // return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-      return dataURL;
-    }
   }
 }

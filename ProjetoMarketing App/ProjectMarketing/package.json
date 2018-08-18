@@ -61,7 +61,6 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-camera": {},
-            "cordova-plugin-whitelist": {},
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-ionic-webview": {},
@@ -76,7 +75,8 @@
                 "APP_ID": "295986914499333",
                 "APP_NAME": "Project Marketing",
                 "ANDROID_SDK_VERSION": "4.+"
-            }
+            },
+            "cordova-plugin-whitelist": {}
         },
         "platforms": []
     }

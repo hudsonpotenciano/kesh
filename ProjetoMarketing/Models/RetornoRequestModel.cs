@@ -2,11 +2,15 @@
 {
     public class RetornoRequestModel
     {
+        const int erroLoginIncorreto = 1;
+        const int erroDuplicidadeUsuario = 2;
+
         public RetornoRequestModel()
         {
             Mensagem = string.Empty;
             Erro = 0;
         }
+
         public string Mensagem { get; set; }
         public int Erro { get; set; }
         public dynamic Result { get; set; }
@@ -17,8 +21,7 @@
         {
             return new RetornoRequestModel
             {
-                Mensagem = "Login Incorreto",
-                Erro = 1,
+                Erro = erroLoginIncorreto,
                 Authenticated = false
             };
         }
@@ -27,15 +30,9 @@
         {
             return new RetornoRequestModel
             {
-                Mensagem = "",
                 Erro = -1,
                 Authenticated = false
             };
-        }
-
-        public static RetornoRequestModel CrieSucesso()
-        {
-            return new RetornoRequestModel();
         }
 
         public static RetornoRequestModel CrieFalhaDuplicidade()
@@ -45,6 +42,11 @@
                 Erro = 2,
                 Authenticated = false
             };
+        }
+
+        public static RetornoRequestModel CrieSucesso()
+        {
+            return new RetornoRequestModel();
         }
     }
 }

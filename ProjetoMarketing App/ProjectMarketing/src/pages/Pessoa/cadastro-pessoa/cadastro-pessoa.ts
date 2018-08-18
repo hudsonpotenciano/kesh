@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { CadastroPessoaModel, CadastroPessoaRedeSocialModel } from '../../../models/pessoa.model';
-import { RetornoRequestModel } from '../../../models/models.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ export class CadastroPessoaPage {
   @ViewChild('fileInput') fileInput;
 
   pessoa: CadastroPessoaModel = new CadastroPessoaModel();
-  pessoaRedeSocial: CadastroPessoaRedeSocialModel = new CadastroPessoaRedeSocialModel();
+  pessoaRedeSocial: CadastroPessoaRedeSocialModel;
 
   confirmacaoDaSenha: string;
   form: FormGroup;
@@ -26,7 +26,8 @@ export class CadastroPessoaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     formBuilder: FormBuilder,
-    private pessoaProvider: PessoaProvider) {
+    private pessoaProvider: PessoaProvider,
+    private utilitarioProvider: UtilitariosProvider) {
 
     this.form = formBuilder.group({
       profilePic: [''],
@@ -41,8 +42,8 @@ export class CadastroPessoaPage {
       email: ['', Validators.required],
     });
 
+    debugger;
     if (this.navParams.get("CadastroPessoaRedeSocialModel")) {
-      debugger;
       this.pessoaRedeSocial = this.navParams.get("CadastroPessoaRedeSocialModel");
     }
   }
@@ -62,33 +63,40 @@ export class CadastroPessoaPage {
 
       let imageData = (readerEvent.target as any).result;
       this.form.patchValue({ 'profilePic': imageData });
-      this.pessoa.Foto = imageData.split(',')[1];
+      let imagem = imageData.split(',')[1];
+
+      if (this.pessoaRedeSocial)
+        this.pessoaRedeSocial.Foto = imagem;
+      else
+        this.pessoa.Foto = imagem;
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
   getProfileImageStyle() {
+    if (this.pessoaRedeSocial.Foto) return 'url(' + this.pessoaRedeSocial.Foto + ')'
     return 'url(' + this.form.controls['profilePic'].value + ')'
   }
 
   cadastre() {
     this.pessoaProvider.cadastrePessoa(this.pessoa)
       .then(() => {
+        debugger;
         this.navCtrl.setRoot("TabsPessoaPage");
-      })
-      .catch((e: RetornoRequestModel) => {
-        alert(e.Mensagem);
       });
   }
 
-  cadastreRedeSocial(){
-    this.pessoaProvider.cadastrePessoaRedeSocial(this.pessoaRedeSocial)
-    .then(() => {
-      this.navCtrl.setRoot("TabsPessoaPage");
-    })
-    .catch((e: RetornoRequestModel) => {
-      alert(e.Mensagem);
+  cadastreRedeSocial() {
+
+    this.utilitarioProvider.getBase64Image(this.pessoaRedeSocial.Foto, (foto) => {
+
+      this.pessoaRedeSocial.Foto = foto;
+
+      this.pessoaProvider.cadastrePessoaRedeSocial(this.pessoaRedeSocial)
+        .then(() => {
+          this.navCtrl.setRoot("TabsPessoaPage");
+        });
     });
   }
 }

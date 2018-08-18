@@ -34,7 +34,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-
             var pessoa = new Entidade.Pessoa.Pessoa();
             var usuario = new Entidade.Usuario();
 

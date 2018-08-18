@@ -21,5 +21,8 @@ namespace ProjetoMarketing.Entidade
         public int? IdPessoa { get; set; }
         [Column("idempresa")]
         public int? IdEmpresa { get; set; }
+        [Column("redesocial")]
+        public bool RedeSocial { get; set; }
+
     }
 }

@@ -1,8 +1,7 @@
 <ion-content>
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+
     <form *ngIf="!pessoaRedeSocial" [formGroup]="form" (submit)="cadastre()">
-
-        <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
-
         <div class="profile-image" (click)="selecioneImagem()">
             <div class="image-wrapper" *ngIf="!this.form.controls.profilePic.value">
                 <ion-icon name="images"></ion-icon>
@@ -46,22 +45,25 @@
     </form>
 
     <form *ngIf="pessoaRedeSocial" [formGroup]="form2" (submit)="cadastreRedeSocial()">
-
-        <img src="{{pessoaRedeSocial.Foto}}" alt="">
-
+        <div class="profile-image" (click)="selecioneImagem()">
+            <div class="image-wrapper" *ngIf="!pessoaRedeSocial.Foto">
+                <ion-icon name="images"></ion-icon>
+            </div>
+            <div class="image" *ngIf="pessoaRedeSocial.Foto" [style.backgroundImage]="getProfileImageStyle()"></div>
+        </div>
         <ion-list>
             <ion-item>
                 <ion-label>
                     <ion-icon name="person"></ion-icon>
                 </ion-label>
-                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome" placeholder="Nome"></ion-input>
+                <ion-input type="text" [(ngModel)]="pessoaRedeSocial.Nome" formControlName="nome" placeholder="Nome"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label>
                     <ion-icon name="mail"></ion-icon>
                 </ion-label>
-                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email" placeholder="Email"></ion-input>
+                <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email" formControlName="email" placeholder="Email"></ion-input>
             </ion-item>
         </ion-list>
 

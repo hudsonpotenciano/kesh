@@ -62,13 +62,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         {
             var retorno = new RetornoRequestModel();
 
-            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Id))
+            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Email))
             {
                 var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
 
                 if (usuarioAutenticado != null)
                 {
-
                     var token = GenerateAcessToken(usuario.Email, signingConfigurations, tokenConfigurations);
 
                     retorno.Authenticated = true;

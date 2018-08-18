@@ -29,6 +29,8 @@ export class MyApp {
     });
 
     this.initTranslate();
+
+    localStorage.clear();
   }
 
   initTranslate() {

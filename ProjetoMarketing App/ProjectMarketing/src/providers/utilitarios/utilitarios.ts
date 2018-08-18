@@ -17,4 +17,21 @@ export class UtilitariosProvider {
       animate: true,
     });
   }
+
+  getBase64Image(url: string, callback: Function) {
+
+    let img = document.createElement("img") as HTMLImageElement;
+    img.src = url;
+
+    img.onload = () => {
+
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      callback(canvas.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, ""));
+    }
+  }
 }

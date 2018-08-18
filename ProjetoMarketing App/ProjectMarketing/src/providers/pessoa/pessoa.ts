@@ -74,7 +74,6 @@ export class PessoaProvider {
 
       this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
         .then((resposta: RetornoRequestModel) => {
-
           resolve(resposta.Result);
           this.storagePessoa.armazeneDadosPessoa(resposta.Result);
         });
@@ -90,7 +89,6 @@ export class PessoaProvider {
       });
   }
 
-
   realizeLoginRedeSocial(usuario: SocialUser) {
 
     return this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial", usuario)
@@ -102,27 +100,36 @@ export class PessoaProvider {
 
   cadastrePessoa(pessoa: CadastroPessoaModel) {
 
-    return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
-      .then((resposta: RetornoRequestModel) => {
-        this.storage.armazeneDadosAcesso(resposta);
-      })
-      .catch((retorno: RetornoRequestModel) => {
+    return new Promise(resolve => {
 
-        if (retorno && retorno.Erro == 2) {
-          alert("Este email já existe");
-        };
-      });
+      this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
+        .then((resposta: RetornoRequestModel) => {
+          resolve();
+          this.storage.armazeneDadosAcesso(resposta);
+        })
+        .catch((resposta: RetornoRequestModel) => {
+          if (resposta.Erro == 2) {
+            alert("Este Email já está cadastrado");
+          };
+        });
+    });
   }
 
   cadastrePessoaRedeSocial(pessoa: CadastroPessoaRedeSocialModel) {
 
-    return this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
-      .catch((retorno: RetornoRequestModel) => {
+    return new Promise(resolve => {
 
-        if (retorno && retorno.Erro == 2) {
-          alert("Este email já existe");
-        };
-      });
+      this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
+        .then((resposta: RetornoRequestModel) => {
+          resolve();
+          this.storage.armazeneDadosAcesso(resposta);
+        })
+        .catch((resposta: RetornoRequestModel) => {
+          if (resposta.Erro == 2) {
+            alert("Este Email já está cadastrado");
+          };
+        });
+    });
   }
 
   obtenhaFotoPessoa(idPessoa: number) {

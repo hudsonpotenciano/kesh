@@ -42,6 +42,10 @@ export class ComunicacaoProvider {
           let retorno: RetornoRequestModel = response as any;
 
           if (retorno.Erro != 0) {
+
+            if (retorno.Mensagem && retorno.Mensagem != "")
+              alert(retorno.Mensagem)
+
             reject(retorno);
             return;
           }
@@ -49,9 +53,9 @@ export class ComunicacaoProvider {
           resolve(retorno);
         })
         .catch((e: any) => {
-                  
+
           if (e.status == 401) {
-            
+
             alert(this.tentativasDePost);
 
             if (this.tentativasDePost++ >= 3) {
@@ -61,7 +65,8 @@ export class ComunicacaoProvider {
             else {
 
               var dadosAcesso = this.storage.recupereDadosAcesso();
-              this.http.post(ComunicacaoSettings.UrlApiBase + "empresa/login/ObtenhaBearerToken", { Token: dadosAcesso.Token }, this.monteOptions())
+
+              this.http.post(ComunicacaoSettings.UrlApiBase + "Compartilhado/ObtenhaBearerToken", { Token: dadosAcesso.Token }, this.monteOptions())
                 .toPromise()
                 .then((retorno: any) => {
 
@@ -77,7 +82,7 @@ export class ComunicacaoProvider {
             }
           }
           else {
-            alert(e);
+            alert(e.message);
           }
         });
     });
