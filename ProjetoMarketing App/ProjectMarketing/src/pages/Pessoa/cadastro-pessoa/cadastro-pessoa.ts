@@ -75,7 +75,7 @@ export class CadastroPessoaPage {
   }
 
   getProfileImageStyle() {
-    if (this.pessoaRedeSocial.Foto) return 'url(' + this.pessoaRedeSocial.Foto + ')'
+    if (this.pessoaRedeSocial) return 'url(' + this.pessoaRedeSocial.Foto + ')'
     return 'url(' + this.form.controls['profilePic'].value + ')'
   }
 

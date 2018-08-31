@@ -96,6 +96,18 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.Pessoa.FirstOrDefaultAsync(p => p.IdPessoa == idPessoa);
         }
 
+        public Task UpdatePessoaLocalizacao(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
+        {
+            var pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa);
+            if (pessoa == null) return null;
+
+            pessoa.Latitude = parametros.Latitude;
+            pessoa.Longitude = parametros.Longitude;
+
+            _context.Pessoa.Update(pessoa);
+            return _context.SaveChangesAsync();
+        }
+
         public Task AddOrUpdatePessoaEmpresa(ParametrosAtualizeDadosPessoaEmpresa parametros)
         {
             var pessoaEmpresaBd = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
@@ -131,8 +143,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             };
 
             //OBTEM EMPRESAS NO RAIO DE 50KM
-            var sqlPerfis = $@"select * from public.perfilempresa where 
-                                                                        ((select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
+            var sqlPerfis = $@"select * from public.perfilempresa where ((select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
                                                                         cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) as distancia) < 50)";
 
             return (from perfil in _context.PerfilEmpresa.FromSql(sqlPerfis)
@@ -142,9 +153,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     let empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == perfil.IdEmpresa)
                     let conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == empresa.IdEmpresa)
                     let pessoaEmpresa = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == idPerfilEmpresa)
+                    let countNota = _context.PessoaEmpresa.Count(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null)
                     let notaGeral = _context.PessoaEmpresa
                                     .Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
-                                    .Sum(p => p.Nota) / _context.PessoaEmpresa.Count(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null)
+                                    .Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
                     select new DTO.DTOPessoaEmpresa()
                     {
                         Empresa = empresa,

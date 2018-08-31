@@ -32,7 +32,6 @@ export class ContaEmpresaPage {
       descontoCompartilhamento: ['', Validators.required],
       valorPontos: ['', Validators.required]
     });
-
     this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaAdmin();
   }
 
@@ -66,6 +65,7 @@ export class ContaEmpresaPage {
 
     this.empresaProvider.atualizeConta(conta)
       .then(() => { 
+        debugger;
         this.storageEmpresa.armazeneDadosEmpresaAdmin(this.dadosEmpresa);
       });
   }

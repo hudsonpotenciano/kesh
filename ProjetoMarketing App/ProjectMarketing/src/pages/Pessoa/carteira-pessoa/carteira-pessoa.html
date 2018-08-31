@@ -1,19 +1,16 @@
-<ion-content padding>
-    <p>Aqui ficara o historio de movimentacoes e cupons</p>
-
-    <ion-list>
-        Cupons
-        <ion-item *ngFor="let cupom of cupons" (click)="abraCupom(cupom)">
-            <h2>{{cupom.Token}}</h2>
-            <p>{{cupom.IdEmpresa}}</p>
-        </ion-item>
-    </ion-list>
-
-    <ion-list>
-        Vendas
-        <ion-item *ngFor="let venda of Vendas">
-            <h2>{{venda.Valor}}</h2>
-            <p>{{venda.IdEmpresa}}</p>
-        </ion-item>
-    </ion-list>
+<ion-content>
+    <section class="cd-timeline">
+        <div class="cd-timeline__container">
+            <div class="cd-timeline__block" *ngFor="let cupom of cupons">
+                <div class="cd-timeline__img">
+                    <ion-icon name="cash"></ion-icon>
+                </div>
+                <div class="cd-timeline__content cd-timeline__content">
+                    <h2></h2>
+                    <p>teste</p>
+                    <span class="cd-timeline__date">Jan 14</span>
+                </div>
+            </div>
+        </div>
+    </section>
 </ion-content>

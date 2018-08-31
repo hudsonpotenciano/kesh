@@ -14,6 +14,8 @@ export class HomeEmpresaPage {
     public navParams: NavParams,
     public empresaProvider: EmpresaProvider) {
       this.empresaProvider;
+
+      this.empresaProvider.obtenhaDadosEmpresaAdmin();
   }
 
  

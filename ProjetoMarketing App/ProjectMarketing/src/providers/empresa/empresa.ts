@@ -16,13 +16,14 @@ export class EmpresaProvider {
     private comunicacao: ComunicacaoProvider) {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
-
+  
   realizeLogin(usuario: User) {
 
     return this.comunicacao.post("empresa/login/realizelogin", usuario)
       .then((resposta: RetornoRequestModel) => {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);
+        this.dadosAcesso = result;
       });
   }
 

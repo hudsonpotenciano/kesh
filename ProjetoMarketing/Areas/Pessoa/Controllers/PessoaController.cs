@@ -86,25 +86,40 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaDadosPessoa")]
         public async Task<RetornoRequestModel> ObtenhaDadosPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)
         {
-            var retorno = new RetornoRequestModel
+            try
             {
-                Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Select(parametros.IdPessoa))
-            };
+                var retorno = new RetornoRequestModel
+                {
+                    Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Select(parametros.IdPessoa))
+                };
 
-            return retorno;
+                return retorno;
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
         }
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
         public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
+            await new PessoaDAO(_context).UpdatePessoaLocalizacao(parametros);
 
-            var retorno = new RetornoRequestModel
+            try
             {
-                Result = Projecoes.PessoaEmpresas(await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros))
-            };
+                var retorno = new RetornoRequestModel
+                {
+                    Result = Projecoes.PessoaEmpresas(await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros))
+                };
 
-            return retorno;
+                return retorno;
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
         }
 
         [Authorize("Bearer")]
@@ -126,14 +141,21 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("ObtenhaPessoaParaCompartilhamento")]
         public async Task<RetornoRequestModel> ObtenhaPessoaParaCompartilhamento([FromBody]ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
-
-            var retorno = new RetornoRequestModel
+            try
             {
-                Result = Projecoes.PessoasCompartilhamento(pessoas)
-            };
+                var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
 
-            return retorno;
+                var retorno = new RetornoRequestModel
+                {
+                    Result = Projecoes.PessoasCompartilhamento(pessoas)
+                };
+
+                return retorno;
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
         }
 
         [Authorize("Bearer")]
