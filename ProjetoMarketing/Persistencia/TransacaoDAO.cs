@@ -64,45 +64,41 @@ namespace ProjetoMarketing.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task<List<Cupom>> ObtenhaCuponsEmpresa(long idPerfilEmpresa)
+        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasPessoa(int idPessoa)
         {
-            return _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa).ToListAsync();
-        }
-
-        public Task<List<Cupom>> ObtenhaCuponsPessoaEmpresa(long idPerfilEmpresa, int idPessoa)
-        {
-            return _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa && c.IdPessoa == idPessoa).ToListAsync();
-        }
-
-        public Task<List<DTO.DTOVendaPessoa>> ObtenhaVendasEmpresaPessoas(long idPerfilEmpresa)
-        {
-            return (from venda in _context.Venda
-                    where venda.IdPerfilEmpresa == idPerfilEmpresa
-                    let pessoaNome = _context.Pessoa.Where(p => p.IdPessoa == venda.IdPessoa).Select(a => a.Nome).FirstOrDefault()
-                    select new DTO.DTOVendaPessoa()
+            return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
+                    let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
+                    let nomeEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa).Descricao
+                    select new DTO.DTOCupomVenda()
                     {
-                        IdVenda = venda.IdVenda,
-                        IdCupom = venda.IdCupom,
-                        IdPerfilEmpresa = venda.IdPerfilEmpresa,
-                        IdPessoa = venda.IdPessoa,
-                        Valor = venda.Valor,
-                        Nome = pessoaNome
+                        Cupom = cupom,
+                        Venda = venda,
+                        NomeEmpresa = nomeEmpresa
                     }).ToListAsync();
         }
 
-        public Task<List<Venda>> ObtenhaVendasPessoaEmpresa(long idPerfilEmpresa, int idPessoa)
+        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasEmpresa(long idPerfilEmpresa)
         {
-            return _context.Venda.Where(v => v.IdPerfilEmpresa == idPerfilEmpresa && v.IdPessoa == idPessoa).ToListAsync();
+            return (from cupom in _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa)
+                    let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
+                    let nomePessoa = _context.Pessoa.FirstOrDefault(p=>p.IdPessoa == cupom.IdPessoa).Nome
+                    select new DTO.DTOCupomVenda()
+                    {
+                        Cupom = cupom,
+                        Venda = venda,
+                        NomePessoa = nomePessoa
+                    }).ToListAsync();
         }
 
-        public Task<List<Cupom>> ObtenhaCuponsPessoa(int idPessoa)
+        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsPessoa(int idPessoa)
         {
-            return _context.Cupom.Where(c => c.IdPessoa == idPessoa).ToListAsync();
-        }
-
-        public Task<List<Venda>> ObtenhaVendasPessoa(int idPessoa)
-        {
-            return _context.Venda.Where(v => v.IdPessoa == idPessoa).ToListAsync();
+            return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
+                    let nomeEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa).Descricao
+                    select new DTO.DTOCupomVenda()
+                    {
+                        Cupom = cupom,
+                        NomeEmpresa = nomeEmpresa
+                    }).ToListAsync();
         }
 
         public Task<Cupom> SelectCupom(Guid token)

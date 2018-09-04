@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { CarteiraPessoaPage } from './carteira-pessoa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
   providers:
   [
     TransacaoProvider,
-    PessoaProvider
+    PessoaProvider,
+    EmpresaProvider
   ]
 })
 export class CarteiraPessoaPageModule {}

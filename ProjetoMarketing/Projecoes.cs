@@ -99,7 +99,7 @@ namespace ProjetoMarketing
                    };
         }
 
-        public static dynamic PessoaEmpresas(List<DTO.DTOPessoaEmpresa> pessoaEmpresas)
+        public static dynamic PessoaEmpresas(List<DTO.DTOPessoa> pessoaEmpresas)
         {
             return from item in pessoaEmpresas
                    select new
@@ -156,30 +156,29 @@ namespace ProjetoMarketing
             };
         }
 
-        public static dynamic ProjecaoCupons(List<Cupom> cupons)
+        public static dynamic ProjecaoCupons(List<DTO.DTOCupomVenda> cupons)
         {
-            return from cupom in cupons
+            return from dto in cupons
                    select new
                    {
-                       cupom.IdCupom,
-                       cupom.Token,
-                       cupom.Data,
-                       cupom.IdPerfilEmpresa,
-                       cupom.IdPessoa,
-                       cupom.Desconto
-                   };
-        }
-
-        public static dynamic ProjecaoVendas(List<Venda> vendas)
-        {
-            return from venda in vendas
-                   select new
-                   {
-                       venda.IdPerfilEmpresa,
-                       venda.IdPessoa,
-                       venda.IdVenda,
-                       venda.Valor,
-                       venda.IdCupom
+                       Cupom = new
+                       {
+                           dto.Cupom.IdCupom,
+                           dto.Cupom.Token,
+                           dto.Cupom.Data,
+                           dto.Cupom.IdPerfilEmpresa,
+                           dto.Cupom.IdPessoa,
+                           dto.Cupom.Desconto
+                       },
+                       Venda = dto.Venda != null ? new
+                       {
+                           dto.Venda.IdCupom,
+                           dto.Venda.IdPerfilEmpresa,
+                           dto.Venda.IdPessoa,
+                           dto.Venda.Valor,
+                           dto.Venda.IdVenda,
+                       } : null,
+                       dto.NomeEmpresa
                    };
         }
 

@@ -1,16 +1,14 @@
 <ion-content>
-    <section class="cd-timeline">
-        <div class="cd-timeline__container">
-            <div class="cd-timeline__block" *ngFor="let cupom of cupons">
-                <div class="cd-timeline__img">
-                    <ion-icon name="cash"></ion-icon>
-                </div>
-                <div class="cd-timeline__content cd-timeline__content">
-                    <h2></h2>
-                    <p>teste</p>
-                    <span class="cd-timeline__date">Jan 14</span>
-                </div>
-            </div>
+    <ion-list no-lines>
+        <div class="item-cupom-venda" *ngFor="let cupomVenda of cuponsVendas">
+            <ion-item>
+                <ion-avatar item-start>
+                    <img [src]="obtenhaLogoEmpresa(cupomVenda.Cupom.IdPerfilEmpresa)">
+                </ion-avatar>
+                <h2>{{cupomVenda.NomeEmpresa}}</h2>
+                <p>{{cupomVenda.Cupom.Data}}</p>
+                <img *ngIf="!cupomVenda.Venda" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
+            </ion-item>
         </div>
-    </section>
+    </ion-list>
 </ion-content>

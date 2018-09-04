@@ -69,30 +69,13 @@ namespace ProjetoMarketing.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaCuponsEVendasEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]Areas.Empresa.Models.ParametrosObtenhaEmpresaLoja parametros)
+        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]ParametrosObtenhaDadosPessoaEmpresa parametros)
         {
             var retorno = new RetornoRequestModel
             {
                 Result = new
                 {
-                    //Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEmpresa(parametros.IdPerfilEmpresa)),
-                    Vendas = await new TransacaoDAO(_context).ObtenhaVendasEmpresaPessoas(parametros.IdPerfilEmpresa)
-                }
-            };
-
-            return retorno;
-        }
-
-        [Authorize("Bearer")]
-        [HttpPost("ObtenhaCuponsEVendasPessoaEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasPessoaEmpresa([FromBody]ParametrosObtenhaDadosPessoaEmpresa parametros)
-        {
-            var retorno = new RetornoRequestModel
-            {
-                Result = new
-                {
-                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsPessoaEmpresa(parametros.IdPerfilEmpresa, parametros.IdPessoa)),
-                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_context).ObtenhaVendasPessoaEmpresa(parametros.IdPerfilEmpresa, parametros.IdPessoa))
+                    CuponsVendas = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasEmpresa(parametros.IdPerfilEmpresa)),
                 }
             };
 
@@ -107,8 +90,7 @@ namespace ProjetoMarketing.Controllers
             {
                 Result = new
                 {
-                    Cupons = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsPessoa(parametros.IdPessoa)),
-                    Vendas = Projecoes.ProjecaoVendas(await new TransacaoDAO(_context).ObtenhaVendasPessoa(parametros.IdPessoa))
+                    CuponsVendas = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasPessoa(parametros.IdPessoa)),
                 }
             };
 

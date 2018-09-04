@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
-import { Cupom, Venda } from '../../../models/models.model';
+import { DTOCupomVenda } from '../../../models/models.model';
 import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -13,8 +14,7 @@ import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa
 })
 export class CarteiraPessoaPage {
 
-  cupons: Cupom[] = [];
-  Vendas: Venda[] = [];
+  cuponsVendas: DTOCupomVenda[] = [];
   pessoasEmpresas: DadosPessoaEmpresa[];
 
   constructor(
@@ -22,6 +22,7 @@ export class CarteiraPessoaPage {
     public navParams: NavParams,
     private transacaoProvider: TransacaoProvider,
     private pessoaProvider: PessoaProvider,
+    private empresaProvider: EmpresaProvider,
     private storagePessoa: StoragePessoaProvider) {
 
     this.pessoasEmpresas = this.storagePessoa.recupereDadosPessoaEmpresas();
@@ -30,10 +31,19 @@ export class CarteiraPessoaPage {
 
   ionViewDidLoad() {
     this.transacaoProvider.ObtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa)
-      .then((cuponsEVendas: any) => {
-        this.cupons = cuponsEVendas.Cupons;
-        this.Vendas = cuponsEVendas.Vendas;
+      .then((resultado: any) => {
+        this.cuponsVendas = resultado.CuponsVendas;
       })
+  }
+
+  abraQrCode(cupomVenda: DTOCupomVenda) {
+    this.navCtrl.push("CupomPage", cupomVenda.Cupom);
+  }
+
+  obtenhaLogoEmpresa(idPerfilEmpresa: number) {
+
+    var empresa = this.pessoasEmpresas.find(p => p.Perfil.IdPerfilEmpresa == idPerfilEmpresa);
+    return this.empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa);
   }
 
 }

@@ -48,6 +48,13 @@ export class Venda {
     IdPessoa: number;
 }
 
+export class DTOCupomVenda {
+    Cupom: Cupom;
+    Venda: Venda;
+    NomeEmpresa: string;
+    NomePessoa: string;
+}
+
 export class VendaPessoa {
     Nome: string;
     IdPessoa: number;
@@ -55,6 +62,11 @@ export class VendaPessoa {
     Valor: number;
     IdCupom: number;
     IdPerfilEmpresa: number;
+}
+
+export class DTOCupom {
+    Cupom: Cupom;
+    NomeEmpresa: string;
 }
 
 export class GoogleMaps {

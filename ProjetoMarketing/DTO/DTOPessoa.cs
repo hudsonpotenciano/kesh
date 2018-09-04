@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ProjetoMarketing.DTO
 {
-    public class DTOPessoaEmpresa
+    public class DTOPessoa
     {
         public Empresa Empresa { get; set; }
         public PerfilEmpresa PerfilEmpresa { get; set; }

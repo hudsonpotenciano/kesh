@@ -135,7 +135,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             };
         }
 
-        public Task<List<DTO.DTOPessoaEmpresa>> ObtenhaPessoaEmpresas(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
+        public Task<List<DTO.DTOPessoa>> ObtenhaPessoaEmpresas(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
             var nfi = new NumberFormatInfo
             {
@@ -157,7 +157,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     let notaGeral = _context.PessoaEmpresa
                                     .Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
                                     .Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
-                    select new DTO.DTOPessoaEmpresa()
+                    select new DTO.DTOPessoa()
                     {
                         Empresa = empresa,
                         Catalogo = imagensCatalogo,
