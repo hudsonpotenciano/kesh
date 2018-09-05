@@ -177,6 +177,7 @@ namespace ProjetoMarketing
                            dto.Venda.IdPessoa,
                            dto.Venda.Valor,
                            dto.Venda.IdVenda,
+                           dto.Venda.Data
                        } : null,
                        dto.NomeEmpresa
                    };
@@ -190,7 +191,8 @@ namespace ProjetoMarketing
                 venda.IdVenda,
                 venda.IdPessoa,
                 venda.IdPerfilEmpresa,
-                venda.Valor
+                venda.Valor,
+                venda.Data
             };
         }
 

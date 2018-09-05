@@ -111,4 +111,8 @@ export class PerfilEmpresaPage {
   abraCupom(cupom: Cupom) {
     this.navCtrl.push("CupomPage", cupom);
   }
+
+  mostreNaoPodeCompartilhar(){
+    
+  }
 }

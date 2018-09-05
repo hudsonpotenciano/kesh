@@ -6,13 +6,15 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
+import { PipesModule } from '../../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
     PerfilEmpresaPage,
   ],
   imports: [
-    IonicPageModule.forChild(PerfilEmpresaPage)
+    IonicPageModule.forChild(PerfilEmpresaPage),
+    PipesModule
   ],
   providers: [
     PessoaProvider,

@@ -18,6 +18,9 @@ namespace ProjetoMarketing.Persistencia
         public TransacaoDAO(PessoaEmpresaContext context)
         {
             _context = context;
+            if (_context.Database.CurrentTransaction != null)
+                _context.Database.CurrentTransaction.Commit();
+            _context.Database.BeginTransaction();
         }
 
         public void GereCompartilhamento(ParametrosCompartilhamento parametros, out Compartilhamento compartilhamento)
@@ -57,7 +60,8 @@ namespace ProjetoMarketing.Persistencia
                 IdCupom = cupom.IdCupom,
                 IdPessoa = cupom.IdPessoa,
                 IdPerfilEmpresa = cupom.IdPerfilEmpresa,
-                Valor = model.ValorDaVenda
+                Valor = model.ValorDaVenda,
+                Data = DateTime.Now
             };
 
             _context.Venda.Add(venda);
@@ -81,7 +85,7 @@ namespace ProjetoMarketing.Persistencia
         {
             return (from cupom in _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa)
                     let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
-                    let nomePessoa = _context.Pessoa.FirstOrDefault(p=>p.IdPessoa == cupom.IdPessoa).Nome
+                    let nomePessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == cupom.IdPessoa).Nome
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,

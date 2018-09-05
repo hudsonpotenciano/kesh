@@ -1,7 +1,12 @@
 page-perfil-empresa {
     .logo {
-        height: 100px;
-        widows: 100px;
+        width: 80px !important;
+        height: 80px !important;
         border-radius: 50%;
+    }
+    .minha-avaliacao {
+        ion-icon {
+            font-size: 2.2rem !important;
+        }
     }
 }

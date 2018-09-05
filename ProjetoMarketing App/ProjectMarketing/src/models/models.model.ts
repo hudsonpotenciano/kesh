@@ -46,6 +46,7 @@ export class Venda {
     Valor: number;
     IdPerfilEmpresa: number;
     IdPessoa: number;
+    Data:Date;
 }
 
 export class DTOCupomVenda {

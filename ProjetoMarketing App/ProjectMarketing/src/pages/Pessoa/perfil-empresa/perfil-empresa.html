@@ -6,38 +6,48 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
-
-    <p>{{dadosPessoaEmpresa.Empresa.Email}}</p>
-    <p>Resumo: {{dadosPessoaEmpresa.Conta.Resumo}}</p>
-
-    <button ion-button *ngIf="podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
-    <button ion-button disabled *ngIf="!podeCompartilhar" (click)="compartilhe()">Compartilhar</button>
-    <button ion-button (click)="maps()">Maps</button>
-    <button ion-button (click)="rota()">Rota</button>
+<ion-content>
 
     <ion-item>
-        <ion-label fixed>Nota</ion-label>
-        <ion-input type="number" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Nota" name="nota"></ion-input>
+        <ion-avatar item-start>
+            <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
+        </ion-avatar>
+        <h2>{{dadosPessoaEmpresa.Empresa.Email}}</h2>
+        <p>Resumo: {{dadosPessoaEmpresa.Conta.Resumo}}</p>
     </ion-item>
 
-    <ion-item>
-        <ion-label fixed>Comentario</ion-label>
-        <ion-input type="text" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Comentario" name="comentario"></ion-input>
-    </ion-item>
-    <button ion-button (click)="atualizeDadosPessoaEmpresa()">Atualzar dados</button>
 
     <ion-list>
-        notas comentarios
+        <ion-item class="minha-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Comentario">
+            <h2>Meu nome</h2>
+            <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
+            <p>Nota: {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
+            <button ion-button clear item-end>   
+                <ion-icon name="create"></ion-icon>
+            </button>
+        </ion-item>
+
         <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
             <ion-avatar item-start>
                 <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
             </ion-avatar>
-            <h2>{{notaComentarios.Nome}}</h2>
-            <p>{{notaComentarios.Comentario}}</p>
-            <p>{{notaComentarios.Nota}}</p>
-            <p>{{notaComentarios.DataAvaliacao}}</p>
+            <h2>Nome: {{notaComentarios.Nome}}</h2>
+            <p>Comentário: {{notaComentarios.Comentario}}</p>
+            <p>Nota: {{notaComentarios.Nota}}</p>
+            <p>Data: {{notaComentarios.DataAvaliacao | Data}}</p>
         </ion-item>
     </ion-list>
+
+
+    <ion-fab bottom right>
+        <button ion-fab><ion-icon name="add"></ion-icon></button>
+        <ion-fab-list side="top">
+            <button ion-fab *ngIf="podeCompartilhar" (click)="compartilhe()">  <ion-icon name="share-alt"></ion-icon>
+            </button>
+            <button ion-fab *ngIf="!podeCompartilhar" (click)="mostreNaoPodeCompartilhar()">  <ion-icon name="share-alt"></ion-icon>
+            </button>
+            <button ion-fab (click)="rota()">  <ion-icon name="navigate"></ion-icon>
+            </button>
+        </ion-fab-list>
+    </ion-fab>
 </ion-content>

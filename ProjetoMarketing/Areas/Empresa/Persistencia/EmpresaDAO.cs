@@ -16,6 +16,8 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         public EmpresaDAO(PessoaEmpresaContext context)
         {
             _context = context;
+            if (_context.Database.CurrentTransaction != null)
+                _context.Database.CurrentTransaction.Commit();
             _context.Database.BeginTransaction();
         }
 

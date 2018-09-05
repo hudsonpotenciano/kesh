@@ -154,6 +154,7 @@ CREATE TABLE public.venda
     idpessoa integer NOT NULL,
     idperfilempresa integer NOT NULL,
     valor money NOT NULL,
+    data date NOT NULL,
     CONSTRAINT pk_venda PRIMARY KEY (id),
     CONSTRAINT uk_venda UNIQUE (idvenda),
     CONSTRAINT uk_venda_cupom UNIQUE (idcupom, idpessoa, idperfilempresa),    

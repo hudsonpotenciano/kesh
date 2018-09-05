@@ -21,5 +21,7 @@ namespace ProjetoMarketing.Entidade
         public long IdCupom { get; set; }
         [Column("valor")]
         public decimal Valor { get; set; }
+        [Column("data")]
+        public DateTime Data { get; set; }
     }
 }
