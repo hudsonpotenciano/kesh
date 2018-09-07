@@ -72,12 +72,14 @@ namespace ProjetoMarketing.Persistencia
         {
             return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
                     let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
-                    let nomeEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa).Descricao
+                    let perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa)
+                    let valorPontos = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == perfilEmpresa.IdEmpresa).ValorPontos
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,
                         Venda = venda,
-                        NomeEmpresa = nomeEmpresa
+                        NomeEmpresa = perfilEmpresa.Descricao,
+                        Pontos = venda != null ? Venda.CalculePontos(venda.Valor,valorPontos) : 0
                     }).ToListAsync();
         }
 
@@ -86,22 +88,14 @@ namespace ProjetoMarketing.Persistencia
             return (from cupom in _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa)
                     let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
                     let nomePessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == cupom.IdPessoa).Nome
+                    let perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa)
+                    let valorPontos = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == perfilEmpresa.IdEmpresa).ValorPontos
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,
                         Venda = venda,
-                        NomePessoa = nomePessoa
-                    }).ToListAsync();
-        }
-
-        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsPessoa(int idPessoa)
-        {
-            return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
-                    let nomeEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa).Descricao
-                    select new DTO.DTOCupomVenda()
-                    {
-                        Cupom = cupom,
-                        NomeEmpresa = nomeEmpresa
+                        NomePessoa = nomePessoa,
+                        Pontos = venda != null ? Venda.CalculePontos(venda.Valor, valorPontos) : 0
                     }).ToListAsync();
         }
 

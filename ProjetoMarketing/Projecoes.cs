@@ -179,7 +179,8 @@ namespace ProjetoMarketing
                            dto.Venda.IdVenda,
                            dto.Venda.Data
                        } : null,
-                       dto.NomeEmpresa
+                       dto.NomeEmpresa,
+                       dto.Pontos
                    };
         }
 

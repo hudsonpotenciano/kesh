@@ -23,5 +23,10 @@ namespace ProjetoMarketing.Entidade
         public decimal Valor { get; set; }
         [Column("data")]
         public DateTime Data { get; set; }
+
+        public static decimal CalculePontos(decimal valorDaVenda,decimal pontosPorReal)
+        {
+            return valorDaVenda / pontosPorReal;
+        }
     }
 }

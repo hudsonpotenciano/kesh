@@ -11,9 +11,9 @@
                     <ion-icon name="logo-usd"></ion-icon>
                     {{cupomVenda.Venda.Valor}}
                 </p>
-                <p class="venda-pontos">
+                <p class="venda-pontos" *ngIf="cupomVenda.Pontos && cupomVenda.Pontos > 0">
                     <ion-icon name="pricetag"></ion-icon>
-                    17
+                    {{cupomVenda.Pontos}}
                 </p>
 
                 <p class="cupom-data" *ngIf="cupomVenda.Venda">

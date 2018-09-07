@@ -52,4 +52,9 @@ export class HomePessoaPage {
   abraPerfilEmpresa(pessoaEmpresa: DadosPessoaEmpresa) {
     this.navCtrl.push("PerfilEmpresaPage", pessoaEmpresa);
   }
+
+  obtenhaArrayNota(nota){
+    if(!nota)return [];
+    return Array(nota);
+  }
 }

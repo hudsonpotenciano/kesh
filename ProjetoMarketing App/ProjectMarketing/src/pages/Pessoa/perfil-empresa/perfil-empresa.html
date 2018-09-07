@@ -1,25 +1,39 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            {{dadosPessoaEmpresa.Perfil.Descricao}}
         </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
 
-    <ion-item>
+    <ion-item no-lines>
         <ion-avatar item-start>
             <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
         </ion-avatar>
-        <h2>{{dadosPessoaEmpresa.Empresa.Email}}</h2>
-        <p>Resumo: {{dadosPessoaEmpresa.Conta.Resumo}}</p>
+        <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
+        <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img *ngFor="let i of obtenhaArrayNota(dadosPessoaEmpresa.NotaGeral)" src="./assets/svg/estrela.svg" alt=""> </p>
+        <p>{{dadosPessoaEmpresa.Conta.Resumo}}</p>
     </ion-item>
 
 
-    <ion-list>
+    <ion-segment [(ngModel)]="opcao">
+        <ion-segment-button value="1">
+            Catálogo
+        </ion-segment-button>
+        <ion-segment-button value="2">
+            Avaliações
+        </ion-segment-button>
+    </ion-segment>
+
+    <div *ngIf="opcao == 1" class="catalogo">
+        <div class="box" *ngFor="let imagemCatalogo of dadosPessoaEmpresa.Catalogo">
+            <div class="imagem-catalogo" (click)="abraImagem(imagemCatalogo.IdImagem)" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+        </div>
+    </div>
+
+    <ion-list *ngIf="opcao == 2">
         <ion-item class="minha-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Comentario">
-            <h2>Meu nome</h2>
             <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
             <p>Nota: {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
             <button ion-button clear item-end>   

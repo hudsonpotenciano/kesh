@@ -4,7 +4,7 @@
             <ion-avatar item-start>
                 <img [src]="pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)">
             </ion-avatar>
-            <h2>Meu Nome</h2>
+            <h2>{{pessoa.Nome}}</h2>
             <ion-icon item-end name="funnel"></ion-icon>
         </ion-item>
     </ion-navbar>
@@ -28,7 +28,9 @@
 
             <ion-item class="item-footer">
                 <p item-left><img src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}} km</p>
-                <p *ngIf="pessoaEmpresa.NotaGeral" item-right><img src="./assets/svg/estrela.svg" alt=""> {{pessoaEmpresa.NotaGeral}}</p>
+                <p *ngFor="let i of obtenhaArrayNota(pessoaEmpresa.NotaGeral)" item-right>
+                    <img src="./assets/svg/estrela.svg" alt="">
+                </p>
             </ion-item>
 
         </div>

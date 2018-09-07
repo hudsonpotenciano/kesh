@@ -9,6 +9,8 @@ import { StorageTransacaoProvider } from '../../../providers/storage/storage-tra
 import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
 import { Pessoa, DadosPessoaEmpresa } from '../../../models/pessoa.model';
+import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @IonicPage()
 @Component({
@@ -22,6 +24,7 @@ export class PerfilEmpresaPage {
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
   cupons: Cupom[] = [];
   vendas: Venda[] = [];
+  opcao: number = 1;
 
   constructor(
     public navCtrl: NavController,
@@ -33,15 +36,17 @@ export class PerfilEmpresaPage {
     private storagePessoaProvider: StoragePessoaProvider,
     private platform: Platform,
     private socialSharing: SocialSharing,
-    private modalCtrl: ModalController) {
-
+    private modalCtrl: ModalController,
+    private empresaLojaProvider: EmpresaLojaProvider,
+    private photoViewer: PhotoViewer) {
+    this.empresaLojaProvider;
     this.empresaProvider;
     this.socialSharing;
     this.dadosPessoaEmpresa = this.navParams.data;
   }
 
   ionViewDidLoad() {
-    
+
     this.transacaoProvider.PessoaPodeCompartilhar(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((podeCompartilhar: boolean) => {
         this.podeCompartilhar = podeCompartilhar;
@@ -112,7 +117,18 @@ export class PerfilEmpresaPage {
     this.navCtrl.push("CupomPage", cupom);
   }
 
-  mostreNaoPodeCompartilhar(){
-    
+  mostreNaoPodeCompartilhar() {
+
+  }
+
+  obtenhaArrayNota(nota) {
+    if (!nota) return [];
+    return Array(nota);
+  }
+
+  abraImagem(idImagem) {
+    if (!idImagem) return;
+    var url = this.empresaLojaProvider.obtenhaImagemCatalogo(idImagem);
+    this.photoViewer.show(url, "");
   }
 }
