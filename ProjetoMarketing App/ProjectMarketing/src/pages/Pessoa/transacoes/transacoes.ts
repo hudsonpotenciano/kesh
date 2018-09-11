@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TransacaoProvider } from '../../../providers/transacao/transacao';
-import { PessoaProvider } from '../../../providers/pessoa/pessoa';
-import { DTOCupomVenda } from '../../../models/models.model';
-import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { TransacaoProvider } from '../../../providers/transacao/transacao';
+import { DTOCupomVenda } from '../../../models/models.model';
+import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({
-  selector: 'page-carteira-pessoa',
-  templateUrl: 'carteira-pessoa.html',
+  selector: 'page-transacoes',
+  templateUrl: 'transacoes.html',
 })
-export class CarteiraPessoaPage {
-
+export class TransacoesPage {
+  
   cuponsVendas: DTOCupomVenda[] = [];
   pessoasEmpresas: DadosPessoaEmpresa[];
 
@@ -24,9 +24,8 @@ export class CarteiraPessoaPage {
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private storagePessoa: StoragePessoaProvider) {
-
-    this.pessoasEmpresas = this.storagePessoa.recupereDadosPessoaEmpresas();
-    debugger;
+      
+      this.pessoasEmpresas = this.storagePessoa.recupereDadosPessoaEmpresas();
   }
 
   ionViewDidLoad() {
@@ -34,6 +33,10 @@ export class CarteiraPessoaPage {
       .then((resultado: any) => {
         this.cuponsVendas = resultado.CuponsVendas;
       })
+  }
+
+  abraQrCode(cupomVenda: DTOCupomVenda) {
+    this.navCtrl.push("CupomPage", cupomVenda.Cupom);
   }
 
   obtenhaLogoEmpresa(idPerfilEmpresa: number) {

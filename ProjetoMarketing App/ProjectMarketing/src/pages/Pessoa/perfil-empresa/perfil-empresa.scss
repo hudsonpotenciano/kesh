@@ -11,35 +11,39 @@ page-perfil-empresa {
     }
     .estrela-nota {
         img {
-            height: 0.8em;
+            height: 14px;
+        }
+    }
+    .estrela-nota-avaliacao {
+        img {
+            height: 12px;
         }
     }
     .imagem-catalogo {
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
+        height: 250px;
         width: 100%;
     }
     .catalogo {
-        padding: 0;
-        margin: 10px 0 0 0;
-        list-style: none;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: flex-start;
-        .box {
-            width: calc((100% / 2) - 9px);
-            max-height: 224px;
-            height: 224px;
-            background-color: white;
-            margin: 4px;
-            padding: 5px;
-            box-shadow: 0px 0px 6px 1px rgb(211, 211, 211);
+        height: 250px;
+        width: 100%;
+    }
+    .item-info {
+        .label {
+            white-space: unset;
         }
+        h2 {
+            font-size: 1.9rem;
+        }
+    }
+    .list {
+        box-shadow: 0px 0px 6px 1px rgb(211, 211, 211);
+        margin: -1px 0 10px;
+    }
+    .botao-avaliar {
+        color: $tema;
+        text-align: center;
     }
 }

@@ -1,38 +1,34 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
+            {{dadosPessoaEmpresa.Empresa.Nome}}
         </ion-title>
     </ion-navbar>
 </ion-header>
-
 <ion-content>
+    <ion-slides class="catalogo" color="tema" autoplay="2000" speed="2000" effect="fade" loop="true" paginationType="bullets" pager="true" *ngIf="dadosPessoaEmpresa.Catalogo.length > 0">
+        <ion-icon name="arrow-back" item-start></ion-icon>
+        <ion-slide *ngFor="let imagemCatalogo of dadosPessoaEmpresa.Catalogo">
+            <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+        </ion-slide>
+    </ion-slides>
 
-    <ion-item no-lines>
-        <ion-avatar item-start>
-            <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
-        </ion-avatar>
-        <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
-        <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img *ngFor="let i of obtenhaArrayNota(dadosPessoaEmpresa.NotaGeral)" src="./assets/svg/estrela.svg" alt=""> </p>
-        <p>{{dadosPessoaEmpresa.Conta.Resumo}}</p>
-    </ion-item>
+    <ion-list>
 
+        <ion-item no-lines class="item-info">
+            <ion-avatar item-start>
+                <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
+            </ion-avatar>
+            <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
+            <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img *ngFor="let i of obtenhaArrayNota(dadosPessoaEmpresa.NotaGeral)" src="./assets/svg/estrela.svg" alt=""> </p>
+            <p>{{dadosPessoaEmpresa.Conta.Resumo}}</p>
+        </ion-item>
+    </ion-list>
 
-    <ion-segment [(ngModel)]="opcao">
-        <ion-segment-button value="1">
-            Catálogo
-        </ion-segment-button>
-        <ion-segment-button value="2">
-            Avaliações
-        </ion-segment-button>
-    </ion-segment>
+    <ion-list>
+        <ion-item-divider> Minha avaliação
+        </ion-item-divider>
 
-    <div *ngIf="opcao == 1" class="catalogo">
-        <div class="box" *ngFor="let imagemCatalogo of dadosPessoaEmpresa.Catalogo">
-            <div class="imagem-catalogo" (click)="abraImagem(imagemCatalogo.IdImagem)" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
-        </div>
-    </div>
-
-    <ion-list *ngIf="opcao == 2">
         <ion-item class="minha-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Comentario">
             <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
             <p>Nota: {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
@@ -41,14 +37,21 @@
             </button>
         </ion-item>
 
+        <button class="botao-avaliar" ion-item clear full *ngIf="!dadosPessoaEmpresa.PessoaEmpresa.Comentario"> Avaliar
+                </button>
+    </ion-list>
+
+    <ion-list *ngIf="notasComentariosPessoasEmpresas && notasComentariosPessoasEmpresas.length > 0">
+        <ion-item-divider> Avaliações
+        </ion-item-divider>
         <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
             <ion-avatar item-start>
                 <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
             </ion-avatar>
-            <h2>Nome: {{notaComentarios.Nome}}</h2>
-            <p>Comentário: {{notaComentarios.Comentario}}</p>
-            <p>Nota: {{notaComentarios.Nota}}</p>
-            <p>Data: {{notaComentarios.DataAvaliacao | Data}}</p>
+            <h2>{{notaComentarios.Nome}}</h2>
+            <p>{{notaComentarios.Comentario}}</p>
+            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img *ngFor="let i of obtenhaArrayNota(notaComentarios.Nota)" src="./assets/svg/estrela.svg" alt=""> </p>
+            <p item-end>{{notaComentarios.DataAvaliacao | Data}}</p>
         </ion-item>
     </ion-list>
 

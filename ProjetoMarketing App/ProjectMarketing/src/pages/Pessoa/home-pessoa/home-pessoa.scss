@@ -7,9 +7,6 @@ page-home-pessoa {
         margin-bottom: 7px !important;
         margin-top: 7px !important;
     }
-    .content {
-        background-color: rgb(236, 236, 236) !important;
-    }
     ion-slides {
         max-height: 160px !important;
     }
@@ -56,6 +53,7 @@ page-home-pessoa {
     }
     .item-perfil-empresa {
         width: calc((100% / 2) - 9px);
+        max-width: 200px;
         max-height: 224px;
         height: 224px;
         background-color: white;

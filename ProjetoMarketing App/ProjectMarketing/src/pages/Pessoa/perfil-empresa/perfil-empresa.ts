@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, ModalController } from 'ionic-angular';
 import { NotaComentarioPessoaEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
-import { Cupom, Venda } from '../../../models/models.model';
+import { Cupom } from '../../../models/models.model';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
@@ -22,9 +22,6 @@ export class PerfilEmpresaPage {
   dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
   podeCompartilhar = false;
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
-  cupons: Cupom[] = [];
-  vendas: Venda[] = [];
-  opcao: number = 1;
 
   constructor(
     public navCtrl: NavController,

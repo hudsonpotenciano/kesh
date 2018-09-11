@@ -1,31 +1,3 @@
 <ion-content>
-    <ion-list no-lines>
-        <div class="item-cupom-venda" *ngFor="let cupomVenda of cuponsVendas">
-            <ion-item>
-                <ion-avatar item-start>
-                    <img [src]="obtenhaLogoEmpresa(cupomVenda.Cupom.IdPerfilEmpresa)">
-                </ion-avatar>
-                <h2>{{cupomVenda.NomeEmpresa}}</h2>
 
-                <p *ngIf="cupomVenda.Venda" class="venda-valor">
-                    <ion-icon name="logo-usd"></ion-icon>
-                    {{cupomVenda.Venda.Valor}}
-                </p>
-                <p class="venda-pontos" *ngIf="cupomVenda.Pontos && cupomVenda.Pontos > 0">
-                    <ion-icon name="pricetag"></ion-icon>
-                    {{cupomVenda.Pontos}}
-                </p>
-
-                <p class="cupom-data" *ngIf="cupomVenda.Venda">
-                    <ion-icon name="calendar"></ion-icon>
-                    {{cupomVenda.Venda.Data | Data}}
-                </p>
-                <p class="cupom-data" *ngIf="!cupomVenda.Venda">
-                    <ion-icon name="calendar"></ion-icon>
-                    {{cupomVenda.Cupom.Data | Data}}
-                </p>
-                <img *ngIf="!cupomVenda.Venda" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
-            </ion-item>
-        </div>
-    </ion-list>
 </ion-content>
