@@ -8,7 +8,6 @@ import { StorageTransacaoProvider } from '../../../providers/storage/storage-tra
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
 import { PipesModule } from '../../../pipes/pipes.module';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     TransacaoProvider,
     StorageTransacaoProvider,
     SocialSharing,
-    PhotoViewer,
     EmpresaLojaProvider
   ]
 })

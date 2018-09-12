@@ -6,12 +6,10 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-slides class="catalogo" color="tema" autoplay="2000" speed="2000" effect="fade" loop="true" paginationType="bullets" pager="true" *ngIf="dadosPessoaEmpresa.Catalogo.length > 0">
-        <ion-icon name="arrow-back" item-start></ion-icon>
-        <ion-slide *ngFor="let imagemCatalogo of dadosPessoaEmpresa.Catalogo">
-            <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
-        </ion-slide>
-    </ion-slides>
+
+    <ion-fab top right edge>
+        <button ion-fab mini (click)="abraModalCatalogo($event)"><ion-icon name="images"></ion-icon></button>
+    </ion-fab>
 
     <ion-list>
 
@@ -32,7 +30,7 @@
         <ion-item class="minha-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Comentario">
             <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
             <p>Nota: {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
-            <button ion-button clear item-end>   
+            <button ion-button clear item-end (click)="abraPopOverAvaliacao($event)">   
                 <ion-icon name="create"></ion-icon>
             </button>
         </ion-item>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, PopoverController } from 'ionic-angular';
 import { NotaComentarioPessoaEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom } from '../../../models/models.model';
@@ -10,7 +10,6 @@ import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
 import { Pessoa, DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @IonicPage()
 @Component({
@@ -33,9 +32,8 @@ export class PerfilEmpresaPage {
     private storagePessoaProvider: StoragePessoaProvider,
     private platform: Platform,
     private socialSharing: SocialSharing,
-    private modalCtrl: ModalController,
-    private empresaLojaProvider: EmpresaLojaProvider,
-    private photoViewer: PhotoViewer) {
+    private popOverCtrl: PopoverController,
+    private empresaLojaProvider: EmpresaLojaProvider) {
     this.empresaLojaProvider;
     this.empresaProvider;
     this.socialSharing;
@@ -123,9 +121,19 @@ export class PerfilEmpresaPage {
     return Array(nota);
   }
 
-  abraImagem(idImagem) {
-    if (!idImagem) return;
-    var url = this.empresaLojaProvider.obtenhaImagemCatalogo(idImagem);
-    this.photoViewer.show(url, "");
+  abraPopOverAvaliacao(evento) {
+    let popover = this.popOverCtrl.create("AvaliacaoComponentPage",
+      { comentario: this.dadosPessoaEmpresa.PessoaEmpresa.Comentario },
+      { cssClass: "popover-catalogo" });
+
+    popover.present({ ev: evento });
+  }
+
+  abraModalCatalogo(evento) {
+    let popover = this.popOverCtrl.create("CatalogoComponentPage",
+      { catalogo: this.dadosPessoaEmpresa.Catalogo },
+      { cssClass: "popover-catalogo" });
+
+    popover.present({ ev: evento });
   }
 }

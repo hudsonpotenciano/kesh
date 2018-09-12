@@ -1,0 +1,13 @@
+page-catalogo-component {
+    .content {
+        overflow: hidden;
+        background-color: $tema;
+    }
+    .imagem-catalogo {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        overflow: hidden;
+        height: 300px;
+    }
+}

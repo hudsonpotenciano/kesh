@@ -79,6 +79,13 @@ ion-icon {
     }
 }
 
+.popover-catalogo {
+    min-height: 300px;
+    ion-backdrop {
+        opacity: 0.6;
+    }
+}
+
 @function set-notification-text-color($color) {
     @if (lightness($color) > 50) {
         @return #000000;

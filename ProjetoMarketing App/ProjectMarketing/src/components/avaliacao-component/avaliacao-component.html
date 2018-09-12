@@ -1,0 +1,12 @@
+<ion-content>
+    <form (submit)="salvar()">
+        <ion-list>
+            <ion-item>
+                <ion-label>
+                    <ion-icon name="paper"></ion-icon>
+                </ion-label>
+                <ion-textarea rows="2" [(ngModel)]="comentario" placeholder="Comentário" formControlName="comentario"></ion-textarea>
+            </ion-item>
+        </ion-list>
+    </form>
+</ion-content>

@@ -1,0 +1,7 @@
+<ion-content>
+    <ion-slides color="tema" autoplay="2000" speed="2000" effect="fade" loop="true" paginationType="bullets" pager="true" *ngIf="catalogo.length > 0">
+        <ion-slide *ngFor="let imagemCatalogo of catalogo">
+            <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+        </ion-slide>
+    </ion-slides>
+</ion-content>
