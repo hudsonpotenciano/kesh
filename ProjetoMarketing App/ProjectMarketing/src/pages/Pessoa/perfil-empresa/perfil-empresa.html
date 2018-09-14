@@ -8,7 +8,7 @@
 <ion-content>
 
     <ion-fab top right edge>
-        <button ion-fab mini (click)="abraModalCatalogo($event)"><ion-icon name="images"></ion-icon></button>
+        <button ion-fab mini (click)="abraPopoverCatalogo($event)"><ion-icon name="images"></ion-icon></button>
     </ion-fab>
 
     <ion-list>
@@ -23,19 +23,37 @@
         </ion-item>
     </ion-list>
 
-    <ion-list>
+    <ion-list no-lines>
         <ion-item-divider> Minha avaliação
         </ion-item-divider>
 
-        <ion-item class="minha-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Comentario">
+        <ion-item class="minha-avaliacao" *ngIf="!avaliando && dadosPessoaEmpresa.PessoaEmpresa.Comentario">
+            <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img *ngFor="let i of obtenhaArrayNota(dadosPessoaEmpresa.PessoaEmpresa.Nota)" src="./assets/svg/estrela.svg" alt=""> </p>
             <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
-            <p>Nota: {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
-            <button ion-button clear item-end (click)="abraPopOverAvaliacao($event)">   
+            <button ion-button clear item-end (click)="avaliando = true">   
                 <ion-icon name="create"></ion-icon>
             </button>
         </ion-item>
 
-        <button class="botao-avaliar" ion-item clear full *ngIf="!dadosPessoaEmpresa.PessoaEmpresa.Comentario"> Avaliar
+        <div *ngIf="avaliando">
+            <ion-item>
+                <ion-label>
+                    <ion-icon name="star"></ion-icon>
+                </ion-label>
+                <ion-input type="number" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Nota" placeholder="0 a 5"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>
+                    <ion-icon name="paper"></ion-icon>
+                </ion-label>
+                <ion-textarea rows="2" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Comentario" placeholder="Comentário"></ion-textarea>
+            </ion-item>
+        </div>
+
+        <button class="botao-avaliar" (click)="avaliando = true" ion-item clear full *ngIf="!avaliando && !dadosPessoaEmpresa.PessoaEmpresa.Comentario"> Avaliar
+                </button>
+        <button class="botao-avaliar" (click)="atualizeDadosPessoaEmpresa(); avaliando = false" ion-item clear full *ngIf="avaliando"> Salvar
                 </button>
     </ion-list>
 
@@ -47,8 +65,8 @@
                 <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
             </ion-avatar>
             <h2>{{notaComentarios.Nome}}</h2>
-            <p>{{notaComentarios.Comentario}}</p>
             <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img *ngFor="let i of obtenhaArrayNota(notaComentarios.Nota)" src="./assets/svg/estrela.svg" alt=""> </p>
+            <p>{{notaComentarios.Comentario}}</p>
             <p item-end>{{notaComentarios.DataAvaliacao | Data}}</p>
         </ion-item>
     </ion-list>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, PopoverController, ModalController } from 'ionic-angular';
 import { NotaComentarioPessoaEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom } from '../../../models/models.model';
@@ -21,6 +21,7 @@ export class PerfilEmpresaPage {
   dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
   podeCompartilhar = false;
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
+  tecladoEstaAtivo = false;
 
   constructor(
     public navCtrl: NavController,
@@ -33,6 +34,7 @@ export class PerfilEmpresaPage {
     private platform: Platform,
     private socialSharing: SocialSharing,
     private popOverCtrl: PopoverController,
+    private modalCtrl: ModalController,
     private empresaLojaProvider: EmpresaLojaProvider) {
     this.empresaLojaProvider;
     this.empresaProvider;
@@ -67,7 +69,9 @@ export class PerfilEmpresaPage {
 
   compartilhe() {
 
-    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage", { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
+    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
+      { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa }
+    ,{cssClass:"modal-compartilhamento"});
     profileModal.onDidDismiss(data => {
       console.log(data);
     });
@@ -118,18 +122,10 @@ export class PerfilEmpresaPage {
 
   obtenhaArrayNota(nota) {
     if (!nota) return [];
-    return Array(nota);
+    return Array(parseInt((nota).toFixed(0)));
   }
 
-  abraPopOverAvaliacao(evento) {
-    let popover = this.popOverCtrl.create("AvaliacaoComponentPage",
-      { comentario: this.dadosPessoaEmpresa.PessoaEmpresa.Comentario },
-      { cssClass: "popover-catalogo" });
-
-    popover.present({ ev: evento });
-  }
-
-  abraModalCatalogo(evento) {
+  abraPopoverCatalogo(evento) {
     let popover = this.popOverCtrl.create("CatalogoComponentPage",
       { catalogo: this.dadosPessoaEmpresa.Catalogo },
       { cssClass: "popover-catalogo" });

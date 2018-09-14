@@ -55,6 +55,6 @@ export class HomePessoaPage {
 
   obtenhaArrayNota(nota){
     if(!nota)return [];
-    return Array(nota);
+    return Array(parseInt((nota).toFixed(0)));
   }
 }

@@ -86,11 +86,38 @@ ion-icon {
     }
 }
 
+.popover-avaliacao {
+    min-height: 300px;
+}
+
+.modal-compartilhamento {
+    padding: 20px;
+    ion-backdrop {
+        opacity: 0.6;
+    }
+}
+
 @function set-notification-text-color($color) {
     @if (lightness($color) > 50) {
         @return #000000;
     }
     @else {
         @return #ffffff;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    ion-fab {
+        display: none !important;
+    }
+    ion-header {
+        display: none !important;
+    }
+    .scroll-content {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    .tabbar {
+        display: none !important;
     }
 }
