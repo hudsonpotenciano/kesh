@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 {
     public class ImagemDAO
     {
-        private const string CaminhoImagens = @"D:\ImagensProjetoMarketing\";
+        private readonly string CaminhoImagens = Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures);
         public Task<byte[]> GetImagemCatalogo(long idImagem)
         {
             if (!ImagemExiste(idImagem)) return null;

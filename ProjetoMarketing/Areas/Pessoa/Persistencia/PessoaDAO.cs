@@ -21,6 +21,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
             if (_context.Database.CurrentTransaction != null)
                 _context.Database.CurrentTransaction.Commit();
+
             _context.Database.BeginTransaction();
         }
 
@@ -51,7 +52,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
             _context.Usuario.Add(usuario);
             _context.ImagemPerfil.Add(imagemPerfil);
-            _context.Database.CommitTransaction();
             return _context.SaveChangesAsync();
         }
 
@@ -83,7 +83,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
             _context.Usuario.Add(usuario);
             _context.ImagemPerfil.Add(imagemPerfil);
-            _context.Database.CommitTransaction();
             return _context.SaveChangesAsync();
         }
 
