@@ -21,8 +21,9 @@ export class LoginEmpresaPage {
     private popOverCtrl: PopoverController,
     private storageEmpresa: StorageEmpresaProvider) {
 
-    this.usuario.Login = "adidas@gmail.com";
+    this.usuario.Login = "teste2@gmail.com";
     this.usuario.Senha = "123456";
+    
   }
 
   ionViewDidLoad() {

@@ -1,3 +1,4 @@
+import { Perfil } from "./empresa.model";
 
 export class RetornoLogin {
     Token: string;
@@ -52,7 +53,7 @@ export class Venda {
 export class DTOCupomVenda {
     Cupom: Cupom;
     Venda: Venda;
-    NomeEmpresa: string;
+    PerfilEmpresa: Perfil;
     NomePessoa: string;
     Pontos: number;
 }
@@ -69,6 +70,14 @@ export class VendaPessoa {
 export class DTOCupom {
     Cupom: Cupom;
     NomeEmpresa: string;
+}
+export class Localizacao {
+    constructor(lat, long) {
+        this.Latitude = lat;
+        this.Longitude = long;
+    }
+    Latitude: string;
+    Longitude: string;
 }
 
 export class GoogleMaps {

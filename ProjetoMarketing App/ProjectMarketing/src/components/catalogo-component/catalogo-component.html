@@ -1,7 +1,19 @@
 <ion-content>
-    <ion-slides color="tema" autoplay="2000" speed="2000" effect="fade" loop="true" paginationType="bullets" pager="true" *ngIf="catalogo.length > 0">
+    <ion-slides color="tema" autoplay="4000" speed="2000" effect="slide" loop="true" paginationType="fraction" pager="true" *ngIf="catalogo.length > 0">
         <ion-slide *ngFor="let imagemCatalogo of catalogo">
-            <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+            <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
+            <!-- <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div> -->
         </ion-slide>
     </ion-slides>
+    <ion-fab left bottom (click)="voltar()">
+        <button ion-fab>             
+                 <ion-icon name="arrow-back"></ion-icon>
+                  </button>
+
+    </ion-fab>
+    <ion-fab right bottom>
+        <button ion-fab>             
+                     <ion-icon name="md-share"></ion-icon>
+                      </button>
+    </ion-fab>
 </ion-content>

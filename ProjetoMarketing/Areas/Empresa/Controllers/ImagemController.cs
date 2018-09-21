@@ -36,7 +36,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpGet("ObtenhaImagemCatalogo")]
         public async Task<ActionResult> ObtenhaImagemCatalogo(int idImagem)
         {
-            var foto = await new ImagemDAO().GetImagemCatalogo(idImagem);
+            var foto = await new ImagemDAO().ObtenhaImagem(idImagem);
 
             if (foto == null) return null;
 

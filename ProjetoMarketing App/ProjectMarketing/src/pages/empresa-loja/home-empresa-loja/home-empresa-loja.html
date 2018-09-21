@@ -1,14 +1,33 @@
-<ion-content id="home-container">
-    <h2 *ngIf="dadosEmpresa"> {{dadosEmpresa.Perfil.Descricao}} </h2>
-
-    <ion-list>
-        <ion-item *ngFor="let venda of vendas">
+<ion-header>
+    <ion-navbar>
+        <ion-item no-lines *ngIf="dadosEmpresa">
             <ion-avatar item-start>
-                <img [src]="pessoaProvider.obtenhaFotoPessoa(venda.IdPessoa)">
+                <img [src]="empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)">
             </ion-avatar>
-            <h2>{{venda.Nome}}</h2>
-            <p>{{venda.Valor}}</p>
+            <h2>{{dadosEmpresa.Perfil.Descricao}}</h2>
+            <ion-icon item-end name="funnel"></ion-icon>
         </ion-item>
+    </ion-navbar>
+</ion-header>
+
+<ion-content id="home-container" class="container">
+    <ion-list no-lines>
+        <div class="item-cupom-venda" *ngFor="let cupomevenda of cuponsVendas">
+            <ion-item>
+                <ion-avatar item-start>
+                    <img [src]="obtenhaFotoPessoa(cupomevenda.Venda.IdPessoa)">
+                </ion-avatar>
+                <h2>{{cupomevenda.NomePessoa}}</h2>
+                <p class="venda-valor">
+                    <ion-icon name="logo-usd"></ion-icon>
+                    {{cupomevenda.Venda.Valor}}
+                </p>
+                <p>
+                    {{cupomevenda.Venda.Data | Data}}
+
+                </p>
+            </ion-item>
+        </div>
     </ion-list>
 
     <ion-fab right bottom (click)="valideCupomVenda()">

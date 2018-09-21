@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TranslateService } from '@ngx-translate/core';
+import { StorageProvider } from '../providers/storage/storage';
+import { UnidadeDeMedidaLocalizacao } from '../models/pessoa.model';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,12 +21,12 @@ export class MyApp {
     platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private storageProvider: StorageProvider) {
 
-    platform.ready().then(() => { 
-      statusBar.styleLightContent();
+    platform.ready().then(() => {
       statusBar.overlaysWebView(false);
-      statusBar.backgroundColorByHexString("#fff");
+      statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();
     });
 
@@ -39,6 +41,9 @@ export class MyApp {
 
     this.translate.use('pt-br');
     // mudar a linguagem de acordo com a linguagem selecionada nas configuracoes 
+
+    //unidade de medida
+    this.storageProvider.armazeneUnidadeDeMedidaLocalizacao(UnidadeDeMedidaLocalizacao.Kilometros);
   }
 
   openPage(page) {

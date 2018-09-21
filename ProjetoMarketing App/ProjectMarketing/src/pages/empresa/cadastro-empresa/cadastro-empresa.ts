@@ -56,6 +56,10 @@ export class CadastroEmpresaPage {
       let imageData = (readerEvent.target as any).result;
       this.form.patchValue({ 'profilePic': imageData });
       this.empresa.Logo = imageData.split(',')[1];
+
+      setTimeout(() => {
+        this.proximoSlide();
+      }, 2000);
     };
 
     reader.readAsDataURL(event.target.files[0]);

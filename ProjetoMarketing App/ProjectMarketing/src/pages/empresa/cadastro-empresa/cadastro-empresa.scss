@@ -2,10 +2,7 @@ page-cadastro-empresa {
     ion-slides {
         height: 100vh;
     }
-    .list {
-        margin-top: 10px !important;
-        margin-bottom: 0 !important;
-    }
+    .list {}
     .profile-image {
         margin: auto;
         height: 100px;
@@ -23,7 +20,8 @@ page-cadastro-empresa {
         }
         .image {
             box-shadow: 0 0 1px 1px #bcbcbc;
-            background-size: contain;
+            background-size: cover;
+            background-repeat: no-repeat;
             background-position: center;
             border-radius: 50%;
             height: 97px;

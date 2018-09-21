@@ -1,10 +1,4 @@
 <ion-content>
-    <ion-fab right bottom (click)="proximoSlide()">
-        <button ion-fab>             
-                     <ion-icon name="arrow-round-forward"></ion-icon>
-                      </button>
-    </ion-fab>
-
     <form [formGroup]="form">
         <ion-slides #slides>
             <ion-slide>
@@ -64,7 +58,7 @@
                         <ion-label>
                             <ion-icon name="cart"></ion-icon>
                         </ion-label>
-                        <ion-select interface="action-sheet" item-center [selectOptions]="{title: 'Categorias'}" [(ngModel)]="empresa.Categoria" formControlName="categoria">
+                        <ion-select interface="alert" item-center [selectOptions]="{title: 'Categorias'}" [(ngModel)]="empresa.Categoria" formControlName="categoria">
                             <ion-option *ngFor="let categoria of categorias" value="{{categoria.Codigo}}">{{categoria.Descricao}}</ion-option>
                         </ion-select>
                         <icone-informacao item-end [id]="'CATEGORIA'"></icone-informacao>
@@ -92,10 +86,15 @@
                             <ion-icon name="cash"></ion-icon>
                         </ion-label>
                         <ion-input type="number" [(ngModel)]="empresa.ValorPontos" placeholder="Ponto" formControlName="valorPontos"></ion-input>
-                        <ion-icon item-end class="icone-info" name="information-circle" (click)="mostreInformacaoPontos($event)"></ion-icon>
+                        <icone-informacao item-end [id]="'PONTOS'"></icone-informacao>
                     </ion-item>
                 </ion-list>
             </ion-slide>
         </ion-slides>
     </form>
+    <ion-fab right bottom (click)="proximoSlide()">
+        <button ion-fab>             
+                         <ion-icon name="arrow-round-forward"></ion-icon>
+                          </button>
+    </ion-fab>
 </ion-content>

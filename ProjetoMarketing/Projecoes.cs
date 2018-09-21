@@ -1,11 +1,9 @@
-﻿using ProjetoMarketing.Areas.Empresa;
-using ProjetoMarketing.Entidade;
+﻿using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Entidade.Pessoa;
-using System;
+using ProjetoMarketing.Negocio.Enumeradores;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProjetoMarketing
 {
@@ -99,7 +97,7 @@ namespace ProjetoMarketing
                    };
         }
 
-        public static dynamic PessoaEmpresas(List<DTO.DTOPessoa> pessoaEmpresas)
+        public static dynamic PessoaEmpresas(List<DTO.DTOPessoa> pessoaEmpresas, Enumeradores.UnidadeMedidaLocalizacao unit)
         {
             return from item in pessoaEmpresas
                    select new
@@ -109,7 +107,7 @@ namespace ProjetoMarketing
                        Conta = ProjecaoContaEmpresa(item.ContaEmpresa),
                        PessoaEmpresa = item.PessoaEmpresa != null ? ProjecaoPessoaEmpresa(item.PessoaEmpresa) : new PessoaEmpresa(),
                        item.NotaGeral,
-                       item.Distancia,
+                       Distancia = Negocio.Localizacao.GereDistanciaUnidadeMedida(item.Distancia, unit),
                        Catalogo = from imagem in item.Catalogo
                                   select new
                                   {
@@ -179,7 +177,17 @@ namespace ProjetoMarketing
                            dto.Venda.IdVenda,
                            dto.Venda.Data
                        } : null,
-                       dto.NomeEmpresa,
+                       dto.NomePessoa,
+                       PerfilEmpresa = new
+                       {
+                           dto.PerfilEmpresa.Descricao,
+                           dto.PerfilEmpresa.IdEmpresa,
+                           dto.PerfilEmpresa.Latitude,
+                           dto.PerfilEmpresa.Longitude,
+                           dto.PerfilEmpresa.Telefone,
+                           dto.PerfilEmpresa.Telefone2,
+                           dto.PerfilEmpresa.IdPerfilEmpresa
+                       },
                        dto.Pontos
                    };
         }

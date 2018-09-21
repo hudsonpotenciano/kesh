@@ -89,9 +89,6 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.0" />
     <allow-navigation href="http://192.168.15.13:8100" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Para encontrar os estabelecimentos mais próximos" />
-    </plugin>
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-qrscanner" spec="^2.6.0" />
     <plugin name="cordova-plugin-facebook4" spec="^2.2.0">
@@ -101,4 +98,7 @@
     </plugin>
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.18" />
     <engine name="android" spec="~7.0.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Para carregar as lojas mais próximas" />
+    </plugin>
 </widget>

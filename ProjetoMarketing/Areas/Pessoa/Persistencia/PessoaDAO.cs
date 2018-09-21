@@ -20,7 +20,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             _context = context;
             if (_context.Database.CurrentTransaction != null)
+            {
                 _context.Database.CurrentTransaction.Commit();
+            }
 
             _context.Database.BeginTransaction();
         }
@@ -37,7 +39,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context.Pessoa.Add(pessoa);
             _context.SaveChanges();
 
-            var imagemPerfil = new ImagemPerfil()
+            ImagemPerfil imagemPerfil = new ImagemPerfil()
             {
                 Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
                 IdPessoa = pessoa.IdPessoa
@@ -67,7 +69,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context.Pessoa.Add(pessoa);
             _context.SaveChanges();
 
-            var imagemPerfil = new ImagemPerfil()
+            ImagemPerfil imagemPerfil = new ImagemPerfil()
             {
                 Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
                 IdPessoa = pessoa.IdPessoa
@@ -99,8 +101,11 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task UpdatePessoaLocalizacao(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
-            var pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa);
-            if (pessoa == null) return null;
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa);
+            if (pessoa == null)
+            {
+                return null;
+            }
 
             pessoa.Latitude = parametros.Latitude;
             pessoa.Longitude = parametros.Longitude;
@@ -111,7 +116,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task AddOrUpdatePessoaEmpresa(ParametrosAtualizeDadosPessoaEmpresa parametros)
         {
-            var pessoaEmpresaBd = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
+            PessoaEmpresa pessoaEmpresaBd = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
             if (pessoaEmpresaBd != null)
             {
                 pessoaEmpresaBd.Comentario = parametros.Comentario;
@@ -122,7 +127,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             }
             else
             {
-                var PessoaEmpresa = new PessoaEmpresa()
+                PessoaEmpresa PessoaEmpresa = new PessoaEmpresa()
                 {
                     IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                     IdPessoa = parametros.IdPessoa,
@@ -138,16 +143,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task<List<DTO.DTOPessoa>> ObtenhaPessoaEmpresas(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
-            var nfi = new NumberFormatInfo
-            {
-                NumberDecimalSeparator = "."
-            };
-
-            //OBTEM EMPRESAS NO RAIO DE 50KM
-            var sqlPerfis = $@"select * from public.perfilempresa where ((select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision),
-                                                                        cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) as distancia) < 50)";
-
-            return (from perfil in _context.PerfilEmpresa.FromSql(sqlPerfis)
+            //OBTEM EMPRESAS NO RAIO DE 20KM
+            return (from perfil in _context.PerfilEmpresa
+                    let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, perfil.Latitude, perfil.Longitude, parametros.UnidadeDeMedida)
+                    where distancia < 20
                     let idPerfilEmpresa = perfil.IdPerfilEmpresa
                     let pessoasEmpresa = _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
                     let imagensCatalogo = _context.ImagemCatalogo.Where(d => d.IdPerfilEmpresa == idPerfilEmpresa)
@@ -166,9 +165,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         PerfilEmpresa = perfil,
                         PessoaEmpresa = pessoaEmpresa,
                         NotaGeral = notaGeral,
-                        Distancia = 10
+                        Distancia = distancia
                     }).ToListAsync();
         }
+
 
         public Task<List<DTO.DTONotasComentariosPessoasEmpresas>> ObtenhaComentarioENotaPessoasEmpresas(ParametrosObtenhaNotasComentarios parametros)
         {
@@ -186,7 +186,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task<List<Entidade.Pessoa.Pessoa>> ObtenhaPessoasCompartilhamento(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            var nfi = new NumberFormatInfo
+            NumberFormatInfo nfi = new NumberFormatInfo
             {
                 NumberDecimalSeparator = "."
             };

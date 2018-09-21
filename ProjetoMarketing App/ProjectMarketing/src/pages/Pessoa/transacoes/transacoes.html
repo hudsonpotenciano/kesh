@@ -3,7 +3,7 @@
         <div class="item-cupom-venda" *ngFor="let cupomVenda of cuponsVendas">
             <ion-item>
                 <ion-avatar item-start>
-                    <img [src]="obtenhaLogoEmpresa(cupomVenda.Cupom.IdPerfilEmpresa)">
+                    <img [src]="obtenhaLogoEmpresa(cupomVenda.PerfilEmpresa.IdEmpresa)">
                 </ion-avatar>
                 <h2>{{cupomVenda.NomeEmpresa}}</h2>
 

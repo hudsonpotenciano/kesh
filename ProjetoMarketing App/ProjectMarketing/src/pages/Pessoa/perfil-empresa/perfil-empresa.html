@@ -18,7 +18,7 @@
                 <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
             </ion-avatar>
             <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
-            <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img *ngFor="let i of obtenhaArrayNota(dadosPessoaEmpresa.NotaGeral)" src="./assets/svg/estrela.svg" alt=""> </p>
+            <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.NotaGeral}}</p>
             <p>{{dadosPessoaEmpresa.Conta.Resumo}}</p>
         </ion-item>
     </ion-list>
@@ -28,7 +28,7 @@
         </ion-item-divider>
 
         <ion-item class="minha-avaliacao" *ngIf="!avaliando && dadosPessoaEmpresa.PessoaEmpresa.Comentario">
-            <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img *ngFor="let i of obtenhaArrayNota(dadosPessoaEmpresa.PessoaEmpresa.Nota)" src="./assets/svg/estrela.svg" alt=""> </p>
+            <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
             <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
             <button ion-button clear item-end (click)="avaliando = true">   
                 <ion-icon name="create"></ion-icon>
@@ -65,7 +65,7 @@
                 <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
             </ion-avatar>
             <h2>{{notaComentarios.Nome}}</h2>
-            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img *ngFor="let i of obtenhaArrayNota(notaComentarios.Nota)" src="./assets/svg/estrela.svg" alt=""> </p>
+            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img src="./assets/svg/estrela.svg" alt=""> {{notaComentarios.Nota}}</p>
             <p>{{notaComentarios.Comentario}}</p>
             <p item-end>{{notaComentarios.DataAvaliacao | Data}}</p>
         </ion-item>
@@ -75,9 +75,9 @@
     <ion-fab bottom right>
         <button ion-fab><ion-icon name="add"></ion-icon></button>
         <ion-fab-list side="top">
-            <button ion-fab *ngIf="podeCompartilhar" (click)="compartilhe()">  <ion-icon name="share-alt"></ion-icon>
+            <button ion-fab *ngIf="podeCompartilhar" (click)="compartilhe()">  <ion-icon name="md-share"></ion-icon>
             </button>
-            <button ion-fab *ngIf="!podeCompartilhar" (click)="mostreNaoPodeCompartilhar()">  <ion-icon name="share-alt"></ion-icon>
+            <button ion-fab *ngIf="!podeCompartilhar" (click)="mostreNaoPodeCompartilhar()">  <ion-icon name="md-share"></ion-icon>
             </button>
             <button ion-fab (click)="rota()">  <ion-icon name="navigate"></ion-icon>
             </button>

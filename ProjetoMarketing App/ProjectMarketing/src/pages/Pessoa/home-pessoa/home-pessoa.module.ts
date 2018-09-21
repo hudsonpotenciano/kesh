@@ -4,6 +4,7 @@ import { HomePessoaPage } from './home-pessoa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
   [
     PessoaProvider,
     EmpresaProvider,
-    EmpresaLojaProvider
+    EmpresaLojaProvider,
+    Geolocation
   ]
 })
 export class HomePessoaPageModule {}

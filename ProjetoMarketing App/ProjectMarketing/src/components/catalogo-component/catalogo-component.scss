@@ -1,13 +1,14 @@
 page-catalogo-component {
     .content {
         overflow: hidden;
-        background-color: $tema;
+        background-color: black;
     }
     .imagem-catalogo {
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
+        object-fit: contain;
+        object-position: center;
         overflow: hidden;
-        height: 300px;
+        height: auto;
+        width: auto;
+        overflow: auto;
     }
 }

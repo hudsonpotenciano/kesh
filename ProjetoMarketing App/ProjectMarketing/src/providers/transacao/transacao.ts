@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cupom, RetornoRequestModel, Venda } from '../../models/models.model';
+import { Cupom, RetornoRequestModel, Venda, DTOCupomVenda } from '../../models/models.model';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 
 @Injectable()
@@ -57,7 +57,7 @@ export class TransacaoProvider {
   }
 
   ObtenhaCuponsEVendasPessoa(idPessoa: number) {
-    return new Promise<any>(resolve => {
+    return new Promise<DTOCupomVenda[]>(resolve => {
       this.comunicacao.post("Transacao/ObtenhaCuponsEVendasPessoa", { IdPessoa: idPessoa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);

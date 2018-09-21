@@ -2,7 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>91939a36-152c-4c68-8564-12d9aad7ecd3</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Negocio\Enumeradores\Enumerador.cs" />
+    <Compile Remove="Negocio\Enumeradores\EnumeradorDeCategoria.cs" />
+    <Compile Remove="Negocio\Enumeradores\IEnumerador.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\CustomProfile.pubxml" />

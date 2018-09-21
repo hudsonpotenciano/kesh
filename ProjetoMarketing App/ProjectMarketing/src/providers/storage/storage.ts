@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { RetornoLogin } from '../../models/models.model';
+import { UnidadeDeMedidaLocalizacao } from '../../models/pessoa.model';
 
 @Injectable()
 export class StorageProvider {
 
   DADOS_ACESSO = "DADOS_ACESSO";
+  UNID_MEDIDA_LOCALIZACAO = "UNID_MEDIDA_LOCALIZACAO";
   CACHE_1DIA = "CACHE_1DIA";
 
   constructor() {
@@ -35,6 +37,15 @@ export class StorageProvider {
   remova = function (chave) {
     localStorage.removeItem(chave);
   };
+
+  //DADOS ACESSO
+  armazeneUnidadeDeMedidaLocalizacao(value: UnidadeDeMedidaLocalizacao) {
+    this.armazene(this.UNID_MEDIDA_LOCALIZACAO, value);
+  }
+
+  recupereUnidadeDeMedidaLocalizacao(): UnidadeDeMedidaLocalizacao {
+    return this.recupere(this.UNID_MEDIDA_LOCALIZACAO);
+  }
 
   //DADOS ACESSO
   armazeneDadosAcesso(value: any) {

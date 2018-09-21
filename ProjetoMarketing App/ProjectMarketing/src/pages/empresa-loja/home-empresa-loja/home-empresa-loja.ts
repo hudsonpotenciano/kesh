@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { Cupom, VendaPessoa } from '../../../models/models.model';
+import { Cupom, DTOCupomVenda } from '../../../models/models.model';
 import { DadosEmpresaLoja } from '../../../models/empresa.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -14,14 +15,17 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 export class HomeEmpresaLojaPage {
 
   dadosEmpresa: DadosEmpresaLoja;
-  vendas: VendaPessoa[];
+  cuponsVendas: DTOCupomVenda[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public empresaLojaProvider: EmpresaLojaProvider,
     public modalCtrl: ModalController,
     private transacaoProvider: TransacaoProvider,
-    private pessoaProvider: PessoaProvider) {
+    private pessoaProvider: PessoaProvider,
+    private empresaProvider: EmpresaProvider) {
+    this.empresaLojaProvider;
+    this.empresaProvider;
     this.pessoaProvider;
   }
 
@@ -39,8 +43,8 @@ export class HomeEmpresaLojaPage {
 
   obtenhaCuponsEVendas() {
     this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa)
-      .then((cuponsEVendas: any) => {
-        this.vendas = cuponsEVendas.Vendas;
+      .then((retorno: any) => {
+        this.cuponsVendas = retorno.CuponsVendas;
       });
   }
 
@@ -54,5 +58,8 @@ export class HomeEmpresaLojaPage {
       this.navCtrl.push("VendaPage", cupom);
 
     });
+  }
+  obtenhaFotoPessoa(idPessoa){
+    return this.pessoaProvider.obtenhaFotoPessoa(idPessoa);
   }
 }

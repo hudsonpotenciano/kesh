@@ -7,6 +7,7 @@ using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Contexts;
+using System.Collections.Generic;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -19,6 +20,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         public LoginController(PessoaEmpresaContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public string Get()
+        {
+            return "value1";
         }
 
         [AllowAnonymous]

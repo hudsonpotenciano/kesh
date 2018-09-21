@@ -38,6 +38,11 @@ export class DadosPessoaEmpresa {
     PessoaEmpresa: PessoaEmpresa;
     Conta: Conta;
     NotaGeral: number;
-    Distancia: number;
+    Distancia: string;
     Catalogo: ImagemCatalogo[];
+}
+
+export enum UnidadeDeMedidaLocalizacao {
+    Kilometros,
+    Milhas
 }

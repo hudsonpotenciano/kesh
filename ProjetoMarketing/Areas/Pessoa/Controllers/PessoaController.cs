@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using ProjetoMarketing.Areas.Pessoa.Persistencia;
-using ProjetoMarketing.Models;
-using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Areas.Pessoa.Models;
+using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Autentication;
-using ProjetoMarketing.Data;
-using System.Threading.Tasks;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Controllers;
+using ProjetoMarketing.Data;
+using ProjetoMarketing.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -34,14 +34,14 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 return RetornoRequestModel.CrieFalhaDuplicidade();
             }
 
-            var pessoa = new Entidade.Pessoa.Pessoa();
-            var usuario = new Entidade.Usuario();
+            Entidade.Pessoa.Pessoa pessoa = new Entidade.Pessoa.Pessoa();
+            Entidade.Usuario usuario = new Entidade.Usuario();
 
             await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
 
             if (usuario.IdUsuario != 0)
             {
-                var retorno = new RetornoRequestModel
+                RetornoRequestModel retorno = new RetornoRequestModel
                 {
                     Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
                 };
@@ -64,14 +64,14 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             }
 
 
-            var pessoa = new Entidade.Pessoa.Pessoa();
-            var usuario = new Entidade.Usuario();
+            Entidade.Pessoa.Pessoa pessoa = new Entidade.Pessoa.Pessoa();
+            Entidade.Usuario usuario = new Entidade.Usuario();
 
             await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
 
             if (usuario.IdUsuario != 0)
             {
-                var retorno = new RetornoRequestModel
+                RetornoRequestModel retorno = new RetornoRequestModel
                 {
                     Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
                 };
@@ -88,7 +88,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         {
             try
             {
-                var retorno = new RetornoRequestModel
+                RetornoRequestModel retorno = new RetornoRequestModel
                 {
                     Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Select(parametros.IdPessoa))
                 };
@@ -109,9 +109,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             try
             {
-                var retorno = new RetornoRequestModel
+                RetornoRequestModel retorno = new RetornoRequestModel
                 {
-                    Result = Projecoes.PessoaEmpresas(await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros))
+                    Result = Projecoes.PessoaEmpresas(await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros), parametros.UnidadeDeMedida)
                 };
 
                 return retorno;
@@ -127,9 +127,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         public async Task<RetornoRequestModel> ObtenhaComentarioENotaPessoasEmpresas([FromBody]ParametrosObtenhaNotasComentarios parametros)
         {
 
-            var pessoaEmpresas = await new PessoaDAO(_context).ObtenhaComentarioENotaPessoasEmpresas(parametros);
+            System.Collections.Generic.List<DTO.DTONotasComentariosPessoasEmpresas> pessoaEmpresas = await new PessoaDAO(_context).ObtenhaComentarioENotaPessoasEmpresas(parametros);
 
-            var retorno = new RetornoRequestModel
+            RetornoRequestModel retorno = new RetornoRequestModel
             {
                 Result = Projecoes.NotasEComentariosPessoasEmpresas(pessoaEmpresas)
             };
@@ -143,9 +143,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         {
             try
             {
-                var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
+                System.Collections.Generic.List<Entidade.Pessoa.Pessoa> pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
 
-                var retorno = new RetornoRequestModel
+                RetornoRequestModel retorno = new RetornoRequestModel
                 {
                     Result = Projecoes.PessoasCompartilhamento(pessoas)
                 };
@@ -189,9 +189,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpGet("ObtenhaFotoPessoa")]
         public ActionResult ObtenhaFotoPessoa(int idPessoa)
         {
-            var foto = _context.ImagemPerfil.First(p => p.IdPessoa == idPessoa)?.Imagem;
+            byte[] foto = _context.ImagemPerfil.First(p => p.IdPessoa == idPessoa)?.Imagem;
 
-            if (foto == null) return null;
+            if (foto == null)
+            {
+                return null;
+            }
 
             return File(foto, "image/jpeg");
         }

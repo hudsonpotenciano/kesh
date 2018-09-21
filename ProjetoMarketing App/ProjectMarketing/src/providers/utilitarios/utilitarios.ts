@@ -31,7 +31,7 @@ export class UtilitariosProvider {
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
 
-      callback(canvas.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, ""));
+      callback(canvas.toDataURL("image/png", 0.5).replace(/^data:image\/(png|jpg);base64,/, ""));
     }
   }
 }

@@ -40,6 +40,7 @@ export class PerfilEmpresaPage {
     this.empresaProvider;
     this.socialSharing;
     this.dadosPessoaEmpresa = this.navParams.data;
+    this.popOverCtrl;
   }
 
   ionViewDidLoad() {
@@ -120,16 +121,11 @@ export class PerfilEmpresaPage {
 
   }
 
-  obtenhaArrayNota(nota) {
-    if (!nota) return [];
-    return Array(parseInt((nota).toFixed(0)));
-  }
-
   abraPopoverCatalogo(evento) {
-    let popover = this.popOverCtrl.create("CatalogoComponentPage",
+    let modal = this.modalCtrl.create("CatalogoComponentPage",
       { catalogo: this.dadosPessoaEmpresa.Catalogo },
       { cssClass: "popover-catalogo" });
 
-    popover.present({ ev: evento });
+      modal.present({ ev: evento });
   }
 }

@@ -18,10 +18,14 @@
                     </ion-item>
 
                 </ion-list>
-                <button ion-button color="primary" block>Entrar</button>
             </form>
-            <button ion-button color="primary" block (click)="loginFacebook()">Facebook</button>
-            <button ion-button color="primary" block (click)="abraCadastro()">Registrar</button>
+
+            <button class="botao" ion-button color="primary" round block (click)="login()">Login</button>
+            <button class="botao" ion-button color="primary" round block (click)="abraCadastro()">Registrar</button>
+            <button class="botao facebook" ion-button round block (click)="loginFacebook()">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                    Facebook
+                </button>
         </div>
     </div>
 </ion-content>

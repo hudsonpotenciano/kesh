@@ -11,7 +11,7 @@ namespace ProjetoMarketing.DTO
         public ContaEmpresa ContaEmpresa { get; set; }
         public IEnumerable<ImagemCatalogo> Catalogo { get; set; }
         public PessoaEmpresa PessoaEmpresa { get; set; }
-        public int Distancia { get; set; }
+        public double Distancia { get; set; }
         public decimal? NotaGeral { get; set; }
     }
 }

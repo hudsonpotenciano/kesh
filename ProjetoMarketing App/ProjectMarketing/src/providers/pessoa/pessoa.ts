@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa, CadastroPessoaRedeSocialModel } from '../../models/pessoa.model';
+import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa, CadastroPessoaRedeSocialModel, UnidadeDeMedidaLocalizacao } from '../../models/pessoa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
-import { User, RetornoRequestModel, RetornoLogin, SocialUser } from '../../models/models.model';
+import { User, RetornoRequestModel, RetornoLogin, SocialUser, Localizacao } from '../../models/models.model';
 import { StoragePessoaProvider } from '../storage/storage-pessoa';
 import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
 
@@ -18,14 +18,14 @@ export class PessoaProvider {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
-  obtenhaPessoaEPerfilEmpresas() {
+  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao) {
 
-    let latitude = -16.60150553;
-    let longitude = -49.30649101;
+    let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
+    unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
 
     return new Promise<DadosPessoaEmpresa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
+        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
         .then((retorno: RetornoRequestModel) => {
 
           let dados = retorno.Result as DadosPessoaEmpresa[];
@@ -33,6 +33,19 @@ export class PessoaProvider {
           resolve(dados);
 
           this.storagePessoa.armazeneDadosPessoaEmpresa(dados);
+        });
+    });
+  }
+
+  obtenhaFakePessoaEPerfilEmpresas() {
+    let latitude = -16.60150553;
+    let longitude = -49.30649101;
+
+    return new Promise<number>(resolve => {
+      this.comunicacao.post("Pessoa/Pessoa/ObtenhaFakePessoaEPerfilEmpresas",
+        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
         });
     });
   }

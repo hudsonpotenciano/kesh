@@ -15,9 +15,9 @@ page-cadastro-pessoa {
             width: 95px
         }
         .image {
-            box-shadow: 0 0 1px 1px #bcbcbc;
-            background-size: contain;
+            background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             border-radius: 50%;
             height: 97px;
             margin: 2px;

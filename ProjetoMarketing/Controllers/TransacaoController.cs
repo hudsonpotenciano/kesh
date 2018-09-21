@@ -73,10 +73,8 @@ namespace ProjetoMarketing.Controllers
         {
             var retorno = new RetornoRequestModel
             {
-                Result = new
-                {
-                    CuponsVendas = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasEmpresa(parametros.IdPerfilEmpresa)),
-                }
+                Result = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasEmpresa(parametros.IdPerfilEmpresa)),
+                
             };
 
             return retorno;
@@ -88,10 +86,8 @@ namespace ProjetoMarketing.Controllers
         {
             var retorno = new RetornoRequestModel
             {
-                Result = new
-                {
-                    CuponsVendas = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasPessoa(parametros.IdPessoa)),
-                }
+                Result = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasPessoa(parametros.IdPessoa)),
+               
             };
 
             return retorno;

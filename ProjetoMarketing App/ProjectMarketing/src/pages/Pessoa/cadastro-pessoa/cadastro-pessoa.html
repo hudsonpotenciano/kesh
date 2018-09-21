@@ -9,7 +9,7 @@
             <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
         </div>
 
-        <ion-list>
+        <ion-list padding>
             <ion-item>
                 <ion-label>
                     <ion-icon name="person"></ion-icon>
@@ -38,20 +38,16 @@
                 <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" placeholder="Confirme a senha" formControlName="confirmacaoDaSenha"></ion-input>
             </ion-item>
         </ion-list>
-
-        <div padding>
-            <button ion-button color="primary" block>Cadastrar</button>
-        </div>
     </form>
 
-    <form *ngIf="pessoaRedeSocial" [formGroup]="form2" (submit)="cadastreRedeSocial()">
+    <form *ngIf="pessoaRedeSocial" [formGroup]="form2">
         <div class="profile-image" (click)="selecioneImagem()">
             <div class="image-wrapper" *ngIf="!pessoaRedeSocial.Foto">
                 <ion-icon name="images"></ion-icon>
             </div>
             <div class="image" *ngIf="pessoaRedeSocial.Foto" [style.backgroundImage]="getProfileImageStyle()"></div>
         </div>
-        <ion-list>
+        <ion-list padding>
             <ion-item>
                 <ion-label>
                     <ion-icon name="person"></ion-icon>
@@ -66,9 +62,8 @@
                 <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email" formControlName="email" placeholder="Email"></ion-input>
             </ion-item>
         </ion-list>
-
-        <div padding>
-            <button ion-button color="primary" block>Cadastrar</button>
-        </div>
     </form>
+
+    <button *ngIf="pessoaRedeSocial" class="botao" ion-button color="primary" round block (click)="cadastreRedeSocial()">Cadastrar</button>
+    <button *ngIf="!pessoaRedeSocial" class="botao" ion-button color="primary" round block (click)="cadastre()">Cadastrar</button>
 </ion-content>

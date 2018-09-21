@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ImagemCatalogo } from '../../models/empresa.model';
 import { EmpresaLojaProvider } from '../../providers/empresa-loja/empresa-loja';
 
@@ -14,6 +14,7 @@ export class CatalogoComponentPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private viewCtrl: ViewController,
     private empresaLojaProvider: EmpresaLojaProvider) {
     this.empresaLojaProvider;
     this.catalogo = this.navParams.get("catalogo");
@@ -22,4 +23,7 @@ export class CatalogoComponentPage {
   ionViewDidLoad() {
   }
 
+  voltar() {
+    this.viewCtrl.dismiss();
+  }
 }

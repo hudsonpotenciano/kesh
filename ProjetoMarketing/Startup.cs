@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using ProjetoMarketing.Autentication;
-using ProjetoMarketing.Data;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System;
-using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Serialization;
+using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Contexts;
-using Microsoft.AspNetCore.Http;
+using ProjetoMarketing.Data;
+using System;
 
 namespace ProjetoMarketing
 {
@@ -32,10 +31,10 @@ namespace ProjetoMarketing
             opt.UseNpgsql(Configuration.GetConnectionString("PostGreConnection")));
 
             //Token
-            var signingConfigurations = new SigningConfigurations();
+            SigningConfigurations signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);
 
-            var tokenConfigurations = new TokenConfigurations();
+            TokenConfigurations tokenConfigurations = new TokenConfigurations();
 
             new ConfigureFromConfigurationOptions<TokenConfigurations>(
                 Configuration.GetSection("TokenConfigurations"))
@@ -49,7 +48,7 @@ namespace ProjetoMarketing
                 authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(bearerOptions =>
             {
-                var paramsValidation = bearerOptions.TokenValidationParameters;
+                Microsoft.IdentityModel.Tokens.TokenValidationParameters paramsValidation = bearerOptions.TokenValidationParameters;
                 paramsValidation.IssuerSigningKey = signingConfigurations.Key;
                 paramsValidation.ValidAudience = tokenConfigurations.Audience;
                 paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
@@ -76,28 +75,7 @@ namespace ProjetoMarketing
                     .RequireAuthenticatedUser().Build());
             });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowFromAll",
-                    builder => builder
-                    .WithMethods("GET", "POST", "OPTIONS")
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader());
-            });
-
-            //Redireciona http para https
-            //services.AddHttpsRedirection(options =>
-            //{
-            //    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-            //});
-
-            //services.AddHsts(options =>
-            //{
-            //    options.Preload = true;
-            //    options.IncludeSubDomains = true;
-            //    options.MaxAge = TimeSpan.FromDays(60);
-            //});
-
+            services.AddCors();
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
@@ -109,13 +87,11 @@ namespace ProjetoMarketing
                 app.UseDeveloperExceptionPage();
             }
 
-            //Redireciona http para https
-            //app.UseHsts();
-
-            app.UseCors("AllowFromAll");
-
-            //Redireciona http para https
-            //app.UseHttpsRedirection();
+            app.UseCors(builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials());
 
             app.UseMvc(routes =>
             {

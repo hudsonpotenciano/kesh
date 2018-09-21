@@ -56,8 +56,6 @@ export class ComunicacaoProvider {
 
           if (e.status == 401) {
 
-            alert(this.tentativasDePost);
-
             if (this.tentativasDePost++ >= 3) {
               //REALIZE LOGIN NOVAMENTE
               this.tentativasDePost = 0;
