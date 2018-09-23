@@ -22,7 +22,8 @@ namespace ProjetoMarketing.Contexts
         public DbSet<Entidade.Compartilhamento> Compartilhamento { get; set; }
         public DbSet<Entidade.Venda> Venda { get; set; }
         public DbSet<Entidade.Usuario> Usuario { get; set; }
-        public DbQuery<Areas.Pessoa.Models.PerfilEmpresaDistanciaModel> PerfilEmpresaQuery { get; set; }
+        public DbSet<Entidade.Pessoa.PessoaLoja> PessoaLoja { get; set; }
+
 
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))

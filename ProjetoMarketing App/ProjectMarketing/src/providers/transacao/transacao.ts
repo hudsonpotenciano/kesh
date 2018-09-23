@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cupom, RetornoRequestModel, Venda, DTOCupomVenda } from '../../models/models.model';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
+import { VendaAdminLoja } from '../../models/empresa.model';
 
 @Injectable()
 export class TransacaoProvider {
@@ -21,6 +22,15 @@ export class TransacaoProvider {
   GereVenda(tokenCupom: string, valorVenda: number) {
     return new Promise<Venda>(resolve => {
       this.comunicacao.post("Transacao/GereVendaComCupom", { TokenCupom: tokenCupom, ValorDaVenda: valorVenda })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
+        });
+    });
+  }
+
+  obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: number) {
+    return new Promise<VendaAdminLoja[]>(resolve => {
+      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresaAdmin", { IdEmpresa: IdEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });

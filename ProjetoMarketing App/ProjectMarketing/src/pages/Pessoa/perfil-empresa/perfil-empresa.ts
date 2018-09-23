@@ -19,10 +19,9 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
 export class PerfilEmpresaPage {
 
   dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
-  podeCompartilhar = false;
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
-  tecladoEstaAtivo = false;
-
+  podeCompartilhar = false;
+  verMaisInformacoes = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

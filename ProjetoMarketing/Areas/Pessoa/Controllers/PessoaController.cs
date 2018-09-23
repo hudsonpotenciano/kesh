@@ -102,6 +102,25 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         }
 
         [Authorize("Bearer")]
+        [HttpPost("ObtenhaDadosPessoaLojas")]
+        public async Task<RetornoRequestModel> ObtenhaDadosPessoaLojas([FromBody]ParametrosObtenhaDadosPessoa parametros)
+        {
+            try
+            {
+                RetornoRequestModel retorno = new RetornoRequestModel
+                {
+                    Result = Projecoes.PessoaLojas(await new PessoaDAO(_context).ObtenhaDadosPessoaLojas(parametros))
+                };
+
+                return retorno;
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [Authorize("Bearer")]
         [HttpPost("ObtenhaPessoaEPerfilEmpresas")]
         public async Task<RetornoRequestModel> ObtenhaPessoaEPerfilEmpresas([FromBody]ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {

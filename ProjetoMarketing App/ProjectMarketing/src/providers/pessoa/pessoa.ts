@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa, CadastroPessoaRedeSocialModel, UnidadeDeMedidaLocalizacao } from '../../models/pessoa.model';
+import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa, CadastroPessoaRedeSocialModel, UnidadeDeMedidaLocalizacao, PessoaLoja } from '../../models/pessoa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin, SocialUser, Localizacao } from '../../models/models.model';
@@ -16,6 +16,16 @@ export class PessoaProvider {
     private storagePessoa: StoragePessoaProvider,
     private comunicacao: ComunicacaoProvider) {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
+  }
+
+  obtenhaDadosPessoaLojas() {
+    return new Promise<PessoaLoja[]>(resolve => {
+      this.comunicacao.post("Pessoa/Pessoa/ObtenhaDadosPessoaLojas",
+        { IdPessoa: this.dadosAcesso.IdPessoa })
+        .then((retorno: RetornoRequestModel) => {
+          resolve(retorno.Result);
+        });
+    });
   }
 
   obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao) {
@@ -99,6 +109,7 @@ export class PessoaProvider {
       .then((resposta: RetornoRequestModel) => {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);
+        this.dadosAcesso = result;
       });
   }
 

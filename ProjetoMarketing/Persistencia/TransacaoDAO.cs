@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
-using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
 using System;
@@ -19,7 +18,10 @@ namespace ProjetoMarketing.Persistencia
         {
             _context = context;
             if (_context.Database.CurrentTransaction != null)
+            {
                 _context.Database.CurrentTransaction.Commit();
+            }
+
             _context.Database.BeginTransaction();
         }
 
@@ -65,6 +67,24 @@ namespace ProjetoMarketing.Persistencia
             };
 
             _context.Venda.Add(venda);
+
+            PessoaLoja pessoaloja = _context.PessoaLoja.FirstOrDefault(a => a.IdPessoa == cupom.IdPessoa);
+
+            if (pessoaloja == null)
+            {
+                _context.PessoaLoja.Add(new PessoaLoja()
+                {
+                    IdPerfilEmpresa = venda.IdPerfilEmpresa,
+                    IdPessoa = venda.IdPessoa,
+                    Pontos = venda.Valor
+                });
+            }
+            else
+            {
+                pessoaloja.Pontos = pessoaloja.Pontos + venda.Valor;
+                _context.PessoaLoja.Update(pessoaloja);
+            }
+
             return _context.SaveChangesAsync();
         }
 
@@ -79,9 +99,22 @@ namespace ProjetoMarketing.Persistencia
                         Cupom = cupom,
                         Venda = venda,
                         PerfilEmpresa = perfilEmpresa,
-                        Pontos = venda != null ? Venda.CalculePontos(venda.Valor,valorPontos) : 0
+                        Pontos = venda != null ? venda.Valor : 0
                     }).ToListAsync();
         }
+
+        public Task<List<DTO.DTOVendasAdminLoja>> ObtenhaCuponsEVendasEmpresaAdmin(int idEmpresa)
+        {
+            return (from venda in _context.Venda
+                    join perfil in _context.PerfilEmpresa on venda.IdPerfilEmpresa equals perfil.IdPerfilEmpresa
+                    where perfil.IdEmpresa == idEmpresa
+                    select new DTO.DTOVendasAdminLoja()
+                    {
+                        Venda = venda,
+                        NomeLoja = perfil.Descricao
+                    }).ToListAsync();
+        }
+
 
         public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasEmpresa(long idPerfilEmpresa)
         {
@@ -96,7 +129,7 @@ namespace ProjetoMarketing.Persistencia
                         Cupom = cupom,
                         Venda = venda,
                         NomePessoa = nomePessoa,
-                        Pontos = venda != null ? Venda.CalculePontos(venda.Valor, valorPontos) : 0
+                        Pontos = venda != null ? venda.Valor : 0
                     }).ToListAsync();
         }
 

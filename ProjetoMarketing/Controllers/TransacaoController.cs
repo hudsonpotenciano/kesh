@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Persistencia;
+using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Controllers
 {
@@ -24,17 +25,17 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("GereCupomCompartilhamento")]
         public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
-            var compartilhamento = new Compartilhamento();
+            Compartilhamento compartilhamento = new Compartilhamento();
             new TransacaoDAO(_context).GereCompartilhamento(parametros, out compartilhamento);
 
             if (compartilhamento.IdCompartilhamento != 0)
             {
-                var desconto = await new Areas.Empresa.Persistencia.EmpresaDAO(_context).SelectDesconto(parametros.IdEmpresa);
+                decimal desconto = await new Areas.Empresa.Persistencia.EmpresaDAO(_context).SelectDesconto(parametros.IdEmpresa);
 
-                var cupom = new Cupom();
+                Cupom cupom = new Cupom();
                 await new TransacaoDAO(_context).GereCupom(parametros, desconto, out cupom, compartilhamento.IdCompartilhamento);
 
-                var retorno = new RetornoRequestModel()
+                RetornoRequestModel retorno = new RetornoRequestModel()
                 {
                     Result = Projecoes.ProjecaoCupom(cupom)
                 };
@@ -49,14 +50,14 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("GereVendaComCupom")]
         public async Task<RetornoRequestModel> GereVendaComCupom([FromBody]ParametrosCupomVenda parametros)
         {
-            var cupom = await new TransacaoDAO(_context).SelectCupom(parametros.TokenCupom);
-            var venda = new Venda();
+            Cupom cupom = await new TransacaoDAO(_context).SelectCupom(parametros.TokenCupom);
+            Venda venda = new Venda();
 
             await new TransacaoDAO(_context).GereVendaComCupom(parametros, cupom, out venda);
 
             if (venda.IdVenda != 0)
             {
-                var retorno = new RetornoRequestModel
+                RetornoRequestModel retorno = new RetornoRequestModel
                 {
                     Result = Projecoes.ProjecaoVenda(venda)
                 };
@@ -71,10 +72,24 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("ObtenhaCuponsEVendasEmpresa")]
         public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]ParametrosObtenhaDadosPessoaEmpresa parametros)
         {
-            var retorno = new RetornoRequestModel
+            RetornoRequestModel retorno = new RetornoRequestModel
             {
                 Result = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasEmpresa(parametros.IdPerfilEmpresa)),
-                
+
+            };
+
+            return retorno;
+        }
+
+
+        [Authorize("Bearer")]
+        [HttpPost("ObtenhaCuponsEVendasEmpresaAdmin")]
+        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresaAdmin([FromBody]ParametrosObtenhaDadosEmpresa parametros)
+        {
+            RetornoRequestModel retorno = new RetornoRequestModel
+            {
+                Result = Projecoes.ProjecaoDTOVendasAdminLoja(await new TransacaoDAO(_context).ObtenhaCuponsEVendasEmpresaAdmin(parametros.IdEmpresa)),
+
             };
 
             return retorno;
@@ -84,10 +99,10 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("ObtenhaCuponsEVendasPessoa")]
         public async Task<RetornoRequestModel> ObtenhaCuponsEVendasPessoa([FromBody]ParametrosObtenhaDadosPessoa parametros)
         {
-            var retorno = new RetornoRequestModel
+            RetornoRequestModel retorno = new RetornoRequestModel
             {
                 Result = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasPessoa(parametros.IdPessoa)),
-               
+
             };
 
             return retorno;
@@ -107,11 +122,14 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("ObtenhaCupomPeloToken")]
         public async Task<RetornoRequestModel> ObtenhaCupomPeloToken([FromBody]ParametrosObtenhaCupom parametros)
         {
-            if (parametros == null || parametros.CupomToken == null) return RetornoRequestModel.CrieFalha();
+            if (parametros == null || parametros.CupomToken == null)
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
 
             try
             {
-                var cupom = await new TransacaoDAO(_context).ObtenhaCupomPeloToken(parametros);
+                Cupom cupom = await new TransacaoDAO(_context).ObtenhaCupomPeloToken(parametros);
 
                 if (cupom != null)
                 {

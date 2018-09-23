@@ -322,3 +322,29 @@ WITH (
 
 ALTER TABLE public.contaempresa
     OWNER to postgres;
+
+CREATE SEQUENCE public.sq_compartilhamento
+    INCREMENT 1
+    START 1
+    MINVALUE 1;
+
+CREATE TABLE public.pessoaloja
+(
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    idpessoaloja integer NOT NULL DEFAULT nextval('sq_compartilhamento'::regclass),
+    idperfilempresa bigint NOT NULL,
+    idpessoa integer NOT NULL,
+    pontos numeric NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT uk_pessoaloja UNIQUE (idperfilempresa, idpessoa),
+    CONSTRAINT fk_idperfilempresa FOREIGN KEY (idperfilempresa)
+        REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.pessoaloja
+    OWNER to postgres;

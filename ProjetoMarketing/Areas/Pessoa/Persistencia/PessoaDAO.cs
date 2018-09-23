@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.DTO;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
+using ProjetoMarketing.Negocio;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -146,17 +148,16 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             //OBTEM EMPRESAS NO RAIO DE 20KM
             return (from perfil in _context.PerfilEmpresa
                     let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, perfil.Latitude, perfil.Longitude, parametros.UnidadeDeMedida)
-                    where distancia < 20
-                    let idPerfilEmpresa = perfil.IdPerfilEmpresa
-                    let pessoasEmpresa = _context.PessoaEmpresa.Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
-                    let imagensCatalogo = _context.ImagemCatalogo.Where(d => d.IdPerfilEmpresa == idPerfilEmpresa)
-                    let empresa = _context.Empresa.FirstOrDefault(a => a.IdEmpresa == perfil.IdEmpresa)
-                    let conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == empresa.IdEmpresa)
-                    let pessoaEmpresa = _context.PessoaEmpresa.FirstOrDefault(p => p.IdPessoa == parametros.IdPessoa && p.IdPerfilEmpresa == idPerfilEmpresa)
-                    let countNota = _context.PessoaEmpresa.Count(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null)
-                    let notaGeral = _context.PessoaEmpresa
-                                    .Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
-                                    .Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
+                    join pessoasEmpresa in _context.PessoaEmpresa on perfil.IdPerfilEmpresa equals pessoasEmpresa.IdPerfilEmpresa
+                    join imagensCatalogo in _context.ImagemCatalogo on perfil.IdPerfilEmpresa equals imagensCatalogo.IdPerfilEmpresa
+                    join empresa in _context.Empresa on perfil.IdEmpresa equals empresa.IdEmpresa
+                    join conta in _context.ContaEmpresa on empresa.IdEmpresa equals conta.IdEmpresa
+                    join pessoaEmpresa in _context.PessoaEmpresa on perfil.IdPerfilEmpresa equals pessoaEmpresa.IdPerfilEmpresa
+                    //let countNota = _context.PessoaEmpresa.Count(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null)
+                    //let notaGeral = _context.PessoaEmpresa
+                    //                .Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
+                    //                .Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
+                    where pessoaEmpresa.IdPessoa == parametros.IdPessoa &&  distancia < 20
                     select new DTO.DTOPessoa()
                     {
                         Empresa = empresa,
@@ -164,11 +165,23 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         ContaEmpresa = conta,
                         PerfilEmpresa = perfil,
                         PessoaEmpresa = pessoaEmpresa,
-                        NotaGeral = notaGeral,
+                        NotaGeral = 1,
                         Distancia = distancia
                     }).ToListAsync();
         }
 
+        public Task<List<DTOPessoaLoja>> ObtenhaDadosPessoaLojas(ParametrosObtenhaDadosPessoa parametros)
+        {
+            return (from pessoaLoja in _context.PessoaLoja.Where(a => a.IdPessoa == parametros.IdPessoa)
+                    let loja = _context.PerfilEmpresa.FirstOrDefault(a => a.IdPerfilEmpresa == pessoaLoja.IdPerfilEmpresa)
+                    let conta = _context.ContaEmpresa.First(a => a.IdEmpresa == loja.IdEmpresa)
+                    select new DTOPessoaLoja
+                    {
+                        Loja = loja,
+                        Pontos = pessoaLoja.Pontos,
+                        PontosEmDinheiro = Pontos.CalculePontos(pessoaLoja.Pontos,conta.ValorPontos)
+                    }).ToListAsync();
+        }
 
         public Task<List<DTO.DTONotasComentariosPessoasEmpresas>> ObtenhaComentarioENotaPessoasEmpresas(ParametrosObtenhaNotasComentarios parametros)
         {

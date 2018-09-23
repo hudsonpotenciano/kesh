@@ -46,3 +46,8 @@ export enum UnidadeDeMedidaLocalizacao {
     Kilometros,
     Milhas
 }
+export class PessoaLoja {
+    Loja: Perfil;
+    Pontos: number;
+    PontosEmDinheiro: number;
+}

@@ -4,6 +4,7 @@ import { StorageEmpresaProvider } from '../../../providers/storage/storage-empre
 import { DadosEmpresaLoja, ImagemCatalogo, AtualizePerfilModel } from '../../../models/empresa.model';
 import { FormGroup, FormBuilder, Validators } from '../../../../node_modules/@angular/forms';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class PerfilEmpresaLojaPage {
   constructor(private storageEmpresa: StorageEmpresaProvider,
     private empresaLojaProvider: EmpresaLojaProvider,
     private formBuilder: FormBuilder,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private utilitarios: UtilitariosProvider) {
 
     this.form = this.formBuilder.group({
       descricao: ['', Validators.required],
@@ -45,7 +47,7 @@ export class PerfilEmpresaLojaPage {
     var modal = this.modalCtrl.create("SelecaoLocalizacaoPage", {
       lat: this.dadosEmpresa.Perfil.Latitude,
       long: this.dadosEmpresa.Perfil.Longitude
-    },{enableBackdropDismiss:false});
+    }, { enableBackdropDismiss: false });
 
     modal.present();
 
@@ -70,7 +72,11 @@ export class PerfilEmpresaLojaPage {
       if (!this.imagensCatalogo[this.imagensCatalogo.length])
         this.imagensCatalogo[this.imagensCatalogo.length] = new ImagemCatalogo();
 
-      this.imagensCatalogo[this.imagensCatalogo.length - 1].Imagem = (readerEvent.target as any).result.split(",")[1];
+
+      this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
+        debugger;
+        this.imagensCatalogo[this.imagensCatalogo.length - 1].Imagem = imagem;
+      })
     };
 
     reader.readAsDataURL(event.target.files[0]);

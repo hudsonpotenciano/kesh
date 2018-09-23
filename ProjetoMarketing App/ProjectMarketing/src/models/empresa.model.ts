@@ -1,3 +1,5 @@
+import { Venda } from "./models.model";
+
 export class Empresa {
     Email: string;
     IdEmpresa: number;
@@ -11,8 +13,8 @@ export class Empresa {
 export class Conta {
     IdEmpresa: number;
     Categorias: number;
-    DescontoCompartilhamento: number;
     Resumo: string;
+    DescontoCompartilhamento: number;
     ValorPontos: number;
 }
 
@@ -85,4 +87,9 @@ export class DadosEmpresaAdmin {
     Empresa: Empresa;
     PerfisEmpresa: Perfil[];
     Conta: Conta;
+}
+
+export class VendaAdminLoja {
+    Venda: Venda;
+    NomeLoja: string;
 }

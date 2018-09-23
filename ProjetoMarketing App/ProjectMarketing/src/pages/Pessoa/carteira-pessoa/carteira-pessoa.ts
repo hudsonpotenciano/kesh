@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
-import { DTOCupomVenda } from '../../../models/models.model';
-import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
+import { DadosPessoaEmpresa, PessoaLoja } from '../../../models/pessoa.model';
 import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
@@ -14,13 +12,12 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
 })
 export class CarteiraPessoaPage {
 
-  cuponsVendas: DTOCupomVenda[] = [];
+  pessoaLojas: PessoaLoja[] = [];
   pessoasEmpresas: DadosPessoaEmpresa[];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private transacaoProvider: TransacaoProvider,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private storagePessoa: StoragePessoaProvider) {
@@ -30,16 +27,14 @@ export class CarteiraPessoaPage {
   }
 
   ionViewDidLoad() {
-    this.transacaoProvider.ObtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa)
+    this.pessoaProvider.obtenhaDadosPessoaLojas()
       .then((resultado: any) => {
-        this.cuponsVendas = resultado.CuponsVendas;
+        this.pessoaLojas = resultado;
       })
   }
 
-  obtenhaLogoEmpresa(idPerfilEmpresa: number) {
+  obtenhaLogoEmpresa(idEmpresa: number) {
 
-    var empresa = this.pessoasEmpresas.find(p => p.Perfil.IdPerfilEmpresa == idPerfilEmpresa);
-    return this.empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa);
+    return this.empresaProvider.obtenhaLogoEmpresa(idEmpresa);
   }
-
 }

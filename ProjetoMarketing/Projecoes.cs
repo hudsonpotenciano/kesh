@@ -97,6 +97,17 @@ namespace ProjetoMarketing
                    };
         }
 
+        public static dynamic PessoaLojas(List<DTO.DTOPessoaLoja> pessoaLojas)
+        {
+            return from pessoa in pessoaLojas
+                   select new
+                   {
+                       pessoa.Loja,
+                       pessoa.Pontos,
+                       pessoa.PontosEmDinheiro
+                   };
+        }
+
         public static dynamic PessoaEmpresas(List<DTO.DTOPessoa> pessoaEmpresas, Enumeradores.UnidadeMedidaLocalizacao unit)
         {
             return from item in pessoaEmpresas
@@ -152,6 +163,15 @@ namespace ProjetoMarketing
                 cupom.IdPerfilEmpresa,
                 cupom.IdPessoa
             };
+        }
+        public static dynamic ProjecaoDTOVendasAdminLoja(List<DTO.DTOVendasAdminLoja> dtovendasLojas)
+        {
+            return from dto in dtovendasLojas
+                   select new
+                   {
+                       dto.Venda,
+                       dto.NomeLoja
+                   };
         }
 
         public static dynamic ProjecaoCupons(List<DTO.DTOCupomVenda> cupons)

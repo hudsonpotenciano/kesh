@@ -19,8 +19,28 @@
             </ion-avatar>
             <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
             <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.NotaGeral}}</p>
-            <p>{{dadosPessoaEmpresa.Conta.Resumo}}</p>
+            <p>{{dadosPessoaEmpresa.Conta.DescontoCompartilhamento}}</p>
+            <p>{{dadosPessoaEmpresa.Conta.ValorPontos}}</p>
+
         </ion-item>
+
+        <button class="botao-bool" (click)="verMaisInformacoes = true" ion-item clear full *ngIf="!verMaisInformacoes"> Ver mais
+                </button>
+
+        <div *ngIf="verMaisInformacoes">
+            <ion-item class="item-info" no-lines>
+                <p>
+                    <ion-icon name="call"></ion-icon>{{dadosPessoaEmpresa.Perfil.Telefone}}</p>
+                <p *ngIf="dadosPessoaEmpresa.Perfil.Telefone2">
+                    <ion-icon name="call"></ion-icon>
+                    {{dadosPessoaEmpresa.Perfil.Telefone2}}</p>
+                <p>
+                    <ion-icon name="paper"></ion-icon>
+                    {{dadosPessoaEmpresa.Conta.Resumo}}</p>
+            </ion-item>
+            <button class="botao-bool" (click)="verMaisInformacoes = false" ion-item clear full *ngIf="verMaisInformacoes"> Ver menos
+                                                    </button>
+        </div>
     </ion-list>
 
     <ion-list no-lines>
@@ -28,8 +48,8 @@
         </ion-item-divider>
 
         <ion-item class="minha-avaliacao" *ngIf="!avaliando && dadosPessoaEmpresa.PessoaEmpresa.Comentario">
-            <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
             <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
+            <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
             <button ion-button clear item-end (click)="avaliando = true">   
                 <ion-icon name="create"></ion-icon>
             </button>
@@ -51,9 +71,9 @@
             </ion-item>
         </div>
 
-        <button class="botao-avaliar" (click)="avaliando = true" ion-item clear full *ngIf="!avaliando && !dadosPessoaEmpresa.PessoaEmpresa.Comentario"> Avaliar
+        <button class="botao-bool" (click)="avaliando = true" ion-item clear full *ngIf="!avaliando && !dadosPessoaEmpresa.PessoaEmpresa.Comentario"> Avaliar
                 </button>
-        <button class="botao-avaliar" (click)="atualizeDadosPessoaEmpresa(); avaliando = false" ion-item clear full *ngIf="avaliando"> Salvar
+        <button class="botao-bool" (click)="atualizeDadosPessoaEmpresa(); avaliando = false" ion-item clear full *ngIf="avaliando"> Salvar
                 </button>
     </ion-list>
 
@@ -65,8 +85,8 @@
                 <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
             </ion-avatar>
             <h2>{{notaComentarios.Nome}}</h2>
-            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img src="./assets/svg/estrela.svg" alt=""> {{notaComentarios.Nota}}</p>
             <p>{{notaComentarios.Comentario}}</p>
+            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img src="./assets/svg/estrela.svg" alt=""> {{notaComentarios.Nota}}</p>
             <p item-end>{{notaComentarios.DataAvaliacao | Data}}</p>
         </ion-item>
     </ion-list>

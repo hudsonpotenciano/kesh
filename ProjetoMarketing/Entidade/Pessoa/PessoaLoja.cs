@@ -1,27 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ProjetoMarketing.Entidade
+namespace ProjetoMarketing.Entidade.Pessoa
 {
-    [Table("venda")]
-    public class Venda
+    [Table("pessoaloja")]
+    public class PessoaLoja
     {
         [Key]
         [Column("id")]
         public Guid Id { get; set; }
+        [Column("idpessoaloja")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("idvenda")]
-        public int IdVenda { get; set; }
+        public int IdPessoaLoja { get; set; }
         [Column("idperfilempresa")]
         public long IdPerfilEmpresa { get; set; }
         [Column("idpessoa")]
         public int IdPessoa { get; set; }
-        [Column("idcupom")]
-        public long IdCupom { get; set; }
-        [Column("valor")]
-        public decimal Valor { get; set; }
-        [Column("data")]
-        public DateTime Data { get; set; }
+        [Column("pontos")]
+        public decimal Pontos { get; set; }
     }
 }

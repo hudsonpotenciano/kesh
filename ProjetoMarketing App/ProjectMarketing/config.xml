@@ -101,4 +101,5 @@
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Para carregar as lojas mais próximas" />
     </plugin>
+    <plugin name="cordova.plugins.diagnostic" spec="^4.0.10" />
 </widget>
