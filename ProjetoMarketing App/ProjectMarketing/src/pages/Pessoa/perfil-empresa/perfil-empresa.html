@@ -18,9 +18,9 @@
                 <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
             </ion-avatar>
             <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
+            <p>Desconto: {{dadosPessoaEmpresa.Conta.DescontoCompartilhamento}}</p>
+            <p>Trade: {{dadosPessoaEmpresa.Conta.ValorPontos}}</p>
             <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.NotaGeral}}</p>
-            <p>{{dadosPessoaEmpresa.Conta.DescontoCompartilhamento}}</p>
-            <p>{{dadosPessoaEmpresa.Conta.ValorPontos}}</p>
 
         </ion-item>
 

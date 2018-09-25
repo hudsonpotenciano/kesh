@@ -48,6 +48,7 @@ namespace ProjetoMarketing.Persistencia
                 IdPerfilEmpresa = model.IdPerfilEmpresa,
                 IdPessoa = model.IdPessoa,
                 Data = DateTime.Now,
+                DataValidade = DateTime.Now.AddDays(1),
                 IdCompartilhamento = idCompartilhamento
             };
 
@@ -91,15 +92,17 @@ namespace ProjetoMarketing.Persistencia
         public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasPessoa(int idPessoa)
         {
             return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
-                    let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
-                    let perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa)
-                    let valorPontos = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == perfilEmpresa.IdEmpresa).ValorPontos
+                    join venda in _context.Venda on cupom.IdCupom equals venda.IdCupom into vendas
+                    join perfilEmpresa in _context.PerfilEmpresa on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
+                    join empresa in _context.Empresa.Select(a => new { a.IdEmpresa, a.Nome }) on perfilEmpresa.IdEmpresa equals empresa.IdEmpresa
+                    from inVenda in vendas.DefaultIfEmpty()
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,
-                        Venda = venda,
+                        Venda = inVenda,
+                        NomeEmpresa = empresa.Nome,
                         PerfilEmpresa = perfilEmpresa,
-                        Pontos = venda != null ? venda.Valor : 0
+                        Pontos = inVenda != null ? inVenda.Valor : 0
                     }).ToListAsync();
         }
 

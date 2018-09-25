@@ -25,7 +25,7 @@ export class MyApp {
     private storageProvider: StorageProvider) {
 
     platform.ready().then(() => {
-      statusBar.styleDefault();
+      statusBar.styleBlackOpaque();
       statusBar.overlaysWebView(false);
       statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();

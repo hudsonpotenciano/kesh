@@ -1,4 +1,14 @@
 <ion-content>
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+
+    <div class="imagem-background">
+        <div class="profile-image" (click)="selecioneImagem()">
+            <div class="image-wrapper" *ngIf="!this.form.controls.profilePic.value">
+                <ion-icon name="images"></ion-icon>
+            </div>
+            <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
+        </div>
+    </div>
     <h4>foto</h4>
     <h4>nome</h4>
     <h4>compartilhar o app com os amigos</h4>

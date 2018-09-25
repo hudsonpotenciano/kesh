@@ -49,5 +49,6 @@ export enum UnidadeDeMedidaLocalizacao {
 export class PessoaLoja {
     Loja: Perfil;
     Pontos: number;
+    NomeEmpresa: string;
     PontosEmDinheiro: number;
 }

@@ -20,7 +20,7 @@ export class TransacoesPage {
     private transacaoProvider: TransacaoProvider,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider) {
-      
+    
   }
 
   ionViewDidLoad() {

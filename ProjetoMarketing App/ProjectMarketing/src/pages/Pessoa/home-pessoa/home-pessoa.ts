@@ -41,7 +41,7 @@ export class HomePessoaPage {
     this.pessoaProvider.ObtenhaDadosPessoa()
       .then((pessoa: Pessoa) => {
         this.pessoa = pessoa;
-      })
+      });
   }
 
   obtenhaEmpresas() {
@@ -67,16 +67,16 @@ export class HomePessoaPage {
   obtenhaLocalizacaoAtual() {
 
     return new Promise<Localizacao>((resolve) => {
-      this.geolocation.getCurrentPosition().then((resp) => {
-        resolve(new Localizacao(resp.coords.latitude, resp.coords.longitude));
-        alert("peguei a localizacao");
-      }).catch((error) => {
-        alert("Erro ao obter localização atual");
-        console.log(error);
-      });
-      // this.geolocation;
-      // resolve(new Localizacao(-16.7064275, -49.2078104));
-      // resolve(new Localizacao(-16.7064275, -49.2078104));
+      // this.geolocation.getCurrentPosition().then((resp) => {
+      //   resolve(new Localizacao(resp.coords.latitude, resp.coords.longitude));
+      //   alert("peguei a localizacao");
+      // }).catch((error) => {
+      //   alert("Erro ao obter localização atual");
+      //   console.log(error);
+      // });
+       this.geolocation;
+       resolve(new Localizacao(-16.7064275, -49.2078104));
+      //  resolve(new Localizacao(-16.7064275, -49.2078104));
     });
   }
 }

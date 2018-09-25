@@ -72,7 +72,6 @@ export class PerfilEmpresaLojaPage {
       if (!this.imagensCatalogo[this.imagensCatalogo.length])
         this.imagensCatalogo[this.imagensCatalogo.length] = new ImagemCatalogo();
 
-
       this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
         debugger;
         this.imagensCatalogo[this.imagensCatalogo.length - 1].Imagem = imagem;

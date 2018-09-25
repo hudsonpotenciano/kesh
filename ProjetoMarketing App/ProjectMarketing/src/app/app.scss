@@ -1,3 +1,27 @@
+// FONTES
+h2 {
+    font-family: 'Lato', sans-serif;
+}
+
+p,
+h3 {
+    font-family: 'Roboto', sans-serif;
+}
+
+p,
+h2,
+h3 {
+    color: #666;
+}
+
+.warning {
+    color: $tema;
+}
+
+.danger {
+    color: danger;
+}
+
 .header::after {
     transform: rotate(180deg) !important;
     bottom: 0px !important;
@@ -83,7 +107,7 @@ ion-icon {
 }
 
 @function set-notification-text-color($color) {
-    @if (lightness($color) > 50) {
+    @if (lightness($color)>50) {
         @return #000000;
     }
     @else {

@@ -104,6 +104,7 @@ namespace ProjetoMarketing
                    {
                        pessoa.Loja,
                        pessoa.Pontos,
+                       pessoa.NomeEmpresa,
                        pessoa.PontosEmDinheiro
                    };
         }
@@ -161,6 +162,7 @@ namespace ProjetoMarketing
                 cupom.Token,
                 cupom.Data,
                 cupom.IdPerfilEmpresa,
+                cupom.DataValidade,
                 cupom.IdPessoa
             };
         }
@@ -185,6 +187,7 @@ namespace ProjetoMarketing
                            dto.Cupom.Token,
                            dto.Cupom.Data,
                            dto.Cupom.IdPerfilEmpresa,
+                           dto.Cupom.DataValidade,
                            dto.Cupom.IdPessoa,
                            dto.Cupom.Desconto
                        },
@@ -197,7 +200,6 @@ namespace ProjetoMarketing
                            dto.Venda.IdVenda,
                            dto.Venda.Data
                        } : null,
-                       dto.NomePessoa,
                        PerfilEmpresa = new
                        {
                            dto.PerfilEmpresa.Descricao,
@@ -208,6 +210,8 @@ namespace ProjetoMarketing
                            dto.PerfilEmpresa.Telefone2,
                            dto.PerfilEmpresa.IdPerfilEmpresa
                        },
+                       dto.NomePessoa,
+                       dto.NomeEmpresa,
                        dto.Pontos
                    };
         }

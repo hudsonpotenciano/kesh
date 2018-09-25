@@ -52,7 +52,6 @@ export class CadastroPessoaPage {
   }
 
   selecioneImagem() {
-
     this.fileInput.nativeElement.click();
   }
 

@@ -10,6 +10,7 @@ namespace ProjetoMarketing.DTO
     {
         public PerfilEmpresa Loja { get; set; }
         public decimal Pontos { get; set; }
+        public string NomeEmpresa { get; set; }
         public decimal PontosEmDinheiro { get; set; }
     }
 }

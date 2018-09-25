@@ -5,4 +5,14 @@ page-carteira-pessoa {
     .label {
         margin: 7px 8px 0 0;
     }
+    .venda-valor {
+        font-size: 1em;
+        color: green;
+        text-align: right;
+    }
+    .venda-pontos {
+        text-align: right;
+        font-size: 1em;
+        color: $tema;
+    }
 }

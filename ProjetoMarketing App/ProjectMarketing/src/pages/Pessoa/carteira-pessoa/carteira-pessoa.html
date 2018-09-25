@@ -15,9 +15,17 @@
                 <ion-avatar item-start>
                     <img [src]="obtenhaLogoEmpresa(pessoaLoja.Loja.IdEmpresa)">
                 </ion-avatar>
-                <h2>{{pessoaLoja.Descricao}}</h2>
-                <p>pontos {{pessoaLoja.Pontos}}</p>
-                <p>dinheiro {{pessoaLoja.PontosEmDinheiro}}</p>
+                <h2>{{pessoaLoja.NomeEmpresa}}</h2>
+                <div item-end>
+                    <p class="venda-pontos">
+                        <ion-icon name="pricetag"></ion-icon>
+                        {{pessoaLoja.Pontos}}
+                    </p>
+                    <p class="venda-valor">
+                        <ion-icon name="logo-usd"></ion-icon>
+                        {{pessoaLoja.PontosEmDinheiro}}
+                    </p>
+                </div>
             </ion-item>
         </div>
     </ion-list>

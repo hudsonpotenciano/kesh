@@ -145,41 +145,49 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task<List<DTO.DTOPessoa>> ObtenhaPessoaEmpresas(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
         {
-            //OBTEM EMPRESAS NO RAIO DE 20KM
-            return (from perfil in _context.PerfilEmpresa
-                    let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, perfil.Latitude, perfil.Longitude, parametros.UnidadeDeMedida)
-                    join pessoasEmpresa in _context.PessoaEmpresa on perfil.IdPerfilEmpresa equals pessoasEmpresa.IdPerfilEmpresa
-                    join imagensCatalogo in _context.ImagemCatalogo on perfil.IdPerfilEmpresa equals imagensCatalogo.IdPerfilEmpresa
-                    join empresa in _context.Empresa on perfil.IdEmpresa equals empresa.IdEmpresa
-                    join conta in _context.ContaEmpresa on empresa.IdEmpresa equals conta.IdEmpresa
-                    join pessoaEmpresa in _context.PessoaEmpresa on perfil.IdPerfilEmpresa equals pessoaEmpresa.IdPerfilEmpresa
-                    //let countNota = _context.PessoaEmpresa.Count(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null)
-                    //let notaGeral = _context.PessoaEmpresa
-                    //                .Where(p => p.IdPerfilEmpresa == idPerfilEmpresa)
-                    //                .Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
-                    where pessoaEmpresa.IdPessoa == parametros.IdPessoa &&  distancia < 20
-                    select new DTO.DTOPessoa()
-                    {
-                        Empresa = empresa,
-                        Catalogo = imagensCatalogo,
-                        ContaEmpresa = conta,
-                        PerfilEmpresa = perfil,
-                        PessoaEmpresa = pessoaEmpresa,
-                        NotaGeral = 1,
-                        Distancia = distancia
-                    }).ToListAsync();
+            try
+            {
+                //OBTEM EMPRESAS NO RAIO DE 20KM
+                return (from perfil in _context.PerfilEmpresa
+                        let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, perfil.Latitude, perfil.Longitude, parametros.UnidadeDeMedida)
+                        let idPerfilEmpresa = perfil.IdPerfilEmpresa
+                        join empresa in _context.Empresa on perfil.IdEmpresa equals empresa.IdEmpresa
+                        join conta in _context.ContaEmpresa on empresa.IdEmpresa equals conta.IdEmpresa
+                        let imagensCatalogo = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa)
+                        let countNota = _context.PessoaEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Nota }).Where(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null).Count()
+                        let notaGeral = _context.PessoaEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Nota }).Where(p => p.IdPerfilEmpresa == idPerfilEmpresa).Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
+                        from pessoaEmpresa in _context.PessoaEmpresa.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa && a.IdPessoa == parametros.IdPessoa).DefaultIfEmpty()
+                        where distancia < 20
+                        select new DTO.DTOPessoa()
+                        {
+                            Empresa = empresa,
+                            Catalogo = imagensCatalogo,
+                            ContaEmpresa = conta,
+                            PerfilEmpresa = perfil,
+                            PessoaEmpresa = pessoaEmpresa,
+                            NotaGeral = 1,
+                            Distancia = distancia
+                        }).ToListAsync();
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Task<List<DTOPessoaLoja>> ObtenhaDadosPessoaLojas(ParametrosObtenhaDadosPessoa parametros)
         {
             return (from pessoaLoja in _context.PessoaLoja.Where(a => a.IdPessoa == parametros.IdPessoa)
-                    let loja = _context.PerfilEmpresa.FirstOrDefault(a => a.IdPerfilEmpresa == pessoaLoja.IdPerfilEmpresa)
-                    let conta = _context.ContaEmpresa.First(a => a.IdEmpresa == loja.IdEmpresa)
+                    join loja in _context.PerfilEmpresa on pessoaLoja.IdPerfilEmpresa equals loja.IdPerfilEmpresa
+                    join conta in _context.ContaEmpresa on loja.IdEmpresa equals conta.IdEmpresa
+                    join empresa in _context.Empresa.Select(a => new { a.Nome, a.IdEmpresa }) on conta.IdEmpresa equals empresa.IdEmpresa
                     select new DTOPessoaLoja
                     {
                         Loja = loja,
                         Pontos = pessoaLoja.Pontos,
-                        PontosEmDinheiro = Pontos.CalculePontos(pessoaLoja.Pontos,conta.ValorPontos)
+                        NomeEmpresa = empresa.Nome,
+                        PontosEmDinheiro = Pontos.CalculePontos(pessoaLoja.Pontos, conta.ValorPontos)
                     }).ToListAsync();
         }
 
