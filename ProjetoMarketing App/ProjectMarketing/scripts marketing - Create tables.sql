@@ -231,7 +231,6 @@ ALTER TABLE public.venda
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idpessoa integer NOT NULL,
     idperfilempresa bigint NOT NULL,
-    pontuacao integer,
     comentario text,
     nota numeric,
     dataavaliacao date,

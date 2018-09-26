@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cupom, RetornoRequestModel, Venda, DTOCupomVenda } from '../../models/models.model';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { VendaAdminLoja } from '../../models/empresa.model';
+import { DTOCupomParaVenda } from '../../models/pessoa.model';
 
 @Injectable()
 export class TransacaoProvider {
@@ -19,9 +20,9 @@ export class TransacaoProvider {
     });
   }
 
-  GereVenda(tokenCupom: string, valorVenda: number) {
+  GereVenda(tokenCupom: string, valorVenda: number, utilizarPontos: boolean) {
     return new Promise<Venda>(resolve => {
-      this.comunicacao.post("Transacao/GereVendaComCupom", { TokenCupom: tokenCupom, ValorDaVenda: valorVenda })
+      this.comunicacao.post("Transacao/GereVendaComCupom", { TokenCupom: tokenCupom, ValorDaVenda: valorVenda, UsarPontos: utilizarPontos })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
@@ -75,12 +76,24 @@ export class TransacaoProvider {
     });
   }
 
-  ObtenhaCupomPeloToken(token: string) {
-    return new Promise<Cupom>((resolve, reject) => {
-      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token })
+  ObtenhaCupomPeloToken(token: string, idPerfilEmpresa: number) {
+    return new Promise<DTOCupomParaVenda>((resolve, reject) => {
+      this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         }).catch(() => { reject(); });
     });
+  }
+
+  CalculePontos(pontos, valorPontos) {
+    if (pontos <= 0 || valorPontos < 1) return 0;
+    //ValorPontos => Quer dize quantos pontos valem 1 real/dolar...
+    return pontos / valorPontos;
+  }
+
+  CalculeEquivalente(valorDaVenda, valorPontos) {
+    //Calcula quantos pontos valem o dinheiro da venda
+    //ValorPontos => Quer dize quantos pontos valem 1 real/dolar...
+    return valorDaVenda * valorPontos;
   }
 }

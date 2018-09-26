@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { Cupom, DTOCupomVenda } from '../../../models/models.model';
+import { DTOCupomVenda } from '../../../models/models.model';
 import { DadosEmpresaLoja } from '../../../models/empresa.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { DTOCupomParaVenda } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({
@@ -44,22 +45,20 @@ export class HomeEmpresaLojaPage {
   obtenhaCuponsEVendas() {
     this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa)
       .then((retorno: any) => {
-        this.cuponsVendas = retorno.CuponsVendas;
+        this.cuponsVendas = retorno;
       });
   }
 
   valideCupomVenda() {
-    var modal = this.modalCtrl.create("QrCodeScannerPage");
+    var modal = this.modalCtrl.create("QrCodeScannerPage", { idPerfilEmpresa: this.dadosEmpresa.Perfil.IdPerfilEmpresa });
     modal.present();
 
-    modal.onDidDismiss((cupom: Cupom) => {
+    modal.onDidDismiss((cupom: DTOCupomParaVenda) => {
       if (!cupom) return;
-
       this.navCtrl.push("VendaPage", cupom);
-
     });
   }
-  obtenhaFotoPessoa(idPessoa){
+  obtenhaFotoPessoa(idPessoa) {
     return this.pessoaProvider.obtenhaFotoPessoa(idPessoa);
   }
 }

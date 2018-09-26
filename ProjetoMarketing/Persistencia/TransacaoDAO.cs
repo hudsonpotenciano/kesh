@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.DTO;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
+using ProjetoMarketing.Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +71,9 @@ namespace ProjetoMarketing.Persistencia
 
             _context.Venda.Add(venda);
 
-            PessoaLoja pessoaloja = _context.PessoaLoja.FirstOrDefault(a => a.IdPessoa == cupom.IdPessoa);
+            PessoaLoja pessoaloja = _context.PessoaLoja.FirstOrDefault(a => a.IdPessoa == cupom.IdPessoa && a.IdPerfilEmpresa == cupom.IdPerfilEmpresa);
+            var perfil = _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.IdEmpresa }).First(a => a.IdPerfilEmpresa == cupom.IdPerfilEmpresa);
+            var conta = _context.ContaEmpresa.Select(a => new { a.ValorPontos, a.IdEmpresa }).First(a => a.IdEmpresa == perfil.IdEmpresa);
 
             if (pessoaloja == null)
             {
@@ -82,7 +86,38 @@ namespace ProjetoMarketing.Persistencia
             }
             else
             {
-                pessoaloja.Pontos = pessoaloja.Pontos + venda.Valor;
+                if (model.UsarPontos)
+                {
+                    decimal valorDosPontosEmDinheiro = Pontos.CalculePontos(pessoaloja.Pontos, conta.ValorPontos);
+
+                    if (valorDosPontosEmDinheiro > 0)
+                    {
+                        if (venda.Valor > valorDosPontosEmDinheiro)
+                        {
+                            decimal valorQueSobra = venda.Valor - valorDosPontosEmDinheiro;
+                            //usar os pontos como pagamento
+                            pessoaloja.Pontos = pessoaloja.Pontos - Pontos.CalculeEquivalente(valorDosPontosEmDinheiro, conta.ValorPontos);
+                            //adiciona os pontos com o dinheiro que passou
+                            pessoaloja.Pontos = pessoaloja.Pontos + valorQueSobra;
+                        }
+                        else
+                        {
+                            //usa os pontos como pagamento
+                            pessoaloja.Pontos = pessoaloja.Pontos - Pontos.CalculeEquivalente(venda.Valor, conta.ValorPontos);
+                        }
+                    }
+                    else
+                    {
+                        //senao somente adiciona os pontos da venda
+                        pessoaloja.Pontos += venda.Valor;
+                    }
+                }
+                else
+                {
+                    //adiciona os pontos da venda
+                    pessoaloja.Pontos += venda.Valor;
+                }
+
                 _context.PessoaLoja.Update(pessoaloja);
             }
 
@@ -93,7 +128,7 @@ namespace ProjetoMarketing.Persistencia
         {
             return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
                     join venda in _context.Venda on cupom.IdCupom equals venda.IdCupom into vendas
-                    join perfilEmpresa in _context.PerfilEmpresa on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
+                    join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Descricao, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join empresa in _context.Empresa.Select(a => new { a.IdEmpresa, a.Nome }) on perfilEmpresa.IdEmpresa equals empresa.IdEmpresa
                     from inVenda in vendas.DefaultIfEmpty()
                     select new DTO.DTOCupomVenda()
@@ -101,7 +136,8 @@ namespace ProjetoMarketing.Persistencia
                         Cupom = cupom,
                         Venda = inVenda,
                         NomeEmpresa = empresa.Nome,
-                        PerfilEmpresa = perfilEmpresa,
+                        DescricaoPerfilEmpresa = perfilEmpresa.Descricao,
+                        IdEmpresa = perfilEmpresa.IdEmpresa,
                         Pontos = inVenda != null ? inVenda.Valor : 0
                     }).ToListAsync();
         }
@@ -122,16 +158,19 @@ namespace ProjetoMarketing.Persistencia
         public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasEmpresa(long idPerfilEmpresa)
         {
             return (from cupom in _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa)
-                    let venda = _context.Venda.FirstOrDefault(v => v.IdCupom == cupom.IdCupom)
+                    join venda in _context.Venda on cupom.IdCupom equals venda.IdCupom
+                    join pessoa in _context.Pessoa.Select(a => new { a.IdPessoa, a.Nome }) on cupom.IdPessoa equals pessoa.IdPessoa
+                    join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Descricao, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
+                    join empresa in _context.Empresa.Select(a => new { a.IdEmpresa, a.Nome }) on perfilEmpresa.IdEmpresa equals empresa.IdEmpresa
                     where venda != null
-                    let nomePessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == cupom.IdPessoa).Nome
-                    let perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(e => e.IdPerfilEmpresa == cupom.IdPerfilEmpresa)
-                    let valorPontos = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == perfilEmpresa.IdEmpresa).ValorPontos
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,
                         Venda = venda,
-                        NomePessoa = nomePessoa,
+                        NomePessoa = pessoa.Nome,
+                        IdEmpresa = empresa.IdEmpresa,
+                        NomeEmpresa = empresa.Nome,
+                        DescricaoPerfilEmpresa = perfilEmpresa.Descricao,
                         Pontos = venda != null ? venda.Valor : 0
                     }).ToListAsync();
         }
@@ -141,11 +180,19 @@ namespace ProjetoMarketing.Persistencia
             return _context.Cupom.FirstOrDefaultAsync(a => a.Token.Equals(token));
         }
 
-        public Task<Cupom> ObtenhaCupomPeloToken(ParametrosObtenhaCupom parametros)
+        public Task<DTOCupomParaVenda> ObtenhaCupomPeloToken(ParametrosObtenhaCupom parametros)
         {
-            return _context.Cupom.FromSql($@"select * from public.cupom
-                                                 where cupom.token = {parametros.CupomToken}
-                                                 and not exists (select idvenda from venda where venda.idcupom = cupom.idcupom)").FirstOrDefaultAsync();
+            return (from cupom in _context.Cupom
+                    join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
+                    join conta in _context.ContaEmpresa.Select(a => new { a.IdEmpresa, a.ValorPontos }) on perfilEmpresa.IdEmpresa equals conta.IdEmpresa
+                    join pessoaEmpresa in _context.PessoaLoja.Select(a => new { a.IdPessoa, a.IdPerfilEmpresa, a.Pontos }) on cupom.IdPessoa equals pessoaEmpresa.IdPessoa
+                    where cupom.Token == parametros.CupomToken
+                    //where cupom.IdPerfilEmpresa == parametros.IdPerfilEmpresa
+                    select new DTOCupomParaVenda()
+                    {
+                        Cupom = cupom,
+                        TotalDinheiroPessoa = Pontos.CalculePontos(pessoaEmpresa.Pontos, conta.ValorPontos)
+                    }).FirstAsync();
         }
 
         public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)

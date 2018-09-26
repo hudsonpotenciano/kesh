@@ -9,5 +9,6 @@ namespace ProjetoMarketing.Models
     {
         public Guid TokenCupom { get; set; }
         public decimal ValorDaVenda { get; set; }
+        public bool UsarPontos { get; set; }
     }
 }

@@ -102,7 +102,6 @@ namespace ProjetoMarketing.Controllers
             RetornoRequestModel retorno = new RetornoRequestModel
             {
                 Result = Projecoes.ProjecaoCupons(await new TransacaoDAO(_context).ObtenhaCuponsEVendasPessoa(parametros.IdPessoa)),
-
             };
 
             return retorno;
@@ -129,13 +128,13 @@ namespace ProjetoMarketing.Controllers
 
             try
             {
-                Cupom cupom = await new TransacaoDAO(_context).ObtenhaCupomPeloToken(parametros);
+                DTO.DTOCupomParaVenda cupom = await new TransacaoDAO(_context).ObtenhaCupomPeloToken(parametros);
 
                 if (cupom != null)
                 {
                     return new RetornoRequestModel
                     {
-                        Result = cupom
+                        Result = Projecoes.ProjecaoDtoCupomParaVenda(cupom)
                     };
                 }
             }

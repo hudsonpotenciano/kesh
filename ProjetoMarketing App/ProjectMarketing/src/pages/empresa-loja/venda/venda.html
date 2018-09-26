@@ -12,5 +12,12 @@
         <ion-label fixed>Valor</ion-label>
         <ion-input type="number" [(ngModel)]="venda.Valor" name="valor"></ion-input>
     </ion-item>
+    <ion-item>
+        <ion-label>Usar Pontos</ion-label>
+        <ion-checkbox [(ngModel)]="utilizarPontos"></ion-checkbox>
+    </ion-item>
+    <p>
+        Trade da pessoa {{cupom.TotalDinheiroPessoa}}
+    </p>
     <button ion-button (click)="realizeVenda()">Venda</button>
 </ion-content>

@@ -200,16 +200,8 @@ namespace ProjetoMarketing
                            dto.Venda.IdVenda,
                            dto.Venda.Data
                        } : null,
-                       PerfilEmpresa = new
-                       {
-                           dto.PerfilEmpresa.Descricao,
-                           dto.PerfilEmpresa.IdEmpresa,
-                           dto.PerfilEmpresa.Latitude,
-                           dto.PerfilEmpresa.Longitude,
-                           dto.PerfilEmpresa.Telefone,
-                           dto.PerfilEmpresa.Telefone2,
-                           dto.PerfilEmpresa.IdPerfilEmpresa
-                       },
+                       dto.DescricaoPerfilEmpresa,
+                       dto.IdEmpresa,
                        dto.NomePessoa,
                        dto.NomeEmpresa,
                        dto.Pontos
@@ -226,6 +218,25 @@ namespace ProjetoMarketing
                 venda.IdPerfilEmpresa,
                 venda.Valor,
                 venda.Data
+            };
+        }
+
+        public static dynamic ProjecaoDtoCupomParaVenda(DTO.DTOCupomParaVenda dto)
+        {
+            return new
+            {
+                Cupom = new
+                {
+                    dto.Cupom.Data,
+                    dto.Cupom.DataValidade,
+                    dto.Cupom.Desconto,
+                    dto.Cupom.IdCompartilhamento,
+                    dto.Cupom.IdCupom,
+                    dto.Cupom.IdPerfilEmpresa,
+                    dto.Cupom.IdPessoa,
+                    dto.Cupom.Token
+                },
+                dto.TotalDinheiroPessoa
             };
         }
 
@@ -278,8 +289,7 @@ namespace ProjetoMarketing
                 pessoaEmpresa.Comentario,
                 pessoaEmpresa.IdPerfilEmpresa,
                 pessoaEmpresa.IdPessoa,
-                pessoaEmpresa.Nota,
-                pessoaEmpresa.Pontuacao
+                pessoaEmpresa.Nota
             };
         }
         #endregion

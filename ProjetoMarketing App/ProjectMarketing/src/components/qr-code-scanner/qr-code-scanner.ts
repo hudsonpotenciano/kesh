@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { QRScannerStatus, QRScanner } from '@ionic-native/qr-scanner';
 import { TransacaoProvider } from '../../providers/transacao/transacao';
-import { Cupom } from '../../models/models.model';
+import { DTOCupomParaVenda } from '../../models/pessoa.model';
 
 
 @IonicPage()
@@ -12,11 +12,14 @@ import { Cupom } from '../../models/models.model';
 })
 export class QrCodeScannerPage {
 
+  idPerfilEmpresa: number;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     private qrScanner: QRScanner,
     private transacaoProvider: TransacaoProvider) {
+      this.idPerfilEmpresa = this.navParams.get("idPerfilEmpresa");
   }
 
   ionViewDidLeave() {
@@ -52,8 +55,7 @@ export class QrCodeScannerPage {
   valideCupom(text: string) {
     //exiba carregando
     this.transacaoProvider.ObtenhaCupomPeloToken(text)
-      .then((cupom: Cupom) => {
-        debugger;
+      .then((cupom: DTOCupomParaVenda) => {
         this.viewCtrl.dismiss(cupom);
       }).catch(() => {
         alert("cupom invalido!");

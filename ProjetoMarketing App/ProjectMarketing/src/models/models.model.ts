@@ -1,6 +1,3 @@
-import { Perfil } from "./empresa.model";
-import { DateTime } from "ionic-angular";
-
 export class RetornoLogin {
     Token: string;
     IdPessoa: number;
@@ -40,9 +37,8 @@ export class Cupom {
     Token: string;
     Validade: Date;
     IdPerfilEmpresa: number;
-    IdPessoa: number;
-    Data: DateTime;
-    DataValidade: DateTime;
+    Data: Date;
+    DataValidade: Date;
 }
 
 export class Venda {
@@ -56,7 +52,8 @@ export class Venda {
 export class DTOCupomVenda {
     Cupom: Cupom;
     Venda: Venda;
-    PerfilEmpresa: Perfil;
+    DescricaoPerfilEmpresa: string;
+    IdEmpresa: number;
     NomePessoa: string;
     NomeEmpresa: string;
     Pontos: number;

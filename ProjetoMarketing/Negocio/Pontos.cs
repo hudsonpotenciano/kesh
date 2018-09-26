@@ -13,5 +13,12 @@ namespace ProjetoMarketing.Negocio
             //ValorPontos => Quer dize quantos pontos valem 1 real/dolar...
             return pontos / valorPontos;
         }
+
+        public static decimal CalculeEquivalente(decimal valorDaVenda, decimal valorPontos)
+        {
+            //Calcula quantos pontos valem o dinheiro da venda
+            //ValorPontos => Quer dize quantos pontos valem 1 real/dolar...
+            return valorDaVenda * valorPontos;
+        }
     }
 }

@@ -18,7 +18,10 @@
             <ion-item>
                 <h2>{{item.NomeLoja}}</h2>
                 <p>{{item.Venda.Data | Data}}</p>
-                <p>{{item.Venda.Valor}}</p>
+                <p class="venda-valor" item-end>
+                    <ion-icon name="logo-usd"></ion-icon>
+                    {{item.Venda.Valor}}
+                </p>
             </ion-item>
         </div>
     </ion-list>

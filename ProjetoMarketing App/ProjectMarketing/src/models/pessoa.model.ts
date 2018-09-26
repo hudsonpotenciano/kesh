@@ -1,5 +1,5 @@
 import { Empresa, Perfil, ImagemCatalogo, Conta } from "./empresa.model";
-
+import { Cupom } from "./models.model";
 
 export class CadastroPessoaModel {
     Nome: string;
@@ -23,12 +23,17 @@ export class Pessoa {
     Longitude: number;
 }
 
+export class PessoaEmpresaVenda {
+    PontuacaoDinheiro: number;
+    IdPessoa: number;
+    IdEmpresa: number;
+}
+
 export class PessoaEmpresa {
     Empresa: Empresa;
     Catalogo: ImagemCatalogo[];
     Comentario: string;
     Nota: number;
-    Pontuacao: number;
     NotaGeral: number;
 }
 
@@ -51,4 +56,9 @@ export class PessoaLoja {
     Pontos: number;
     NomeEmpresa: string;
     PontosEmDinheiro: number;
+}
+
+export class DTOCupomParaVenda {
+    Cupom: Cupom;
+    TotalDinheiroPessoa: number;
 }

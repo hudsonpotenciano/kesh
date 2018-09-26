@@ -18,13 +18,13 @@
                     <img [src]="obtenhaFotoPessoa(cupomevenda.Venda.IdPessoa)">
                 </ion-avatar>
                 <h2>{{cupomevenda.NomePessoa}}</h2>
-                <p class="venda-valor">
+                <p>{{cupomevenda.DescricaoPerfilEmpresa}}</p>
+                <p class="venda-valor" item-end>
                     <ion-icon name="logo-usd"></ion-icon>
                     {{cupomevenda.Venda.Valor}}
                 </p>
                 <p>
                     {{cupomevenda.Venda.Data | Data}}
-
                 </p>
             </ion-item>
         </div>

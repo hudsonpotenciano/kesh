@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Cupom, Venda } from '../../../models/models.model';
+import { Venda } from '../../../models/models.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
+import { DTOCupomParaVenda } from '../../../models/pessoa.model';
 
 @IonicPage()
 @Component({
@@ -10,8 +11,9 @@ import { TransacaoProvider } from '../../../providers/transacao/transacao';
 })
 export class VendaPage {
 
-  cupom: Cupom;
+  cupom: DTOCupomParaVenda;
   venda: Venda = new Venda();
+  utilizarPontos: boolean = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -19,17 +21,24 @@ export class VendaPage {
     this.cupom = this.navParams.data;
   }
 
-  ionViewDidLoad() {
-
-  }
-
   realizeVenda() {
-    this.transacaoProvider.GereVenda(this.cupom.Token, this.venda.Valor)
+    debugger;
+    if (this.utilizarPontos) {
+      if (this.cupom.TotalDinheiroPessoa <= 0) {
+        alert("pontos insuficientes");
+        //melhorar mensagem
+        return;
+      }
+    }
+
+    this.transacaoProvider.GereVenda(this.cupom.Cupom.Token, this.venda.Valor, this.utilizarPontos)
       .then(() => {
 
         this.navCtrl.pop();
         alert("venda gerada com sucesso!");
 
-      }).catch(() => { });
+      })
+      .catch(() => { });
   }
+
 }

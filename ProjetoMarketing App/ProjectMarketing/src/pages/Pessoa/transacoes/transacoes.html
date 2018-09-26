@@ -14,10 +14,10 @@
         <div class="item-customizado" *ngFor="let cupomVenda of cuponsVendas">
             <ion-item>
                 <ion-avatar item-start>
-                    <img [src]="obtenhaLogoEmpresa(cupomVenda.PerfilEmpresa.IdEmpresa)">
+                    <img [src]="obtenhaLogoEmpresa(cupomVenda.IdEmpresa)">
                 </ion-avatar>
                 <h2>{{cupomVenda.NomeEmpresa}}</h2>
-                <p>{{cupomVenda.PerfilEmpresa.Descricao}}</p>
+                <p>{{cupomVenda.DescricaoPerfilEmpresa}}</p>
 
                 <div item-end>
                     <p *ngIf="cupomVenda.Venda" class="venda-valor">

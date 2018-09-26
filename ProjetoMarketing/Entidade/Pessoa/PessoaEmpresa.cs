@@ -14,8 +14,6 @@ namespace ProjetoMarketing.Entidade.Pessoa
         public int IdPessoa { get; set; }
         [Column("idperfilempresa")]
         public long IdPerfilEmpresa { get; set; }
-        [Column("pontuacao")]
-        public int? Pontuacao { get; set; }
         [Column("nota")]
         public decimal? Nota { get; set; }
         [Column("comentario")]
