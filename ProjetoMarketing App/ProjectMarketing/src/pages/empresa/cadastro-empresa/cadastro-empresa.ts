@@ -34,7 +34,6 @@ export class CadastroEmpresaPage {
       resumo: ['', Validators.required],
       telefone: ['', Validators.required],
       telefone2: ['', Validators.required],
-      descontoCompartilhamento: ['', Validators.required],
       valorPontos: ['', Validators.required],
       senha: ['', Validators.required],
       categoria: ['', Validators.required]

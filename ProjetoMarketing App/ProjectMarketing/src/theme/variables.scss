@@ -3,12 +3,12 @@ $app-direction: ltr;
 $tema:#fcc000;
 $primary:#488aff;
 $colors: ( primary: #fcc000, tema:#fcc000, secondary: #32db64, danger: #f53d3d, light: #fff, dark: #222);
-@import "ionic.theme.default";
 @import "ionic.globals";
+@import "ionic.theme.default";
 @import "noto-sans";
 @import "roboto";
 @import "ionic.ionicons";
-@import url('https://fonts.googleapis.com/css?family=Lato:700|Roboto:700');
+@import url('https://fonts.googleapis.com/css?family=Lato:600|Roboto:600');
 $tabs-md-tab-icon-color-active:#fcc000 !important;
 $tabs-ios-tab-icon-color-active:#fcc000 !important;
 $tabs-md-tab-icon-color:rgba(0,
@@ -19,7 +19,7 @@ $tabs-ios-tab-icon-color:rgba(0,
 0,
 0,
 0.7) !important;
+$segment-button-ios-border-color-activated:#555 !important;
 $segment-button-md-text-color-activated:#555 !important;
 $segment-button-md-border-color-activated:#555 !important;
 $segment-button-ios-text-color-activated:#555 !important;
-$segment-button-ios-border-color-activated:#555 !important;

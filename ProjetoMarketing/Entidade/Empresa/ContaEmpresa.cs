@@ -17,8 +17,6 @@ namespace ProjetoMarketing.Entidade.Empresa
         public int IdEmpresa { get; set; }
         [Column("resumo")]
         public string Resumo { get; set; }
-        [Column("descontocompartilhamento")]
-        public decimal DescontoCompartilhamento { get; set; }
         [Column("valorpontos")]
         public decimal ValorPontos { get; set; }
         [Column("categoria")]

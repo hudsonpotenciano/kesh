@@ -164,7 +164,6 @@ CREATE TABLE public.cupom
     datavalidade timestamp with time zone NOT NULL,
     token uuid NOT NULL DEFAULT uuid_generate_v4(),
     idCupom bigint NOT NULL DEFAULT nextval('sq_cupom'),
-    desconto numeric NOT NULL,
     idcompartilhamento bigint NOT NULL,
     CONSTRAINT pk_cupom PRIMARY KEY (id),
     CONSTRAINT uk_cupom UNIQUE (idCupom),
@@ -305,7 +304,6 @@ CREATE TABLE public.contaempresa
 (
     id uuid NOT NULL,
     resumo text NOT NULL,
-    descontocompartilhamento numeric NOT NULL,
     valorpontos numeric NOT NULL,
     categoria integer NOT NULL,
     idempresa integer NOT NULL,

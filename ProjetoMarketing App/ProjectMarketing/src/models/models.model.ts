@@ -32,7 +32,6 @@ export class Usuario {
 }
 
 export class Cupom {
-    Desconto: number;
     IdCupom: number;
     Token: string;
     Validade: Date;

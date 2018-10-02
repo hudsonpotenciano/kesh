@@ -54,7 +54,7 @@ export class QrCodeScannerPage {
 
   valideCupom(text: string) {
     //exiba carregando
-    this.transacaoProvider.ObtenhaCupomPeloToken(text)
+    this.transacaoProvider.ObtenhaCupomPeloToken(text,this.idPerfilEmpresa)
       .then((cupom: DTOCupomParaVenda) => {
         this.viewCtrl.dismiss(cupom);
       }).catch(() => {

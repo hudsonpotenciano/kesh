@@ -41,12 +41,11 @@ namespace ProjetoMarketing.Persistencia
             _context.SaveChanges();
         }
 
-        public Task GereCupom(ParametrosCompartilhamento model, decimal desconto, out Cupom cupom, long idCompartilhamento)
+        public Task GereCupom(ParametrosCompartilhamento model, out Entidade.Cupom cupom, long idCompartilhamento)
         {
 
-            cupom = new Cupom()
+            cupom = new Entidade.Cupom()
             {
-                Desconto = desconto,
                 IdPerfilEmpresa = model.IdPerfilEmpresa,
                 IdPessoa = model.IdPessoa,
                 Data = DateTime.Now,
@@ -58,7 +57,7 @@ namespace ProjetoMarketing.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task GereVendaComCupom(ParametrosCupomVenda model, Cupom cupom, out Venda venda)
+        public Task GereVendaComCupom(ParametrosCupomVenda model, Entidade.Cupom cupom, out Venda venda)
         {
             venda = new Venda()
             {
@@ -175,7 +174,7 @@ namespace ProjetoMarketing.Persistencia
                     }).ToListAsync();
         }
 
-        public Task<Cupom> SelectCupom(Guid token)
+        public Task<Entidade.Cupom> SelectCupom(Guid token)
         {
             return _context.Cupom.FirstOrDefaultAsync(a => a.Token.Equals(token));
         }
@@ -197,9 +196,8 @@ namespace ProjetoMarketing.Persistencia
 
         public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            return _context.Compartilhamento.FromSql($@"select idcompartilhamento from compartilhamento where compartilhamento.idpessoa = {parametros.IdPessoa}
-                                                          and compartilhamento.idperfilempresa = {parametros.IdPerfilEmpresa}
-                                                          and compartilhamento.data >= {DateTime.Today}").AnyAsync();
+            return _context.Compartilhamento.AnyAsync(a => a.IdPessoa == parametros.IdPessoa 
+                                                     && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.Data >= DateTime.Today);
         }
     }
 }

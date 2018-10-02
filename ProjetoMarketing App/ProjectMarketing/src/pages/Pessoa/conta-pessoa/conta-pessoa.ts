@@ -57,7 +57,9 @@ export class ContaPessoaPage {
 
     reader.readAsDataURL(event.target.files[0]);
   }
-
+  abraEdicaoDePerfil(){
+    
+  }
   getProfileImageStyle() {
     return 'url(' + this.form.controls['profilePic'].value + ')'
   }

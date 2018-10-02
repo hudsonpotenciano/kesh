@@ -8,7 +8,6 @@ using ProjetoMarketing.Models;
 using ProjetoMarketing.Negocio;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -207,23 +206,23 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task<List<Entidade.Pessoa.Pessoa>> ObtenhaPessoasCompartilhamento(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            NumberFormatInfo nfi = new NumberFormatInfo
+            try
             {
-                NumberDecimalSeparator = "."
-            };
-
-            RawSqlString sql = $@"select * from pessoa where (select public.geodistance(cast('{parametros.Latitude.ToString(nfi)}' as double precision), cast('{parametros.Longitude.ToString(nfi)}' as double precision),latitude,longitude) < 50)
-                                                              and not exists (select idcupom from cupom where idpessoa = public.pessoa.idpessoa
-                                                              and idperfilempresa = {parametros.IdPerfilEmpresa}
-                                                              and cupom.data >= '{DateTime.Today.AddDays(-10).ToString("yyyy-MM-dd")}')";
-
-            return (from a in _context.Pessoa.FromSql(sql)
-                    select new Entidade.Pessoa.Pessoa()
-                    {
-                        Nome = a.Nome,
-                        Email = a.Email,
-                        IdPessoa = a.IdPessoa,
-                    }).ToListAsync();
+                return (from pessoa in _context.Pessoa
+                        let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, pessoa.Latitude, pessoa.Longitude, parametros.UnidadeDeMedida)
+                        where pessoa.IdPessoa != parametros.IdPessoa
+                        where !_context.Cupom.Where(a => a.IdPessoa == pessoa.IdPessoa && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && Negocio.Cupom.CalculeDataPodeCompartilhar(a.Data)).Any()
+                        select new Entidade.Pessoa.Pessoa
+                        {
+                            IdPessoa = pessoa.IdPessoa,
+                            Nome = pessoa.Nome,
+                            Email = pessoa.Email
+                        }).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
