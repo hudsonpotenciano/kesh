@@ -30,10 +30,8 @@ namespace ProjetoMarketing.Controllers
 
             if (compartilhamento.IdCompartilhamento != 0)
             {
-                decimal desconto = await new Areas.Empresa.Persistencia.EmpresaDAO(_context).SelectDesconto(parametros.IdEmpresa);
-
                 Cupom cupom = new Cupom();
-                await new TransacaoDAO(_context).GereCupom(parametros, desconto, out cupom, compartilhamento.IdCompartilhamento);
+                await new TransacaoDAO(_context).GereCupom(parametros, out cupom, compartilhamento.IdCompartilhamento);
 
                 RetornoRequestModel retorno = new RetornoRequestModel()
                 {

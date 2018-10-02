@@ -13,7 +13,6 @@ namespace ProjetoMarketing.Areas.Empresa.Models
         public string Cnpj { get; set; }
         public byte[] Logo { get; set; }
         public string Resumo { get; set; }
-        public decimal DescontoCompartilhamento { get; set; }
         public decimal ValorPontos { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

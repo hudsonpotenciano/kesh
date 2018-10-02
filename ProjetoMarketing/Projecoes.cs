@@ -157,7 +157,6 @@ namespace ProjetoMarketing
         {
             return new
             {
-                cupom.Desconto,
                 cupom.IdCupom,
                 cupom.Token,
                 cupom.Data,
@@ -189,7 +188,6 @@ namespace ProjetoMarketing
                            dto.Cupom.IdPerfilEmpresa,
                            dto.Cupom.DataValidade,
                            dto.Cupom.IdPessoa,
-                           dto.Cupom.Desconto
                        },
                        Venda = dto.Venda != null ? new
                        {
@@ -229,7 +227,6 @@ namespace ProjetoMarketing
                 {
                     dto.Cupom.Data,
                     dto.Cupom.DataValidade,
-                    dto.Cupom.Desconto,
                     dto.Cupom.IdCompartilhamento,
                     dto.Cupom.IdCupom,
                     dto.Cupom.IdPerfilEmpresa,
@@ -247,7 +244,6 @@ namespace ProjetoMarketing
             {
                 conta.IdEmpresa,
                 conta.Categoria,
-                conta.DescontoCompartilhamento,
                 conta.Resumo,
                 conta.ValorPontos,
             };

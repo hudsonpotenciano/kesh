@@ -14,7 +14,6 @@ export class Conta {
     IdEmpresa: number;
     Categorias: number;
     Resumo: string;
-    DescontoCompartilhamento: number;
     ValorPontos: number;
 }
 
@@ -44,7 +43,6 @@ export class ImagemCatalogo {
 export class AtualizeContaModel {
     IdEmpresa: number;
     Resumo: string;
-    DescontoCompartilhamento: number;
     ValorPontos: number;
     Categorias: number[];
     Logo: any;
@@ -69,7 +67,6 @@ export class CadastroEmpresaModel {
     Senha: string;
     Logo: any;
     Resumo: string;
-    DescontoCompartilhamento: number;
     ValorPontos: number;
     Latitude: number;
     Longitude: number;

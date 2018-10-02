@@ -60,14 +60,11 @@ export class PessoaProvider {
     });
   }
 
-  obtenhaPessoasCompartilhamento(idPerfilEmpresa: number) {
-
-    let latitude = -16.60150553;
-    let longitude = -49.30649101;
+  obtenhaPessoasCompartilhamento(idPerfilEmpresa: number, localizacao: Localizacao) {
 
     return new Promise<Pessoa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaParaCompartilhamento",
-        { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, Latitude: latitude, Longitude: longitude })
+        { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
         });
@@ -97,6 +94,7 @@ export class PessoaProvider {
 
       this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
         .then((resposta: RetornoRequestModel) => {
+          debugger;
           resolve(resposta.Result);
           this.storagePessoa.armazeneDadosPessoa(resposta.Result);
         });

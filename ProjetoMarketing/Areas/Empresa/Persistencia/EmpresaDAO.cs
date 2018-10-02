@@ -36,7 +36,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
             var conta = new Entidade.Empresa.ContaEmpresa()
             {
-                DescontoCompartilhamento = model.DescontoCompartilhamento,
                 ValorPontos = model.ValorPontos,
                 Resumo = model.Resumo,
                 Categoria = model.Categoria,
@@ -94,7 +93,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
             conta.Resumo = !string.IsNullOrEmpty(model.Resumo) ? model.Resumo : conta.Resumo;
             conta.ValorPontos = model.ValorPontos != 0 ? model.ValorPontos : conta.ValorPontos;
-            conta.DescontoCompartilhamento = model.DescontoCompartilhamento != 0 ? model.DescontoCompartilhamento : conta.DescontoCompartilhamento;
             conta.Categoria = model.Categoria != 0 ? model.Categoria : conta.Categoria;
 
             _context.ContaEmpresa.Update(conta);
@@ -134,11 +132,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfisEmpresa(int idEmpresa)
         {
             return _context.PerfilEmpresa.Where(p => p.IdEmpresa == idEmpresa).ToListAsync();
-        }
-
-        public Task<decimal> SelectDesconto(int idEmpresa)
-        {
-            return _context.ContaEmpresa.Select(a => a.DescontoCompartilhamento).FirstOrDefaultAsync();
         }
     }
 }

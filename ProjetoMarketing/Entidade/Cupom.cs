@@ -20,8 +20,6 @@ namespace ProjetoMarketing.Entidade
         public int IdPessoa { get; set; }
         [Column("idperfilempresa")]
         public long IdPerfilEmpresa { get; set; }
-        [Column("desconto")]
-        public decimal Desconto { get; set; }
         [Column("data")]
         public DateTime Data { get; set; }
         [Column("datavalidade")]

@@ -29,7 +29,6 @@ export class ContaEmpresaPage {
 
     this.form = formBuilder.group({
       resumo: ['', Validators.required],
-      descontoCompartilhamento: ['', Validators.required],
       valorPontos: ['', Validators.required]
     });
     this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaAdmin();
@@ -57,7 +56,6 @@ export class ContaEmpresaPage {
 
     let conta: AtualizeContaModel = new AtualizeContaModel();
     conta.Categorias = [0, 1];
-    conta.DescontoCompartilhamento = this.dadosEmpresa.Conta.DescontoCompartilhamento;
     conta.Resumo = this.dadosEmpresa.Conta.Resumo;
     conta.ValorPontos = this.dadosEmpresa.Conta.ValorPontos;
     conta.IdEmpresa = this.dadosEmpresa.Empresa.IdEmpresa;
