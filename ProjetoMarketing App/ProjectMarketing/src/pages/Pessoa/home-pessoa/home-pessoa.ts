@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
@@ -25,7 +25,8 @@ export class HomePessoaPage {
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private empresaLojaProvider: EmpresaLojaProvider,
-    private geolocation: Geolocation) {
+    private geolocation: Geolocation,
+    private modalCtrl: ModalController) {
     this.empresaProvider;
     this.empresaLojaProvider;
 
@@ -74,9 +75,15 @@ export class HomePessoaPage {
       //   alert("Erro ao obter localização atual");
       //   console.log(error);
       // });
-       this.geolocation;
-       resolve(new Localizacao(-16.7064275, -49.2078104));
+      this.geolocation;
+      resolve(new Localizacao(-16.7064275, -49.2078104));
       //  resolve(new Localizacao(-16.7064275, -49.2078104));
     });
+  }
+
+  mostrePerfilPessoaModal() {
+
+    var modal = this.modalCtrl.create("PerfilPessoaModalPage");
+    modal.present();
   }
 }

@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-item no-lines *ngIf="pessoa">
+        <ion-item no-lines *ngIf="pessoa" (click)="mostrePerfilPessoaModal()">
             <ion-avatar item-start>
                 <img [src]="obtenhaFotoPessoa()">
             </ion-avatar>
@@ -16,9 +16,9 @@
     <ion-list id="flex-box" no-lines>
         <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresas" (click)="abraPerfilEmpresa(pessoaEmpresa)">
             <ion-item class="item-header">
-                <ion-avatar item-start>
+                <!-- <ion-avatar item-start>
                     <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
-                </ion-avatar>
+                </ion-avatar> -->
                 <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
                 <p>{{pessoaEmpresa.Perfil.Descricao}}</p>
             </ion-item>

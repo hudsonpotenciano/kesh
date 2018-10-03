@@ -1,19 +1,23 @@
 // FONTES
 h2,
+.card-title,
 .label {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif !important;
 }
 
 p,
 h3 {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 p,
 h2,
-.label,
-h3 {
-    color: #666;
+.card-title h3 {
+    color: #666 !important;
+}
+
+.content {
+    background-color: #ececec;
 }
 
 .warning {
@@ -139,4 +143,9 @@ ion-header {
     background-color: white;
     box-shadow: 0px 0px 6px 1px rgb(211, 211, 211);
     margin: 5px 0 5px 0;
+}
+
+.ion-md-create,
+.ion-ios-create {
+    color: $tema !important;
 }

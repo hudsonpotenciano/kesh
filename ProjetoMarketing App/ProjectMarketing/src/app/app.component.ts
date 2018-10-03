@@ -45,6 +45,8 @@ export class MyApp {
 
     //unidade de medida
     this.storageProvider.armazeneUnidadeDeMedidaLocalizacao(UnidadeDeMedidaLocalizacao.Kilometros);
+    this.storageProvider.armazeneCultura("pt-br");
+
   }
 
   openPage(page) {

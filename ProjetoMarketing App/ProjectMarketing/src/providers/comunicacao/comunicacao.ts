@@ -90,6 +90,7 @@ export class ComunicacaoProvider {
 
     let dadosAcesso = this.storage.recupereDadosAcesso();
     body.Token = dadosAcesso ? dadosAcesso.Token : "";
+    body.Cultura = this.storage.recupereCultura();
   }
 
   monteOptions(): any {

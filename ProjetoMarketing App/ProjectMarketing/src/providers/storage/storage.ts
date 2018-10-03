@@ -7,6 +7,7 @@ export class StorageProvider {
 
   DADOS_ACESSO = "DADOS_ACESSO";
   UNID_MEDIDA_LOCALIZACAO = "UNID_MEDIDA_LOCALIZACAO";
+  CULTURA = "CULTURA";
   CACHE_1DIA = "CACHE_1DIA";
 
   constructor() {
@@ -38,13 +39,21 @@ export class StorageProvider {
     localStorage.removeItem(chave);
   };
 
-  //DADOS ACESSO
+  //CULTURA
   armazeneUnidadeDeMedidaLocalizacao(value: UnidadeDeMedidaLocalizacao) {
     this.armazene(this.UNID_MEDIDA_LOCALIZACAO, value);
   }
 
   recupereUnidadeDeMedidaLocalizacao(): UnidadeDeMedidaLocalizacao {
     return this.recupere(this.UNID_MEDIDA_LOCALIZACAO);
+  }
+
+  armazeneCultura(value: string) {
+    this.armazene(this.CULTURA, value);
+  }
+
+  recupereCultura(): string {
+    return this.recupere(this.CULTURA);
   }
 
   //DADOS ACESSO

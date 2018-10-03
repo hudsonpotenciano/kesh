@@ -11,7 +11,7 @@ export class TabsPessoaPage {
   homePage: any = "HomePessoaPage";
   carteiraPage: any = "CarteiraPessoaPage";
   // mapsPessoaPage: any = "MapsPessoaPage";
-  contaPessoaPage: any = "ContaPessoaPage";
+  ConfiguracoesPessoaPage: any = "ConfiguracoesPessoaPage";
   transacoesPage: any = "TransacoesPage";
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
