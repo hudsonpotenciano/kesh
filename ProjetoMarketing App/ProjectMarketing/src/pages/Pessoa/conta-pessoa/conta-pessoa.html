@@ -1,0 +1,25 @@
+<ion-content>
+    <!-- <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)"> -->
+    <ion-list no-lines>
+        <ion-item *ngIf="pessoa">
+            <!-- <div class="imagem-background" item-start>
+            <div class="profile-image" (click)="selecioneImagem()">
+                <div class="image-wrapper" *ngIf="!this.form.controls.profilePic.value">
+                    <ion-icon name="images"></ion-icon>
+                </div>
+                <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
+            </div>
+        </div> -->
+            <ion-avatar item-start class="avatar-perfil">
+                <img [src]="pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)" alt="">
+            </ion-avatar>
+            <h2>{{pessoa.Nome}}</h2>
+            <button ion-button clear item-end (click)="abraEdicaoDePerfil()">   
+                    <ion-icon name="create"></ion-icon>
+                </button>
+        </ion-item>
+    </ion-list>
+
+    <h4>compartilhar o app com os amigos</h4>
+    <h4>mostrar email de ajuda</h4>
+</ion-content>
