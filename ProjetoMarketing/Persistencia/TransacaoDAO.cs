@@ -43,6 +43,7 @@ namespace ProjetoMarketing.Persistencia
 
         public Task GereCupom(ParametrosCompartilhamento model, out Entidade.Cupom cupom, long idCompartilhamento)
         {
+            List<Entidade.Cupom> cupons = new List<Entidade.Cupom>();
 
             cupom = new Entidade.Cupom()
             {
@@ -53,7 +54,22 @@ namespace ProjetoMarketing.Persistencia
                 IdCompartilhamento = idCompartilhamento
             };
 
-            _context.Cupom.Add(cupom);
+            cupons.Add(cupom);
+
+            foreach (int idPessoa in model.IdsPessoas)
+            {
+                //pessoas do compartilhamento
+                cupons.Add(new Entidade.Cupom()
+                {
+                    IdPerfilEmpresa = model.IdPerfilEmpresa,
+                    IdPessoa = idPessoa,
+                    Data = DateTime.Now,
+                    DataValidade = DateTime.Now.AddDays(1),
+                    IdCompartilhamento = idCompartilhamento
+                });
+            }
+
+            _context.Cupom.AddRange(cupons);
             return _context.SaveChangesAsync();
         }
 
@@ -196,7 +212,7 @@ namespace ProjetoMarketing.Persistencia
 
         public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            return _context.Compartilhamento.AnyAsync(a => a.IdPessoa == parametros.IdPessoa 
+            return _context.Compartilhamento.AnyAsync(a => a.IdPessoa == parametros.IdPessoa
                                                      && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.Data >= DateTime.Today);
         }
     }

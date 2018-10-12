@@ -5,6 +5,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Persistencia;
+using ProjetoMarketing.Servicos;
 using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Controllers
@@ -25,14 +26,10 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("GereCupomCompartilhamento")]
         public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
-            Compartilhamento compartilhamento = new Compartilhamento();
-            new TransacaoDAO(_context).GereCompartilhamento(parametros, out compartilhamento);
+            var cupom = await TransacaoService.Instancia.GereCupomCompartilhamento(parametros, _context);
 
-            if (compartilhamento.IdCompartilhamento != 0)
+            if (cupom != null)
             {
-                Cupom cupom = new Cupom();
-                await new TransacaoDAO(_context).GereCupom(parametros, out cupom, compartilhamento.IdCompartilhamento);
-
                 RetornoRequestModel retorno = new RetornoRequestModel()
                 {
                     Result = Projecoes.ProjecaoCupom(cupom)

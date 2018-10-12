@@ -28,27 +28,20 @@
                 </ion-slide>
             </ion-slides>
 
-            <ion-item class="item">
-                <ion-avatar item-start>
-                    <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
-                </ion-avatar>
-                <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
-                <p>{{pessoaEmpresa.Perfil.Descricao}}</p>
-                <!-- <p><img src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}}</p>
-                <p *ngIf="pessoaEmpresa.NotaGeral && pessoaEmpresa.NotaGeral > 0">
+            <ion-item class="item-footer">
+                <p item-left><img src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}}</p>
+                <p item-right *ngIf="pessoaEmpresa.NotaGeral && pessoaEmpresa.NotaGeral > 0">
                     <img src="./assets/svg/estrela.svg" alt=""> {{pessoaEmpresa.NotaGeral}}
-                </p> -->
+                </p>
             </ion-item>
         </div>
-    </ion-list>
 
-    <div *ngFor="let fake of fakeItens" class="fakeItem-home-pessoa">
-        <ion-item class="fake-header">
-            <ion-avatar item-start>
-            </ion-avatar>
-            <h2></h2>
-            <p></p>
-        </ion-item>
-        <div class="fake-catalogo"></div>
-    </div>
+        <!-- <div *ngFor="let fake of fakeItens" class="fakeItem-home-pessoa">
+            <ion-item class="fake-header">
+                <h2></h2>
+                <p></p>
+            </ion-item>
+            <div class="fake-catalogo"></div>
+        </div> -->
+    </ion-list>
 </ion-content>

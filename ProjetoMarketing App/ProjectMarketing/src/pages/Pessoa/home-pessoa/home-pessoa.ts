@@ -17,7 +17,7 @@ export class HomePessoaPage {
 
   pessoaEmpresas: DadosPessoaEmpresa[] = [];
   pessoa: Pessoa;
-  fakeItens: any = [];
+  // fakeItens: any = [];
 
   constructor(
     public navCtrl: NavController,
@@ -30,9 +30,9 @@ export class HomePessoaPage {
     this.empresaProvider;
     this.empresaLojaProvider;
 
-    for (let i = 0; i < 30; i++) {
-      this.fakeItens[i] = i;
-    }
+    // for (let i = 0; i < 30; i++) {
+    //   this.fakeItens[i] = i;
+    // }
   }
 
   ionViewDidEnter() {
@@ -52,7 +52,7 @@ export class HomePessoaPage {
         this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao)
           .then((retorno: DadosPessoaEmpresa[]) => {
             this.pessoaEmpresas = retorno;
-            this.fakeItens = null;
+            // this.fakeItens = null;
           });
       });
   }

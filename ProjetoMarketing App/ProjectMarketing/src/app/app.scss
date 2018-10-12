@@ -10,14 +10,13 @@ h3 {
     font-family: 'Roboto', sans-serif !important;
 }
 
-p,
-h2,
-.card-title h3 {
-    color: #666 !important;
+.card-title,
+.card {
+    color: #666;
 }
 
 .content {
-    background-color: #ececec;
+    background-color: #f5f5f5 !important;
 }
 
 .warning {
@@ -141,11 +140,10 @@ ion-header {
 
 .item-customizado {
     background-color: white;
-    box-shadow: 0px 0px 6px 1px rgb(211, 211, 211);
     margin: 5px 0 5px 0;
 }
 
-.ion-md-create,
-.ion-ios-create {
-    color: $tema !important;
+.card,
+.item-customizado {
+    box-shadow: 0 2px 2px 0 rgba(150, 150, 150, 0.14), 0 3px 1px -2px rgba(150, 150, 150, 0.2), 0 1px 5px 0 rgba(150, 150, 150, 0.12);
 }
