@@ -1,4 +1,5 @@
-﻿using ProjetoMarketing.Entidade;
+﻿using ProjetoMarketing.Areas.Empresa.DTO;
+using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Negocio.Enumeradores;
@@ -24,7 +25,7 @@ namespace ProjetoMarketing
             return new
             {
                 Empresa = ProjecaoEmpresa(dadosEmpresa.Empresa),
-                PerfisEmpresa = dadosEmpresa.PerfisEmpresa.Any() ? ProjecaoPerfisEmpresa(dadosEmpresa.PerfisEmpresa) : null,
+                PerfisEmpresaCatalogo = dadosEmpresa.PerfisEmpresaCatalogo.Any() ? ProjecaoPerfisEmpresa(dadosEmpresa.PerfisEmpresaCatalogo) : null,
                 Conta = ProjecaoContaEmpresa(dadosEmpresa.ContaEmpresa)
             };
         }
@@ -275,6 +276,22 @@ namespace ProjetoMarketing
                        perfil.Longitude,
                        perfil.Telefone,
                        perfil.Telefone2
+                   };
+        }
+
+        private static dynamic ProjecaoPerfisEmpresa(IEnumerable<DTOPerfilEmpresaCatalogo> perfisCatalogo)
+        {
+            return from perfil in perfisCatalogo
+                   select new
+                   {
+                           perfil.Perfil.IdEmpresa,
+                           perfil.Perfil.IdPerfilEmpresa,
+                           perfil.Perfil.Descricao,
+                           perfil.Perfil.Latitude,
+                           perfil.Perfil.Longitude,
+                           perfil.Perfil.Telefone,
+                           perfil.Perfil.Telefone2,
+                           perfil.Catalogo
                    };
         }
 

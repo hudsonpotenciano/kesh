@@ -3,7 +3,7 @@ import { StorageEmpresaProvider } from '../storage/storage-empresa';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { StorageProvider } from '../storage/storage';
 import { RetornoRequestModel, RetornoLogin } from '../../models/models.model';
-import { DadosEmpresaLoja, ImagemCatalogo, AtualizePerfilModel } from '../../models/empresa.model';
+import { DadosEmpresaLoja, AtualizaPerfilModel } from '../../models/empresa.model';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class EmpresaLojaProvider {
     return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaImagemCatalogo?idImagem=" + idImagem;
   }
 
-  atualizePerfilEmpresa(perfil: AtualizePerfilModel) {
+  atualizePerfilEmpresa(perfil: AtualizaPerfilModel) {
 
     return this.comunicacao.post("Empresa/Empresa/AtualizePerfilEmpresa", perfil)
       .then(() => {
@@ -46,9 +46,9 @@ export class EmpresaLojaProvider {
       });
   }
 
-  atualizeCatalogo(imagens: ImagemCatalogo[]) {
-
-    return this.comunicacao.post("Empresa/Imagem/AtualizeCatalogo", { Imagens: imagens, IdPerfilEmpresa: this.idPerfilSelecionado })
+  cadastrePerfilEmpresa(perfil: AtualizaPerfilModel) {
+    perfil.IdEmpresa = this.dadosAcesso.IdEmpresa;
+    return this.comunicacao.post("Empresa/Empresa/CadastrePerfilEmpresa", perfil)
       .then(() => {
 
       });

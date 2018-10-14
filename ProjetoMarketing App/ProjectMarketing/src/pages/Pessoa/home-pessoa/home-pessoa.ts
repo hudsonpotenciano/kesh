@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
@@ -25,8 +25,7 @@ export class HomePessoaPage {
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private empresaLojaProvider: EmpresaLojaProvider,
-    private geolocation: Geolocation,
-    private modalCtrl: ModalController) {
+    private geolocation: Geolocation) {
     this.empresaProvider;
     this.empresaLojaProvider;
 
@@ -83,7 +82,6 @@ export class HomePessoaPage {
 
   mostrePerfilPessoaModal() {
 
-    var modal = this.modalCtrl.create("PerfilPessoaModalPage");
-    modal.present();
+    this.navCtrl.push("PerfilPessoaPage");
   }
 }

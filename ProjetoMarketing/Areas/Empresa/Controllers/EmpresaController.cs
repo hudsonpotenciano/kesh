@@ -9,6 +9,7 @@ using ProjetoMarketing.Data;
 using System.Threading.Tasks;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Areas.Empresa.Persistencia;
+using ProjetoMarketing.Areas.Empresa.Servicos;
 
 namespace ProjetoMarketing.Areas.Empresa.Controllers
 {
@@ -65,11 +66,17 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("AtualizePerfilEmpresa")]
         public async Task<RetornoRequestModel> AtualizePerfilEmpresa([FromBody]CadastroPerfilModel parametros)
         {
-            await new EmpresaDAO(_context).UpdatePerfil(parametros);
-
+            await EmpresaService.Instancia.AtualizePerfilEmpresa(parametros, _context);
             return RetornoRequestModel.CrieSucesso();
         }
 
+        [Authorize("Bearer")]
+        [HttpPost("CadastrePerfilEmpresa")]
+        public async Task<RetornoRequestModel> CadastrePerfilEmpresa([FromBody]CadastroPerfilModel parametros)
+        {
+            await EmpresaService.Instancia.CadastrePerfilEmpresa(parametros, _context);
+            return RetornoRequestModel.CrieSucesso();
+        }
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaPerfisDaEmpresaParaSelecao")]

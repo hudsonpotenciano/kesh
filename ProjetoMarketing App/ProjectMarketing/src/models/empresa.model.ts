@@ -38,6 +38,7 @@ export class NotaComentarioPessoaEmpresa {
 export class ImagemCatalogo {
     IdImagem: number;
     Imagem: any;
+    IdPerfilEmpresa: number;
 }
 
 export class AtualizeContaModel {
@@ -48,13 +49,22 @@ export class AtualizeContaModel {
     Logo: any;
 }
 
-export class AtualizePerfilModel {
+export class AtualizaPerfilModel {
+    constructor() {
+        this.Catalogo = [];
+    }
     IdPerfilEmpresa: number;
     Descricao: string;
     Latitude: number;
     Longitude: number;
     Telefone: string;
     Telefone2: string;
+    IdEmpresa: number;
+    Catalogo: ImagemCatalogo[];
+}
+
+export class CadastroPerfilModel extends AtualizaPerfilModel {
+    IdEmpresa: number;
 }
 
 export class CadastroEmpresaModel {
@@ -82,8 +92,13 @@ export class DadosEmpresaLoja {
 
 export class DadosEmpresaAdmin {
     Empresa: Empresa;
-    PerfisEmpresa: Perfil[];
+    PerfisEmpresaCatalogo: PerfilEmpresaCatalogo[];
     Conta: Conta;
+}
+
+export class PerfilEmpresaCatalogo {
+    Perfil: Perfil;
+    Catalogo: ImagemCatalogo[];
 }
 
 export class VendaAdminLoja {

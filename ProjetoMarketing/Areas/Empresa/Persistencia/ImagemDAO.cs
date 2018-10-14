@@ -1,5 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using ProjetoMarketing.Areas.Empresa.Models;
+using ProjetoMarketing.Contexts;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +11,12 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 {
     public class ImagemDAO
     {
+        private readonly PessoaEmpresaContext _context;
+        public ImagemDAO(PessoaEmpresaContext contexto)
+        {
+            _context = contexto;
+        }
+
         private readonly CloudStorageAccount storageAccount =
             new CloudStorageAccount(new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("storageprojetomarketing", "Uv+eBC5nQPUL7aU0IFjwQP5Utht0cPkCzEZMOZnaP/D1hUr7FtuBHd+LI0nNs2rsLGVnjjKe5UoRGH5dVm1tqg=="), true);
         private const string containerName = "imagens";
@@ -63,24 +72,24 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             }
         }
 
-        public void AtualizeImagensCatalogo(Models.ParametrosAtualizeImagensCatalogo parametros, Contexts.PessoaEmpresaContext context)
+        public void AtualizeImagensCatalogo(List<ImagemCatalogoModel> Imagens, long idPerfilEmpresa)
         {
             try
             {
-                IQueryable<Entidade.Empresa.ImagemCatalogo> imagensSalvas = context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
+                IQueryable<Entidade.Empresa.ImagemCatalogo> imagensSalvas = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa);
 
-                foreach (Models.ImagemCatalogoModel item in parametros.Imagens.Where(i => i.Imagem != null))
+                foreach (Models.ImagemCatalogoModel item in Imagens.Where(i => i.Imagem != null))
                 {
                     Entidade.Empresa.ImagemCatalogo imagem = new Entidade.Empresa.ImagemCatalogo()
                     {
-                        IdPerfilEmpresa = parametros.IdPerfilEmpresa,
+                        IdPerfilEmpresa = idPerfilEmpresa,
                         IdImagem = item.IdImagem
                     };
 
                     if (imagem.IdImagem == 0)
                     {
-                        context.ImagemCatalogo.Add(imagem);
-                        context.SaveChanges();
+                        _context.ImagemCatalogo.Add(imagem);
+                        _context.SaveChanges();
                         item.IdImagem = imagem.IdImagem;
                         SaveImagemCatalogo(item.Imagem, imagem.IdImagem);
                     }
@@ -91,11 +100,11 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                     }
                 }
 
-                foreach (long item in imagensSalvas.Select(a => a.IdImagem).Except(parametros.Imagens.Select(a => a.IdImagem)))
+                foreach (long item in imagensSalvas.Select(a => a.IdImagem).Except(Imagens.Select(a => a.IdImagem)))
                 {
                     DeleteImagemCatalogo(item);
-                    context.ImagemCatalogo.Remove(imagensSalvas.FirstOrDefault(a => a.IdImagem == item));
-                    context.SaveChanges();
+                    _context.ImagemCatalogo.Remove(imagensSalvas.FirstOrDefault(a => a.IdImagem == item));
+                    _context.SaveChanges();
                 }
             }
             catch (System.Exception e)

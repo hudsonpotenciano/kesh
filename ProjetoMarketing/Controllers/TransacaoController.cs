@@ -76,7 +76,6 @@ namespace ProjetoMarketing.Controllers
             return retorno;
         }
 
-
         [Authorize("Bearer")]
         [HttpPost("ObtenhaCuponsEVendasEmpresaAdmin")]
         public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresaAdmin([FromBody]ParametrosObtenhaDadosEmpresa parametros)

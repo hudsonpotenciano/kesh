@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Slides, ModalController } from 'ionic-angular';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
-import { DadosEmpresaLoja, ImagemCatalogo, AtualizePerfilModel } from '../../../models/empresa.model';
+import { DadosEmpresaLoja, ImagemCatalogo, AtualizaPerfilModel } from '../../../models/empresa.model';
 import { FormGroup, FormBuilder, Validators } from '../../../../node_modules/@angular/forms';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
@@ -34,9 +34,7 @@ export class PerfilEmpresaLojaPage {
     });
 
     this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaLoja()
-
     this.imagensCatalogo = this.dadosEmpresa.Catalogo;
-
   };
 
   ionViewDidLoad() {
@@ -86,27 +84,19 @@ export class PerfilEmpresaLojaPage {
     this.Slides.slidePrev();
   }
 
-  atualizePerfil() {
+  salvar() {
 
-    let perfil: AtualizePerfilModel = new AtualizePerfilModel();
+    let perfil: AtualizaPerfilModel = new AtualizaPerfilModel();
 
     perfil.Descricao = this.dadosEmpresa.Perfil.Descricao;
     perfil.Telefone = this.dadosEmpresa.Perfil.Telefone;
     perfil.Telefone2 = this.dadosEmpresa.Perfil.Telefone2;
     perfil.IdPerfilEmpresa = this.dadosEmpresa.Perfil.IdPerfilEmpresa;
+    perfil.Catalogo = this.imagensCatalogo;
 
     this.empresaLojaProvider.atualizePerfilEmpresa(perfil)
       .then(() => {
         this.storageEmpresa.armazeneDadosEmpresaLoja(this.dadosEmpresa);
       });
-  }
-
-  salveImagensCatalogo() {
-
-    this.dadosEmpresa.Catalogo = this.imagensCatalogo;
-
-    this.empresaLojaProvider.atualizeCatalogo(this.imagensCatalogo).then(() => {
-      this.storageEmpresa.armazeneDadosEmpresaLoja(this.dadosEmpresa);
-    });
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { PessoaProvider } from '../../providers/pessoa/pessoa';
-import { Pessoa } from '../../models/pessoa.model';
+import { PessoaProvider } from '../../../providers/pessoa/pessoa';
+import { Pessoa } from '../../../models/pessoa.model';
 
 
 @IonicPage()
@@ -9,7 +9,7 @@ import { Pessoa } from '../../models/pessoa.model';
   selector: 'page-perfil-pessoa-modal',
   templateUrl: 'perfil-pessoa-modal.html',
 })
-export class PerfilPessoaModalPage {
+export class PerfilPessoaPage {
   pessoa: Pessoa;
 
   constructor(public navCtrl: NavController,

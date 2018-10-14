@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms';
-import { DadosEmpresaAdmin, AtualizeContaModel } from '../../../models/empresa.model';
+import { DadosEmpresaAdmin, AtualizeContaModel, Perfil } from '../../../models/empresa.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
@@ -31,10 +31,14 @@ export class ContaEmpresaPage {
       resumo: ['', Validators.required],
       valorPontos: ['', Validators.required]
     });
-    this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaAdmin();
   }
 
   ionViewDidLoad() {
+
+    this.empresaProvider.obtenhaDadosEmpresaAdmin()
+      .then((retorno: DadosEmpresaAdmin) => {
+        this.dadosEmpresa = retorno;
+      });
   }
 
   selecioneImagem() {
@@ -62,9 +66,18 @@ export class ContaEmpresaPage {
     conta.Logo = this.novaImagem.split(",")[1];
 
     this.empresaProvider.atualizeConta(conta)
-      .then(() => { 
+      .then(() => {
         debugger;
         this.storageEmpresa.armazeneDadosEmpresaAdmin(this.dadosEmpresa);
       });
   }
+
+  adicioneNovoPerfil() {
+    this.navCtrl.push("CadastroPerfilEmpresaPage")
+  }
+
+  abraAtualizacaoPerfil(perfil: Perfil) {
+    this.navCtrl.push("CadastroPerfilEmpresaPage", { perfil: perfil });
+  }
+
 }

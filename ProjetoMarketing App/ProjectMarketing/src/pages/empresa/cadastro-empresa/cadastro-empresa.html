@@ -1,6 +1,7 @@
 <ion-content>
     <form [formGroup]="form">
         <ion-slides #slides>
+
             <ion-slide>
                 <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
                 <div class="profile-image" (click)="selecioneImagem()">
@@ -9,76 +10,84 @@
                     </div>
                     <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
                 </div>
-            </ion-slide>
-            <ion-slide>
-                <ion-list padding>
+                <ion-list>
                     <ion-item>
-                        <ion-label>
-                            <ion-icon name="home"></ion-icon>
+                        <ion-label floating>
+                            Nome
                         </ion-label>
-                        <ion-input type="text" [(ngModel)]="empresa.Nome" placeholder="{{'NOME' | translate}}" formControlName="nome"></ion-input>
+                        <ion-input type="text" [(ngModel)]="empresa.Nome" formControlName="nome"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                        <ion-label>
-                            <ion-icon name="home"></ion-icon>
+                        <ion-label floating>
+                            Email
                         </ion-label>
-                        <ion-input type="text" [(ngModel)]="empresa.Descricao" placeholder="Loja" formControlName="descricao"></ion-input>
+                        <ion-input type="email" [(ngModel)]="empresa.Email" formControlName="email"></ion-input>
+                    </ion-item>
+
+
+                    <ion-item>
+                        <ion-label floating>
+                            Telefone
+                        </ion-label>
+                        <ion-input type="tel" [(ngModel)]="empresa.Telefone" formControlName="telefone"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                        <ion-label>
-                            <ion-icon name="key"></ion-icon>
-                        </ion-label>
-                        <ion-input type="number" [(ngModel)]="empresa.Cnpj" placeholder="Cnpj" formControlName="cpfcnpj"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label>
-                            <ion-icon name="mail"></ion-icon>
-                        </ion-label>
-                        <ion-input type="email" [(ngModel)]="empresa.Email" placeholder="Email" formControlName="email"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label>
-                            <ion-icon name="lock"></ion-icon>
-                        </ion-label>
-                        <ion-input type="password" [(ngModel)]="empresa.Senha" placeholder="Senha" formControlName="senha"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label>
-                            <ion-icon name="call"></ion-icon>
-                        </ion-label>
-                        <ion-input type="tel" [(ngModel)]="empresa.Telefone" placeholder="Telefone" formControlName="telefone"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label>
-                            <ion-icon name="cart"></ion-icon>
+                        <ion-label floating>
+                            Categoria
                         </ion-label>
                         <ion-select interface="alert" item-center [selectOptions]="{title: 'Categorias'}" [(ngModel)]="empresa.Categoria" formControlName="categoria">
                             <ion-option *ngFor="let categoria of categorias" value="{{categoria.Codigo}}">{{categoria.Descricao}}</ion-option>
                         </ion-select>
                         <icone-informacao item-end [id]="'CATEGORIA'"></icone-informacao>
                     </ion-item>
+
+                    <ion-item>
+                        <ion-label floating>
+                            Senha
+                        </ion-label>
+                        <ion-input type="password" [(ngModel)]="empresa.Senha" formControlName="senha"></ion-input>
+                    </ion-item>
                 </ion-list>
             </ion-slide>
+
             <ion-slide>
-                <ion-list padding>
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating>
+                            Nome do perfil
+                        </ion-label>
+                        <ion-input type="text" [(ngModel)]="empresa.Descricao" formControlName="descricao"></ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-slide>
+
+            <ion-slide>
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating>
+                            Cnpj
+                        </ion-label>
+                        <ion-input type="number" [(ngModel)]="empresa.Cnpj" formControlName="cpfcnpj"></ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-slide>
+
+            <ion-slide>
+                <ion-list>
                     <ion-item>
                         <ion-label>
                             <ion-icon name="paper"></ion-icon>
                         </ion-label>
-                        <ion-textarea rows="2" [(ngModel)]="empresa.Resumo" placeholder="Resumo" formControlName="resumo"></ion-textarea>
+                        <ion-textarea rows="2" [(ngModel)]="empresa.Resumo" formControlName="resumo"></ion-textarea>
                     </ion-item>
 
                     <ion-item>
                         <ion-label>
                             <ion-icon name="cash"></ion-icon>
                         </ion-label>
-                        <ion-input type="number" [(ngModel)]="empresa.ValorPontos" placeholder="Ponto" formControlName="valorPontos"></ion-input>
+                        <ion-input type="number" [(ngModel)]="empresa.ValorPontos" formControlName="valorPontos"></ion-input>
                         <icone-informacao item-end [id]="'PONTOS'"></icone-informacao>
                     </ion-item>
                 </ion-list>

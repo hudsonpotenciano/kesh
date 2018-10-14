@@ -1,8 +1,10 @@
 page-cadastro-empresa {
-    ion-slides {
-        height: 100vh;
+    .content {
+        background-color: white;
     }
-    .list {}
+    .item-input {
+        font-size: 2.0rem;
+    }
     .profile-image {
         margin: auto;
         height: 100px;

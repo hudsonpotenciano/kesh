@@ -2,6 +2,7 @@
 using ProjetoMarketing.Areas.Empresa.DTO;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Entidade.Empresa;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,17 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 {
     public class EmpresaDAO
     {
+
         private readonly PessoaEmpresaContext _context;
 
         public EmpresaDAO(PessoaEmpresaContext context)
         {
             _context = context;
             if (_context.Database.CurrentTransaction != null)
+            {
                 _context.Database.CurrentTransaction.Commit();
+            }
+
             _context.Database.BeginTransaction();
         }
 
@@ -34,7 +39,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             _context.Empresa.Add(empresa);
             _context.SaveChanges();
 
-            var conta = new Entidade.Empresa.ContaEmpresa()
+            ContaEmpresa conta = new Entidade.Empresa.ContaEmpresa()
             {
                 ValorPontos = model.ValorPontos,
                 Resumo = model.Resumo,
@@ -42,13 +47,13 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 IdEmpresa = empresa.IdEmpresa
             };
 
-            var imagemPerfilEmpresa = new Entidade.ImagemPerfil()
+            Entidade.ImagemPerfil imagemPerfilEmpresa = new Entidade.ImagemPerfil()
             {
                 IdEmpresa = empresa.IdEmpresa,
                 Imagem = model.Logo
             };
 
-            var perfil = new Entidade.Empresa.PerfilEmpresa()
+            PerfilEmpresa perfil = new Entidade.Empresa.PerfilEmpresa()
             {
                 IdEmpresa = empresa.IdEmpresa,
                 Latitude = model.Latitude,
@@ -74,7 +79,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
         public Task UpdatePerfil(CadastroPerfilModel model)
         {
-            var perfil = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == model.IdPerfilEmpresa);
+            PerfilEmpresa perfil = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == model.IdPerfilEmpresa);
             perfil.Latitude = model.Latitude != 0 ? model.Latitude : perfil.Latitude;
             perfil.Longitude = model.Longitude != 0 ? model.Longitude : perfil.Longitude;
             perfil.Telefone = !string.IsNullOrEmpty(model.Telefone) ? model.Telefone : perfil.Telefone;
@@ -85,11 +90,30 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             return _context.SaveChangesAsync();
         }
 
+        public Task AddPerfilEmpresa(CadastroPerfilModel model, out PerfilEmpresa perfil)
+        {
+            perfil = new PerfilEmpresa()
+            {
+                IdEmpresa = model.IdEmpresa,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                Descricao = model.Descricao,
+                Telefone = model.Telefone,
+                Telefone2 = model.Telefone2
+            };
+
+            _context.PerfilEmpresa.Add(perfil);
+            return _context.SaveChangesAsync();
+        }
+
         public Task UpdateConta(AtualizeContaModel model)
         {
-            var conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == model.IdEmpresa);
+            ContaEmpresa conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == model.IdEmpresa);
 
-            if (conta == null) throw new Exception();
+            if (conta == null)
+            {
+                throw new Exception();
+            }
 
             conta.Resumo = !string.IsNullOrEmpty(model.Resumo) ? model.Resumo : conta.Resumo;
             conta.ValorPontos = model.ValorPontos != 0 ? model.ValorPontos : conta.ValorPontos;
@@ -97,7 +121,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
             _context.ContaEmpresa.Update(conta);
 
-            var imagemPerfilEmpresa = _context.ImagemPerfil.FirstOrDefault(i => i.IdEmpresa == model.IdEmpresa);
+            Entidade.ImagemPerfil imagemPerfilEmpresa = _context.ImagemPerfil.FirstOrDefault(i => i.IdEmpresa == model.IdEmpresa);
             if (imagemPerfilEmpresa != null)
             {
                 imagemPerfilEmpresa.Imagem = model.Logo;
@@ -112,7 +136,12 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             return new DTODadosEmpresaAdmin()
             {
                 Empresa = await _context.Empresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
-                PerfisEmpresa = _context.PerfilEmpresa.Where(a => a.IdEmpresa == idEmpresa),
+                PerfisEmpresaCatalogo = from perfil in _context.PerfilEmpresa.Where(a => a.IdEmpresa == idEmpresa)
+                select new DTOPerfilEmpresaCatalogo()
+                {
+                    Perfil = perfil,
+                    Catalogo = _context.ImagemCatalogo.Where(a=>a.IdPerfilEmpresa == perfil.IdPerfilEmpresa)
+                },
                 ContaEmpresa = await _context.ContaEmpresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
             };
         }

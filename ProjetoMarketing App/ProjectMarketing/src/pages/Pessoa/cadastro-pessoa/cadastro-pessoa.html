@@ -9,33 +9,33 @@
             <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
         </div>
 
-        <ion-list padding>
+        <ion-list>
             <ion-item>
-                <ion-label>
-                    <ion-icon name="person"></ion-icon>
+                <ion-label floating>
+                    Nome
                 </ion-label>
-                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome" placeholder="Nome"></ion-input>
+                <ion-input type="text" [(ngModel)]="pessoa.Nome" formControlName="nome"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label>
-                    <ion-icon name="mail"></ion-icon>
+                <ion-label floating>
+                    Email
                 </ion-label>
-                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email" placeholder="Email"></ion-input>
+                <ion-input type="email" [(ngModel)]="pessoa.Email" formControlName="email"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label>
-                    <ion-icon name="lock"></ion-icon>
+                <ion-label floating>
+                    Senha
                 </ion-label>
-                <ion-input type="password" [(ngModel)]="pessoa.Senha" formControlName="senha" placeholder="Senha"></ion-input>
+                <ion-input type="password" [(ngModel)]="pessoa.Senha" formControlName="senha"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label>
-                    <ion-icon name="lock"></ion-icon>
+                <ion-label floating>
+                    Confirme a senha
                 </ion-label>
-                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" placeholder="Confirme a senha" formControlName="confirmacaoDaSenha"></ion-input>
+                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" formControlName="confirmacaoDaSenha"></ion-input>
             </ion-item>
         </ion-list>
     </form>
@@ -47,19 +47,19 @@
             </div>
             <div class="image" *ngIf="pessoaRedeSocial.Foto" [style.backgroundImage]="getProfileImageStyle()"></div>
         </div>
-        <ion-list padding>
+        <ion-list>
             <ion-item>
-                <ion-label>
-                    <ion-icon name="person"></ion-icon>
+                <ion-label floating>
+                    Nome
                 </ion-label>
-                <ion-input type="text" [(ngModel)]="pessoaRedeSocial.Nome" formControlName="nome" placeholder="Nome"></ion-input>
+                <ion-input type="text" [(ngModel)]="pessoaRedeSocial.Nome" formControlName="nome"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label>
-                    <ion-icon name="mail"></ion-icon>
+                <ion-label floating>
+                    Email
                 </ion-label>
-                <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email" formControlName="email" placeholder="Email"></ion-input>
+                <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email" formControlName="email"></ion-input>
             </ion-item>
         </ion-list>
     </form>

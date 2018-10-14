@@ -14,7 +14,7 @@ CREATE TABLE public.pessoa
     latitude double precision NOT NULL,
     longitude double precision NOT NULL,
     email text NOT NULL,
-    CONSTRAINT pk_pessoa PRIMARY KEY (id),
+    PRIMARY KEY (id),
     CONSTRAINT uk_pessoa UNIQUE (idpessoa),
     CONSTRAINT uk_pessoa_email UNIQUE (email)
 )
@@ -40,7 +40,7 @@ CREATE TABLE public.empresa
     nome text NOT NULL,
     cnpj text NOT NULL,
     email text NOT NULL,
-    CONSTRAINT pk_empresa PRIMARY KEY (id),
+    PRIMARY KEY (id),
     CONSTRAINT uk_empresa UNIQUE (idempresa),
     CONSTRAINT uk_empresa_cnpj UNIQUE (cnpj)
 )
@@ -65,6 +65,7 @@ CREATE TABLE public.usuario
     idpessoa integer,
     idempresa integer,
     redesocial boolean NOT NULL,
+    PRIMARY KEY (id),
     CONSTRAINT uk_usuario UNIQUE (idusuario,token),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
     REFERENCES public.empresa (idempresa) MATCH SIMPLE
@@ -98,7 +99,7 @@ ALTER SEQUENCE public.sq_perfilempresa
 
 CREATE TABLE public.perfilempresa
 (
-    id uuid NOT NULL,
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idempresa integer NOT NULL,
     idperfilempresa bigint NOT NULL DEFAULT nextval('sq_perfilempresa'::regclass),
     latitude double precision NOT NULL,
@@ -106,8 +107,8 @@ CREATE TABLE public.perfilempresa
     descricao text NOT NULL,
     telefone text NOT NULL,
     telefone2 text,
-    PRIMARY KEY (idempresa),
-    CONSTRAINT uk_perfilempresa UNIQUE (idperfilempresa),
+    PRIMARY KEY (id),
+    CONSTRAINT uk_perfilempresa UNIQUE (idempresa, idperfilempresa)
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -136,7 +137,7 @@ ALTER SEQUENCE public.sq_compartilhamento
     idspessoas integer[] NOT NULL,
     idperfilempresa integer NOT NULL,
     data date NOT NULL,
-    CONSTRAINT pk_compartilhamento PRIMARY KEY (id),
+    PRIMARY KEY (id),
     CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
     CONSTRAINT uk_compartilhamento_mesmodia UNIQUE (idpessoa, idperfilempresa, idspessoas, data),
     CONSTRAINT fk_pessoa_compartilhamento FOREIGN KEY (idpessoa)
@@ -165,7 +166,7 @@ CREATE TABLE public.cupom
     token uuid NOT NULL DEFAULT uuid_generate_v4(),
     idCupom bigint NOT NULL DEFAULT nextval('sq_cupom'),
     idcompartilhamento bigint NOT NULL,
-    CONSTRAINT pk_cupom PRIMARY KEY (id),
+    PRIMARY KEY (id),
     CONSTRAINT uk_cupom UNIQUE (idCupom),
     CONSTRAINT uk_cupom_token UNIQUE (idpessoa, idperfilempresa, token),    
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
@@ -202,7 +203,7 @@ CREATE TABLE public.venda
     idperfilempresa integer NOT NULL,
     valor money NOT NULL,
     data date NOT NULL,
-    CONSTRAINT pk_venda PRIMARY KEY (id),
+    PRIMARY KEY (id),
     CONSTRAINT uk_venda UNIQUE (idvenda),
     CONSTRAINT uk_venda_cupom UNIQUE (idcupom, idpessoa, idperfilempresa),    
     CONSTRAINT fk_cupom FOREIGN KEY (idcupom)
@@ -253,7 +254,7 @@ ALTER TABLE public.pessoaempresa
 
 CREATE TABLE public.imagemperfil
 (
-    id uuid NOT NULL,
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idempresa integer,
     idpessoa integer,
     imagem bytea NOT NULL,
@@ -284,7 +285,7 @@ ALTER SEQUENCE public.sq_imagemcatalogo
 
     CREATE TABLE public.imagemcatalogo
 (
-    id uuid NOT NULL,
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idperfilempresa bigint NOT NULL,
     idimagem bigint NOT NULL DEFAULT nextval('sq_imagemcatalogo'::regclass),
     PRIMARY KEY (id),
@@ -302,7 +303,7 @@ ALTER TABLE public.imagemcatalogo
 
 CREATE TABLE public.contaempresa
 (
-    id uuid NOT NULL,
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
     resumo text NOT NULL,
     valorpontos numeric NOT NULL,
     categoria integer NOT NULL,

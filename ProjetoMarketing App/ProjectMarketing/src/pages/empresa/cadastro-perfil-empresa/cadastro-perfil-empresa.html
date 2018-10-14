@@ -1,27 +1,36 @@
-<ion-content>
+<ion-header>
 
-    <form [formGroup]="form" (submit)="atualizePerfil()">
+    <ion-navbar>
+        <ion-title>Cadastro de perfil</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
         <ion-item>
             <ion-label fixed>Nome</ion-label>
-            <ion-input type="text" [(ngModel)]="dadosEmpresa.Perfil.Descricao" formControlName="descricao"></ion-input>
+            <ion-input type="text" [(ngModel)]="perfil.Descricao"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label fixed>Telefone</ion-label>
-            <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone" formControlName="telefone"></ion-input>
+            <ion-input type="tel" [(ngModel)]="perfil.Telefone"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label fixed>Telefone Secundário</ion-label>
-            <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone2" formControlName="telefone2"></ion-input>
+            <ion-input type="tel" [(ngModel)]="perfil.Telefone2"></ion-input>
         </ion-item>
-    </form>
+    </ion-list>
 
     <button ion-button (click)="selecioneLocalizacao()">Localizacao</button>
 
 
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
+    <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
     <ion-slides #slides pager="true">
-        <ion-slide *ngFor="let imagemCatalogo of imagensCatalogo;let i = index">
+        <ion-slide *ngFor="let imagemCatalogo of perfil.Catalogo;let i = index">
             <div *ngIf="!imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
             <div *ngIf="imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(data:image/jpg;base64,' + imagemCatalogo.Imagem + ')'"></div>
             <div class="botoes">
@@ -30,7 +39,7 @@
         </ion-slide>
     </ion-slides>
 
-    <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
-    <button ion-button (click)="salvar()"> Salvar</button>
-
+    <button ion-button full (click)="salvar()">
+        Salvar
+    </button>
 </ion-content>

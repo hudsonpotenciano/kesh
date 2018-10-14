@@ -72,9 +72,7 @@ export class PerfilEmpresaPage {
     let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
       { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa }
     ,{cssClass:"modal-compartilhamento"});
-    profileModal.onDidDismiss(data => {
-      console.log(data);
-    });
+
     profileModal.present();
 
     profileModal.onDidDismiss((pessoas: Pessoa[]) => {
@@ -90,6 +88,7 @@ export class PerfilEmpresaPage {
           idsPessoas)
         .then(() => {
           this.podeCompartilhar = false;
+          alert("Um novo cupom foi adicionado na carteira");
         });
     })
   }

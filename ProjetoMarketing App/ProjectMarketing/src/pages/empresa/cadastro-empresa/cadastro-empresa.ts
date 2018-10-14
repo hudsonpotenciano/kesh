@@ -55,10 +55,6 @@ export class CadastroEmpresaPage {
       let imageData = (readerEvent.target as any).result;
       this.form.patchValue({ 'profilePic': imageData });
       this.empresa.Logo = imageData.split(',')[1];
-
-      setTimeout(() => {
-        this.proximoSlide();
-      }, 2000);
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -70,31 +66,28 @@ export class CadastroEmpresaPage {
 
   cadastre() {
 
-    for (let index = 0; index < 50; index++) {
+    // for (let index = 0; index < 50; index++) {
 
-      setTimeout(() => {
+    //   setTimeout(() => {
 
-        this.empresa.Latitude = -16.6093353;
-        this.empresa.Longitude = -49.3171053;
-        var nome = this.makeid();
-        this.empresa.Email = nome + "@gmail.com";
-        this.empresa.Nome = nome;
-        this.empresa.Cnpj = this.getRandomInt().toString();
-        console.log(this.empresa.Cnpj);
-        this.empresaProvider.cadastreEmpresa(this.empresa)
-          .then(() => {
-            // this.navCtrl.setRoot("LoginEmpresaPage");
-          });
-      }, 1000);
-    }
+    //     this.empresa.Latitude = -16.6093353;
+    //     this.empresa.Longitude = -49.3171053;
+    //     var nome = this.makeid();
+    //     this.empresa.Email = nome + "@gmail.com";
+    //     this.empresa.Nome = nome;
+    //     this.empresa.Cnpj = this.getRandomInt().toString();
+    //     console.log(this.empresa.Cnpj);
+    //     this.empresaProvider.cadastreEmpresa(this.empresa)
+    //       .then(() => {
+    //         // this.navCtrl.setRoot("LoginEmpresaPage");
+    //       });
+    //   }, 1000);
+    // }
 
-    // this.empresa.Latitude = -16.6093353;
-    // this.empresa.Longitude = -49.3171053;
-
-    // this.empresaProvider.cadastreEmpresa(this.empresa)
-    //   .then(() => {
-    //     this.navCtrl.setRoot("LoginEmpresaPage");
-    //   });
+    this.empresaProvider.cadastreEmpresa(this.empresa)
+      .then(() => {
+        this.navCtrl.setRoot("LoginEmpresaPage");
+      });
   }
 
   valideImagem() {
@@ -137,19 +130,19 @@ export class CadastroEmpresaPage {
       return this.categorias.find(c => c.Codigo == this.empresa.Categoria).Descricao;
   }
 
-  makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  // makeid() {
+  //   var text = "";
+  //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   
-    for (var i = 0; i < 10; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //   for (var i = 0; i < 10; i++)
+  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
   
-    return text;
-  }
+  //   return text;
+  // }
 
-  getRandomInt() {
-    var min = Math.ceil(1000000);
-    var max = Math.floor(90000000);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
+  // getRandomInt() {
+  //   var min = Math.ceil(1000000);
+  //   var max = Math.floor(90000000);
+  //   return Math.floor(Math.random() * (max - min)) + min;
+  // }
 }
