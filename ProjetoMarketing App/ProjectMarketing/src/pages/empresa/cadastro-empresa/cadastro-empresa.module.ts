@@ -15,7 +15,7 @@ import { TranslateModule } from '../../../../node_modules/@ngx-translate/core';
     TranslateModule.forChild()
   ],
   providers: [
-    EmpresaProvider
+    EmpresaProvider,
   ]
 })
 export class CadastroEmpresaPageModule {}

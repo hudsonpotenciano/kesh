@@ -1,15 +1,39 @@
 <ion-header>
 
-    <ion-navbar *ngIf="pessoa">
-        <ion-title>{{pessoa.Nome}}</ion-title>
+    <ion-navbar>
+        <ion-title *ngIf="pessoa">{{pessoa.Nome}}</ion-title>
     </ion-navbar>
 
 </ion-header>
 
-
 <ion-content>
-    <h1>foto</h1>
-    <h1>editar nome</h1>
-    <h1>alterar senha</h1>
-    <h1>Deslogar</h1>
+
+    <input type="file" #fileInput style="display: none; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+
+    <div class="profile-image" (click)="selecioneImagem()">
+        <div class="image-wrapper" *ngIf="!profilePic">
+            <ion-icon name="images"></ion-icon>
+        </div>
+        <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="profilePic"></div>
+    </div>
+
+    <ion-list>
+        <ion-item>
+            <ion-label floating>
+                Nome
+            </ion-label>
+            <ion-input type="text" [(ngModel)]="pessoa.Nome"></ion-input>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-item>
+            <ion-icon item-start name="lock"></ion-icon>
+            Alterar senha
+        </ion-item>
+        <ion-item>
+            <ion-icon item-start name="power"></ion-icon>
+            Sair
+        </ion-item>
+    </ion-list>
+
 </ion-content>

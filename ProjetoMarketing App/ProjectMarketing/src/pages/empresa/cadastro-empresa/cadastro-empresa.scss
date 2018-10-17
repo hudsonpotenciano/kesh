@@ -31,4 +31,15 @@ page-cadastro-empresa {
             width: 97px;
         }
     }
+    .ion-slides-catalogo {
+        .imagemCatalogo {
+            height: 250px;
+            width: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        max-height: 300px;
+        max-width: 100%;
+    }
 }

@@ -68,6 +68,10 @@ h3 {
     }
 }
 
+.swiper-slide {
+    overflow: auto !important;
+}
+
 icone-informacao {
     z-index: 1;
 }

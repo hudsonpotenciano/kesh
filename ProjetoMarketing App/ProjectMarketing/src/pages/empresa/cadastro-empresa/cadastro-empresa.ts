@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { CadastroEmpresaModel } from '../../../models/empresa.model';
 import { Enumerador, EnumeradorDeCategorias } from '../../../models/enumeradores.model';
@@ -14,30 +13,21 @@ export class CadastroEmpresaPage {
 
   categorias: Enumerador[] = new EnumeradorDeCategorias().obtenhaTodos();
   empresa: CadastroEmpresaModel = new CadastroEmpresaModel();
-  form: FormGroup;
+  confirmacaoDaSenha : string = "";
+  profilePic = undefined;
+
+  conta: string = "conta";
+  perfil: string = "perfil";
+  financeiro: string = "financeiro";
+  opcaoAtual = this.conta;
 
   @ViewChild('fileInput') fileInput;
-  @ViewChild('slides') slides: Slides;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    formBuilder: FormBuilder,
-    private empresaProvider: EmpresaProvider) {
-
-    this.form = formBuilder.group({
-      profilePic: [''],
-      nome: ['', Validators.required],
-      descricao: ['', Validators.required],
-      email: ['', [Validators.required, Validators.minLength(10), Validators.email]],
-      cpfcnpj: ['', Validators.required,],
-      resumo: ['', Validators.required],
-      telefone: ['', Validators.required],
-      telefone2: ['', Validators.required],
-      valorPontos: ['', Validators.required],
-      senha: ['', Validators.required],
-      categoria: ['', Validators.required]
-    });
+    private empresaProvider: EmpresaProvider,
+    private modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
@@ -53,7 +43,7 @@ export class CadastroEmpresaPage {
     reader.onloadend = (readerEvent) => {
 
       let imageData = (readerEvent.target as any).result;
-      this.form.patchValue({ 'profilePic': imageData });
+      this.profilePic = imageData;
       this.empresa.Logo = imageData.split(',')[1];
     };
 
@@ -61,33 +51,32 @@ export class CadastroEmpresaPage {
   }
 
   getProfileImageStyle() {
-    return 'url(' + this.form.controls['profilePic'].value + ')'
+    return 'url(' + this.profilePic + ')'
   }
 
   cadastre() {
-
-    // for (let index = 0; index < 50; index++) {
-
-    //   setTimeout(() => {
-
-    //     this.empresa.Latitude = -16.6093353;
-    //     this.empresa.Longitude = -49.3171053;
-    //     var nome = this.makeid();
-    //     this.empresa.Email = nome + "@gmail.com";
-    //     this.empresa.Nome = nome;
-    //     this.empresa.Cnpj = this.getRandomInt().toString();
-    //     console.log(this.empresa.Cnpj);
-    //     this.empresaProvider.cadastreEmpresa(this.empresa)
-    //       .then(() => {
-    //         // this.navCtrl.setRoot("LoginEmpresaPage");
-    //       });
-    //   }, 1000);
-    // }
 
     this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
         this.navCtrl.setRoot("LoginEmpresaPage");
       });
+  }
+
+  selecioneLocalizacao() {
+    var modal = this.modalCtrl.create("SelecaoLocalizacaoPage", {
+      lat: this.empresa.Latitude,
+      long: this.empresa.Longitude
+    }, { enableBackdropDismiss: false });
+
+    modal.present();
+
+    modal.onDidDismiss((coodenadas) => {
+
+      if (!coodenadas) modal.present();
+
+      this.empresa.Latitude = coodenadas.lat;
+      this.empresa.Longitude = coodenadas.lng;
+    });
   }
 
   valideImagem() {
@@ -102,27 +91,16 @@ export class CadastroEmpresaPage {
     return true;
   }
 
-  proximoSlide() {
-
-    if (this.slides.getActiveIndex() == 0 && this.valideImagem()) {
-      this.slides.slideNext();
-      return;
+  proximo() {
+    if (this.opcaoAtual == this.conta) {
+      this.opcaoAtual = this.perfil;
     }
-
-    if (this.slides.getActiveIndex() == 1 && this.valideDadosEmpresa()) {
-      this.slides.slideNext();
-      return;
+    else if (this.opcaoAtual == this.perfil) {
+      this.opcaoAtual = this.financeiro;
     }
-
-    if (this.slides.getActiveIndex() == 2 && this.valideDadosConta()) {
-
-      if (!this.form.valid) {
-        //mensagem de inconsistencia
-      }
-
-      this.cadastre();
+    else {
+      this.opcaoAtual = this.conta;
     }
-
   }
 
   obtenhaCategoriaSelecionada() {
@@ -133,10 +111,10 @@ export class CadastroEmpresaPage {
   // makeid() {
   //   var text = "";
   //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
   //   for (var i = 0; i < 10; i++)
   //     text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+
   //   return text;
   // }
 
