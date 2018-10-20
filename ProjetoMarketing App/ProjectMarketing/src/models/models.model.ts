@@ -38,6 +38,7 @@ export class Cupom {
     IdPerfilEmpresa: number;
     Data: Date;
     DataValidade: Date;
+    Expirado:boolean;
 }
 
 export class Venda {

@@ -1,39 +1,39 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title *ngIf="pessoa">{{pessoa.Nome}}</ion-title>
+        <ion-item no-lines>
+            <ion-avatar item-end>
+                <img [src]="obtenhaFotoPessoa()">
+            </ion-avatar>
+        </ion-item>
     </ion-navbar>
 
 </ion-header>
 
 <ion-content>
-
-    <input type="file" #fileInput style="display: none; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
-
-    <div class="profile-image" (click)="selecioneImagem()">
-        <div class="image-wrapper" *ngIf="!profilePic">
-            <ion-icon name="images"></ion-icon>
-        </div>
-        <div class="image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="profilePic"></div>
-    </div>
-
     <ion-list>
         <ion-item>
             <ion-label floating>
                 Nome
             </ion-label>
-            <ion-input type="text" [(ngModel)]="pessoa.Nome"></ion-input>
+            <ion-input disabled type="text" [(ngModel)]="pessoa.Nome"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>
+                Email
+            </ion-label>
+            <ion-input disabled type="text" [(ngModel)]="pessoa.Email"></ion-input>
         </ion-item>
     </ion-list>
     <ion-list>
-        <ion-item>
+        <button ion-item full (click)="mudarSenha()">
             <ion-icon item-start name="lock"></ion-icon>
             Alterar senha
-        </ion-item>
-        <ion-item>
+        </button>
+        <button ion-item full (click)="sair()">
             <ion-icon item-start name="power"></ion-icon>
             Sair
-        </ion-item>
+        </button>
     </ion-list>
 
 </ion-content>

@@ -94,7 +94,7 @@ export class PessoaProvider {
 
       this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
         .then((resposta: RetornoRequestModel) => {
-          debugger;
+          
           resolve(resposta.Result);
           this.storagePessoa.armazeneDadosPessoa(resposta.Result);
         });

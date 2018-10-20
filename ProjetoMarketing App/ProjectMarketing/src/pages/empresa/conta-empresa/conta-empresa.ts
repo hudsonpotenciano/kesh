@@ -67,7 +67,7 @@ export class ContaEmpresaPage {
 
     this.empresaProvider.atualizeConta(conta)
       .then(() => {
-        debugger;
+        
         this.storageEmpresa.armazeneDadosEmpresaAdmin(this.dadosEmpresa);
       });
   }

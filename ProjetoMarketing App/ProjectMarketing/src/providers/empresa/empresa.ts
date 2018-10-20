@@ -39,7 +39,7 @@ export class EmpresaProvider {
   }
 
   obtenhaPerfisEmpresa() {
-    debugger;
+    
     return new Promise<Perfil[]>(resolve => {
       this.comunicacao.post("empresa/empresa/ObtenhaPerfisDaEmpresaParaSelecao", { IdEmpresa: this.dadosAcesso.IdEmpresa })
         .then((resposta: RetornoRequestModel) => {

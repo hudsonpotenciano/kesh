@@ -1,12 +1,12 @@
 <ion-content>
     <ion-list [virtualScroll]="pessoas">
-        <button ion-item *virtualItem="let pessoa" (click)="selecione(pessoa)">
-                <ion-avatar item-start>
-                        <img [src]="pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)">
-                    </ion-avatar>
-        <h2>{{pessoa.Nome}}</h2>
-        <ion-icon item-end color="secondary" name="checkmark-circle" *ngIf="estaSelecionado(pessoa)"></ion-icon>
-      </button>
+        <ion-item *virtualItem="let pessoa" (click)="selecione(pessoa)">
+            <ion-avatar item-start>
+                <img [src]="pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)">
+            </ion-avatar>
+            <h2>{{pessoa.Nome}}</h2>
+            <ion-icon item-end color="secondary" name="checkmark-circle" *ngIf="estaSelecionado(pessoa)"></ion-icon>
+        </ion-item>
     </ion-list>
 
     <ion-fab right bottom (click)="retorneSelecionados()">

@@ -42,7 +42,6 @@ export class CadastroPessoaPage {
       email: ['', Validators.required],
     });
 
-    debugger;
     if (this.navParams.get("CadastroPessoaRedeSocialModel")) {
       this.pessoaRedeSocial = this.navParams.get("CadastroPessoaRedeSocialModel");
     }
@@ -81,7 +80,7 @@ export class CadastroPessoaPage {
   cadastre() {
     this.pessoaProvider.cadastrePessoa(this.pessoa)
       .then(() => {
-        debugger;
+        ;
         this.navCtrl.setRoot("TabsPessoaPage");
       });
   }

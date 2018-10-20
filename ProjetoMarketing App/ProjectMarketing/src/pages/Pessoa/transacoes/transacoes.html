@@ -29,12 +29,17 @@
                 <p *ngIf="cupomVenda.Venda">
                     {{cupomVenda.Venda.Data | Data}}
                 </p>
-                <p class="warning" *ngIf="!cupomVenda.Venda">
+                <p class="warning" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado">
                     Expira em: {{cupomVenda.Cupom.DataValidade | Data}}
                 </p>
 
-                <img *ngIf="!cupomVenda.Venda" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
+                <p class="danger" *ngIf="!cupomVenda.Venda && cupomVenda.Cupom.Expirado">
+                    Trade expirado
+                </p>
+
+                <img *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
             </ion-item>
+
         </div>
     </ion-list>
 </ion-content>

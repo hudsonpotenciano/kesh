@@ -6,13 +6,37 @@ h2,
 }
 
 p,
-h3 {
+h3,
+.text-input {
     font-family: 'Roboto', sans-serif !important;
 }
 
+button {
+    .label {
+        font-family: 'Roboto', sans-serif !important;
+        font-size: 1.8rem !important;
+    }
+    .icon {
+        font-size: 3rem !important;
+        color: #424242;
+    }
+    .item {
+        height: 70px !important;
+    }
+}
+
+.item-input {
+    font-size: 2.0rem;
+}
+
+.item-select .label {
+    font-size: 2rem;
+}
+
 .card-title,
-.card {
-    color: #666;
+.card,
+.label {
+    color: #424242;
 }
 
 .content {
@@ -24,7 +48,7 @@ h3 {
 }
 
 .danger {
-    color: danger;
+    color: $danger !important;
 }
 
 .header::after {

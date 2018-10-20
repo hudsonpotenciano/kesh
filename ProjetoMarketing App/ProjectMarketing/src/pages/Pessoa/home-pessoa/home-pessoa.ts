@@ -17,6 +17,7 @@ export class HomePessoaPage {
 
   pessoaEmpresas: DadosPessoaEmpresa[] = [];
   pessoa: Pessoa;
+  mostrarPesquisa: boolean = false;
   // fakeItens: any = [];
 
   constructor(
@@ -47,7 +48,7 @@ export class HomePessoaPage {
   obtenhaEmpresas() {
     this.obtenhaLocalizacaoAtual()
       .then((localizacao) => {
-        debugger;
+       
         this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao)
           .then((retorno: DadosPessoaEmpresa[]) => {
             this.pessoaEmpresas = retorno;

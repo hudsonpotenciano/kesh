@@ -111,7 +111,6 @@ export class SelecaoLocalizacaoPage {
   }
 
   retorneLocalizacao() {
-    debugger;
     this.viewCtrl.dismiss(this.localizacao)
   }
 }

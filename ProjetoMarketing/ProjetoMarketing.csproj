@@ -20,7 +20,6 @@
   <ItemGroup>
     <Folder Include="Areas\Pessoa\Servicos\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Utilidades\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

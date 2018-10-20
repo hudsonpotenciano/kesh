@@ -24,7 +24,6 @@ export class IconeInformacao {
   }
 
   mostreInformacao(event: any) {
-    debugger;
     var pipe = new TranslatePipe(this.translateService, this.ref);
     let texto = pipe.transform(this.dictionaryInfo.find(a => a.id == this.id).chaveTraducao)
     this.utilitarioProvider.mestrePopInformacao(texto, event);

@@ -11,6 +11,10 @@ export class TransacaoProvider {
 
   }
 
+  valideCupomExpirado(data: Date) {
+    return (new Date(new Date(data).setHours(0, 0, 0, 0)).getTime()) < (new Date(new Date().setHours(0, 0, 0, 0)).getTime());
+  }
+
   GereCupomCompartilhamento(idPerfilEmpresa: number, idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
     return new Promise<Cupom>(resolve => {
       this.comunicacao.post("Transacao/GereCupomCompartilhamento", { IdPerfilEmpresa: idPerfilEmpresa, IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })

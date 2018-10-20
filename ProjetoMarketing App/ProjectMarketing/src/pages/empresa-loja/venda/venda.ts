@@ -22,7 +22,7 @@ export class VendaPage {
   }
 
   realizeVenda() {
-    debugger;
+    
     if (this.utilizarPontos) {
       if (this.cupom.TotalDinheiroPessoa <= 0) {
         alert("pontos insuficientes");

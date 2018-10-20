@@ -23,7 +23,6 @@ export class CarteiraPessoaPage {
     private storagePessoa: StoragePessoaProvider) {
 
     this.pessoasEmpresas = this.storagePessoa.recupereDadosPessoaEmpresas();
-    debugger;
   }
 
   ionViewDidLoad() {

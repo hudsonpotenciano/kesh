@@ -83,7 +83,6 @@ namespace ProjetoMarketing.Controllers
             RetornoRequestModel retorno = new RetornoRequestModel
             {
                 Result = Projecoes.ProjecaoDTOVendasAdminLoja(await new TransacaoDAO(_context).ObtenhaCuponsEVendasEmpresaAdmin(parametros.IdEmpresa)),
-
             };
 
             return retorno;

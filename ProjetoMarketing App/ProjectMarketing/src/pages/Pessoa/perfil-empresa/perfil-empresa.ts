@@ -51,7 +51,7 @@ export class PerfilEmpresaPage {
 
     this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
-        debugger;
+        
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
       });
   }

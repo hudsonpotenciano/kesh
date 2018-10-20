@@ -5,13 +5,14 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { DTOCupomVenda } from '../../../models/models.model';
 
+
 @IonicPage()
 @Component({
   selector: 'page-transacoes',
   templateUrl: 'transacoes.html',
 })
 export class TransacoesPage {
-  
+
   cuponsVendas: DTOCupomVenda[] = [];
 
   constructor(
@@ -20,12 +21,15 @@ export class TransacoesPage {
     private transacaoProvider: TransacaoProvider,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider) {
-    
+
   }
 
   ionViewDidLoad() {
     this.transacaoProvider.ObtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((resultado: DTOCupomVenda[]) => {
+        resultado.forEach(dto => {
+          dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
+        });
         this.cuponsVendas = resultado;
       })
   }
@@ -38,5 +42,4 @@ export class TransacoesPage {
 
     return this.empresaProvider.obtenhaLogoEmpresa(idEmpresa);
   }
-
 }

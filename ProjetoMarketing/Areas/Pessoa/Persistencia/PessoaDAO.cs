@@ -6,6 +6,7 @@ using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Negocio;
+using ProjetoMarketing.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -184,9 +185,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     select new DTOPessoaLoja
                     {
                         Loja = loja,
-                        Pontos = pessoaLoja.Pontos,
                         NomeEmpresa = empresa.Nome,
-                        PontosEmDinheiro = Pontos.CalculePontos(pessoaLoja.Pontos, conta.ValorPontos)
+                        Pontos = Conversor.ToMoney(pessoaLoja.Pontos, parametros.Cultura),
+                        PontosEmDinheiro = Conversor.ToMoney(Pontos.CalculePontos(pessoaLoja.Pontos, conta.ValorPontos), parametros.Cultura),
                     }).ToListAsync();
         }
 
