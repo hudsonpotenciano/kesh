@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjetoMarketing.Autentication
+namespace ProjetoMarketing.Areas.Empresa.Models
 {
-    public class SocialUser
+    public class PrametrosTokenNotificacao
     {
-        public string Email { get; set; }
-        public string Id { get; set; }
+        public int IdPerfilEmpresa { get; set; }
         public string TokenNotificacao { get; set; }
     }
 }

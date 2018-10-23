@@ -16,7 +16,7 @@ export class EmpresaProvider {
     private comunicacao: ComunicacaoProvider) {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
-  
+
   realizeLogin(usuario: User) {
 
     return this.comunicacao.post("empresa/login/realizelogin", usuario)
@@ -24,6 +24,7 @@ export class EmpresaProvider {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);
         this.dadosAcesso = result;
+        this.addIdNotificacaoEmpresa();
       });
   }
 
@@ -39,7 +40,7 @@ export class EmpresaProvider {
   }
 
   obtenhaPerfisEmpresa() {
-    
+
     return new Promise<Perfil[]>(resolve => {
       this.comunicacao.post("empresa/empresa/ObtenhaPerfisDaEmpresaParaSelecao", { IdEmpresa: this.dadosAcesso.IdEmpresa })
         .then((resposta: RetornoRequestModel) => {
@@ -71,6 +72,24 @@ export class EmpresaProvider {
         };
       });
   }
+
+  private addIdNotificacaoEmpresa() {
+
+    var tokenNotificacao = this.storage.recupereIdNotificacao();
+    var idPerfilEmpresa = this.storageEmpresa.recupereIdPerfilEmpresa();
+
+    if (!tokenNotificacao || !idPerfilEmpresa) {
+      //SALVAR ARQUIVO DE LOG
+      return;
+    }
+
+    return this.comunicacao.post("Empresa/Empresa/AddIdNotificacaoEmpresa",
+      {
+        IdPerfilEmpresa: idPerfilEmpresa,
+        TokenNotificacao: tokenNotificacao
+      });
+  }
+
 
   obtenhaLogoEmpresa(idEmpresa: number) {
     return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;

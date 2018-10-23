@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjetoMarketing.Areas.Empresa.Persistencia;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Contexts;

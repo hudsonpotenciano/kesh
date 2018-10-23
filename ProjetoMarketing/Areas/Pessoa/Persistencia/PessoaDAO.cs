@@ -29,6 +29,24 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context.Database.BeginTransaction();
         }
 
+        public Task AddIdNotificacao(int? idPessoa, string tokenNotificacao)
+        {
+            if (idPessoa == null)
+                return null;
+
+            return Task.Factory.StartNew(() =>
+            {
+                Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
+                if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
+                {
+                    pessoa.IdsNotificacao.ToList().Add(tokenNotificacao);
+                    _context.Pessoa.Update(pessoa);
+                }
+
+                _context.SaveChangesAsync();
+            });
+        }
+
         public Task AddPessoaUsuario(Models.ParametrosCadastroPessoa model, out Entidade.Pessoa.Pessoa pessoa, out Usuario usuario)
         {
             pessoa = new Entidade.Pessoa.Pessoa()

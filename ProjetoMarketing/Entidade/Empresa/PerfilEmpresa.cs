@@ -25,5 +25,7 @@ namespace ProjetoMarketing.Entidade.Empresa
         public string Telefone { get; set; }
         [Column("telefone2")]
         public string Telefone2 { get; set; }
+        [Column("idsnotificacao")]
+        public string[] IdsNotificacao { get; set; }
     }
 }

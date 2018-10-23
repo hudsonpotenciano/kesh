@@ -14,6 +14,7 @@ CREATE TABLE public.pessoa
     latitude double precision NOT NULL,
     longitude double precision NOT NULL,
     email text NOT NULL,
+    idsnotificacao text[],
     PRIMARY KEY (id),
     CONSTRAINT uk_pessoa UNIQUE (idpessoa),
     CONSTRAINT uk_pessoa_email UNIQUE (email)
@@ -106,6 +107,7 @@ CREATE TABLE public.perfilempresa
     longitude double precision NOT NULL,
     descricao text NOT NULL,
     telefone text NOT NULL,
+    idsnotificacao text[],
     telefone2 text,
     PRIMARY KEY (id),
     CONSTRAINT uk_perfilempresa UNIQUE (idempresa, idperfilempresa)

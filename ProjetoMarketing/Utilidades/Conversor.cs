@@ -4,7 +4,7 @@ namespace ProjetoMarketing.Utilidades
 {
     public class Conversor
     {
-        private static CultureInfo ObtenhaCultura(string cultura)
+        private static CultureInfo ObtenhaCultura(string cultura)   
         {
             return string.IsNullOrEmpty(cultura) ? new CultureInfo("pt-br") : new CultureInfo(cultura);
         }

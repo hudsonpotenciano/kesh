@@ -44,9 +44,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                 {
 
                     var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
-
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
+                    new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
                 }
                 else
                 {
@@ -79,6 +79,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
+                    new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
                 }
                 else
                 {

@@ -26,6 +26,21 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             _context.Database.BeginTransaction();
         }
 
+        public Task AddIdNotificacao(int idPerfilEmpresa, string tokenNotificacao)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                PerfilEmpresa perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == idPerfilEmpresa);
+                if (!perfilEmpresa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
+                {
+                    perfilEmpresa.IdsNotificacao.ToList().Add(tokenNotificacao);
+                    _context.PerfilEmpresa.Update(perfilEmpresa);
+                }
+
+                _context.SaveChangesAsync();
+            });
+        }
+
         public Task AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa, out Entidade.Usuario usuario)
         {
             empresa = new Entidade.Empresa.Empresa()

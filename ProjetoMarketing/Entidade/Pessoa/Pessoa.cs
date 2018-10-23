@@ -21,5 +21,7 @@ namespace ProjetoMarketing.Entidade.Pessoa
         public double Latitude { get; set; }
         [Column("longitude")]
         public double Longitude { get; set; }
+        [Column("idsnotificacao")]
+        public string[] IdsNotificacao { get; set; }
     }
 }

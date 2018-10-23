@@ -26,6 +26,7 @@
         "@ionic-native/diagnostic": "^4.14.0",
         "@ionic-native/facebook": "^4.11.0",
         "@ionic-native/geolocation": "^4.14.0",
+        "@ionic-native/onesignal": "^4.16.0",
         "@ionic-native/photo-viewer": "^4.12.2",
         "@ionic-native/qr-scanner": "^4.7.0",
         "@ionic-native/social-sharing": "^4.7.0",
@@ -53,6 +54,7 @@
         "ionic-angular": "3.9.2",
         "ionicons": "^4.2.4",
         "ngx-qrcode2": "0.0.9",
+        "onesignal-cordova-plugin": "^2.4.4",
         "rxjs": "5.5.10",
         "sw-toolbox": "3.6.0",
         "zone.js": "0.8.26"
@@ -82,7 +84,8 @@
                 "APP_NAME": "Project Marketing",
                 "ANDROID_SDK_VERSION": "4.+"
             },
-            "cordova.plugins.diagnostic": {}
+            "cordova.plugins.diagnostic": {},
+            "onesignal-cordova-plugin": {}
         },
         "platforms": [
             "android"

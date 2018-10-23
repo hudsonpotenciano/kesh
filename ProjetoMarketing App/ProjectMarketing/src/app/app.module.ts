@@ -19,6 +19,8 @@ import { StorageEmpresaProvider } from '../providers/storage/storage-empresa';
 import { EmpresaLojaProvider } from '../providers/empresa-loja/empresa-loja';
 import { UtilitariosProvider } from '../providers/utilitarios/utilitarios';
 
+import { OneSignal } from '@ionic-native/onesignal';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/linguagens/', '.json');
 }
@@ -53,6 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
     StoragePessoaProvider,
     StorageEmpresaProvider,
     EmpresaLojaProvider,
+    OneSignal,
     UtilitariosProvider]
 })
 

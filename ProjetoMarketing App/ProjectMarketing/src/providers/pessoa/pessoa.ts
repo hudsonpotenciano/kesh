@@ -94,7 +94,7 @@ export class PessoaProvider {
 
       this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
         .then((resposta: RetornoRequestModel) => {
-          
+
           resolve(resposta.Result);
           this.storagePessoa.armazeneDadosPessoa(resposta.Result);
         });
@@ -103,7 +103,11 @@ export class PessoaProvider {
 
   realizeLogin(usuario: User) {
 
-    return this.comunicacao.post("pessoa/login/realizelogin", usuario)
+    return this.comunicacao.post("pessoa/login/realizelogin", {
+      Login: usuario.Login,
+      Senha: usuario.Senha,
+      TokenNotificacao: this.storage.recupereIdNotificacao()
+    })
       .then((resposta: RetornoRequestModel) => {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);
@@ -113,7 +117,12 @@ export class PessoaProvider {
 
   realizeLoginRedeSocial(usuario: SocialUser) {
 
-    return this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial", usuario)
+    return this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial",
+    {
+      Email: usuario.Email,
+      Id: usuario.Id,
+      TokenNotificacao: this.storage.recupereIdNotificacao()
+    })
       .then((resposta: RetornoRequestModel) => {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);

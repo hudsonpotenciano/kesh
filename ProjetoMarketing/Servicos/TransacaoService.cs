@@ -2,6 +2,7 @@
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Persistencia;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Servicos
@@ -19,7 +20,10 @@ namespace ProjetoMarketing.Servicos
             {
                 var cupom = new Cupom();
                 await new TransacaoDAO(_context).GereCupom(parametros, out cupom, compartilhamento.IdCompartilhamento);
-                NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento();
+                var pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == cupom.IdPessoa);
+                var pessoa = _context.Pessoa.Where(p => p.IdPessoa == compartilhamento.IdsPessoas);
+
+                NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento(pessoa.Nome,);
                 return cupom;
             }
 

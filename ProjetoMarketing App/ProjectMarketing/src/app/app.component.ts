@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageProvider } from '../providers/storage/storage';
 import { UnidadeDeMedidaLocalizacao } from '../models/pessoa.model';
+import { OneSignal } from '@ionic-native/onesignal';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,18 +23,42 @@ export class MyApp {
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     private translate: TranslateService,
-    private storageProvider: StorageProvider) {
+    private storageProvider: StorageProvider,
+    private oneSignal: OneSignal) {
 
     platform.ready().then(() => {
       statusBar.styleBlackOpaque();
       statusBar.overlaysWebView(false);
       statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();
+
+      this.initOneSignal();
     });
 
     this.initTranslate();
 
     localStorage.clear();
+  }
+
+  initOneSignal() {
+
+    this.oneSignal.startInit('ea436908-f1d4-41ad-aaaa-47c1cdba8a30', '744359904337');
+    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+
+    this.oneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when notification is received
+    });
+
+    this.oneSignal.handleNotificationOpened().subscribe(() => {
+      // do something when a notification is opened
+    });
+
+    this.oneSignal.endInit();
+
+    this.oneSignal.getIds()
+      .then((id) => {
+        this.storageProvider.armazeneIdNotificacao(id);
+      })
   }
 
   initTranslate() {
@@ -46,7 +71,6 @@ export class MyApp {
     //unidade de medida
     this.storageProvider.armazeneUnidadeDeMedidaLocalizacao(UnidadeDeMedidaLocalizacao.Kilometros);
     this.storageProvider.armazeneCultura("pt-br");
-
   }
 
   openPage(page) {

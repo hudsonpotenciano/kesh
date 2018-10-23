@@ -6,6 +6,7 @@ import { UnidadeDeMedidaLocalizacao } from '../../models/pessoa.model';
 export class StorageProvider {
 
   DADOS_ACESSO = "DADOS_ACESSO";
+  ID_NOTIFICACAO = "ID_NOTIFICACAO";
   UNID_MEDIDA_LOCALIZACAO = "UNID_MEDIDA_LOCALIZACAO";
   CULTURA = "CULTURA";
   CACHE_1DIA = "CACHE_1DIA";
@@ -67,5 +68,18 @@ export class StorageProvider {
 
   removaDadosAcesso() {
     this.remova(this.DADOS_ACESSO);
+  }
+
+  //NOTIFICACAO
+  armazeneIdNotificacao(value: any) {
+    this.armazene(this.ID_NOTIFICACAO, value);
+  }
+
+  recupereIdNotificacao(): RetornoLogin {
+    return this.recupere(this.ID_NOTIFICACAO);
+  }
+
+  removaIdNotificacao() {
+    this.remova(this.ID_NOTIFICACAO);
   }
 }
