@@ -10,12 +10,12 @@ namespace ProjetoMarketing.Servicos
     {
         public static NotificacaoService Instancia => new NotificacaoService();
 
-        public void EnvieNotificacaoDeCompartilhamento(Pessoa pessoa, string[] playersIds)
+        public void EnvieNotificacaoDeCompartilhamento(string nomePessoa, string[] playersIds)
         {
-            EnvieNotificacao(playersIds, $"Testando notificacao {pessoa.Nome}");
+            EnvieNotificacao(playersIds, $"Testando notificacao {nomePessoa}");
         }
 
-        private void EnvieNotificacao(string[] playersIds, string MensagemPt)
+        private void EnvieNotificacao(string[] playersIds, string Mensagem)
         {
             HttpWebRequest request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
 
@@ -23,12 +23,12 @@ namespace ProjetoMarketing.Servicos
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
 
-            request.Headers.Add("authorization", "Basic NmE4OTA5YjMtMzQ0NS00OTcwLWFhYTgtOTE1NDgwZjY2YWYx");
+            request.Headers.Add("authorization", "Basic YzY4Y2E4ZjItZjdmMi00YTBkLThkMzgtM2FmYzc3YjZiMTQx");
 
             var obj = new
             {
                 app_id = "ea436908-f1d4-41ad-aaaa-47c1cdba8a30",
-                contents = new { en = "", pt = MensagemPt },
+                contents = new { en = Mensagem },
                 include_player_ids = playersIds
             };
 

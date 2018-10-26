@@ -31,8 +31,9 @@ export class MyApp {
       statusBar.overlaysWebView(false);
       statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();
-
-      this.initOneSignal();
+      
+      if (platform.is("cordova"))
+        this.initOneSignal();
     });
 
     this.initTranslate();
@@ -56,8 +57,8 @@ export class MyApp {
     this.oneSignal.endInit();
 
     this.oneSignal.getIds()
-      .then((id) => {
-        this.storageProvider.armazeneIdNotificacao(id);
+      .then((retorno) => {
+        this.storageProvider.armazeneIdNotificacao(retorno.userId);
       })
   }
 

@@ -14,6 +14,12 @@ export class StorageProvider {
   constructor() {
   }
 
+  limpeTudo(){
+    var idNotificao = this.recupereIdNotificacao();
+    localStorage.clear();
+    this.armazeneIdNotificacao(idNotificao);
+  }
+
   armazene(chave, valor) {
     if (typeof valor == 'object') {
       valor = JSON.stringify(valor);

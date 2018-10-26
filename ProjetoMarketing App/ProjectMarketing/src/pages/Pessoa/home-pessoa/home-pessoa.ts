@@ -18,6 +18,7 @@ export class HomePessoaPage {
   pessoaEmpresas: DadosPessoaEmpresa[] = [];
   pessoa: Pessoa;
   mostrarPesquisa: boolean = false;
+  estaCarregando = true;
   // fakeItens: any = [];
 
   constructor(
@@ -42,13 +43,15 @@ export class HomePessoaPage {
     this.pessoaProvider.ObtenhaDadosPessoa()
       .then((pessoa: Pessoa) => {
         this.pessoa = pessoa;
+        
+        this.estaCarregando = false
       });
   }
 
   obtenhaEmpresas() {
     this.obtenhaLocalizacaoAtual()
       .then((localizacao) => {
-       
+
         this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao)
           .then((retorno: DadosPessoaEmpresa[]) => {
             this.pessoaEmpresas = retorno;

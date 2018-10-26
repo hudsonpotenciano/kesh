@@ -2,7 +2,7 @@
 
     <ion-navbar>
         <ion-item no-lines>
-            <ion-avatar item-end>
+            <ion-avatar item-end *ngIf="pessoa">
                 <img [src]="obtenhaFotoPessoa()">
             </ion-avatar>
         </ion-item>

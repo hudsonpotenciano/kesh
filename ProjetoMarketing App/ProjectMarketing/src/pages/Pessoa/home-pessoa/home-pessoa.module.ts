@@ -5,6 +5,8 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { Geolocation } from '@ionic-native/geolocation';
+import { PipesModule } from '../../../pipes/pipes.module';
+import { ComponentsModule } from '../../../components/components.module';
 
 @NgModule({
   declarations: [
@@ -12,6 +14,8 @@ import { Geolocation } from '@ionic-native/geolocation';
   ],
   imports: [
     IonicPageModule.forChild(HomePessoaPage),
+    PipesModule,
+    ComponentsModule
   ],
   providers:
   [

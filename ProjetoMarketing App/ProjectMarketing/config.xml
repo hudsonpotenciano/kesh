@@ -101,6 +101,6 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Para carregar as lojas mais próximas" />
     </plugin>
     <plugin name="cordova.plugins.diagnostic" spec="^4.0.10" />
-    <engine name="android" spec="~7.0.0" />
     <plugin name="onesignal-cordova-plugin" spec="^2.4.4" />
+    <engine name="android" spec="~7.0.0" />
 </widget>

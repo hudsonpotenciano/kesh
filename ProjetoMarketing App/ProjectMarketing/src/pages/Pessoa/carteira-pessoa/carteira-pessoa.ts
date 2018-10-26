@@ -14,6 +14,7 @@ export class CarteiraPessoaPage {
 
   pessoaLojas: PessoaLoja[] = [];
   pessoasEmpresas: DadosPessoaEmpresa[];
+  estaCarregando = true;
 
   constructor(
     public navCtrl: NavController,
@@ -29,6 +30,7 @@ export class CarteiraPessoaPage {
     this.pessoaProvider.obtenhaDadosPessoaLojas()
       .then((resultado: any) => {
         this.pessoaLojas = resultado;
+        this.estaCarregando = false;
       })
   }
 

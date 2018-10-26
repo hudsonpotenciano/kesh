@@ -14,6 +14,7 @@ import { DTOCupomVenda } from '../../../models/models.model';
 export class TransacoesPage {
 
   cuponsVendas: DTOCupomVenda[] = [];
+  estaCarregando = true;
 
   constructor(
     public navCtrl: NavController,
@@ -31,6 +32,7 @@ export class TransacoesPage {
           dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
         });
         this.cuponsVendas = resultado;
+        this.estaCarregando = false;
       })
   }
 

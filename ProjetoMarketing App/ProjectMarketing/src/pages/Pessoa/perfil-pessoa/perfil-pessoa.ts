@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Pessoa } from '../../../models/pessoa.model';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 
 @IonicPage()
@@ -14,7 +15,8 @@ export class PerfilPessoaPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private pessoaProvider: PessoaProvider) {
+    private pessoaProvider: PessoaProvider,
+    private storage:StorageProvider) {
     this.pessoa.Nome = "";
   }
 
@@ -32,7 +34,9 @@ export class PerfilPessoaPage {
   mudarSenha(){
 
   }
+  
   sair(){
-
+    this.storage.limpeTudo();
+    this.navCtrl.setRoot("LoginPessoaPage");
   }
 }

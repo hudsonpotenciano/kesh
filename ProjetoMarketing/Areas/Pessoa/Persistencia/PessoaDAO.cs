@@ -31,20 +31,25 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task AddIdNotificacao(int? idPessoa, string tokenNotificacao)
         {
-            if (idPessoa == null)
-                return null;
-
-            return Task.Factory.StartNew(() =>
+            if (idPessoa == null || string.IsNullOrEmpty(tokenNotificacao))
             {
-                Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
-                if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
-                {
-                    pessoa.IdsNotificacao.ToList().Add(tokenNotificacao);
-                    _context.Pessoa.Update(pessoa);
-                }
+                return null;
+            }
 
-                _context.SaveChangesAsync();
-            });
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
+
+            if (pessoa.IdsNotificacao == null)
+            {
+                pessoa.IdsNotificacao = new string[] { tokenNotificacao };
+                _context.Pessoa.Update(pessoa);
+            }
+            else if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
+            {
+                pessoa.IdsNotificacao.ToList().Add(tokenNotificacao);
+                _context.Pessoa.Update(pessoa);
+            }
+
+            return _context.SaveChangesAsync();
         }
 
         public Task AddPessoaUsuario(Models.ParametrosCadastroPessoa model, out Entidade.Pessoa.Pessoa pessoa, out Usuario usuario)

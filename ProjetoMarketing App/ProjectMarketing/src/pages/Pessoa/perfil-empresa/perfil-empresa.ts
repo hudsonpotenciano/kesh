@@ -70,8 +70,7 @@ export class PerfilEmpresaPage {
   compartilhe() {
 
     let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
-      { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa }
-    ,{cssClass:"modal-compartilhamento"});
+      { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
 
     profileModal.present();
 
