@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { RetornoRequestModel } from '../../models/models.model';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class ComunicacaoProvider {
@@ -11,7 +12,8 @@ export class ComunicacaoProvider {
 
   constructor(
     public http: HttpClient,
-    private storage: StorageProvider) {
+    private storage: StorageProvider,
+    private events: Events) {
 
   }
 
@@ -56,9 +58,10 @@ export class ComunicacaoProvider {
 
           if (e.status == 401) {
 
+            debugger;
             if (this.tentativasDePost++ >= 3) {
-              //REALIZE LOGIN NOVAMENTE
               this.tentativasDePost = 0;
+              this.events.publish("forcar-retorno-login");
             }
             else {
 

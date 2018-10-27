@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { StorageProvider } from '../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -10,7 +11,8 @@ export class IntroducaoPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    public storage: StorageProvider) {
   }
 
   ionViewDidLoad() {

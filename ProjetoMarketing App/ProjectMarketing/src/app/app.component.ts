@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import { Platform, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StorageProvider } from '../providers/storage/storage';
 import { UnidadeDeMedidaLocalizacao } from '../models/pessoa.model';
 import { OneSignal } from '@ionic-native/onesignal';
+import { StorageEmpresaProvider } from '../providers/storage/storage-empresa';
 
 @Component({
   templateUrl: 'app.html'
@@ -14,7 +15,9 @@ import { OneSignal } from '@ionic-native/onesignal';
 })
 export class MyApp {
 
-  rootPage: any = "IntroducaoPage";
+  rootPage: any;
+  TabsPessoaPage: any = "TabsPessoaPage";
+  TabsEmpresaPage: any = "TabsEmpresaPage";
   @ViewChild(Nav) nav: Nav;
 
   constructor(
@@ -24,6 +27,8 @@ export class MyApp {
     splashScreen: SplashScreen,
     private translate: TranslateService,
     private storageProvider: StorageProvider,
+    private storageEmpresa: StorageEmpresaProvider,
+    private events: Events,
     private oneSignal: OneSignal) {
 
     platform.ready().then(() => {
@@ -31,14 +36,46 @@ export class MyApp {
       statusBar.overlaysWebView(false);
       statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();
-      
+
+
       if (platform.is("cordova"))
         this.initOneSignal();
     });
 
+    this.initLogin();
+
     this.initTranslate();
 
-    localStorage.clear();
+    this.events.subscribe("forcar-retorno-login", () => {
+      var dadosAcesso = this.storageProvider.recupereDadosAcesso();
+      if (dadosAcesso !== null && dadosAcesso !== undefined && dadosAcesso.IdEmpresa > 0)
+        this.nav.setRoot("LoginEmpresaPage");
+      else {
+        this.nav.setRoot("LoginPessoaPage");
+      }
+    });
+  }
+
+  initLogin() {
+
+    var dadosAcesso = this.storageProvider.recupereDadosAcesso();
+    console.log(dadosAcesso);
+
+    if (dadosAcesso !== null && dadosAcesso !== undefined) {
+      if (dadosAcesso.IdEmpresa && dadosAcesso.IdEmpresa > 0 && dadosAcesso.Token != "") {
+        if (this.storageEmpresa.recupereIdPerfilEmpresa())
+          this.rootPage = "TabsEmpresaLojaPage";
+        else {
+          this.rootPage = this.TabsEmpresaPage;
+        }
+      }
+      else if (dadosAcesso.IdPessoa && dadosAcesso.IdPessoa > 0 && dadosAcesso.Token != "") {
+        this.rootPage = this.TabsPessoaPage;
+      }
+    }
+    else {
+      this.rootPage = "IntroducaoPage";
+    }
   }
 
   initOneSignal() {
@@ -56,10 +93,11 @@ export class MyApp {
 
     this.oneSignal.endInit();
 
-    this.oneSignal.getIds()
-      .then((retorno) => {
-        this.storageProvider.armazeneIdNotificacao(retorno.userId);
-      })
+    if (!this.storageProvider.recupereIdNotificacao())
+      this.oneSignal.getIds()
+        .then((retorno) => {
+          this.storageProvider.armazeneIdNotificacao(retorno.userId);
+        });
   }
 
   initTranslate() {

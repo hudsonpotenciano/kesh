@@ -11,13 +11,12 @@ import { StorageProvider } from '../../../providers/storage/storage';
   templateUrl: 'perfil-pessoa.html',
 })
 export class PerfilPessoaPage {
-  pessoa: Pessoa = new Pessoa();
+  pessoa: Pessoa;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private pessoaProvider: PessoaProvider,
-    private storage:StorageProvider) {
-    this.pessoa.Nome = "";
+    private storage: StorageProvider) {
   }
 
   ionViewDidLoad() {
@@ -31,11 +30,11 @@ export class PerfilPessoaPage {
     return this.pessoaProvider.obtenhaFotoPessoa(this.pessoa.IdPessoa);
   }
 
-  mudarSenha(){
+  mudarSenha() {
 
   }
-  
-  sair(){
+
+  sair() {
     this.storage.limpeTudo();
     this.navCtrl.setRoot("LoginPessoaPage");
   }

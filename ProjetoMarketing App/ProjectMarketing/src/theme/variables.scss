@@ -9,7 +9,20 @@ $colors: ( primary: #fcc000, tema:#fcc000, secondary: #32db64, danger: #f53d3d, 
 @import "noto-sans";
 @import "roboto";
 @import "ionic.ionicons";
-@import url('https://fonts.googleapis.com/css?family=Lato:700|Roboto:700');
+@font-face {
+    font-family: 'Lato';
+    font-style: bold;
+    font-weight: 700;
+    src: url('../assets/fonts/Lato-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: bold;
+    font-weight: 700;
+    src: url('../assets/fonts/Roboto-Bold.ttf');
+}
+
 $tabs-md-tab-icon-color-active:#fcc000 !important;
 $tabs-ios-tab-icon-color-active:#fcc000 !important;
 $tabs-md-tab-icon-color:rgba(0,
