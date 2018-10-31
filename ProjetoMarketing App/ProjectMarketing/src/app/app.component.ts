@@ -37,7 +37,6 @@ export class MyApp {
       statusBar.backgroundColorByHexString("#fcc000");
       splashScreen.hide();
 
-
       if (platform.is("cordova"))
         this.initOneSignal();
     });

@@ -8,7 +8,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-card>
+    <ion-card (click)="compartilhe()">
         <img src="./assets/svg/compartilhar2.svg" />
         <ion-card-content text-center>
             <ion-card-title>
@@ -19,7 +19,7 @@
             </p>
         </ion-card-content>
     </ion-card>
-    <ion-card>
+    <ion-card (click)="abraTutorial()">
         <img src="./assets/svg/help.svg" />
         <ion-card-content text-center>
             <ion-card-title>

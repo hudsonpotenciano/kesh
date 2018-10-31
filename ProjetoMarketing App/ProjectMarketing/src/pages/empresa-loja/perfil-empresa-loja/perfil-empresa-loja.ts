@@ -5,6 +5,7 @@ import { DadosEmpresaLoja, ImagemCatalogo, AtualizaPerfilModel } from '../../../
 import { FormGroup, FormBuilder, Validators } from '../../../../node_modules/@angular/forms';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -22,6 +23,7 @@ export class PerfilEmpresaLojaPage {
   dadosEmpresa: DadosEmpresaLoja;
 
   constructor(private storageEmpresa: StorageEmpresaProvider,
+    private storage: StorageProvider,
     private empresaLojaProvider: EmpresaLojaProvider,
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
@@ -71,7 +73,7 @@ export class PerfilEmpresaLojaPage {
         this.imagensCatalogo[this.imagensCatalogo.length] = new ImagemCatalogo();
 
       this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
-        
+
         this.imagensCatalogo[this.imagensCatalogo.length - 1].Imagem = imagem;
       })
     };
@@ -98,5 +100,9 @@ export class PerfilEmpresaLojaPage {
       .then(() => {
         this.storageEmpresa.armazeneDadosEmpresaLoja(this.dadosEmpresa);
       });
+  }
+
+  sair() {
+    this.storage.limpeTudo();
   }
 }

@@ -41,4 +41,10 @@ page-perfil-empresa {
         color: $tema;
         text-align: center;
     }
+    button {
+        .label {
+            font-size: 1.4rem !important;
+            color: $tema;
+        }
+    }
 }
