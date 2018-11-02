@@ -8,7 +8,14 @@
 <ion-content>
 
     <ion-fab top right edge>
-        <button ion-fab mini (click)="abraPopoverCatalogo($event)"><ion-icon name="images"></ion-icon></button>
+        <button ion-fab mini (click)="abraPopoverCatalogo($event)">
+            <ion-icon name="images"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab top right edge>
+        <button ion-fab mini (click)="rota()"> 
+            <ion-icon name="navigate"></ion-icon>
+       </button>
     </ion-fab>
 
     <ion-list>
@@ -18,7 +25,6 @@
                 <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
             </ion-avatar>
             <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
-            <p>Trade: {{dadosPessoaEmpresa.Conta.ValorPontos}}</p>
             <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.NotaGeral}}</p>
 
         </ion-item>
@@ -28,14 +34,13 @@
 
         <div *ngIf="verMaisInformacoes">
             <ion-item class="item-info" no-lines>
-                <p>
-                    <ion-icon name="call"></ion-icon>{{dadosPessoaEmpresa.Perfil.Telefone}}</p>
-                <p *ngIf="dadosPessoaEmpresa.Perfil.Telefone2">
-                    <ion-icon name="call"></ion-icon>
-                    {{dadosPessoaEmpresa.Perfil.Telefone2}}</p>
-                <p>
+                <h3>
+                    <ion-icon name="call"></ion-icon>{{dadosPessoaEmpresa.Perfil.Telefone}} {{dadosPessoaEmpresa.Perfil.Telefone2}}
+                </h3>
+                <h3>
                     <ion-icon name="paper"></ion-icon>
-                    {{dadosPessoaEmpresa.Conta.Resumo}}</p>
+                    {{dadosPessoaEmpresa.Conta.Resumo}}
+                </h3>
             </ion-item>
             <button class="botao-bool" (click)="verMaisInformacoes = false" ion-item clear full *ngIf="verMaisInformacoes"> Ver menos
                                                     </button>
@@ -94,14 +99,7 @@
 
 
     <ion-fab bottom right>
-        <button ion-fab><ion-icon name="add"></ion-icon></button>
-        <ion-fab-list side="top">
-            <button ion-fab *ngIf="podeCompartilhar" (click)="compartilhe()">  <ion-icon name="md-share"></ion-icon>
-            </button>
-            <button ion-fab *ngIf="!podeCompartilhar" (click)="mostreNaoPodeCompartilhar()">  <ion-icon name="md-share"></ion-icon>
-            </button>
-            <button ion-fab (click)="rota()">  <ion-icon name="navigate"></ion-icon>
-            </button>
-        </ion-fab-list>
+        <button ion-fab (click)="compartilhe()">  <ion-icon name="md-share"></ion-icon>
+        </button>
     </ion-fab>
 </ion-content>

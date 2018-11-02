@@ -12,7 +12,7 @@ namespace ProjetoMarketing.Servicos
 
         public void EnvieNotificacaoDeCompartilhamento(string nomePessoa, string[] playersIds)
         {
-            EnvieNotificacao(playersIds, $"Testando notificacao {nomePessoa}");
+            EnvieNotificacao(playersIds, $"Você acabou de receber um cupom de {nomePessoa}");
         }
 
         private void EnvieNotificacao(string[] playersIds, string Mensagem)

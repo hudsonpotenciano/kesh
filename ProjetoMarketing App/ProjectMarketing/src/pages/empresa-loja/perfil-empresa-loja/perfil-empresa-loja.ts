@@ -88,6 +88,11 @@ export class PerfilEmpresaLojaPage {
 
   salvar() {
 
+    if (this.dadosEmpresa.Perfil.Latitude == 0 || this.dadosEmpresa.Perfil.Longitude == 0) {
+      alert("Selecione a localizacao");
+      return;
+    }
+
     let perfil: AtualizaPerfilModel = new AtualizaPerfilModel();
 
     perfil.Descricao = this.dadosEmpresa.Perfil.Descricao;
@@ -95,6 +100,8 @@ export class PerfilEmpresaLojaPage {
     perfil.Telefone2 = this.dadosEmpresa.Perfil.Telefone2;
     perfil.IdPerfilEmpresa = this.dadosEmpresa.Perfil.IdPerfilEmpresa;
     perfil.Catalogo = this.imagensCatalogo;
+    perfil.Latitude = this.dadosEmpresa.Perfil.Latitude;
+    perfil.Longitude = this.dadosEmpresa.Perfil.Longitude;
 
     this.empresaLojaProvider.atualizePerfilEmpresa(perfil)
       .then(() => {

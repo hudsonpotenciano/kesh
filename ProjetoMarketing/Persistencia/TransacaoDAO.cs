@@ -146,6 +146,7 @@ namespace ProjetoMarketing.Persistencia
                     join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Descricao, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join empresa in _context.Empresa.Select(a => new { a.IdEmpresa, a.Nome }) on perfilEmpresa.IdEmpresa equals empresa.IdEmpresa
                     from inVenda in vendas.DefaultIfEmpty()
+                    orderby cupom.DataValidade.ToLongTimeString()
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,
@@ -198,22 +199,21 @@ namespace ProjetoMarketing.Persistencia
         public Task<DTOCupomParaVenda> ObtenhaCupomPeloToken(ParametrosObtenhaCupom parametros)
         {
             return (from cupom in _context.Cupom
-                    join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
+                    join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.IdEmpresa }) on parametros.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join conta in _context.ContaEmpresa.Select(a => new { a.IdEmpresa, a.ValorPontos }) on perfilEmpresa.IdEmpresa equals conta.IdEmpresa
-                    join pessoaEmpresa in _context.PessoaLoja.Select(a => new { a.IdPessoa, a.IdPerfilEmpresa, a.Pontos }) on cupom.IdPessoa equals pessoaEmpresa.IdPessoa
+                    let pessoaEmpresa = _context.PessoaLoja.Select(a => new { a.IdPessoa, a.IdPerfilEmpresa, a.Pontos }).FirstOrDefault(a=>a.IdPessoa == cupom.IdPessoa)
                     where cupom.Token == parametros.CupomToken
-                    //where cupom.IdPerfilEmpresa == parametros.IdPerfilEmpresa
                     select new DTOCupomParaVenda()
                     {
                         Cupom = cupom,
-                        TotalDinheiroPessoa = Pontos.CalculePontos(pessoaEmpresa.Pontos, conta.ValorPontos)
-                    }).FirstAsync();
+                        TotalDinheiroPessoa = pessoaEmpresa != null ? Pontos.CalculePontos(pessoaEmpresa.Pontos, conta.ValorPontos) : 0
+                    }).FirstOrDefaultAsync();
         }
 
         public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
-            return _context.Compartilhamento.AnyAsync(a => a.IdPessoa == parametros.IdPessoa
-                                                     && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.Data >= DateTime.Today);
+            return _context.Cupom.AnyAsync(a => a.IdPessoa == parametros.IdPessoa
+                                                     && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.DataValidade >= DateTime.Now);
         }
     }
 }

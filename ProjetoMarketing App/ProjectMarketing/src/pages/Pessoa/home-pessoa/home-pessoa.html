@@ -41,13 +41,10 @@
             </ion-item>
         </div>
 
-        <!-- <div *ngFor="let fake of fakeItens" class="fakeItem-home-pessoa">
-            <ion-item class="fake-header">
-                <h2></h2>
-                <p></p>
-            </ion-item>
-            <div class="fake-catalogo"></div>
-        </div> -->
+        <ion-infinite-scroll #infinitScroll (ionInfinite)="$event.waitFor(doInfinite($event))">
+            <ion-infinite-scroll-content loadingSpinner="circles" loadingText="">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </ion-list>
     <carregando *ngIf="estaCarregando">
 

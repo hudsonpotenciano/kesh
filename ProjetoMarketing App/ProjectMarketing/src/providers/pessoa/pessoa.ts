@@ -28,14 +28,14 @@ export class PessoaProvider {
     });
   }
 
-  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao) {
+  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao, pagina: number, tamanhoDaPagina: number): Promise<DadosPessoaEmpresa[]> {
 
     let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
     unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
 
     return new Promise<DadosPessoaEmpresa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
+        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida, Pagina: pagina, TamanhoDaPagina: tamanhoDaPagina })
         .then((retorno: RetornoRequestModel) => {
 
           let dados = retorno.Result as DadosPessoaEmpresa[];
@@ -118,11 +118,11 @@ export class PessoaProvider {
   realizeLoginRedeSocial(usuario: SocialUser) {
 
     return this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial",
-    {
-      Email: usuario.Email,
-      Id: usuario.Id,
-      TokenNotificacao: this.storage.recupereIdNotificacao()
-    })
+      {
+        Email: usuario.Email,
+        Id: usuario.Id,
+        TokenNotificacao: this.storage.recupereIdNotificacao()
+      })
       .then((resposta: RetornoRequestModel) => {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);

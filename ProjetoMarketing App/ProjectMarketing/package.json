@@ -25,7 +25,7 @@
         "@ionic-native/core": "4.7.0",
         "@ionic-native/diagnostic": "^4.14.0",
         "@ionic-native/facebook": "^4.11.0",
-        "@ionic-native/geolocation": "^4.14.0",
+        "@ionic-native/geolocation": "^4.17.0",
         "@ionic-native/onesignal": "^4.16.0",
         "@ionic-native/photo-viewer": "^4.12.2",
         "@ionic-native/qr-scanner": "^4.7.0",
@@ -75,7 +75,7 @@
             "cordova-plugin-qrscanner": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-geolocation": {
-                "GEOLOCATION_USAGE_DESCRIPTION": "Para carregar as lojas mais próximas"
+                "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
             },
             "cordova-plugin-whitelist": {},
             "com-sarriaroman-photoviewer": {},

@@ -17,10 +17,8 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
   templateUrl: 'perfil-empresa.html',
 })
 export class PerfilEmpresaPage {
-
   dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
-  podeCompartilhar = false;
   verMaisInformacoes = false;
   constructor(
     public navCtrl: NavController,
@@ -43,15 +41,9 @@ export class PerfilEmpresaPage {
   }
 
   ionViewDidLoad() {
-
-    this.transacaoProvider.PessoaPodeCompartilhar(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
-      .then((podeCompartilhar: boolean) => {
-        this.podeCompartilhar = podeCompartilhar;
-      });
-
     this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
-        
+
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
       });
   }
@@ -68,7 +60,6 @@ export class PerfilEmpresaPage {
   }
 
   compartilhe() {
-
     let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
       { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
 
@@ -86,7 +77,6 @@ export class PerfilEmpresaPage {
           this.pessoaProvider.dadosAcesso.IdPessoa,
           idsPessoas)
         .then(() => {
-          this.podeCompartilhar = false;
           alert("Um novo cupom foi adicionado na carteira");
         });
     })
@@ -114,15 +104,11 @@ export class PerfilEmpresaPage {
     this.navCtrl.push("CupomPage", cupom);
   }
 
-  mostreNaoPodeCompartilhar() {
-
-  }
-
   abraPopoverCatalogo(evento) {
     let modal = this.modalCtrl.create("CatalogoComponentPage",
       { catalogo: this.dadosPessoaEmpresa.Catalogo },
       { cssClass: "popover-catalogo" });
 
-      modal.present({ ev: evento });
+    modal.present({ ev: evento });
   }
 }

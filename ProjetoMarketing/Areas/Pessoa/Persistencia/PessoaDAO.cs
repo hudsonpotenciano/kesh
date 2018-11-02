@@ -180,7 +180,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         let countNota = _context.PessoaEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Nota }).Where(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null).Count()
                         let notaGeral = _context.PessoaEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Nota }).Where(p => p.IdPerfilEmpresa == idPerfilEmpresa).Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
                         from pessoaEmpresa in _context.PessoaEmpresa.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa && a.IdPessoa == parametros.IdPessoa).DefaultIfEmpty()
-                        where distancia < 20
+                        where distancia < 30
+                        orderby distancia
                         select new DTO.DTOPessoa()
                         {
                             Empresa = empresa,
@@ -190,7 +191,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             PessoaEmpresa = pessoaEmpresa,
                             NotaGeral = 1,
                             Distancia = distancia
-                        }).ToListAsync();
+                        }).Skip((parametros.Pagina - 1) * parametros.TamanhoDaPagina).Take(parametros.TamanhoDaPagina).ToListAsync();
 
             }
             catch (Exception e)
