@@ -10,6 +10,7 @@ namespace ProjetoMarketing.Areas.Empresa.Models
         public string Telefone { get; set; }
         public string Telefone2 { get; set; }
         public string Senha { get; set; }
+        public string SenhaAdmin { get; set; }
         public string Cnpj { get; set; }
         public byte[] Logo { get; set; }
         public string Resumo { get; set; }

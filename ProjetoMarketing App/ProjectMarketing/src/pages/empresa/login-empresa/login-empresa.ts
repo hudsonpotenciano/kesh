@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { User } from '../../../models/models.model';
+import { User, RetornoLogin } from '../../../models/models.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { Perfil } from '../../../models/empresa.model';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -13,17 +14,21 @@ import { Perfil } from '../../../models/empresa.model';
 export class LoginEmpresaPage {
 
   usuario: User = new User();
+  views: Array<string> = ["login", "selecaoTipo", "loginAdmin"];
+  dadosAcesso: RetornoLogin;
+  viewAtual: string = this.views[0];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private empresaProvider: EmpresaProvider,
+    private storage: StorageProvider,
     private popOverCtrl: PopoverController,
     private storageEmpresa: StorageEmpresaProvider) {
 
     this.usuario.Login = "teste2@gmail.com";
     this.usuario.Senha = "123456";
-    
+
   }
 
   ionViewDidLoad() {
@@ -32,36 +37,34 @@ export class LoginEmpresaPage {
   login() {
 
     this.empresaProvider.realizeLogin(this.usuario)
-      .then(() => {
-        this.abraModalSelecaoTipoLoginEmpresa();
+      .then((retornoLogin: RetornoLogin) => {
+        this.dadosAcesso = retornoLogin;
+        this.viewAtual = this.views[1];
       })
       .catch(() => { })
   }
 
-  abraModalSelecaoTipoLoginEmpresa() {
+  selecaoTipoLoginEmpresa(selecao: number) {
 
-    var popOver = this.popOverCtrl.create("SelecaoTipoLoginEmpresaPage", {}, { enableBackdropDismiss: false });
-    popOver.present();
+    if (selecao == 0) {
+      this.viewAtual = this.views[2];
+    }
+    else if (selecao == 1) {
+      
+      this.storage.armazeneDadosAcesso(this.dadosAcesso);
 
-    popOver.onDidDismiss((selecao: number) => {
-      if (selecao == 0) {
-        this.navCtrl.setRoot("TabsEmpresaPage");
-      }
-      else if (selecao == 1) {
+      this.empresaProvider.obtenhaPerfisEmpresa()
+        .then((perfis: Perfil[]) => {
 
-        this.empresaProvider.obtenhaPerfisEmpresa()
-          .then((perfis: Perfil[]) => {
-            
-            if (perfis && perfis.length == 1) {
-              this.storageEmpresa.armazeneIdPerfilEmpresa(perfis[0].IdPerfilEmpresa);
-              this.navCtrl.setRoot("TabsEmpresaLojaPage");
-            }
-            else{
-              this.abraModalSelecaoPerfisEmpresa(perfis);
-            }
-          });
-      }
-    });
+          if (perfis && perfis.length == 1) {
+            this.storageEmpresa.armazeneIdPerfilEmpresa(perfis[0].IdPerfilEmpresa);
+            this.navCtrl.setRoot("TabsEmpresaLojaPage");
+          }
+          else {
+            this.abraModalSelecaoPerfisEmpresa(perfis);
+          }
+        });
+    }
   }
 
   abraModalSelecaoPerfisEmpresa(perfis: Perfil[]) {
@@ -78,7 +81,31 @@ export class LoginEmpresaPage {
     });
   }
 
+  voltar() {
+    var index = this.views.indexOf(this.viewAtual);
+    if (index <= (this.views.length - 1)) {
+      this.viewAtual = this.views[index - 1];
+    }
+  }
+
   abraCadastro() {
     this.navCtrl.push("CadastroEmpresaPage");
+  }
+
+  realizeLoginEmpresaAdmin() {
+
+    this.empresaProvider.realizeLoginAdmin(this.usuario)
+      .then((resposta) => {
+        if (resposta && resposta.Erro === 0) {
+          this.navCtrl.setRoot("TabsEmpresaPage");
+          
+          this.storage.armazeneDadosAcesso(this.dadosAcesso);
+        }
+        else
+          alert("nao autenticado");
+      })
+      .catch(() => {
+        alert("nao autenticado");
+      })
   }
 }

@@ -191,8 +191,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             PessoaEmpresa = pessoaEmpresa,
                             NotaGeral = 1,
                             Distancia = distancia
-                        }).Skip((parametros.Pagina - 1) * parametros.TamanhoDaPagina).Take(parametros.TamanhoDaPagina).ToListAsync();
-
+                        }).ToListAsync();
             }
             catch (Exception e)
             {

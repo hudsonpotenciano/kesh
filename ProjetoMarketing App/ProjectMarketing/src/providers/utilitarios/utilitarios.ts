@@ -34,4 +34,9 @@ export class UtilitariosProvider {
       callback(canvas.toDataURL("image/png", 0.5).replace(/^data:image\/(png|jpg);base64,/, ""));
     }
   }
+
+  pagine(lista: Array<any>, pagina: number, tamanhoPagina: number) {
+    if (!lista || lista.length < tamanhoPagina) return lista;
+    return lista.slice(pagina * tamanhoPagina, (pagina + 1) * tamanhoPagina);
+  }
 }

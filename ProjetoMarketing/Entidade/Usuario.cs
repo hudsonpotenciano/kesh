@@ -15,6 +15,8 @@ namespace ProjetoMarketing.Entidade
         public int IdUsuario { get; set; }
         [Column("token")]
         public string Token { get; set; }
+        [Column("tokenempresaadmin")]
+        public string TokenEmpresaAdmin { get; set; }
         [Column("login")]
         public string Login { get; set; }
         [Column("idpessoa")]

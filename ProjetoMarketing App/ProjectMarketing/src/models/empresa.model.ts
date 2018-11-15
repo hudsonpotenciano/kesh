@@ -75,6 +75,7 @@ export class CadastroEmpresaModel {
     Telefone: string;
     Telefone2: string;
     Senha: string;
+    SenhaAdmin: string;
     Logo: any;
     Resumo: string;
     ValorPontos: number;

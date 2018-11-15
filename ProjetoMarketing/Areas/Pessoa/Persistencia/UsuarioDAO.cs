@@ -33,6 +33,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdEmpresa != null);
         }
 
+        public Usuario FindUsuarioAdminEmpresa(User usuario)
+        {
+            var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+            return _context.Usuario.FirstOrDefault(u => u.TokenEmpresaAdmin == token && u.IdEmpresa != null);
+        }
+
         public bool ValideToken(string token)
         {
             return _context.Usuario.FirstOrDefault(u => u.Token == token) != null;

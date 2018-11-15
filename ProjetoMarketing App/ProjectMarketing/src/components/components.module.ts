@@ -5,4 +5,5 @@ import { CarregandoComponent } from './carregando/carregando';
 	imports: [],
 	exports: [CarregandoComponent]
 })
-export class ComponentsModule {}
+export class ComponentsModule { }
+

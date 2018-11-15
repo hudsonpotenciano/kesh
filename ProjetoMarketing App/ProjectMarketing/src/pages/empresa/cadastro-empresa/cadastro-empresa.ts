@@ -13,7 +13,7 @@ export class CadastroEmpresaPage {
 
   categorias: Enumerador[] = new EnumeradorDeCategorias().obtenhaTodos();
   empresa: CadastroEmpresaModel = new CadastroEmpresaModel();
-  confirmacaoDaSenha : string = "";
+  confirmacaoDaSenha: string = "";
   profilePic = undefined;
 
   conta: string = "conta";
@@ -31,6 +31,7 @@ export class CadastroEmpresaPage {
   }
 
   ionViewDidLoad() {
+    
   }
 
   selecioneImagem() {
@@ -104,6 +105,7 @@ export class CadastroEmpresaPage {
   }
 
   obtenhaCategoriaSelecionada() {
+
     if (this.empresa.Categoria)
       return this.categorias.find(c => c.Codigo == this.empresa.Categoria).Descricao;
   }

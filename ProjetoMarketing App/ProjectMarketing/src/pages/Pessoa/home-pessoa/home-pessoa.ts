@@ -6,6 +6,7 @@ import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { Localizacao } from '../../../models/models.model';
 import { Geolocation } from '@ionic-native/geolocation';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -16,6 +17,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 export class HomePessoaPage {
 
   pessoaEmpresas: DadosPessoaEmpresa[] = [];
+  pessoaEmpresasLimit: DadosPessoaEmpresa[] = [];
   pessoa: Pessoa;
   mostrarPesquisa: boolean = false;
   estaCarregando = true;
@@ -28,6 +30,7 @@ export class HomePessoaPage {
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private platform: Platform,
+    private utilitarios: UtilitariosProvider,
     private empresaLojaProvider: EmpresaLojaProvider,
     private geolocation: Geolocation) {
     this.empresaProvider;
@@ -53,6 +56,7 @@ export class HomePessoaPage {
         this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao, this.pagina, 20)
           .then((retorno: DadosPessoaEmpresa[]) => {
             this.pessoaEmpresas = retorno;
+            this.pessoaEmpresasLimit = this.utilitarios.pagine(retorno, this.pagina, 20);
             this.pagina++;
           });
       });
@@ -94,15 +98,13 @@ export class HomePessoaPage {
 
   doInfinite(infinit: InfiniteScroll): Promise<any> {
     return new Promise((resolve) => {
-      this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(this.minhaLocalizacao, this.pagina, 20)
-        .then((retorno: DadosPessoaEmpresa[]) => {
-          if (retorno.length < 10) infinit.enable(false);
-          var lista1 = this.pessoaEmpresas;
-          this.pessoaEmpresas = lista1.concat(retorno);
-          this.pagina++;
-          resolve();
-          infinit.complete();
-        });
+      
+      this.pessoaEmpresasLimit = this.pessoaEmpresasLimit
+      .concat(this.utilitarios.pagine(this.pessoaEmpresas, this.pagina, 20));
+
+      this.pagina++;
+      resolve();
+      infinit.complete();
     });
   }
 }

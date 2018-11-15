@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@an
 import { DadosEmpresaAdmin, AtualizeContaModel, Perfil } from '../../../models/empresa.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -24,6 +25,7 @@ export class ContaEmpresaPage {
     formBuilder: FormBuilder,
     public navParams: NavParams,
     private storageEmpresa: StorageEmpresaProvider,
+    private storage: StorageProvider,
     private empresaProvider: EmpresaProvider) {
     this.empresaProvider;
 
@@ -67,7 +69,7 @@ export class ContaEmpresaPage {
 
     this.empresaProvider.atualizeConta(conta)
       .then(() => {
-        
+
         this.storageEmpresa.armazeneDadosEmpresaAdmin(this.dadosEmpresa);
       });
   }
@@ -80,4 +82,9 @@ export class ContaEmpresaPage {
     this.navCtrl.push("CadastroPerfilEmpresaPage", { perfil: perfil });
   }
 
+  sair() {
+    this.storage.limpeTudo();
+    this.navCtrl.setRoot("LoginEmpresaPage");
+  }
 }
+

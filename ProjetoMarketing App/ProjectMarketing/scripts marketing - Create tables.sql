@@ -62,6 +62,7 @@ CREATE TABLE public.usuario
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idusuario integer NOT NULL DEFAULT nextval('sq_usuario'),
     token text NOT NULL,
+    tokenempresaadmin text,
     login text NOT NULL,
     idpessoa integer,
     idempresa integer,

@@ -17,15 +17,29 @@ export class EmpresaProvider {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
-  realizeLogin(usuario: User) {
+  realizeLogin(usuario: User): Promise<RetornoLogin> {
 
-    return this.comunicacao.post("empresa/login/realizelogin", usuario)
-      .then((resposta: RetornoRequestModel) => {
-        let result: RetornoLogin = resposta.Result;
-        this.storage.armazeneDadosAcesso(result);
-        this.dadosAcesso = result;
-        this.addIdNotificacaoEmpresa();
-      });
+    return new Promise<RetornoLogin>((resolve, reject) => {
+      this.comunicacao.post("empresa/login/realizelogin", usuario)
+        .then((resposta: RetornoRequestModel) => {
+          let result: RetornoLogin = resposta.Result;
+          this.dadosAcesso = result;
+          this.addIdNotificacaoEmpresa();
+          resolve(result);
+          //Os dados são salvos na pagina de login, após escolher entre admin e loja
+        })
+        .catch((retorno)=>{
+            
+        });
+    });
+  }
+
+  realizeLoginAdmin(usuario: User): Promise<RetornoRequestModel> {
+
+    return new Promise<RetornoRequestModel>(async resolve => {
+      const resposta = await this.comunicacao.post("empresa/login/realizeLoginAdmin", usuario);
+      resolve(resposta);
+    });
   }
 
   obtenhaDadosEmpresaAdmin() {

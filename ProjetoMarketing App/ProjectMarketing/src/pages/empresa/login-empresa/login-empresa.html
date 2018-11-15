@@ -1,5 +1,5 @@
 <ion-content>
-    <div class="form-login">
+    <div class="form-login" *ngIf="viewAtual == views[0]">
         <div class="box">
             <form (submit)="login()">
                 <ion-list>
@@ -20,6 +20,47 @@
             <button class="botao" ion-button color="primary" round block (click)="login()">Login</button>
             <button class="botao" ion-button color="primary" round block (click)="abraCadastro()">Registrar</button>
         </div>
+    </div>
 
+    <div *ngIf="viewAtual == views[1]" class="selecao-tipo-login">
+        <div class="form-login">
+            <div class="box">
+                <ion-card (click)="selecaoTipoLoginEmpresa(0)">
+                    <ion-card-content text-center>
+                        <ion-card-title>
+                            administrador
+                        </ion-card-title>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card (click)="selecaoTipoLoginEmpresa(1)">
+                    <ion-card-content text-center>
+                        <ion-card-title>
+                            Loja
+                        </ion-card-title>
+                    </ion-card-content>
+                </ion-card>
+                <button class="botao" ion-button color="gray" round block (click)="voltar()">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-login" *ngIf="viewAtual == views[2]">
+        <div class="box" text-center>
+            <h3 class="titulo">
+                Informe a senha de administrador
+            </h3>
+            <form (submit)="realizeLoginEmpresaAdmin()">
+                <ion-list>
+                    <ion-item>
+                        <ion-label>
+                            <ion-icon name="lock"></ion-icon>
+                        </ion-label>
+                        <ion-input type="password" [(ngModel)]="usuario.Senha" name="senha"></ion-input>
+                    </ion-item>
+                </ion-list>
+            </form>
+            <button class="botao" ion-button color="primary" round block (click)="realizeLoginEmpresaAdmin()">Entrar</button>
+            <button class="botao" ion-button color="gray" round block (click)="voltar()">Voltar</button>
+        </div>
     </div>
 </ion-content>

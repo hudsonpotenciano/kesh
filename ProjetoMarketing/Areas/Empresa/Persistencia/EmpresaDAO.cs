@@ -82,7 +82,8 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             {
                 IdEmpresa = empresa.IdEmpresa,
                 Login = model.Email,
-                Token = Autentication.Seguranca.GerarHashMd5(model.Email, model.Senha)
+                Token = Autentication.Seguranca.GerarHashMd5(model.Email, model.Senha),
+                TokenEmpresaAdmin = Autentication.Seguranca.GerarHashMd5(model.Email, model.SenhaAdmin)
             };
 
             _context.Usuario.Add(usuario);
