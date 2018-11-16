@@ -7,12 +7,12 @@ export class Empresa {
     RecompensaCompartilhamento: number;
     RecompensaPontos: number;
     Resumo: string;
-    Categorias: number[];
+    Categoria: number;
 }
 
 export class Conta {
     IdEmpresa: number;
-    Categorias: number;
+    Categoria: number;
     Resumo: string;
     ValorPontos: number;
 }

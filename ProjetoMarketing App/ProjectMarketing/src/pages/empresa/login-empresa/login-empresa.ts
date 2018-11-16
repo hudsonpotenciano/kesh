@@ -32,6 +32,7 @@ export class LoginEmpresaPage {
   }
 
   ionViewDidLoad() {
+
   }
 
   login() {
@@ -41,7 +42,8 @@ export class LoginEmpresaPage {
         this.dadosAcesso = retornoLogin;
         this.viewAtual = this.views[1];
       })
-      .catch(() => { })
+      .catch(() => {
+      })
   }
 
   selecaoTipoLoginEmpresa(selecao: number) {
@@ -50,8 +52,6 @@ export class LoginEmpresaPage {
       this.viewAtual = this.views[2];
     }
     else if (selecao == 1) {
-      
-      this.storage.armazeneDadosAcesso(this.dadosAcesso);
 
       this.empresaProvider.obtenhaPerfisEmpresa()
         .then((perfis: Perfil[]) => {
@@ -59,6 +59,7 @@ export class LoginEmpresaPage {
           if (perfis && perfis.length == 1) {
             this.storageEmpresa.armazeneIdPerfilEmpresa(perfis[0].IdPerfilEmpresa);
             this.navCtrl.setRoot("TabsEmpresaLojaPage");
+            this.storage.armazeneDadosAcesso(this.dadosAcesso);
           }
           else {
             this.abraModalSelecaoPerfisEmpresa(perfis);
@@ -76,8 +77,9 @@ export class LoginEmpresaPage {
       if (!perfil)
         popOver.present();
 
-      this.storageEmpresa.armazeneIdPerfilEmpresa(perfil.IdPerfilEmpresa);
       this.navCtrl.setRoot("TabsEmpresaLojaPage");
+      this.storage.armazeneDadosAcesso(this.dadosAcesso);
+      this.storageEmpresa.armazeneIdPerfilEmpresa(perfil.IdPerfilEmpresa);
     });
   }
 
@@ -98,7 +100,7 @@ export class LoginEmpresaPage {
       .then((resposta) => {
         if (resposta && resposta.Erro === 0) {
           this.navCtrl.setRoot("TabsEmpresaPage");
-          
+
           this.storage.armazeneDadosAcesso(this.dadosAcesso);
         }
         else

@@ -8,6 +8,8 @@ import { Localizacao } from '../../../models/models.model';
 import { Geolocation } from '@ionic-native/geolocation';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
+const tamanhoPagina = 10;
+
 @IonicPage()
 @Component({
   selector: 'page-home-pessoa',
@@ -21,7 +23,7 @@ export class HomePessoaPage {
   pessoa: Pessoa;
   mostrarPesquisa: boolean = false;
   estaCarregando = true;
-  pagina = 1;
+  pagina = 0;
   minhaLocalizacao: Localizacao;
 
   constructor(
@@ -53,10 +55,10 @@ export class HomePessoaPage {
     this.obtenhaLocalizacaoAtual()
       .then((localizacao) => {
         this.minhaLocalizacao = localizacao;
-        this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao, this.pagina, 20)
+        this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao)
           .then((retorno: DadosPessoaEmpresa[]) => {
             this.pessoaEmpresas = retorno;
-            this.pessoaEmpresasLimit = this.utilitarios.pagine(retorno, this.pagina, 20);
+            this.pessoaEmpresasLimit = this.utilitarios.pagine(retorno, this.pagina, tamanhoPagina);
             this.pagina++;
           });
       });
@@ -96,15 +98,12 @@ export class HomePessoaPage {
     this.navCtrl.push("PerfilPessoaPage");
   }
 
-  doInfinite(infinit: InfiniteScroll): Promise<any> {
-    return new Promise((resolve) => {
-      
-      this.pessoaEmpresasLimit = this.pessoaEmpresasLimit
-      .concat(this.utilitarios.pagine(this.pessoaEmpresas, this.pagina, 20));
-
-      this.pagina++;
-      resolve();
-      infinit.complete();
-    });
+  doInfinite(infinit: InfiniteScroll) {
+    this.pessoaEmpresasLimit = this.pessoaEmpresasLimit
+      .concat(this.utilitarios.pagine(this.pessoaEmpresas, this.pagina, tamanhoPagina));
+    this.pagina++;
+    infinit.complete();
+    if (this.pessoaEmpresasLimit.length == this.pessoaEmpresas.length)
+      infinit.enable(false);
   }
 }

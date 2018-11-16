@@ -71,6 +71,9 @@ export class MyApp {
       else if (dadosAcesso.IdPessoa && dadosAcesso.IdPessoa > 0 && dadosAcesso.Token != "") {
         this.rootPage = this.TabsPessoaPage;
       }
+      else {
+        this.rootPage = "IntroducaoPage";
+      }
     }
     else {
       this.rootPage = "IntroducaoPage";

@@ -12,7 +12,7 @@ export class EnumeradorDeCategorias {
     AlimentosEBebidas = new Enumerador(1, "Alimentos e Bebidas");
     Animais = new Enumerador(2, "Animais");
     Automoveis = new Enumerador(3, "Automóveis");
-    BrinquedosEGames = new Enumerador(4, "Brinquedos e Games");
+    BrinquedosEGames = new Enumerador(4, "Games e brinquedos");
     CasaEJardim = new Enumerador(5, "Casa e Jardim");
     Educacao = new Enumerador(6, "Educação");
     EsporteELazer = new Enumerador(7, "Esporte e Lazer");

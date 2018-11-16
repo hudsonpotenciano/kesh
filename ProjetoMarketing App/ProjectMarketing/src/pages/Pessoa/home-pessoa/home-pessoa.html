@@ -5,7 +5,9 @@
                 <img [src]="obtenhaFotoPessoa()">
             </ion-avatar>
             <ion-title (click)="mostrePerfilPessoaModal()">Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
-            <ion-icon item-end name="search" (click)="mostrarPesquisa = !mostrarPesquisa">
+            <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = !mostrarPesquisa">
+            </ion-icon>
+            <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = !mostrarPesquisa">
             </ion-icon>
         </ion-item>
     </ion-navbar>
@@ -19,7 +21,7 @@
         </ion-icon>
     </ion-item>
     <ion-list id="flex-box" no-lines *ngIf="!estaCarregando">
-        <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresas" (click)="abraPerfilEmpresa(pessoaEmpresa)">
+        <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresasLimit" (click)="abraPerfilEmpresa(pessoaEmpresa)">
             <ion-item class="item-header">
                 <!-- <ion-avatar item-start>
                     <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
@@ -41,11 +43,12 @@
             </ion-item>
         </div>
 
-        <ion-infinite-scroll #infinitScroll (ionInfinite)="$event.waitFor(doInfinite($event))">
+        <ion-infinite-scroll #infinitScroll (ionInfinite)="doInfinite($event)">
             <ion-infinite-scroll-content loadingSpinner="circles" loadingText="">
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     </ion-list>
+
     <carregando *ngIf="estaCarregando">
 
     </carregando>

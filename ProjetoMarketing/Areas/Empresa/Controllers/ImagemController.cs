@@ -35,18 +35,18 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             return File(foto, "image/jpeg");
         }
 
-        [AllowAnonymous]
-        [HttpGet("ObtenhaImagemCatalogo")]
-        public async Task<ActionResult> ObtenhaImagemCatalogo(int idImagem)
-        {
-            var foto = await new ImagemDAO(null).ObtenhaImagem(idImagem);
+        //[AllowAnonymous]
+        //[HttpGet("ObtenhaImagemCatalogo")]
+        //public async Task<ActionResult> ObtenhaImagemCatalogo(int idImagem)
+        //{
+        //    var foto = await new ImagemDAO(null).ObtenhaImagem(idImagem);
 
-            if (foto == null)
-            {
-                return null;
-            }
+        //    if (foto == null)
+        //    {
+        //        return null;
+        //    }
 
-            return File(foto, "image/jpeg");
-        }
+        //    return File(foto, "image/jpeg");
+        //}
     }
 }

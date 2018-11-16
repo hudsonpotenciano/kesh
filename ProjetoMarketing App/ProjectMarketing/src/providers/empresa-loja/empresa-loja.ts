@@ -4,7 +4,6 @@ import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { StorageProvider } from '../storage/storage';
 import { RetornoRequestModel, RetornoLogin } from '../../models/models.model';
 import { DadosEmpresaLoja, AtualizaPerfilModel } from '../../models/empresa.model';
-import { ComunicacaoSettings } from '../../comunicacao.settings';
 
 @Injectable()
 export class EmpresaLojaProvider {
@@ -35,22 +34,16 @@ export class EmpresaLojaProvider {
 
   //chamado no html
   obtenhaImagemCatalogo(idImagem: number) {
-    return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaImagemCatalogo?idImagem=" + idImagem;
+    return "https://storageprojetomarketing.blob.core.windows.net/imagens/" + idImagem + ".jpg";
+    // return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaImagemCatalogo?idImagem=" + idImagem;
   }
 
   atualizePerfilEmpresa(perfil: AtualizaPerfilModel) {
-
-    return this.comunicacao.post("Empresa/Empresa/AtualizePerfilEmpresa", perfil)
-      .then(() => {
-
-      });
+    return this.comunicacao.post("Empresa/Empresa/AtualizePerfilEmpresa", perfil);
   }
 
   cadastrePerfilEmpresa(perfil: AtualizaPerfilModel) {
     perfil.IdEmpresa = this.dadosAcesso.IdEmpresa;
-    return this.comunicacao.post("Empresa/Empresa/CadastrePerfilEmpresa", perfil)
-      .then(() => {
-
-      });
+    return this.comunicacao.post("Empresa/Empresa/CadastrePerfilEmpresa", perfil);
   }
 }

@@ -18,7 +18,6 @@ export class EmpresaProvider {
   }
 
   realizeLogin(usuario: User): Promise<RetornoLogin> {
-
     return new Promise<RetornoLogin>((resolve, reject) => {
       this.comunicacao.post("empresa/login/realizelogin", usuario)
         .then((resposta: RetornoRequestModel) => {
@@ -26,19 +25,26 @@ export class EmpresaProvider {
           this.dadosAcesso = result;
           this.addIdNotificacaoEmpresa();
           resolve(result);
-          //Os dados são salvos na pagina de login, após escolher entre admin e loja
+          //Salva apenas o AccessToken. Os dados sao salvos após escolher entre admin e loja
+          this.storage.armazeneDadosAcesso({AccessToken : result.AccessToken} as RetornoLogin);
         })
-        .catch((retorno)=>{
-            
+        .catch((retorno) => {
+          reject(retorno);
         });
     });
   }
 
   realizeLoginAdmin(usuario: User): Promise<RetornoRequestModel> {
 
-    return new Promise<RetornoRequestModel>(async resolve => {
-      const resposta = await this.comunicacao.post("empresa/login/realizeLoginAdmin", usuario);
-      resolve(resposta);
+    return new Promise<RetornoRequestModel>((resolve, reject) => {
+      this.comunicacao.post("empresa/login/realizeLoginAdmin", usuario)
+        .then((resposta: RetornoRequestModel) => {
+          resolve(resposta);
+          //Os dados são salvos na pagina de login, após escolher entre admin e loja
+        })
+        .catch((retorno) => {
+          reject(retorno);
+        });
     });
   }
 
@@ -66,25 +72,25 @@ export class EmpresaProvider {
 
 
   atualizeConta(conta: AtualizeContaModel) {
-
-    return this.comunicacao.post("Empresa/Empresa/AtualizeContaEmpresa", conta)
-      .then(() => {
-
-      });
+    return this.comunicacao.post("Empresa/Empresa/AtualizeContaEmpresa", conta);
   }
 
   cadastreEmpresa(empresa: CadastroEmpresaModel) {
 
-    return this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", empresa)
-      .then((resposta: RetornoRequestModel) => {
-        this.storage.armazeneDadosAcesso(resposta);
-      })
-      .catch((retorno: RetornoRequestModel) => {
+    return new Promise<RetornoRequestModel>((resolve, reject) => {
+      this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", empresa)
+        .then((resposta : RetornoRequestModel) => {
+          this.storage.armazeneDadosAcesso(resposta.Result);
+          resolve(resposta);
+        })
+        .catch((retorno) => {
+          if (retorno && retorno.Erro == 2) {
+            alert("Este email já existe");
+          };
+          reject(retorno);
+        })
+    });
 
-        if (retorno && retorno.Erro == 2) {
-          alert("Este email já existe");
-        };
-      });
   }
 
   private addIdNotificacaoEmpresa() {

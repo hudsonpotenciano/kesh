@@ -31,7 +31,7 @@ export class CadastroEmpresaPage {
   }
 
   ionViewDidLoad() {
-    
+
   }
 
   selecioneImagem() {
@@ -94,14 +94,42 @@ export class CadastroEmpresaPage {
 
   proximo() {
     if (this.opcaoAtual == this.conta) {
+      if (!this.podeSalvarConta()) return;
       this.opcaoAtual = this.perfil;
     }
     else if (this.opcaoAtual == this.perfil) {
+      if (!this.podeSalvarPerfil()) return;
       this.opcaoAtual = this.financeiro;
     }
     else {
-      this.opcaoAtual = this.conta;
+      this.cadastre();
     }
+  }
+  podeSalvarPerfil() {
+    if (!this.empresa.Latitude || this.empresa.Latitude == 0 || !this.empresa.Longitude || this.empresa.Longitude == 0) {
+      alert("selecione a localizacao da loja");
+      return false;
+    }
+    return true;
+  }
+  podeSalvarConta() {
+    if (this.empresa.Senha.length < 6) {
+      alert("a senha deve conter pelo menos 6 caracteres");
+      return false;
+    }
+    if (this.empresa.Senha != this.confirmacaoDaSenha) {
+      alert("a senha está diferente da confirmacao");
+      return false;
+    }
+    if (this.empresa.SenhaAdmin == "") {
+      alert("Informe a senha de administrador");
+      return false;
+    }
+    if (this.empresa.SenhaAdmin.length < 6) {
+      alert("a senha de admin deve conter pelo menos 6 caracteres");
+      return false;
+    }
+    return true;
   }
 
   obtenhaCategoriaSelecionada() {

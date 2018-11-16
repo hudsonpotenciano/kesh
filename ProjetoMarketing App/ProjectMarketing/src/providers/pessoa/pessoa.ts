@@ -28,14 +28,14 @@ export class PessoaProvider {
     });
   }
 
-  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao, pagina: number, tamanhoDaPagina: number): Promise<DadosPessoaEmpresa[]> {
+  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao): Promise<DadosPessoaEmpresa[]> {
 
     let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
     unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
 
     return new Promise<DadosPessoaEmpresa[]>(resolve => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida, Pagina: pagina, TamanhoDaPagina: tamanhoDaPagina })
+        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
         .then((retorno: RetornoRequestModel) => {
 
           let dados = retorno.Result as DadosPessoaEmpresa[];
