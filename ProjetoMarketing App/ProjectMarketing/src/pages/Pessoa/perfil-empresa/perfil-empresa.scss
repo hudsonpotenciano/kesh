@@ -47,4 +47,9 @@ page-perfil-empresa {
             color: $tema;
         }
     }
+    .item {
+        p {
+            white-space: pre-line;
+        }
+    }
 }

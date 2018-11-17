@@ -37,6 +37,13 @@ export class ComunicacaoProvider {
     this.monteBodyBase(body);
 
     return new Promise<any>((resolve, reject) => {
+
+      if (!navigator.onLine) {
+        alert("Sem conexao com a internet");
+        reject({ Erro: -1 } as RetornoRequestModel);
+        return;
+      }
+
       this.http.post(ComunicacaoSettings.UrlApiBase + servico, body, this.monteOptions())
         .toPromise()
         .then((response) => {
@@ -108,5 +115,9 @@ export class ComunicacaoProvider {
     headers['Authorization'] = 'Bearer ' + (dadosAcesso != null ? dadosAcesso.AccessToken : "");
 
     return { headers };
+  }
+
+  estaEmCach() {
+    return false;
   }
 }

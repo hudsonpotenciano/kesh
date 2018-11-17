@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { StorageProvider } from './storage';
-import { DadosPessoaEmpresa, Pessoa } from '../../models/pessoa.model';
+import { DadosPessoaEmpresa, Pessoa, PessoaLoja } from '../../models/pessoa.model';
 
 @Injectable()
 export class StoragePessoaProvider {
 
     DADOS_PESSOA = "DADOS_PESSOA";
     DADOS_PESSOA_EMPRESAS = "DADOS_PESSOA_EMPRESAS";
+    DADOS_PESSOA_LOJAS = "DADOS_PESSOA_LOJAS";
 
 
     constructor(private storage: StorageProvider) { }
@@ -19,10 +20,10 @@ export class StoragePessoaProvider {
             element = value;
         });
 
-        this.armazeneDadosPessoaEmpresa(dados);
+        this.armazeneDadosPessoaEmpresas(dados);
     }
 
-    //Dados Pessoa
+    //#region Dados Pessoa
     armazeneDadosPessoa(value: Pessoa[]) {
         this.storage.armazene(this.DADOS_PESSOA, value);
     }
@@ -34,9 +35,30 @@ export class StoragePessoaProvider {
     removaDadosPessoa() {
         this.storage.remova(this.DADOS_PESSOA);
     }
+    //#endregion 
 
-    //Dados Pessoa Empresa
-    armazeneDadosPessoaEmpresa(value: DadosPessoaEmpresa[]) {
+    //#region Dados Pessoa Lojas
+
+    armazeneDadosPessoaLojas(value: PessoaLoja[]) {
+        this.storage.armazene(this.DADOS_PESSOA_LOJAS, value);
+    }
+
+    recupereDadosPessoaLoja(idPerfil: number): PessoaLoja {
+        let dados = this.recupereDadosPessoaLojas();
+        return dados.find(p => p.Loja.IdPerfilEmpresa == idPerfil);
+    }
+
+    recupereDadosPessoaLojas(): PessoaLoja[] {
+        return this.storage.recupere(this.DADOS_PESSOA_LOJAS);
+    }
+
+    removaDadosPessoaLojas() {
+        this.storage.remova(this.DADOS_PESSOA_LOJAS);
+    }
+    //#endregion
+
+    //#region Dados Pessoa Empresa
+    armazeneDadosPessoaEmpresas(value: DadosPessoaEmpresa[]) {
         this.storage.armazene(this.DADOS_PESSOA_EMPRESAS, value);
     }
 
@@ -52,4 +74,5 @@ export class StoragePessoaProvider {
     removaDadosPessoaEmpresa() {
         this.storage.remova(this.DADOS_PESSOA_EMPRESAS);
     }
+    //#endregion
 }

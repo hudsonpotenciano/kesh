@@ -19,66 +19,86 @@ export class PessoaProvider {
   }
 
   obtenhaDadosPessoaLojas() {
-    return new Promise<PessoaLoja[]>(resolve => {
-      this.comunicacao.post("Pessoa/Pessoa/ObtenhaDadosPessoaLojas",
-        { IdPessoa: this.dadosAcesso.IdPessoa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
-    });
+    if (!this.comunicacao.estaEmCach()) {
+      return new Promise<PessoaLoja[]>((resolve, reject) => {
+        this.comunicacao.post("Pessoa/Pessoa/ObtenhaDadosPessoaLojas",
+          { IdPessoa: this.dadosAcesso.IdPessoa })
+          .then((retorno: RetornoRequestModel) => {
+            resolve(retorno.Result);
+            this.storagePessoa.armazeneDadosPessoaLojas(retorno.Result);
+          }).catch((retorno) => {
+            reject(retorno);
+          });
+      });
+    }
+    else {
+      return new Promise<PessoaLoja[]>(resolve => {
+        resolve();
+      });
+    }
   }
 
   obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao): Promise<DadosPessoaEmpresa[]> {
 
-    let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
-    unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
+    if (!this.comunicacao.estaEmCach()) {
+      let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
+      unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
 
-    return new Promise<DadosPessoaEmpresa[]>(resolve => {
-      this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
-        .then((retorno: RetornoRequestModel) => {
-
-          let dados = retorno.Result as DadosPessoaEmpresa[];
-
-          resolve(dados);
-
-          this.storagePessoa.armazeneDadosPessoaEmpresa(dados);
-        });
-    });
+      return new Promise<DadosPessoaEmpresa[]>((resolve, reject) => {
+        this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
+          { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
+          .then((retorno: RetornoRequestModel) => {
+            let dados = retorno.Result as DadosPessoaEmpresa[];
+            resolve(dados);
+            this.storagePessoa.armazeneDadosPessoaEmpresas(dados);
+          }).catch((retorno) => {
+            reject(retorno);
+          })
+      });
+    }
+    else {
+      return new Promise<DadosPessoaEmpresa[]>(resolve => {
+        resolve(this.storagePessoa.recupereDadosPessoaEmpresas());
+      });
+    }
   }
 
-  obtenhaFakePessoaEPerfilEmpresas() {
-    let latitude = -16.60150553;
-    let longitude = -49.30649101;
+  // obtenhaFakePessoaEPerfilEmpresas() {
+  //   let latitude = -16.60150553;
+  //   let longitude = -49.30649101;
 
-    return new Promise<number>(resolve => {
-      this.comunicacao.post("Pessoa/Pessoa/ObtenhaFakePessoaEPerfilEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
-    });
-  }
+  //   return new Promise<number>(resolve => {
+  //     this.comunicacao.post("Pessoa/Pessoa/ObtenhaFakePessoaEPerfilEmpresas",
+  //       { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
+  //       .then((retorno: RetornoRequestModel) => {
+  //         resolve(retorno.Result);
+  //       });
+  //   });
+  // }
 
   obtenhaPessoasCompartilhamento(idPerfilEmpresa: number, localizacao: Localizacao) {
 
-    return new Promise<Pessoa[]>(resolve => {
+    return new Promise<Pessoa[]>((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaParaCompartilhamento",
         { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
-        });
+        }).catch((retorno) => {
+          reject(retorno);
+        })
     });
   }
 
   ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: number) {
 
-    return new Promise<NotaComentarioPessoaEmpresa[]>(resolve => {
+    return new Promise<NotaComentarioPessoaEmpresa[]>((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaComentarioENotaPessoasEmpresas",
         { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
-        });
+        }).catch((retorno) => {
+          reject(retorno);
+        })
     });
   }
 
@@ -89,58 +109,60 @@ export class PessoaProvider {
   }
 
   ObtenhaDadosPessoa() {
-
-    return new Promise<Pessoa>(resolve => {
-
+    return new Promise<Pessoa>((resolve, reject) => {
       this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
         .then((resposta: RetornoRequestModel) => {
 
           resolve(resposta.Result);
           this.storagePessoa.armazeneDadosPessoa(resposta.Result);
-        });
+        }).catch((retorno) => {
+          reject(retorno);
+        })
     });
   }
 
   realizeLogin(usuario: User) {
-
-    return this.comunicacao.post("pessoa/login/realizelogin", {
-      Login: usuario.Login,
-      Senha: usuario.Senha,
-      TokenNotificacao: this.storage.recupereIdNotificacao()
-    })
-      .then((resposta: RetornoRequestModel) => {
+    return new Promise<any>((resolve, reject) => {
+      this.comunicacao.post("pessoa/login/realizelogin", {
+        Login: usuario.Login,
+        Senha: usuario.Senha,
+        TokenNotificacao: this.storage.recupereIdNotificacao()
+      }).then((resposta: RetornoRequestModel) => {
         let result: RetornoLogin = resposta.Result;
         this.storage.armazeneDadosAcesso(result);
         this.dadosAcesso = result;
-      });
+        resolve(result);
+      }).catch((retorno) => {
+        reject(retorno);
+      })
+    });
   }
 
   realizeLoginRedeSocial(usuario: SocialUser) {
-
-    return this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial",
-      {
+    return new Promise<any>((resolve, reject) => {
+      this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial", {
         Email: usuario.Email,
         Id: usuario.Id,
         TokenNotificacao: this.storage.recupereIdNotificacao()
+      }).then((resposta: RetornoRequestModel) => {
+        resolve(resposta.Result);
+        this.storage.armazeneDadosAcesso(resposta.Result);
+      }).catch((retorno) => {
+        reject(retorno);
       })
-      .then((resposta: RetornoRequestModel) => {
-        let result: RetornoLogin = resposta.Result;
-        this.storage.armazeneDadosAcesso(result);
-      });
+    });
   }
 
   cadastrePessoa(pessoa: CadastroPessoaModel) {
-
-    return new Promise(resolve => {
-
+    return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
         .then((resposta: RetornoRequestModel) => {
           resolve();
           this.storage.armazeneDadosAcesso(resposta);
-        })
-        .catch((resposta: RetornoRequestModel) => {
+        }).catch((resposta: RetornoRequestModel) => {
           if (resposta.Erro == 2) {
             alert("Este Email já está cadastrado");
+            reject(resposta);
           };
         });
     });
@@ -148,8 +170,7 @@ export class PessoaProvider {
 
   cadastrePessoaRedeSocial(pessoa: CadastroPessoaRedeSocialModel) {
 
-    return new Promise(resolve => {
-
+    return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
         .then((resposta: RetornoRequestModel) => {
           resolve();
@@ -158,6 +179,7 @@ export class PessoaProvider {
         .catch((resposta: RetornoRequestModel) => {
           if (resposta.Erro == 2) {
             alert("Este Email já está cadastrado");
+            reject(resposta);
           };
         });
     });

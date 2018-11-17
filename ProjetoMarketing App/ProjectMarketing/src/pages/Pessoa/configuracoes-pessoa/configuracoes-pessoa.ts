@@ -18,7 +18,7 @@ export class ConfiguracoesPessoaPage {
   }
 
   compartilhe() {
-    this.socialSharing.share("Já conhece o Mytrade? Faça suas compras e ganhe dinheiro de volta. É só instalar o app a partir deste link e começar a ecominizar.", undefined, ["https://image.flaticon.com/icons/png/128/144/144041.png"], "https://play.google.com");
+    this.socialSharing.share("Já conhece o Kesh? Faça suas compras e ganhe dinheiro de volta. É só instalar o app a partir deste link e começar a ecominizar.", undefined, ["https://image.flaticon.com/icons/png/128/144/144041.png"], "https://play.google.com");
   }
 
   abraTutorial() {

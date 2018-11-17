@@ -14,6 +14,7 @@ export class HomeEmpresaPage {
 
   dadosEmpresa: DadosEmpresaAdmin;
   vendasAdminLoja: VendaAdminLoja[];
+  estaCarregando = true;
 
   constructor(
     public navCtrl: NavController,
@@ -32,6 +33,8 @@ export class HomeEmpresaPage {
       .then((retorno: DadosEmpresaAdmin) => {
         this.dadosEmpresa = retorno;
         this.obtenhaCuponsEVendasEmpresaAdmin();
+      }).catch(() => {
+        this.vendasAdminLoja = [];
       });
   }
 
@@ -39,10 +42,13 @@ export class HomeEmpresaPage {
     this.transacaoProvider.obtenhaCuponsEVendasEmpresaAdmin(this.dadosEmpresa.Empresa.IdEmpresa)
       .then((retorno: VendaAdminLoja[]) => {
         this.vendasAdminLoja = retorno;
+        this.estaCarregando = false;
+      }).catch(() => {
+        this.vendasAdminLoja = [];
       });
   }
 
-  obtenhaLogo(){
+  obtenhaLogo() {
     return this.empresaProvider.obtenhaLogoEmpresa(this.dadosEmpresa.Empresa.IdEmpresa);
   }
 }

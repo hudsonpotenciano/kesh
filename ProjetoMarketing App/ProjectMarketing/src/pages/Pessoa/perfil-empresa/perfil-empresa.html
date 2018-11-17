@@ -1,22 +1,15 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>
-            Perfil
-        </ion-title>
+        <ion-item no-lines>
+            <ion-title>
+                Perfil
+            </ion-title>
+            <ion-icon item-end name="images" (click)="abraPopoverCatalogo($event)"></ion-icon>
+            <ion-icon item-end name="navigate" (click)="rota()"></ion-icon>
+        </ion-item>
     </ion-navbar>
 </ion-header>
 <ion-content>
-
-    <ion-fab top right edge>
-        <button ion-fab mini (click)="abraPopoverCatalogo($event)">
-            <ion-icon name="images"></ion-icon>
-        </button>
-    </ion-fab>
-    <ion-fab top right edge>
-        <button ion-fab mini (click)="rota()"> 
-            <ion-icon name="navigate"></ion-icon>
-       </button>
-    </ion-fab>
 
     <ion-list>
 
@@ -73,7 +66,7 @@
                 <ion-label>
                     <ion-icon name="paper"></ion-icon>
                 </ion-label>
-                <ion-textarea rows="2" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Comentario" placeholder="Comentário"></ion-textarea>
+                <ion-textarea rows="2" maxlength="100" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Comentario" placeholder="Comentário"></ion-textarea>
             </ion-item>
         </div>
 
