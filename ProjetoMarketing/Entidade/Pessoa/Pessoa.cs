@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,6 @@ namespace ProjetoMarketing.Entidade.Pessoa
         [Column("longitude")]
         public double Longitude { get; set; }
         [Column("idsnotificacao")]
-        public string[] IdsNotificacao { get; set; }
+        public List<string> IdsNotificacao { get; set; }
     }
 }

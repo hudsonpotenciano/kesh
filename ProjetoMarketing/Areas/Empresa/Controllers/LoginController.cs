@@ -40,6 +40,10 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                     var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
+                    if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdEmpresa != null)
+                    {
+                        new EmpresaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdEmpresa, usuario.TokenNotificacao);
+                    }
                 }
                 else
                 {

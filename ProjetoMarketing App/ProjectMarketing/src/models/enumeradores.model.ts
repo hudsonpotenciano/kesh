@@ -7,6 +7,22 @@ export class Enumerador {
         this.Descricao = _descricao;
     }
 }
+export class  EnumeradorDeCacheStoragePessoa {
+    obtenhaDadosPessoaLojas = new Enumerador(1, "obtenhaDadosPessoaLojas");
+    obtenhaPessoaEPerfilEmpresas = new Enumerador(2, "obtenhaPessoaEPerfilEmpresas");
+    obtenhaPessoasCompartilhamento = new Enumerador(3, "obtenhaPessoasCompartilhamento");
+    ObtenhaComentarioENotaPessoasEmpresas = new Enumerador(4, "ObtenhaComentarioENotaPessoasEmpresas");
+    ObtenhaDadosPessoa = new Enumerador(5, "ObtenhaDadosPessoa");
+
+    static obtenhaTodos(): Enumerador[] {
+        return [
+            new EnumeradorDeCacheStoragePessoa().obtenhaDadosPessoaLojas,
+            new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas,
+            new EnumeradorDeCacheStoragePessoa().obtenhaPessoasCompartilhamento,
+            new EnumeradorDeCacheStoragePessoa().ObtenhaComentarioENotaPessoasEmpresas,
+            new EnumeradorDeCacheStoragePessoa().ObtenhaDadosPessoa]
+    }
+}
 
 export class EnumeradorDeCategorias {
     AlimentosEBebidas = new Enumerador(1, "Alimentos e Bebidas");
@@ -24,7 +40,7 @@ export class EnumeradorDeCategorias {
     Servicos = new Enumerador(13, "Serviços");
     Outros = new Enumerador(14, "Outros");
 
-    obtenhaTodos() : Enumerador[] {
+    obtenhaTodos(): Enumerador[] {
         return [
             this.AlimentosEBebidas,
             this.Educacao,

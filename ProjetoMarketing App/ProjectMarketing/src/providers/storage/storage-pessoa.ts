@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { StorageProvider } from './storage';
 import { DadosPessoaEmpresa, Pessoa, PessoaLoja } from '../../models/pessoa.model';
+import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
 
 @Injectable()
 export class StoragePessoaProvider {
 
     DADOS_PESSOA = "DADOS_PESSOA";
+    COMENTARIOS_NOTAS = "COMENTARIOS_NOTAS";
     DADOS_PESSOA_EMPRESAS = "DADOS_PESSOA_EMPRESAS";
     DADOS_PESSOA_LOJAS = "DADOS_PESSOA_LOJAS";
 
@@ -22,6 +24,20 @@ export class StoragePessoaProvider {
 
         this.armazeneDadosPessoaEmpresas(dados);
     }
+
+    //#region ComentariosENotas
+    armazeneComentariosENotas(value: NotaComentarioPessoaEmpresa[]) {
+        this.storage.armazene(this.COMENTARIOS_NOTAS, value);
+    }
+
+    recupereComentariosENotas(): NotaComentarioPessoaEmpresa[] {
+        return this.storage.recupere(this.COMENTARIOS_NOTAS);
+    }
+    
+    removaComentariosENotas() {
+        this.storage.remova(this.COMENTARIOS_NOTAS);
+    }
+    //#endregion
 
     //#region Dados Pessoa
     armazeneDadosPessoa(value: Pessoa[]) {

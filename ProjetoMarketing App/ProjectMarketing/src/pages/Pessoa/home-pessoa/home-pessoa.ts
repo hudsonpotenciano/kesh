@@ -25,6 +25,7 @@ export class HomePessoaPage {
   estaCarregando = true;
   pagina = 0;
   minhaLocalizacao: Localizacao;
+  inputPesquisa: string;
 
   constructor(
     public navCtrl: NavController,
@@ -37,6 +38,10 @@ export class HomePessoaPage {
     private geolocation: Geolocation) {
     this.empresaProvider;
     this.empresaLojaProvider;
+  }
+
+  ionViewDidEnter() {
+    this.mostrarPesquisa = false;
   }
 
   ionViewDidLoad() {
@@ -96,6 +101,14 @@ export class HomePessoaPage {
 
   mostrePerfilPessoaModal() {
     this.navCtrl.push("PerfilPessoaPage");
+  }
+
+  onInput($event){
+    
+    $event;
+    var filtrados = this.pessoaEmpresas
+    .filter(a=>a.Perfil.Descricao.includes(this.inputPesquisa) || a.Empresa.Nome.includes(this.inputPesquisa));
+    this.pessoaEmpresasLimit = this.utilitarios.pagine(filtrados, 0, tamanhoPagina);
   }
 
   doInfinite(infinit: InfiniteScroll) {

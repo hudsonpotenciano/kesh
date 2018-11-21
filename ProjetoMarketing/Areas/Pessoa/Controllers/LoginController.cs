@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Areas.Pessoa.Persistencia;
-using Microsoft.AspNetCore.Authorization;
+using ProjetoMarketing.Autentication;
+using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
-using ProjetoMarketing.Controllers;
-using ProjetoMarketing.Contexts;
-using System.Collections.Generic;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -34,18 +32,21 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
-            var retorno = new RetornoRequestModel();
+            RetornoRequestModel retorno = new RetornoRequestModel();
 
-            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Senha))
+            if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Senha))
             {
-                var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
+                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
 
                 if (usuarioAutenticado != null)
                 {
-                    var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
+                    string token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
-                    new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
+                    if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdPessoa != null)
+                    {
+                        new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
+                    }
                 }
                 else
                 {
@@ -66,19 +67,22 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                                               [FromServices]SigningConfigurations signingConfigurations,
                                               [FromServices]TokenConfigurations tokenConfigurations)
         {
-            var retorno = new RetornoRequestModel();
+            RetornoRequestModel retorno = new RetornoRequestModel();
 
-            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Email))
+            if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Email))
             {
-                var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
+                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
 
                 if (usuarioAutenticado != null)
                 {
-                    var token = GenerateAcessToken(usuario.Email, signingConfigurations, tokenConfigurations);
+                    string token = GenerateAcessToken(usuario.Email, signingConfigurations, tokenConfigurations);
 
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
-                    new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
+                    if (!string.IsNullOrEmpty(usuario.TokenNotificacao))
+                    {
+                        new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
+                    }
                 }
                 else
                 {

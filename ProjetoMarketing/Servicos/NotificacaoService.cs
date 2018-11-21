@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProjetoMarketing.Entidade.Pessoa;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -10,12 +11,12 @@ namespace ProjetoMarketing.Servicos
     {
         public static NotificacaoService Instancia => new NotificacaoService();
 
-        public void EnvieNotificacaoDeCompartilhamento(string nomePessoa, string[] playersIds)
+        public void EnvieNotificacaoDeCompartilhamento(string nomePessoa, List<string> playersIds)
         {
             EnvieNotificacao(playersIds, $"Você acabou de receber um cupom de {nomePessoa}");
         }
 
-        private void EnvieNotificacao(string[] playersIds, string Mensagem)
+        private void EnvieNotificacao(List<string> playersIds, string Mensagem)
         {
             HttpWebRequest request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
 
@@ -54,9 +55,9 @@ namespace ProjetoMarketing.Servicos
             }
             catch (WebException ex)
             {
-                throw ex;
-                //System.Diagnostics.Debug.WriteLine(ex.Message);
-                //System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+                //gerar log
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
             }
         }
     }

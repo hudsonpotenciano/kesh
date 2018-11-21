@@ -5,22 +5,22 @@
                 <img [src]="obtenhaFotoPessoa()">
             </ion-avatar>
             <ion-title (click)="mostrePerfilPessoaModal()">Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
-            <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = !mostrarPesquisa">
+            <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
             </ion-icon>
-            <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = !mostrarPesquisa">
+            <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = false">
             </ion-icon>
         </ion-item>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <ion-item class="item-search-filtro" no-lines *ngIf="mostrarPesquisa">
-        <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
-        </ion-searchbar>
-        <ion-icon item-end name="funnel">
-        </ion-icon>
-    </ion-item>
-    <ion-list id="flex-box" no-lines *ngIf="!estaCarregando">
+    <div class="filtro" padding *ngIf="mostrarPesquisa">
+        <ion-item class="item-search-filtro" no-lines>
+            <ion-searchbar [(ngModel)]="inputPesquisa" (ionInput)="onInput($event)">
+            </ion-searchbar>
+        </ion-item>
+    </div>
+    <ion-list id="flex-box" no-lines *ngIf="!estaCarregando && !mostrarPesquisa">
         <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresasLimit" (click)="abraPerfilEmpresa(pessoaEmpresa)">
             <ion-item class="item-header">
                 <!-- <ion-avatar item-start>

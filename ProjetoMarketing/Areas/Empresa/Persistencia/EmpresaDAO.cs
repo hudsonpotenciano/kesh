@@ -153,11 +153,11 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             {
                 Empresa = await _context.Empresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
                 PerfisEmpresaCatalogo = from perfil in _context.PerfilEmpresa.Where(a => a.IdEmpresa == idEmpresa)
-                select new DTOPerfilEmpresaCatalogo()
-                {
-                    Perfil = perfil,
-                    Catalogo = _context.ImagemCatalogo.Where(a=>a.IdPerfilEmpresa == perfil.IdPerfilEmpresa)
-                },
+                                        select new DTOPerfilEmpresaCatalogo()
+                                        {
+                                            Perfil = perfil,
+                                            Catalogo = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == perfil.IdPerfilEmpresa)
+                                        },
                 ContaEmpresa = await _context.ContaEmpresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
             };
         }
@@ -177,6 +177,20 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfisEmpresa(int idEmpresa)
         {
             return _context.PerfilEmpresa.Where(p => p.IdEmpresa == idEmpresa).ToListAsync();
+        }
+
+        public Task AddIdNotificacao(int? idEmpresa, string tokenNotificacao)
+        {
+            PerfilEmpresa perfil = _context.PerfilEmpresa.First(p => p.IdEmpresa == idEmpresa);
+            perfil.IdsNotificacao = perfil.IdsNotificacao ?? new List<string>();
+
+            if (!perfil.IdsNotificacao.Any(n => n == tokenNotificacao))
+            {
+                perfil.IdsNotificacao.Add(tokenNotificacao);
+                _context.PerfilEmpresa.Update(perfil);
+            }
+
+            return _context.SaveChangesAsync();
         }
     }
 }

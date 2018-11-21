@@ -31,21 +31,12 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task AddIdNotificacao(int? idPessoa, string tokenNotificacao)
         {
-            if (idPessoa == null || string.IsNullOrEmpty(tokenNotificacao))
-            {
-                return null;
-            }
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.First(p => p.IdPessoa == idPessoa);
+            pessoa.IdsNotificacao = pessoa.IdsNotificacao ?? new List<string>();
 
-            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
-
-            if (pessoa.IdsNotificacao == null)
+            if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
             {
-                pessoa.IdsNotificacao = new string[] { tokenNotificacao };
-                _context.Pessoa.Update(pessoa);
-            }
-            else if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
-            {
-                pessoa.IdsNotificacao.ToList().Add(tokenNotificacao);
+                pessoa.IdsNotificacao.Add(tokenNotificacao);
                 _context.Pessoa.Update(pessoa);
             }
 

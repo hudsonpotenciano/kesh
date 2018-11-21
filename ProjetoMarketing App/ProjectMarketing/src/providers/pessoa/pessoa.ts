@@ -6,6 +6,7 @@ import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin, SocialUser, Localizacao } from '../../models/models.model';
 import { StoragePessoaProvider } from '../storage/storage-pessoa';
 import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
+import { EnumeradorDeCacheStoragePessoa, Enumerador } from '../../models/enumeradores.model';
 
 @Injectable()
 export class PessoaProvider {
@@ -19,31 +20,38 @@ export class PessoaProvider {
   }
 
   obtenhaDadosPessoaLojas() {
-    if (!this.comunicacao.estaEmCach()) {
+    var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaDadosPessoaLojas;
+    if (this.estaEmCach(enumeradorDeCache)) {
+      return new Promise<PessoaLoja[]>(resolve => {
+        var dados = this.storagePessoa.recupereDadosPessoaLojas();
+        resolve(dados);
+      });
+    }
+    else {
       return new Promise<PessoaLoja[]>((resolve, reject) => {
         this.comunicacao.post("Pessoa/Pessoa/ObtenhaDadosPessoaLojas",
           { IdPessoa: this.dadosAcesso.IdPessoa })
           .then((retorno: RetornoRequestModel) => {
             resolve(retorno.Result);
             this.storagePessoa.armazeneDadosPessoaLojas(retorno.Result);
+            this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
           }).catch((retorno) => {
             reject(retorno);
           });
       });
     }
-    else {
-      return new Promise<PessoaLoja[]>(resolve => {
-        resolve();
-      });
-    }
   }
 
   obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao): Promise<DadosPessoaEmpresa[]> {
-
-    if (!this.comunicacao.estaEmCach()) {
+    var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas;
+    if (this.estaEmCach(enumeradorDeCache)) {
+      return new Promise<DadosPessoaEmpresa[]>(resolve => {
+        resolve(this.storagePessoa.recupereDadosPessoaEmpresas());
+      });
+    }
+    else {
       let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
       unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
-
       return new Promise<DadosPessoaEmpresa[]>((resolve, reject) => {
         this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
           { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
@@ -51,14 +59,10 @@ export class PessoaProvider {
             let dados = retorno.Result as DadosPessoaEmpresa[];
             resolve(dados);
             this.storagePessoa.armazeneDadosPessoaEmpresas(dados);
+            this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
           }).catch((retorno) => {
             reject(retorno);
           })
-      });
-    }
-    else {
-      return new Promise<DadosPessoaEmpresa[]>(resolve => {
-        resolve(this.storagePessoa.recupereDadosPessoaEmpresas());
       });
     }
   }
@@ -90,16 +94,26 @@ export class PessoaProvider {
   }
 
   ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: number) {
-
-    return new Promise<NotaComentarioPessoaEmpresa[]>((resolve, reject) => {
-      this.comunicacao.post("Pessoa/Pessoa/ObtenhaComentarioENotaPessoasEmpresas",
-        { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        }).catch((retorno) => {
-          reject(retorno);
-        })
-    });
+    var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaComentarioENotaPessoasEmpresas;
+    if (this.estaEmCach(enumeradorDeCache)) {
+      return new Promise<NotaComentarioPessoaEmpresa[]>(resolve => {
+        var dados = this.storagePessoa.recupereComentariosENotas();
+        resolve(dados);
+      });
+    }
+    else {
+      return new Promise<NotaComentarioPessoaEmpresa[]>((resolve, reject) => {
+        this.comunicacao.post("Pessoa/Pessoa/ObtenhaComentarioENotaPessoasEmpresas",
+          { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa })
+          .then((retorno: RetornoRequestModel) => {
+            resolve(retorno.Result);
+            this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
+            this.storagePessoa.armazeneComentariosENotas(retorno.Result);
+          }).catch((retorno) => {
+            reject(retorno);
+          })
+      });
+    }
   }
 
   atualizeDadosPessoaEmpresa(idPerfilEmpresa: number, comentario: string, nota: number) {
@@ -109,16 +123,25 @@ export class PessoaProvider {
   }
 
   ObtenhaDadosPessoa() {
-    return new Promise<Pessoa>((resolve, reject) => {
-      this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
-        .then((resposta: RetornoRequestModel) => {
-
-          resolve(resposta.Result);
-          this.storagePessoa.armazeneDadosPessoa(resposta.Result);
-        }).catch((retorno) => {
-          reject(retorno);
-        })
-    });
+    var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaDadosPessoa;
+    if (this.estaEmCach(enumeradorDeCache)) {
+      return new Promise<Pessoa>(resolve => {
+        var dadosPessoa = this.storagePessoa.recupereDadosPessoa();
+        resolve(dadosPessoa);
+      });
+    }
+    else {
+      return new Promise<Pessoa>((resolve, reject) => {
+        this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
+          .then((resposta: RetornoRequestModel) => {
+            resolve(resposta.Result);
+            this.storagePessoa.armazeneDadosPessoa(resposta.Result);
+            this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime())
+          }).catch((retorno) => {
+            reject(retorno);
+          })
+      });
+    }
   }
 
   realizeLogin(usuario: User) {
@@ -169,7 +192,6 @@ export class PessoaProvider {
   }
 
   cadastrePessoaRedeSocial(pessoa: CadastroPessoaRedeSocialModel) {
-
     return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
         .then((resposta: RetornoRequestModel) => {
@@ -187,5 +209,13 @@ export class PessoaProvider {
 
   obtenhaFotoPessoa(idPessoa: number) {
     return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
+  }
+
+  estaEmCach(enumerador: Enumerador) {
+    var cache = this.storage.recupere(enumerador.Descricao);
+    if (cache && cache != undefined && cache < (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1))) {
+      return true;
+    }
+    return false;
   }
 }

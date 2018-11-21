@@ -43,7 +43,6 @@ export class PerfilEmpresaPage {
   ionViewDidLoad() {
     this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
-
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
       });
   }
@@ -67,7 +66,7 @@ export class PerfilEmpresaPage {
 
     profileModal.onDidDismiss((pessoas: Pessoa[]) => {
 
-      if (!pessoas) return;
+      if (!pessoas || pessoas.length == 0) return;
 
       let idsPessoas = pessoas.map(p => p.IdPessoa);
 

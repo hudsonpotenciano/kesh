@@ -162,7 +162,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         {
             try
             {
-                System.Collections.Generic.List<Entidade.Pessoa.Pessoa> pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
+                var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
 
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {

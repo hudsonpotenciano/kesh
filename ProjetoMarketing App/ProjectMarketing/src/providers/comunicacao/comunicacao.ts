@@ -117,7 +117,4 @@ export class ComunicacaoProvider {
     return { headers };
   }
 
-  estaEmCach() {
-    return false;
-  }
 }
