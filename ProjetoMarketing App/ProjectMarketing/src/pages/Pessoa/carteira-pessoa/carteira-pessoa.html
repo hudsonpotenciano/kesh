@@ -9,7 +9,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-list no-lines *ngIf="!estaCarregando">
+    <ion-list no-lines *ngIf="!estaCarregando && pessoaLojas.length > 0">
         <div class="item-customizado" *ngFor="let pessoaLoja of pessoaLojas">
             <ion-item>
                 <ion-avatar item-start>
@@ -29,6 +29,11 @@
             </ion-item>
         </div>
     </ion-list>
+
+    <lista-vazia *ngIf="!estaCarregando && pessoaLojas.length == 0">
+
+    </lista-vazia>
+
     <carregando *ngIf="estaCarregando">
     </carregando>
 </ion-content>

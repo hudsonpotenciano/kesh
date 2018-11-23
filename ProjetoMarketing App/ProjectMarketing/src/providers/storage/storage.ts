@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RetornoLogin } from '../../models/models.model';
+import { RetornoLogin, Localizacao } from '../../models/models.model';
 import { UnidadeDeMedidaLocalizacao } from '../../models/pessoa.model';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class StorageProvider {
   UNID_MEDIDA_LOCALIZACAO = "UNID_MEDIDA_LOCALIZACAO";
   CULTURA = "CULTURA";
   CACHE_1DIA = "CACHE_1DIA";
+  LOCALIZACAO = "LOCALIZACAO";
 
   constructor() {
   }
@@ -72,6 +73,19 @@ export class StorageProvider {
 
   removaDadosAcesso() {
     this.remova(this.DADOS_ACESSO);
+  }
+
+  //LOCALIZACAO
+  armazeneLocalizacao(value: Localizacao) {
+    this.armazene(this.LOCALIZACAO, value);
+  }
+
+  recupereLocalizacao(): Localizacao {
+    return this.recupere(this.LOCALIZACAO);
+  }
+
+  removaLocalizacao() {
+    this.remova(this.LOCALIZACAO);
   }
 
   //NOTIFICACAO

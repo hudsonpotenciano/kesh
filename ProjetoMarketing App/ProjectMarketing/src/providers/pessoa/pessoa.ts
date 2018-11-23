@@ -7,15 +7,19 @@ import { User, RetornoRequestModel, RetornoLogin, SocialUser, Localizacao } from
 import { StoragePessoaProvider } from '../storage/storage-pessoa';
 import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
 import { EnumeradorDeCacheStoragePessoa, Enumerador } from '../../models/enumeradores.model';
+import { LoadingController } from 'ionic-angular';
 
 @Injectable()
 export class PessoaProvider {
 
   dadosAcesso: RetornoLogin;
+  loadingPrimeiroCarregamento = null;
 
   constructor(private storage: StorageProvider,
+    private loadingCtrl: LoadingController,
     private storagePessoa: StoragePessoaProvider,
     private comunicacao: ComunicacaoProvider) {
+
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
@@ -43,16 +47,23 @@ export class PessoaProvider {
   }
 
   obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao): Promise<DadosPessoaEmpresa[]> {
+
+    var dadosSalvos = this.storagePessoa.recupereDadosPessoaEmpresas();
+
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas;
     if (this.estaEmCach(enumeradorDeCache)) {
       return new Promise<DadosPessoaEmpresa[]>(resolve => {
-        resolve(this.storagePessoa.recupereDadosPessoaEmpresas());
+        resolve(dadosSalvos);
       });
     }
     else {
       let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
       unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
       return new Promise<DadosPessoaEmpresa[]>((resolve, reject) => {
+
+        if (dadosSalvos != null)
+          resolve(dadosSalvos);
+
         this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
           { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
           .then((retorno: RetornoRequestModel) => {
@@ -60,6 +71,7 @@ export class PessoaProvider {
             resolve(dados);
             this.storagePessoa.armazeneDadosPessoaEmpresas(dados);
             this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
+            if (this.loadingPrimeiroCarregamento != null) this.loadingPrimeiroCarregamento.dismiss();
           }).catch((retorno) => {
             reject(retorno);
           })
@@ -123,6 +135,16 @@ export class PessoaProvider {
   }
 
   ObtenhaDadosPessoa() {
+
+    if (this.storagePessoa.recupereDadosPessoa() == null) {
+      this.loadingPrimeiroCarregamento = this.loadingCtrl.create({
+        content: 'Carregando dados...'
+      });
+      this.loadingPrimeiroCarregamento.present();
+    }
+    else
+      this.loadingPrimeiroCarregamento = null
+
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaDadosPessoa;
     if (this.estaEmCach(enumeradorDeCache)) {
       return new Promise<Pessoa>(resolve => {
@@ -213,8 +235,8 @@ export class PessoaProvider {
 
   estaEmCach(enumerador: Enumerador) {
     var cache = this.storage.recupere(enumerador.Descricao);
-    if (cache && cache != undefined && cache < (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1))) {
-      return true;
+    if (cache && cache != undefined) {
+      return !navigator.onLine || (cache < (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
     }
     return false;
   }

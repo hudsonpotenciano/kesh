@@ -33,13 +33,13 @@ export class ComunicacaoProvider {
   }
 
   post(servico: string, body: any) {
-
+    
     this.monteBodyBase(body);
 
     return new Promise<any>((resolve, reject) => {
 
       if (!navigator.onLine) {
-        alert("Sem conexao com a internet");
+        alert("Sem conexao com a internet" + servico);
         reject({ Erro: -1 } as RetornoRequestModel);
         return;
       }
@@ -65,7 +65,6 @@ export class ComunicacaoProvider {
 
           if (e.status == 401) {
 
-            debugger;
             if (this.tentativasDePost++ >= 3) {
               this.tentativasDePost = 0;
               this.events.publish("forcar-retorno-login");

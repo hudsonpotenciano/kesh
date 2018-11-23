@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-item no-lines *ngIf="pessoa">
+        <ion-item no-lines *ngIf="pessoa && !mostrarPesquisa">
             <ion-avatar item-start (click)="mostrePerfilPessoaModal()">
                 <img [src]="obtenhaFotoPessoa()">
             </ion-avatar>
@@ -10,17 +10,25 @@
             <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = false">
             </ion-icon>
         </ion-item>
+
+        <ion-item no-lines *ngIf="mostrarPesquisa">
+            <ion-title>Filtro</ion-title>
+            <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = false">
+            </ion-icon>
+        </ion-item>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <div class="filtro" padding *ngIf="mostrarPesquisa">
+
+    <div class="filtro" *ngIf="mostrarPesquisa">
         <ion-item class="item-search-filtro" no-lines>
-            <ion-searchbar [(ngModel)]="inputPesquisa" (ionInput)="onInput($event)">
+            <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa" (ionInput)="onInput($event)">
             </ion-searchbar>
         </ion-item>
     </div>
-    <ion-list id="flex-box" no-lines *ngIf="!estaCarregando && !mostrarPesquisa">
+
+    <ion-list id="flex-box" no-lines *ngIf="!mostrarPesquisa && pessoaEmpresasLimit.length > 0">
         <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresasLimit" (click)="abraPerfilEmpresa(pessoaEmpresa)">
             <ion-item class="item-header">
                 <!-- <ion-avatar item-start>
@@ -48,8 +56,4 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     </ion-list>
-
-    <carregando *ngIf="estaCarregando">
-
-    </carregando>
 </ion-content>

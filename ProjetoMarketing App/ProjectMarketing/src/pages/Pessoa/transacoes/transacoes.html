@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-    <ion-list no-lines *ngIf="!estaCarregando">
+    <ion-list no-lines *ngIf="!estaCarregando && cuponsVendas.length > 0">
         <div class="item-customizado" *ngFor="let cupomVenda of cuponsVendas">
             <ion-item>
                 <ion-avatar item-start>
@@ -42,6 +42,10 @@
 
         </div>
     </ion-list>
+
+    <lista-vazia *ngIf="!estaCarregando && cuponsVendas.length == 0">
+
+    </lista-vazia>
 
     <carregando *ngIf="estaCarregando">
 
