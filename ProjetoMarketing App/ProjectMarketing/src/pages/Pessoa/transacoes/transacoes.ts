@@ -25,8 +25,8 @@ export class TransacoesPage {
 
   }
 
-  ionViewDidLoad() {
-    this.transacaoProvider.ObtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa)
+  ionViewDidEnter() {
+    this.transacaoProvider.obtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((resultado: DTOCupomVenda[]) => {
         resultado.forEach(dto => {
           dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);

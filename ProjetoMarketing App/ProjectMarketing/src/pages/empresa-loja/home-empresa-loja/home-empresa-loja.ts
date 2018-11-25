@@ -43,7 +43,7 @@ export class HomeEmpresaLojaPage {
   }
 
   obtenhaCuponsEVendas() {
-    this.transacaoProvider.ObtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa)
+    this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa)
       .then((retorno: any) => {
         this.cuponsVendas = retorno;
       });

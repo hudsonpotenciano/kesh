@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PopoverController, AlertController } from 'ionic-angular';
+import { PopoverController, AlertController, Platform } from 'ionic-angular';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Localizacao } from '../../models/models.model';
 import { StorageProvider } from '../storage/storage';
@@ -11,6 +11,7 @@ export class UtilitariosProvider {
   constructor(private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
     private geolocation: Geolocation,
+    private plataforma: Platform,
     private storage: StorageProvider,
     private diagnostic: Diagnostic) {
   }
@@ -50,69 +51,78 @@ export class UtilitariosProvider {
 
   obtenhaLocalizacao() {
     return new Promise<Localizacao>((resolve, reject) => {
+
+      if (!this.plataforma.is("cordova")) {
+        resolve(new Localizacao(-16.7064275, -49.2078104));
+        return;
+      }
+
+      var localizacaoSalva = this.storage.recupereLocalizacao();
+      
       this.diagnostic.isLocationEnabled()
         .then((estaHabilitado: boolean) => {
           if (estaHabilitado) {
-            debugger;
+
             this.diagnostic.isLocationAuthorized()
               .then((estaAutorizado) => {
-                debugger;
+
                 if (estaAutorizado) {
-                  this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 1000 } as GeolocationOptions)
+                  this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 5000 } as GeolocationOptions)
                     .then((resp) => {
                       var localizacao = new Localizacao(resp.coords.latitude, resp.coords.longitude);
                       resolve(localizacao);
                       this.storage.armazeneLocalizacao(localizacao);
                     })
-                    .catch((error) => {
-                      console.log(error);
-                      var localizacaoSalva = this.storage.recupereLocalizacao();
-                      if (localizacaoSalva != null) resolve(localizacaoSalva);
-                      else {
-                        this.mostreAlertaDeLocalizacao(reject);
-                      }
+                    .catch(() => {
+                      this.RetorneSePossuiLocalizacao(localizacaoSalva, resolve, reject);
                     });
                 }
                 else {
-                  this.mostreAlertaDeLocalizacao(reject, true);
+                  this.RetorneSePossuiLocalizacao(localizacaoSalva, resolve, reject);
                 }
               })
               .catch(() => {
-                this.mostreAlertaDeLocalizacao(reject, true);
+                this.RetorneSePossuiLocalizacao(localizacaoSalva, resolve, reject);
               });
           }
           else {
-            this.mostreAlertaDeLocalizacao(reject);
+            this.RetorneSePossuiLocalizacao(localizacaoSalva, resolve, reject);
           }
         }).catch(() => {
-          this.mostreAlertaDeLocalizacao(reject);
+          this.RetorneSePossuiLocalizacao(localizacaoSalva, resolve, reject);
         });
     });
   }
 
-  mostreAlertaDeLocalizacao(handler: Function, pedirPermissao: boolean = false) {
-    var botaoTentar = {
-      text: "Tentar novamente", handler: () => {
-        if (alerta) {
-          alerta.dismiss().then().catch();
-          alerta = null
-        }
-        handler();
-      }
-    };
+  private RetorneSePossuiLocalizacao(localizacaoSalva: Localizacao, resolve: (value?: Localizacao | PromiseLike<Localizacao>) => void, reject: (reason?: any) => void) {
+    if (localizacaoSalva != null)
+      resolve(localizacaoSalva);
+    else
+      this.mostreAlertaDeLocalizacao(reject);
+  }
+
+  mostreAlertaDeLocalizacao(callback: Function) {
 
     var alerta = this.alertCtrl
       .create(({
         enableBackdropDismiss: false,
-        message: "<h3> Por favor dê permissão e/ou ative a localização </h3>",
-        buttons: pedirPermissao ? [{
-          text: "Dar permissão", handler: () => {
-            this.diagnostic.requestLocationAuthorization()
-              .then(() => {
-                handler();
-              })
+        title: "Não foi possivel obter a sua localização",
+        message: "<p>Ative e/ou permita o uso do GPS</p>",
+        buttons: [{
+          text: "Tentar novamente", handler: () => {
+            if (alerta) {
+              alerta.dismiss().then().catch();
+              alerta = null
+            }
+            callback();
           }
-        }, botaoTentar] : [botaoTentar]
+        }, {
+          text: "Permissão", handler: () => {
+            this.diagnostic.requestLocationAuthorization()
+              .then(() => { callback(); })
+              .catch(() => { callback(); })
+          }
+        }]
       }));
 
     alerta.present();

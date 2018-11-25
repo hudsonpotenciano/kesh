@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { CadastroPessoaModel, Pessoa, DadosPessoaEmpresa, CadastroPessoaRedeSocialModel, UnidadeDeMedidaLocalizacao, PessoaLoja } from '../../models/pessoa.model';
-import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin, SocialUser, Localizacao } from '../../models/models.model';
 import { StoragePessoaProvider } from '../storage/storage-pessoa';
@@ -36,9 +35,9 @@ export class PessoaProvider {
         this.comunicacao.post("Pessoa/Pessoa/ObtenhaDadosPessoaLojas",
           { IdPessoa: this.dadosAcesso.IdPessoa })
           .then((retorno: RetornoRequestModel) => {
-            resolve(retorno.Result);
             this.storagePessoa.armazeneDadosPessoaLojas(retorno.Result);
             this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
+            resolve(retorno.Result);
           }).catch((retorno) => {
             reject(retorno);
           });
@@ -68,9 +67,9 @@ export class PessoaProvider {
           { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
           .then((retorno: RetornoRequestModel) => {
             let dados = retorno.Result as DadosPessoaEmpresa[];
-            resolve(dados);
             this.storagePessoa.armazeneDadosPessoaEmpresas(dados);
             this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
+            resolve(dados);
             if (this.loadingPrimeiroCarregamento != null) this.loadingPrimeiroCarregamento.dismiss();
           }).catch((retorno) => {
             reject(retorno);
@@ -78,19 +77,6 @@ export class PessoaProvider {
       });
     }
   }
-
-  // obtenhaFakePessoaEPerfilEmpresas() {
-  //   let latitude = -16.60150553;
-  //   let longitude = -49.30649101;
-
-  //   return new Promise<number>(resolve => {
-  //     this.comunicacao.post("Pessoa/Pessoa/ObtenhaFakePessoaEPerfilEmpresas",
-  //       { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: latitude, Longitude: longitude })
-  //       .then((retorno: RetornoRequestModel) => {
-  //         resolve(retorno.Result);
-  //       });
-  //   });
-  // }
 
   obtenhaPessoasCompartilhamento(idPerfilEmpresa: number, localizacao: Localizacao) {
 
@@ -118,9 +104,9 @@ export class PessoaProvider {
         this.comunicacao.post("Pessoa/Pessoa/ObtenhaComentarioENotaPessoasEmpresas",
           { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa })
           .then((retorno: RetornoRequestModel) => {
-            resolve(retorno.Result);
             this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
             this.storagePessoa.armazeneComentariosENotas(retorno.Result);
+            resolve(retorno.Result);
           }).catch((retorno) => {
             reject(retorno);
           })
@@ -156,9 +142,9 @@ export class PessoaProvider {
       return new Promise<Pessoa>((resolve, reject) => {
         this.comunicacao.post("pessoa/pessoa/ObtenhaDadosPessoa", { IdPessoa: this.dadosAcesso.IdPessoa })
           .then((resposta: RetornoRequestModel) => {
-            resolve(resposta.Result);
             this.storagePessoa.armazeneDadosPessoa(resposta.Result);
             this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime())
+            resolve(resposta.Result);
           }).catch((retorno) => {
             reject(retorno);
           })
@@ -190,8 +176,8 @@ export class PessoaProvider {
         Id: usuario.Id,
         TokenNotificacao: this.storage.recupereIdNotificacao()
       }).then((resposta: RetornoRequestModel) => {
-        resolve(resposta.Result);
         this.storage.armazeneDadosAcesso(resposta.Result);
+        resolve(resposta.Result);
       }).catch((retorno) => {
         reject(retorno);
       })
@@ -202,8 +188,8 @@ export class PessoaProvider {
     return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
         .then((resposta: RetornoRequestModel) => {
+          this.storage.armazeneDadosAcesso(resposta.Result);
           resolve();
-          this.storage.armazeneDadosAcesso(resposta);
         }).catch((resposta: RetornoRequestModel) => {
           if (resposta.Erro == 2) {
             alert("Este Email já está cadastrado");
@@ -217,8 +203,8 @@ export class PessoaProvider {
     return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
         .then((resposta: RetornoRequestModel) => {
+          this.storage.armazeneDadosAcesso(resposta.Result);
           resolve();
-          this.storage.armazeneDadosAcesso(resposta);
         })
         .catch((resposta: RetornoRequestModel) => {
           if (resposta.Erro == 2) {
@@ -230,7 +216,9 @@ export class PessoaProvider {
   }
 
   obtenhaFotoPessoa(idPessoa: number) {
-    return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
+    console.log(idPessoa);
+    return "https://storageprojetomarketing.blob.core.windows.net/perfilpessoa/" + idPessoa + ".jpg";
+    //return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
   }
 
   estaEmCach(enumerador: Enumerador) {

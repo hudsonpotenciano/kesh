@@ -3,6 +3,7 @@ using ProjetoMarketing.Areas.Empresa.DTO;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade.Empresa;
+using ProjetoMarketing.Servicos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
     {
 
         private readonly PessoaEmpresaContext _context;
+        private readonly object imagemservice;
 
         public EmpresaDAO(PessoaEmpresaContext context)
         {
@@ -90,6 +92,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             _context.PerfilEmpresa.Add(perfil);
             _context.ContaEmpresa.Add(conta);
             _context.ImagemPerfil.Add(imagemPerfilEmpresa);
+            new ImagemService(_context).SaveImagemPerfilEmpresa(imagemPerfilEmpresa);
             return _context.SaveChangesAsync();
         }
 

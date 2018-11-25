@@ -29,11 +29,17 @@ export class ComunicacaoProvider {
 
     return this.http.get(ComunicacaoSettings.UrlApiBase + servico, this.monteOptions())
       .toPromise()
-      .catch((e: any) => alert(e))
+      .catch((e: any) => console.log(e))
+  }
+
+  async getUrl(url: string) {
+    return this.http.get(url)
+      .toPromise()
+      .catch((e: any) => console.log(e))
   }
 
   post(servico: string, body: any) {
-    
+
     this.monteBodyBase(body);
 
     return new Promise<any>((resolve, reject) => {

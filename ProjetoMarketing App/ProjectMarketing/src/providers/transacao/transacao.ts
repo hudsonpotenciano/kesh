@@ -3,11 +3,16 @@ import { Cupom, RetornoRequestModel, Venda, DTOCupomVenda } from '../../models/m
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { VendaAdminLoja } from '../../models/empresa.model';
 import { DTOCupomParaVenda } from '../../models/pessoa.model';
+import { EnumeradorDeCacheStorageTransacoes, Enumerador } from '../../models/enumeradores.model';
+import { StorageTransacaoProvider } from '../storage/storage-transacao';
+import { StorageProvider } from '../storage/storage';
 
 @Injectable()
 export class TransacaoProvider {
 
-  constructor(private comunicacao: ComunicacaoProvider) {
+  constructor(private comunicacao: ComunicacaoProvider,
+    private storageTransacao: StorageTransacaoProvider,
+    private storageProvider: StorageProvider) {
 
   }
 
@@ -34,29 +39,55 @@ export class TransacaoProvider {
   }
 
   obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: number) {
+
     return new Promise<VendaAdminLoja[]>(resolve => {
-      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresaAdmin", { IdEmpresa: IdEmpresa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
+      var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresaAdmin;
+      if (this.estaEmCach(enumerador)) {
+        resolve(this.storageTransacao.recupereCuponsEVendasEmpresaAdmin());
+      }
+      else {
+        this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresaAdmin", { IdEmpresa: IdEmpresa })
+          .then((retorno: RetornoRequestModel) => {
+            resolve(retorno.Result);
+            this.storageTransacao.armazeneCuponsEVendasEmpresaAdmin(retorno.Result);
+            this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
+          });
+      }
     });
   }
 
-  ObtenhaCuponsEVendasEmpresa(idPerfilEmpresa: number) {
+  obtenhaCuponsEVendasEmpresa(idPerfilEmpresa: number) {
+
     return new Promise<any>(resolve => {
-      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresa", { IdPerfilEmpresa: idPerfilEmpresa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
+      var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresa;
+      if (this.estaEmCach(enumerador)) {
+        resolve(this.storageTransacao.recupereObtenhaCuponsEVendasEmpresa());
+      }
+      else {
+        this.comunicacao.post("Transacao/ObtenhaCuponsEVendasEmpresa", { IdPerfilEmpresa: idPerfilEmpresa })
+          .then((retorno: RetornoRequestModel) => {
+            resolve(retorno.Result);
+            this.storageTransacao.armazeneObtenhaCuponsEVendasEmpresa(retorno.Result);
+            this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
+          });
+      }
     });
   }
 
   ObtenhaCuponsEVendasPessoaEmpresa(idPerfilEmpresa: number, idPessoa: number) {
     return new Promise<any>(resolve => {
-      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasPessoaEmpresa", { IdPerfilEmpresa: idPerfilEmpresa, IdPessoa: idPessoa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
+      var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoaEmpresa;
+      if (this.estaEmCach(enumerador)) {
+        resolve(this.storageTransacao.recupereObtenhaCuponsEVendasPessoaEmpresa());
+      }
+      else {
+        this.comunicacao.post("Transacao/ObtenhaCuponsEVendasPessoaEmpresa", { IdPerfilEmpresa: idPerfilEmpresa, IdPessoa: idPessoa })
+          .then((retorno: RetornoRequestModel) => {
+            resolve(retorno.Result);
+            this.storageTransacao.armazeneObtenhaCuponsEVendasPessoaEmpresa(retorno.Result);
+            this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
+          });
+      }
     });
   }
 
@@ -71,16 +102,24 @@ export class TransacaoProvider {
     });
   }
 
-  ObtenhaCuponsEVendasPessoa(idPessoa: number) {
+  obtenhaCuponsEVendasPessoa(idPessoa: number) {
     return new Promise<DTOCupomVenda[]>(resolve => {
-      this.comunicacao.post("Transacao/ObtenhaCuponsEVendasPessoa", { IdPessoa: idPessoa })
-        .then((retorno: RetornoRequestModel) => {
-          resolve(retorno.Result);
-        });
+      var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoa;
+      if (this.estaEmCach(enumerador)) {
+        resolve(this.storageTransacao.recupereObtenhaCuponsEVendasPessoa());
+      }
+      else {
+        this.comunicacao.post("Transacao/ObtenhaCuponsEVendasPessoa", { IdPessoa: idPessoa })
+          .then((retorno: RetornoRequestModel) => {
+            resolve(retorno.Result);
+            this.storageTransacao.armazeneObtenhaCuponsEVendasPessoa(retorno.Result);
+            this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
+          });
+      }
     });
   }
 
-  ObtenhaCupomPeloToken(token: string, idPerfilEmpresa: number) {
+  obtenhaCupomPeloToken(token: string, idPerfilEmpresa: number) {
     return new Promise<DTOCupomParaVenda>((resolve, reject) => {
       this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {
@@ -99,5 +138,13 @@ export class TransacaoProvider {
     //Calcula quantos pontos valem o dinheiro da venda
     //ValorPontos => Quer dize quantos pontos valem 1 real/dolar...
     return valorDaVenda * valorPontos;
+  }
+
+  estaEmCach(enumerador: Enumerador) {
+    var cache = this.storageProvider.recupere(enumerador.Descricao);
+    if (cache && cache != undefined) {
+      return !navigator.onLine || (cache < (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
+    }
+    return false;
   }
 }

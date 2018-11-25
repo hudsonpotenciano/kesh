@@ -203,19 +203,5 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
         //    return RetornoRequestModel.CrieSucesso();
         //}
-
-        [AllowAnonymous]
-        [HttpGet("ObtenhaFotoPessoa")]
-        public ActionResult ObtenhaFotoPessoa(int idPessoa)
-        {
-            byte[] foto = _context.ImagemPerfil.First(p => p.IdPessoa == idPessoa)?.Imagem;
-
-            if (foto == null)
-            {
-                return null;
-            }
-
-            return File(foto, "image/jpeg");
-        }
     }
 }

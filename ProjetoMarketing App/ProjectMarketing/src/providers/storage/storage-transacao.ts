@@ -1,14 +1,55 @@
 import { Injectable } from '@angular/core';
-import { Cupom } from '../../models/models.model';
+import { Cupom, DTOCupomVenda } from '../../models/models.model';
 import { StorageProvider } from './storage';
+import { VendaAdminLoja } from '../../models/empresa.model';
 
 @Injectable()
 export class StorageTransacaoProvider {
 
     //KEYS 
     CUPONS = "CUPONS";
+    CUPONS_VENDAS_EMPRESA_ADMIN = "CUPONS_VENDAS_EMPRESA_ADMIN";
+    CUPONS_VENDAS_PESSOA__EMPRESA = "CUPONS_VENDAS_PESSOA__EMPRESA";
+    CUPONS_VENDAS_EMPRESA_LOJA = "CUPONS_VENDAS_EMPRESA_LOJA";
+    CUPONS_VENDAS_PESSOA = "CUPONS_VENDAS_PESSOA";
 
     constructor(private storage: StorageProvider) {
+    }
+
+    //CuponsEVendasEmpresaAdmin
+    armazeneCuponsEVendasEmpresaAdmin(value: VendaAdminLoja[]) {
+        this.storage.armazene(this.CUPONS_VENDAS_EMPRESA_ADMIN, value);
+    }
+
+    recupereCuponsEVendasEmpresaAdmin(): VendaAdminLoja[] {
+        return this.storage.recupere(this.CUPONS_VENDAS_EMPRESA_ADMIN);
+    }
+
+    //obtenhaCuponsEVendasEmpresa
+    armazeneObtenhaCuponsEVendasEmpresa(value: VendaAdminLoja[]) {
+        this.storage.armazene(this.CUPONS_VENDAS_EMPRESA_LOJA, value);
+    }
+
+    recupereObtenhaCuponsEVendasEmpresa(): VendaAdminLoja[] {
+        return this.storage.recupere(this.CUPONS_VENDAS_EMPRESA_LOJA);
+    }
+
+    //ObtenhaCuponsEVendasPessoaEmpresa
+    armazeneObtenhaCuponsEVendasPessoaEmpresa(value: VendaAdminLoja[]) {
+        this.storage.armazene(this.CUPONS_VENDAS_PESSOA__EMPRESA, value);
+    }
+
+    recupereObtenhaCuponsEVendasPessoaEmpresa(): VendaAdminLoja[] {
+        return this.storage.recupere(this.CUPONS_VENDAS_PESSOA__EMPRESA);
+    }
+
+    //ObtenhaCuponsEVendasPessoaEmpresa
+    armazeneObtenhaCuponsEVendasPessoa(value: DTOCupomVenda[]) {
+        this.storage.armazene(this.CUPONS_VENDAS_PESSOA__EMPRESA, value);
+    }
+
+    recupereObtenhaCuponsEVendasPessoa(): DTOCupomVenda[] {
+        return this.storage.recupere(this.CUPONS_VENDAS_PESSOA__EMPRESA);
     }
 
     //CUPOM

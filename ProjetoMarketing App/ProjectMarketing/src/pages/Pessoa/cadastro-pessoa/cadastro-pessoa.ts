@@ -80,7 +80,6 @@ export class CadastroPessoaPage {
   cadastre() {
     this.pessoaProvider.cadastrePessoa(this.pessoa)
       .then(() => {
-        ;
         this.navCtrl.setRoot("TabsPessoaPage");
       });
   }
@@ -88,9 +87,7 @@ export class CadastroPessoaPage {
   cadastreRedeSocial() {
 
     this.utilitarioProvider.getBase64Image(this.pessoaRedeSocial.Foto, (foto) => {
-
       this.pessoaRedeSocial.Foto = foto;
-
       this.pessoaProvider.cadastrePessoaRedeSocial(this.pessoaRedeSocial)
         .then(() => {
           this.navCtrl.setRoot("TabsPessoaPage");

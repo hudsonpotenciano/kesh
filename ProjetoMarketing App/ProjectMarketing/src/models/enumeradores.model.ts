@@ -7,7 +7,24 @@ export class Enumerador {
         this.Descricao = _descricao;
     }
 }
-export class  EnumeradorDeCacheStoragePessoa {
+
+export class EnumeradorDeCacheStorageTransacoes {
+    obtenhaCuponsEVendasEmpresaAdmin = new Enumerador(1, "obtenhaCuponsEVendasEmpresaAdmin");
+    obtenhaCuponsEVendasEmpresa = new Enumerador(2, "obtenhaCuponsEVendasEmpresa");
+    obtenhaCuponsEVendasPessoa = new Enumerador(3, "obtenhaCuponsEVendasPessoa");
+    obtenhaCuponsEVendasPessoaEmpresa = new Enumerador(4, "obtenhaCuponsEVendasPessoaEmpresa");
+    
+
+    static obtenhaTodos(): Enumerador[] {
+        return [
+            new EnumeradorDeCacheStoragePessoa().obtenhaDadosPessoaLojas,
+            new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas,
+            new EnumeradorDeCacheStoragePessoa().obtenhaPessoasCompartilhamento
+        ]
+    }
+}
+
+export class EnumeradorDeCacheStoragePessoa {
     obtenhaDadosPessoaLojas = new Enumerador(1, "obtenhaDadosPessoaLojas");
     obtenhaPessoaEPerfilEmpresas = new Enumerador(2, "obtenhaPessoaEPerfilEmpresas");
     obtenhaPessoasCompartilhamento = new Enumerador(3, "obtenhaPessoasCompartilhamento");

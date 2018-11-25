@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
-import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
 import { CadastroEmpresaModel, Perfil, DadosEmpresaAdmin, AtualizeContaModel } from '../../models/empresa.model';
@@ -26,7 +25,7 @@ export class EmpresaProvider {
           this.addIdNotificacaoEmpresa();
           resolve(result);
           //Salva apenas o AccessToken. Os dados sao salvos após escolher entre admin e loja
-          this.storage.armazeneDadosAcesso({AccessToken : result.AccessToken} as RetornoLogin);
+          this.storage.armazeneDadosAcesso({ AccessToken: result.AccessToken } as RetornoLogin);
         })
         .catch((retorno) => {
           reject(retorno);
@@ -79,7 +78,7 @@ export class EmpresaProvider {
 
     return new Promise<RetornoRequestModel>((resolve, reject) => {
       this.comunicacao.post("Empresa/Empresa/CadastreEmpresa", empresa)
-        .then((resposta : RetornoRequestModel) => {
+        .then((resposta: RetornoRequestModel) => {
           this.storage.armazeneDadosAcesso(resposta.Result);
           resolve(resposta);
         })
@@ -110,8 +109,8 @@ export class EmpresaProvider {
       });
   }
 
-
   obtenhaLogoEmpresa(idEmpresa: number) {
-    return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
+    return "https://storageprojetomarketing.blob.core.windows.net/perfilempresa/" + idEmpresa + ".jpg";
+    //return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
   }
 }

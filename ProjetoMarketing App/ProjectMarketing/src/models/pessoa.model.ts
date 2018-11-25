@@ -21,6 +21,7 @@ export class Pessoa {
     Email: string;
     Latitude: number;
     Longitude: number;
+    urlImagem : string;
 }
 
 export class PessoaEmpresaVenda {

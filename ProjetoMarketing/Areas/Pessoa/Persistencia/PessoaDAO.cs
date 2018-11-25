@@ -6,6 +6,7 @@ using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Negocio;
+using ProjetoMarketing.Servicos;
 using ProjetoMarketing.Utilidades;
 using System;
 using System.Collections.Generic;
@@ -69,7 +70,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             };
 
             _context.Usuario.Add(usuario);
-            _context.ImagemPerfil.Add(imagemPerfil);
+            new ImagemService(_context).SaveImagemPerfilPessoa(imagemPerfil);
             return _context.SaveChangesAsync();
         }
 

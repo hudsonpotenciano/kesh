@@ -22,6 +22,8 @@ import { UtilitariosProvider } from '../providers/utilitarios/utilitarios';
 import { OneSignal } from '@ionic-native/onesignal';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { StorageTransacaoProvider } from '../providers/storage/storage-transacao';
+import { ComunicacaoSettings } from '../comunicacao.settings';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/linguagens/', '.json');
@@ -54,13 +56,16 @@ export function createTranslateLoader(http: HttpClient) {
     ComunicacaoProvider,
     StorageProvider,
     TransacaoProvider,
+    StorageTransacaoProvider,
     StoragePessoaProvider,
     StorageEmpresaProvider,
     EmpresaLojaProvider,
+    ComunicacaoSettings,
     Geolocation,
     Diagnostic,
     OneSignal,
     UtilitariosProvider]
 })
 
-export class AppModule { }
+export class AppModule {
+}

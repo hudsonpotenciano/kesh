@@ -2,6 +2,7 @@
 using ProjetoMarketing.Areas.Empresa.Persistencia;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade.Empresa;
+using ProjetoMarketing.Servicos;
 using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Empresa.Servicos
@@ -16,7 +17,7 @@ namespace ProjetoMarketing.Areas.Empresa.Servicos
             {
                 PerfilEmpresa perfil = new PerfilEmpresa();
                 await new EmpresaDAO(contexto).AddPerfilEmpresa(model, out perfil);
-                new ImagemDAO(contexto).AtualizeImagensCatalogo(model.Catalogo, perfil.IdPerfilEmpresa);
+                new ImagemService(contexto).AtualizeImagensCatalogo(model.Catalogo, perfil.IdPerfilEmpresa);
             }
             catch (System.Exception e)
             {
@@ -29,7 +30,7 @@ namespace ProjetoMarketing.Areas.Empresa.Servicos
             try
             {
                 await new EmpresaDAO(contexto).UpdatePerfil(model);
-                new ImagemDAO(contexto).AtualizeImagensCatalogo(model.Catalogo, model.IdPerfilEmpresa);
+                new ImagemService(contexto).AtualizeImagensCatalogo(model.Catalogo, model.IdPerfilEmpresa);
             }
             catch (System.Exception e)
             {

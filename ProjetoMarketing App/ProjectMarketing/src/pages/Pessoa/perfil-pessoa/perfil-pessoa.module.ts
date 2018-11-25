@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { PerfilPessoaPage } from './perfil-pessoa';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import { PerfilPessoaPage } from './perfil-pessoa';
   ],
   providers:
     [
-      PessoaProvider
+      PessoaProvider,
+      UtilitariosProvider,
+      SplashScreen
     ]
 })
 export class PerfilPessoaPageModule { }

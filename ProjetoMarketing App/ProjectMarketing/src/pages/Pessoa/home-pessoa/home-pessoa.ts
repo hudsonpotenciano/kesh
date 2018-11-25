@@ -38,7 +38,7 @@ export class HomePessoaPage {
   }
 
   ionViewDidLoad() {
-
+    document.getElementsByTagName("img")
     this.pessoaProvider.ObtenhaDadosPessoa()
       .then((pessoa: Pessoa) => {
         this.pessoa = pessoa;
@@ -73,10 +73,6 @@ export class HomePessoaPage {
 
   abraPerfilEmpresa(pessoaEmpresa: DadosPessoaEmpresa) {
     this.navCtrl.push("PerfilEmpresaPage", pessoaEmpresa);
-  }
-
-  obtenhaFotoPessoa() {
-    return this.pessoaProvider.obtenhaFotoPessoa(this.pessoa.IdPessoa);
   }
 
   mostrePerfilPessoaModal() {

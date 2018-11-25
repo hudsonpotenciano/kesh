@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-item no-lines *ngIf="pessoa && !mostrarPesquisa">
             <ion-avatar item-start (click)="mostrePerfilPessoaModal()">
-                <img [src]="obtenhaFotoPessoa()">
+                <img src="{{pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)}}" alt="">
             </ion-avatar>
             <ion-title (click)="mostrePerfilPessoaModal()">Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
             <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
@@ -20,15 +20,14 @@
 </ion-header>
 
 <ion-content>
-
     <div class="filtro" *ngIf="mostrarPesquisa">
         <ion-item class="item-search-filtro" no-lines>
             <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa" (ionInput)="onInput($event)">
             </ion-searchbar>
         </ion-item>
     </div>
-
     <ion-list id="flex-box" no-lines *ngIf="!mostrarPesquisa && pessoaEmpresasLimit.length > 0">
+
         <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresasLimit" (click)="abraPerfilEmpresa(pessoaEmpresa)">
             <ion-item class="item-header">
                 <!-- <ion-avatar item-start>

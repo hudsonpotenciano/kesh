@@ -20,12 +20,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public string Get()
-        {
-            return "value1";
-        }
-
         [AllowAnonymous]
         [HttpPost("RealizeLogin")]
         public RetornoRequestModel RealizeLogin([FromBody] User usuario,

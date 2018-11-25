@@ -3,6 +3,7 @@ using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Negocio.Enumeradores;
+using ProjetoMarketing.Servicos;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,7 +21,7 @@ namespace ProjetoMarketing
             };
         }
 
-        public static dynamic DadosEmpresaAdmin(Areas.Empresa.DTO.DTODadosEmpresaAdmin dadosEmpresa)
+        public static dynamic DadosEmpresaAdmin(DTODadosEmpresaAdmin dadosEmpresa)
         {
             return new
             {
@@ -30,7 +31,7 @@ namespace ProjetoMarketing
             };
         }
 
-        public static dynamic DadosEmpresaLoja(Areas.Empresa.DTO.DTODadosEmpresaLoja dadosEmpresa)
+        public static dynamic DadosEmpresaLoja(DTODadosEmpresaLoja dadosEmpresa)
         {
             return new
             {
@@ -198,7 +199,7 @@ namespace ProjetoMarketing
                            dto.Venda.Valor,
                            dto.Venda.IdVenda,
                            dto.Venda.Data
-                       } : null,
+                       } : null,  
                        dto.DescricaoPerfilEmpresa,
                        dto.IdEmpresa,
                        dto.NomePessoa,
@@ -284,14 +285,14 @@ namespace ProjetoMarketing
             return from perfil in perfisCatalogo
                    select new
                    {
-                           perfil.Perfil.IdEmpresa,
-                           perfil.Perfil.IdPerfilEmpresa,
-                           perfil.Perfil.Descricao,
-                           perfil.Perfil.Latitude,
-                           perfil.Perfil.Longitude,
-                           perfil.Perfil.Telefone,
-                           perfil.Perfil.Telefone2,
-                           perfil.Catalogo
+                       perfil.Perfil.IdEmpresa,
+                       perfil.Perfil.IdPerfilEmpresa,
+                       perfil.Perfil.Descricao,
+                       perfil.Perfil.Latitude,
+                       perfil.Perfil.Longitude,
+                       perfil.Perfil.Telefone,
+                       perfil.Perfil.Telefone2,
+                       perfil.Catalogo
                    };
         }
 

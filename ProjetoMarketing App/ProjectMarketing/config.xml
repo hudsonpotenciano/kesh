@@ -99,8 +99,8 @@
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.18" />
     <plugin name="cordova.plugins.diagnostic" spec="^4.0.10" />
     <plugin name="onesignal-cordova-plugin" spec="^2.4.4" />
-    <engine name="android" spec="7.0.0" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
+    <engine name="android" spec="7.0.0" />
 </widget>
