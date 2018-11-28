@@ -37,7 +37,7 @@
                     Trade expirado
                 </p>
 
-                <img *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
+                <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
             </ion-item>
 
         </div>

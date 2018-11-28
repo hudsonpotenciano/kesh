@@ -8,8 +8,8 @@
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
     <div class="div-avatar">
-        <img *ngIf="!novaImagem" (click)="selecioneImagem()" [src]="empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)" alt="">
-        <img *ngIf="novaImagem" (click)="selecioneImagem()" [src]="novaImagem" alt="">
+        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!novaImagem" (click)="selecioneImagem()" [src]="empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)" alt="">
+        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="novaImagem" (click)="selecioneImagem()" [src]="novaImagem" alt="">
     </div>
 
     <form [formGroup]="form" (submit)="atualizeConta()">

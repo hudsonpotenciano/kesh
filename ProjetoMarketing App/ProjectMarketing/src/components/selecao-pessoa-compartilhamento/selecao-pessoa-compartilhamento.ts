@@ -4,7 +4,6 @@ import { PessoaProvider } from '../../providers/pessoa/pessoa';
 import { Pessoa } from '../../models/pessoa.model';
 import { Localizacao } from '../../models/models.model';
 import { Geolocation } from '@ionic-native/geolocation';
-import { TransacaoProvider } from '../../providers/transacao/transacao';
 
 @IonicPage()
 @Component({
@@ -16,34 +15,24 @@ export class SelecaoPessoaCompartilhamentoPage {
   idPerfilEmpresa: number;
   pessoas: Pessoa[] = [];
   pessoasSelecionadas: Pessoa[] = [];
+  carregando = true;
 
   constructor(public viewCtrl: ViewController,
     public navParams: NavParams,
     private pessoaProvider: PessoaProvider,
     private geolocation: Geolocation,
-    private platform: Platform,
-    private transacaoProvider: TransacaoProvider) {
+    private platform: Platform) {
     this.idPerfilEmpresa = this.navParams.get("idPerfilEmpresa");
   }
 
-  ionViewDidLoad() {
-
-    this.transacaoProvider.PessoaPodeCompartilhar(this.idPerfilEmpresa, this.pessoaProvider.dadosAcesso.IdPessoa)
-      .then((podeCompartilhar: boolean) => {
-        if (podeCompartilhar) {
-
-          this.obtenhaLocalizacaoAtual()
-            .then((localizacao: Localizacao) => {
-              this.pessoaProvider.obtenhaPessoasCompartilhamento(this.navParams.get('idPerfilEmpresa'), localizacao)
-                .then((pessoas: Pessoa[]) => {
-                  console.log(pessoas);
-                  this.pessoas = pessoas;
-                });
-            });
-        }
-        else {
-          alert("voce nao pode compartilhar");
-        }
+  ionViewDidEnter() {
+    this.obtenhaLocalizacaoAtual()
+      .then((localizacao: Localizacao) => {
+        this.pessoaProvider.obtenhaPessoasCompartilhamento(this.navParams.get('idPerfilEmpresa'), localizacao)
+          .then((pessoas: Pessoa[]) => {
+            this.pessoas = pessoas;
+            this.carregando = false;
+          });
       });
   }
 

@@ -9,6 +9,5 @@ namespace ProjetoMarketing.Models
     {
         public int IdPessoa { get; set; }
         public long IdPerfilEmpresa { get; set; }
-
     }
 }

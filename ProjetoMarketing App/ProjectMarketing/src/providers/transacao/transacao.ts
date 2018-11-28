@@ -143,7 +143,7 @@ export class TransacaoProvider {
   estaEmCach(enumerador: Enumerador) {
     var cache = this.storageProvider.recupere(enumerador.Descricao);
     if (cache && cache != undefined) {
-      return !navigator.onLine || (cache < (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
+      return !navigator.onLine || (cache > (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
     }
     return false;
   }

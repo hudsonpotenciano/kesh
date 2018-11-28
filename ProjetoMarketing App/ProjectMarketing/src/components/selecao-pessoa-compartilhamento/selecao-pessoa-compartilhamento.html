@@ -1,8 +1,8 @@
 <ion-content>
-    <ion-list [virtualScroll]="pessoas">
-        <ion-item *virtualItem="let pessoa" (click)="selecione(pessoa)">
+    <ion-list *ngIf="!carregando">
+        <ion-item *ngFor="let pessoa of pessoas" (click)="selecione(pessoa)">
             <ion-avatar item-start>
-                <img [src]="pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)">
+                <img onerror="this.src='https://www.coffeeteaandwater.org/wp-content/uploads/2018/06/person-icon.png'" [src]="pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)">
             </ion-avatar>
             <h2>{{pessoa.Nome}}</h2>
             <ion-icon item-end color="secondary" name="checkmark-circle" *ngIf="estaSelecionado(pessoa)"></ion-icon>
@@ -12,4 +12,7 @@
     <ion-fab *ngIf="pessoasSelecionadas.length > 0" right bottom (click)="retorneSelecionados()">
         <button ion-fab><ion-icon name="md-send"></ion-icon></button>
     </ion-fab>
+
+    <carregando *ngIf="carregando">
+    </carregando>
 </ion-content>

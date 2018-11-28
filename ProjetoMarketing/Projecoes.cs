@@ -138,7 +138,8 @@ namespace ProjetoMarketing
                    {
                        item.Comentario,
                        item.Nota,
-                       item.Nome,
+                       item.NomePessoa,
+                       item.IdPerfilEmpresa,
                        item.IdPessoa,
                        item.DataAvaliacao
                    };

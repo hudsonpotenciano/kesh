@@ -58,7 +58,7 @@ export class UtilitariosProvider {
       }
 
       var localizacaoSalva = this.storage.recupereLocalizacao();
-      
+
       this.diagnostic.isLocationEnabled()
         .then((estaHabilitado: boolean) => {
           if (estaHabilitado) {
@@ -126,5 +126,18 @@ export class UtilitariosProvider {
       }));
 
     alerta.present();
+  }
+
+  toastPadraoDeInternet() {
+    alert("É necessario se conectar à internet para acessar essa função");
+  }
+
+  mostreToast(mensagem: string) {
+    alert(mensagem);
+  }
+
+  
+  mostreToastTenteNovamente() {
+    alert("Ocorreu algum problema, tente novamente");
   }
 }

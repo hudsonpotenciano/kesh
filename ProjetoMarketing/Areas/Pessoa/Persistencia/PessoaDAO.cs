@@ -162,7 +162,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
         {
             try
             {
-                //OBTEM EMPRESAS NO RAIO DE 20KM
+                //OBTEM EMPRESAS NO RAIO DE 30KM
                 return (from perfil in _context.PerfilEmpresa
                         let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, perfil.Latitude, perfil.Longitude, parametros.UnidadeDeMedida)
                         let idPerfilEmpresa = perfil.IdPerfilEmpresa
@@ -182,7 +182,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             PerfilEmpresa = perfil,
                             PessoaEmpresa = pessoaEmpresa,
                             NotaGeral = 1,
-                            Distancia = distancia
+                            Distancia = distancia,
                         }).ToListAsync();
             }
             catch (Exception e)
@@ -215,7 +215,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         Comentario = pe.Comentario,
                         Nota = pe.Nota,
                         IdPessoa = p.IdPessoa,
-                        Nome = p.Nome,
+                        IdPerfilEmpresa = pe.IdPerfilEmpresa,
+                        NomePessoa = p.Nome,
                         DataAvaliacao = pe.DataAvaliacao
                     }).ToListAsync();
         }

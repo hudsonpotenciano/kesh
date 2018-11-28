@@ -255,28 +255,28 @@ WITH (
 ALTER TABLE public.pessoaempresa
     OWNER to postgres;
 
-CREATE TABLE public.imagemperfil
-(
-    id uuid NOT NULL DEFAULT uuid_generate_v4(),
-    idempresa integer,
-    idpessoa integer,
-    imagem bytea NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
-        REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE CASCADE,
-    CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
-        REFERENCES public.empresa (idempresa) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE CASCADE
-)
-WITH (
-    OIDS = FALSE
-);
+-- CREATE TABLE public.imagemperfil
+-- (
+--     id uuid NOT NULL DEFAULT uuid_generate_v4(),
+--     idempresa integer,
+--     idpessoa integer,
+--     imagem bytea NOT NULL,
+--     PRIMARY KEY (id),
+--     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
+--         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
+--         ON UPDATE NO ACTION
+--         ON DELETE CASCADE,
+--     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
+--         REFERENCES public.empresa (idempresa) MATCH SIMPLE
+--         ON UPDATE NO ACTION
+--         ON DELETE CASCADE
+-- )
+-- WITH (
+--     OIDS = FALSE
+-- );
 
-ALTER TABLE public.imagemperfil
-    OWNER to postgres;
+-- ALTER TABLE public.imagemperfil
+--     OWNER to postgres;
 
 CREATE SEQUENCE public.sq_imagemcatalogo
     INCREMENT 1

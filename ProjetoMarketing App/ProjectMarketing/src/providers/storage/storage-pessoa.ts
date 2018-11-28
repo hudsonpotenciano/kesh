@@ -27,13 +27,25 @@ export class StoragePessoaProvider {
 
     //#region ComentariosENotas
     armazeneComentariosENotas(value: NotaComentarioPessoaEmpresa[]) {
-        this.storage.armazene(this.COMENTARIOS_NOTAS, value);
+        var dados = this.storage.recupere(this.COMENTARIOS_NOTAS) as NotaComentarioPessoaEmpresa[];
+        if (dados) {
+            var dadosParaSalvar = dados.filter(a => a.IdPerfilEmpresa != value[0].IdPerfilEmpresa);
+            dadosParaSalvar = dadosParaSalvar.concat(value);
+            this.storage.armazene(this.COMENTARIOS_NOTAS, dadosParaSalvar);
+        }
+        else {
+            this.storage.armazene(this.COMENTARIOS_NOTAS, value);
+        }
     }
 
-    recupereComentariosENotas(): NotaComentarioPessoaEmpresa[] {
-        return this.storage.recupere(this.COMENTARIOS_NOTAS);
+    recupereComentariosENotas(idPerfilEmpresa: number): NotaComentarioPessoaEmpresa[] {
+        var dados = this.storage.recupere(this.COMENTARIOS_NOTAS) as NotaComentarioPessoaEmpresa[];
+        if (dados)
+            return dados.filter(a => a.IdPerfilEmpresa == idPerfilEmpresa);
+        else
+            return [];
     }
-    
+
     removaComentariosENotas() {
         this.storage.remova(this.COMENTARIOS_NOTAS);
     }

@@ -91,7 +91,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             _context.Usuario.Add(usuario);
             _context.PerfilEmpresa.Add(perfil);
             _context.ContaEmpresa.Add(conta);
-            _context.ImagemPerfil.Add(imagemPerfilEmpresa);
             new ImagemService(_context).SaveImagemPerfilEmpresa(imagemPerfilEmpresa);
             return _context.SaveChangesAsync();
         }

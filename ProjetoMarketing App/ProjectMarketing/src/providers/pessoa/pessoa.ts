@@ -93,9 +93,10 @@ export class PessoaProvider {
 
   ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: number) {
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaComentarioENotaPessoasEmpresas;
-    if (this.estaEmCach(enumeradorDeCache)) {
+    var dados = this.storagePessoa.recupereComentariosENotas(idPerfilEmpresa);
+    debugger;
+    if (this.estaEmCach(enumeradorDeCache) && dados.length > 0) {
       return new Promise<NotaComentarioPessoaEmpresa[]>(resolve => {
-        var dados = this.storagePessoa.recupereComentariosENotas();
         resolve(dados);
       });
     }
@@ -217,14 +218,14 @@ export class PessoaProvider {
 
   obtenhaFotoPessoa(idPessoa: number) {
     console.log(idPessoa);
-    return "https://storageprojetomarketing.blob.core.windows.net/perfilpessoa/" + idPessoa + ".jpg";
+    return "https://keshstorage.blob.core.windows.net/perfilpessoa/" + idPessoa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
   }
 
   estaEmCach(enumerador: Enumerador) {
     var cache = this.storage.recupere(enumerador.Descricao);
     if (cache && cache != undefined) {
-      return !navigator.onLine || (cache < (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
+      return !navigator.onLine || (cache > (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
     }
     return false;
   }

@@ -10,6 +10,7 @@ import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
 import { Pessoa, DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -20,6 +21,7 @@ export class PerfilEmpresaPage {
   dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
   verMaisInformacoes = false;
+  compartilharHabilitado = true;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -29,6 +31,7 @@ export class PerfilEmpresaPage {
     private transacaoProvider: TransacaoProvider,
     private storagePessoaProvider: StoragePessoaProvider,
     private platform: Platform,
+    private utilitarios: UtilitariosProvider,
     private socialSharing: SocialSharing,
     private popOverCtrl: PopoverController,
     private modalCtrl: ModalController,
@@ -59,26 +62,38 @@ export class PerfilEmpresaPage {
   }
 
   compartilhe() {
-    let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
-      { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
 
-    profileModal.present();
+    this.podeCompartilhar()
+      .then((pode: boolean) => {
+        if (!pode) return;
 
-    profileModal.onDidDismiss((pessoas: Pessoa[]) => {
+        let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
+          { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
 
-      if (!pessoas || pessoas.length == 0) return;
+        profileModal.present();
 
-      let idsPessoas = pessoas.map(p => p.IdPessoa);
+        profileModal.onDidDismiss((pessoas: Pessoa[]) => {
 
-      this.transacaoProvider
-        .GereCupomCompartilhamento(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
-          this.dadosPessoaEmpresa.Empresa.IdEmpresa,
-          this.pessoaProvider.dadosAcesso.IdPessoa,
-          idsPessoas)
-        .then(() => {
-          alert("Um novo cupom foi adicionado na carteira");
-        });
-    })
+          if (!pessoas || pessoas.length == 0) {
+            this.compartilharHabilitado = true;
+            return;
+          }
+
+          let idsPessoas = pessoas.map(p => p.IdPessoa);
+
+          this.transacaoProvider
+            .GereCupomCompartilhamento(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
+              this.dadosPessoaEmpresa.Empresa.IdEmpresa,
+              this.pessoaProvider.dadosAcesso.IdPessoa,
+              idsPessoas)
+            .then(() => {
+              alert("Um novo cupom foi adicionado na carteira");
+            })
+            .catch(() => {
+
+            });
+        })
+      });
   }
 
   maps() {
@@ -109,5 +124,31 @@ export class PerfilEmpresaPage {
       { cssClass: "popover-catalogo" });
 
     modal.present({ ev: evento });
+  }
+
+  podeCompartilhar() {
+    this.compartilharHabilitado = false;
+
+    return new Promise((resolve) => {
+      if (!navigator.onLine) {
+        alert("Conecte-se à internet para poder compartilhar");
+        return false;
+      }
+
+      this.transacaoProvider.PessoaPodeCompartilhar(
+        this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
+        this.dadosPessoaEmpresa.PessoaEmpresa.IdPessoa)
+        .then((podeCompartilhar: boolean) => {
+          resolve(podeCompartilhar);
+          if (!podeCompartilhar) {
+            this.compartilharHabilitado = false;
+            this.utilitarios.mostreToast("Voce nao pode compartilhar agora pois possui um cupom válido para esta loja");
+          }
+        })
+        .catch(() => {
+          resolve(false);
+          this.utilitarios.mostreToastTenteNovamente();
+        })
+    });
   }
 }

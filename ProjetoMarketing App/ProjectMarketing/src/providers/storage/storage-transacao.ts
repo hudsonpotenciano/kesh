@@ -43,13 +43,13 @@ export class StorageTransacaoProvider {
         return this.storage.recupere(this.CUPONS_VENDAS_PESSOA__EMPRESA);
     }
 
-    //ObtenhaCuponsEVendasPessoaEmpresa
+    //ObtenhaCuponsEVendasPessoa
     armazeneObtenhaCuponsEVendasPessoa(value: DTOCupomVenda[]) {
-        this.storage.armazene(this.CUPONS_VENDAS_PESSOA__EMPRESA, value);
+        this.storage.armazene(this.CUPONS_VENDAS_PESSOA, value);
     }
 
     recupereObtenhaCuponsEVendasPessoa(): DTOCupomVenda[] {
-        return this.storage.recupere(this.CUPONS_VENDAS_PESSOA__EMPRESA);
+        return this.storage.recupere(this.CUPONS_VENDAS_PESSOA);
     }
 
     //CUPOM

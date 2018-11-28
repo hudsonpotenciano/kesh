@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-item no-lines *ngIf="pessoa && !mostrarPesquisa">
             <ion-avatar item-start (click)="mostrePerfilPessoaModal()">
-                <img src="{{pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)}}" alt="">
+                <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="{{pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)}}" alt="">
             </ion-avatar>
             <ion-title (click)="mostrePerfilPessoaModal()">Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
             <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
@@ -43,9 +43,9 @@
             </ion-slides>
 
             <ion-item class="item-footer">
-                <p item-left><img src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}}</p>
+                <p item-left><img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}}</p>
                 <p item-right *ngIf="pessoaEmpresa.NotaGeral && pessoaEmpresa.NotaGeral > 0">
-                    <img src="./assets/svg/estrela.svg" alt=""> {{pessoaEmpresa.NotaGeral}}
+                    <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{pessoaEmpresa.NotaGeral}}
                 </p>
             </ion-item>
         </div>

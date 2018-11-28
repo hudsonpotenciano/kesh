@@ -110,7 +110,7 @@ export class EmpresaProvider {
   }
 
   obtenhaLogoEmpresa(idEmpresa: number) {
-    return "https://storageprojetomarketing.blob.core.windows.net/perfilempresa/" + idEmpresa + ".jpg";
+    return "https://keshstorage.blob.core.windows.net/perfilempresa/" + idEmpresa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
   }
 }

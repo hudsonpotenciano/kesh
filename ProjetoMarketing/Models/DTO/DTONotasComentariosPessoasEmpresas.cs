@@ -7,7 +7,8 @@ namespace ProjetoMarketing.DTO
 {
     public class DTONotasComentariosPessoasEmpresas
     {
-        public string Nome { get; set; }
+        public long IdPerfilEmpresa { get; set; }
+        public string NomePessoa { get; set; }
         public int IdPessoa { get; set; }
         public string Comentario { get; set; }
         public decimal? Nota { get; set; }

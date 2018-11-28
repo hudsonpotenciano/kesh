@@ -13,7 +13,7 @@ namespace ProjetoMarketing.Persistencia
     public class ImagemDAO
     {
         private readonly CloudStorageAccount storageAccount =
-        new CloudStorageAccount(new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("storageprojetomarketing", "Uv+eBC5nQPUL7aU0IFjwQP5Utht0cPkCzEZMOZnaP/D1hUr7FtuBHd+LI0nNs2rsLGVnjjKe5UoRGH5dVm1tqg=="), true);
+        new CloudStorageAccount(new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("keshstorage", "uQ38I7/WISwdvlgg2JYztJjfzR1Yb5rfknp/DPYyi9W6Aa+fEZSaLecixteMDKR6zepty881+hNrqvpb9QSpfw=="), true);
         public const string imageType = ".jpg";
         private readonly PessoaEmpresaContext _context;
         public ImagemDAO(PessoaEmpresaContext contexto)

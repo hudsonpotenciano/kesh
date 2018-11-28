@@ -28,8 +28,9 @@ export class Perfil {
 }
 
 export class NotaComentarioPessoaEmpresa {
-    Nome: string;
+    NomePessoa: string;
     IdPessoa: number;
+    IdPerfilEmpresa: number;
     Nota: number;
     Comentario: string;
     DataAvaliacao: Date;

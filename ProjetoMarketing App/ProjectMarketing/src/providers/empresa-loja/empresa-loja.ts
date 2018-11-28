@@ -34,7 +34,7 @@ export class EmpresaLojaProvider {
 
   //chamado no html
   obtenhaImagemCatalogo(idImagem: number) {
-    return "https://storageprojetomarketing.blob.core.windows.net/imagens/" + idImagem + ".jpg";
+    return "https://keshstorage.blob.core.windows.net/catalogo/" + idImagem + ".jpg";
     // return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaImagemCatalogo?idImagem=" + idImagem;
   }
 

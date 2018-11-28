@@ -18,7 +18,7 @@
                 <img class="logo" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
             </ion-avatar>
             <h2>{{dadosPessoaEmpresa.Perfil.Descricao}}</h2>
-            <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.NotaGeral}}</p>
+            <p class="estrela-nota" *ngIf="dadosPessoaEmpresa.NotaGeral"><img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.NotaGeral}}</p>
 
         </ion-item>
 
@@ -47,7 +47,7 @@
         <div *ngIf="!avaliando && dadosPessoaEmpresa.PessoaEmpresa.Comentario">
             <ion-item class="minha-avaliacao">
                 <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
-                <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
+                <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
 
             </ion-item>
             <button class="botao-bool" (click)="avaliando = true" ion-item clear full> Editar
@@ -81,18 +81,17 @@
         </ion-item-divider>
         <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
             <ion-avatar item-start>
-                <img [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
+                <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
             </ion-avatar>
             <h2>{{notaComentarios.Nome}}</h2>
             <p>{{notaComentarios.Comentario}}</p>
-            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img src="./assets/svg/estrela.svg" alt=""> {{notaComentarios.Nota}}</p>
+            <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{notaComentarios.Nota}}</p>
             <p item-end>{{notaComentarios.DataAvaliacao | Data}}</p>
         </ion-item>
     </ion-list>
 
-
     <ion-fab bottom right>
-        <button ion-fab (click)="compartilhe()">  <ion-icon name="md-share"></ion-icon>
+        <button ion-fab [disabled]="!compartilharHabilitado" (click)="compartilhe()">  <ion-icon name="md-share"></ion-icon>
         </button>
     </ion-fab>
 </ion-content>

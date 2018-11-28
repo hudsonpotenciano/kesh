@@ -28,9 +28,11 @@ export class TransacoesPage {
   ionViewDidEnter() {
     this.transacaoProvider.obtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa)
       .then((resultado: DTOCupomVenda[]) => {
-        resultado.forEach(dto => {
-          dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
-        });
+        if (resultado)
+          resultado.forEach(dto => {
+            dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
+          });
+          
         this.cuponsVendas = resultado;
         this.estaCarregando = false;
       })

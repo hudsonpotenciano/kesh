@@ -10,8 +10,8 @@ namespace ProjetoMarketing.Servicos
     {
         private readonly PessoaEmpresaContext _context;
         private readonly ImagemDAO _objetoDeAcesso;
-        private const string UrlStorage = "https://storageprojetomarketing.blob.core.windows.net";
-        private const string containerCatalogo = "imagens";
+        private const string UrlStorage = "https://keshstorage.blob.core.windows.net";
+        private const string containerCatalogo = "catalogo";
         private const string containerPerfilPessoa = "perfilpessoa";
         private const string containerPerfilEmpresa = "perfilempresa";
 
