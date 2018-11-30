@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content padding>
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
     <form *ngIf="!pessoaRedeSocial" [formGroup]="form" (submit)="cadastre()">
@@ -64,6 +64,6 @@
         </ion-list>
     </form>
 
-    <button *ngIf="pessoaRedeSocial" class="botao" ion-button color="primary" round block (click)="cadastreRedeSocial()">Cadastrar</button>
-    <button *ngIf="!pessoaRedeSocial" class="botao" ion-button color="primary" round block (click)="cadastre()">Cadastrar</button>
+    <button *ngIf="pessoaRedeSocial" class="botao" ion-button color="primary" full (click)="cadastreRedeSocial()">Cadastrar</button>
+    <button *ngIf="!pessoaRedeSocial" class="botao" ion-button color="primary" full (click)="cadastre()">Cadastrar</button>
 </ion-content>

@@ -21,6 +21,7 @@ export class PerfilEmpresaLojaPage {
   form: FormGroup;
   imagensCatalogo: ImagemCatalogo[] = [];
   dadosEmpresa: DadosEmpresaLoja;
+  segment: string = "cadastro";
 
   constructor(private storageEmpresa: StorageEmpresaProvider,
     private storage: StorageProvider,

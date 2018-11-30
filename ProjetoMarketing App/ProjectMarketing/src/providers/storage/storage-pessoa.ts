@@ -28,7 +28,7 @@ export class StoragePessoaProvider {
     //#region ComentariosENotas
     armazeneComentariosENotas(value: NotaComentarioPessoaEmpresa[]) {
         var dados = this.storage.recupere(this.COMENTARIOS_NOTAS) as NotaComentarioPessoaEmpresa[];
-        if (dados) {
+        if (dados && value.length > 0) {
             var dadosParaSalvar = dados.filter(a => a.IdPerfilEmpresa != value[0].IdPerfilEmpresa);
             dadosParaSalvar = dadosParaSalvar.concat(value);
             this.storage.armazene(this.COMENTARIOS_NOTAS, dadosParaSalvar);

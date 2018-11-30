@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { User, RetornoLogin } from '../../../models/models.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
@@ -14,16 +14,17 @@ import { StorageProvider } from '../../../providers/storage/storage';
 export class LoginEmpresaPage {
 
   usuario: User = new User();
-  views: Array<string> = ["login", "selecaoTipo", "loginAdmin"];
+  views: Array<string> = ["login", "selecaoTipo", "loginAdmin", "selecaoPerfil"];
   dadosAcesso: RetornoLogin;
   viewAtual: string = this.views[0];
+  perfisEmpresa: Perfil[];
+  inputPesquisaPerfisEmpresa: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private empresaProvider: EmpresaProvider,
     private storage: StorageProvider,
-    private popOverCtrl: PopoverController,
     private storageEmpresa: StorageEmpresaProvider) {
 
     this.usuario.Login = "teste2@gmail.com";
@@ -46,46 +47,35 @@ export class LoginEmpresaPage {
       })
   }
 
-  selecaoTipoLoginEmpresa(selecao: number) {
+  selecaoTipoLoja() {
+    this.empresaProvider.obtenhaPerfisEmpresa()
+      .then((perfis: Perfil[]) => {
 
-    if (selecao == 0) {
-      this.viewAtual = this.views[2];
-    }
-    else if (selecao == 1) {
-
-      this.empresaProvider.obtenhaPerfisEmpresa()
-        .then((perfis: Perfil[]) => {
-
-          if (perfis && perfis.length == 1) {
-            this.storageEmpresa.armazeneIdPerfilEmpresa(perfis[0].IdPerfilEmpresa);
-            this.navCtrl.setRoot("TabsEmpresaLojaPage");
-            this.storage.armazeneDadosAcesso(this.dadosAcesso);
-          }
-          else {
-            this.abraModalSelecaoPerfisEmpresa(perfis);
-          }
-        });
-    }
+        if (perfis && perfis.length == 1) {
+          this.selecaoIdPerfilEmpresa(perfis[0]);
+        }
+        else {
+          this.perfisEmpresa = perfis;
+          this.viewAtual = this.views[3];
+        }
+      });
   }
 
-  abraModalSelecaoPerfisEmpresa(perfis: Perfil[]) {
+  selecaoIdPerfilEmpresa(perfil: Perfil) {
 
-    var popOver = this.popOverCtrl.create("SelecaoPerfisEmpresaPage", { perfis }, { enableBackdropDismiss: false });
-    popOver.present();
+    this.storage.armazeneDadosAcesso(this.dadosAcesso);
+    this.storageEmpresa.armazeneIdPerfilEmpresa(perfil.IdPerfilEmpresa);
+    this.navCtrl.setRoot("TabsEmpresaLojaPage");
+  }
 
-    popOver.onDidDismiss((perfil: Perfil) => {
-      if (!perfil)
-        popOver.present();
-
-      this.navCtrl.setRoot("TabsEmpresaLojaPage");
-      this.storage.armazeneDadosAcesso(this.dadosAcesso);
-      this.storageEmpresa.armazeneIdPerfilEmpresa(perfil.IdPerfilEmpresa);
-    });
+  selecaoTipoAdmin() {
+    this.viewAtual = this.views[2];
   }
 
   voltar() {
     var index = this.views.indexOf(this.viewAtual);
-    if (index <= (this.views.length - 1)) {
+    if (this.viewAtual == this.views[0]) this.navCtrl.setRoot("IntroducaoPage");
+    else if (index <= (this.views.length - 1)) {
       this.viewAtual = this.views[index - 1];
     }
   }
@@ -109,5 +99,9 @@ export class LoginEmpresaPage {
       .catch(() => {
         alert("nao autenticado");
       })
+  }
+
+  onSearchPerfilEmpresa(evento) {
+    evento;
   }
 }

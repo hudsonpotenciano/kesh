@@ -32,6 +32,9 @@ export class CarteiraPessoaPage {
         this.pessoaLojas = resultado;
         this.estaCarregando = false;
       })
+      .catch(() => {
+
+      })
   }
 
   obtenhaLogoEmpresa(idEmpresa: number) {

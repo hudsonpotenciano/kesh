@@ -217,7 +217,6 @@ export class PessoaProvider {
   }
 
   obtenhaFotoPessoa(idPessoa: number) {
-    console.log(idPessoa);
     return "https://keshstorage.blob.core.windows.net/perfilpessoa/" + idPessoa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
   }

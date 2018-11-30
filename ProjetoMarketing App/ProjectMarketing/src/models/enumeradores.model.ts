@@ -8,12 +8,35 @@ export class Enumerador {
     }
 }
 
+export class EnumeradorDeCacheStorageEmpresaLoja {
+
+    obtenhaDadosEmpresaLoja = new Enumerador(1, "obtenhaDadosEmpresaLoja");
+
+    static obtenhaTodos(): Enumerador[] {
+        return [
+            new EnumeradorDeCacheStorageEmpresaLoja().obtenhaDadosEmpresaLoja
+        ]
+    }
+}
+
+export class EnumeradorDeCacheStorageEmpresa {
+
+    obtenhaDadosEmpresaAdmin = new Enumerador(1, "obtenhaDadosEmpresaAdmin");
+    obtenhaPerfisEmpresa = new Enumerador(2, "obtenhaPerfisEmpresa");
+
+    static obtenhaTodos(): Enumerador[] {
+        return [
+            new EnumeradorDeCacheStorageEmpresa().obtenhaDadosEmpresaAdmin,
+            new EnumeradorDeCacheStorageEmpresa().obtenhaPerfisEmpresa]
+    }
+}
+
 export class EnumeradorDeCacheStorageTransacoes {
     obtenhaCuponsEVendasEmpresaAdmin = new Enumerador(1, "obtenhaCuponsEVendasEmpresaAdmin");
     obtenhaCuponsEVendasEmpresa = new Enumerador(2, "obtenhaCuponsEVendasEmpresa");
     obtenhaCuponsEVendasPessoa = new Enumerador(3, "obtenhaCuponsEVendasPessoa");
     obtenhaCuponsEVendasPessoaEmpresa = new Enumerador(4, "obtenhaCuponsEVendasPessoaEmpresa");
-    
+
 
     static obtenhaTodos(): Enumerador[] {
         return [

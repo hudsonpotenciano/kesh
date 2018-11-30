@@ -1,5 +1,6 @@
 // FONTES
 h2,
+h1,
 .card-title,
 .label {
     font-family: 'Lato', sans-serif !important;
@@ -69,10 +70,6 @@ button {
 .item-divider {
     border-bottom: none;
     background-color: #f7f7f7 !important;
-}
-
-.segment {
-    background: rgb(235, 235, 235) !important;
 }
 
 .scroll-content {
@@ -160,7 +157,6 @@ ion-icon {
 }
 
 .botao {
-    width: 90% !important;
     margin: 10px auto;
     &.facebook {
         background-color: #3b5998;

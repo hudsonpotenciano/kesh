@@ -1,18 +1,12 @@
 <ion-content>
-    <ion-slides>
-        <ion-slide>
-            <div id="selecao-tipo">
-                <ion-row (click)="pessoa()">
-                    <div class="selecao">
+    <div id="selecao-tipo">
+        <button no-lines color="primary" ion-item text-center (click)="pessoa()">
                         <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/pessoas.svg" alt="">
-                    </div>
-                </ion-row>
-                <ion-row (click)="empresa()">
-                    <div class="selecao">
-                        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" item-center src="./assets/svg/empresa.svg" alt="">
-                    </div>
-                </ion-row>
-            </div>
-        </ion-slide>
-    </ion-slides>
+                        <h1>Pessoa</h1>
+                        </button>
+        <button no-lines color="primary" ion-item text-center (click)="empresa()">
+                        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/empresa.svg" alt="">
+                        <h1>Empresa</h1>
+                    </button>
+    </div>
 </ion-content>

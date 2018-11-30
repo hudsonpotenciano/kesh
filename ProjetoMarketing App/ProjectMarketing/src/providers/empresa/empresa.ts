@@ -4,6 +4,7 @@ import { StorageProvider } from '../storage/storage';
 import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.model';
 import { CadastroEmpresaModel, Perfil, DadosEmpresaAdmin, AtualizeContaModel } from '../../models/empresa.model';
 import { StorageEmpresaProvider } from '../storage/storage-empresa';
+import { EnumeradorDeCacheStorageEmpresa, Enumerador } from '../../models/enumeradores.model';
 
 @Injectable()
 export class EmpresaProvider {
@@ -48,27 +49,52 @@ export class EmpresaProvider {
   }
 
   obtenhaDadosEmpresaAdmin() {
-    return new Promise<DadosEmpresaAdmin>(resolve => {
-      this.comunicacao.post("empresa/empresa/ObtenhaDadosEmpresaAdmin", { IdEmpresa: this.dadosAcesso.IdEmpresa })
-        .then((resposta: RetornoRequestModel) => {
 
-          resolve(resposta.Result);
-          this.storageEmpresa.armazeneDadosEmpresaAdmin(resposta.Result);
-        });
-    });
+    var enumeradorDeCache = new EnumeradorDeCacheStorageEmpresa().obtenhaDadosEmpresaAdmin;
+    if (this.estaEmCach(enumeradorDeCache)) {
+      return new Promise<DadosEmpresaAdmin>(resolve => {
+        var dados = this.storageEmpresa.recupereDadosEmpresaAdmin();
+        resolve(dados);
+      });
+    }
+    else {
+      return new Promise<DadosEmpresaAdmin>(resolve => {
+        this.comunicacao.post("empresa/empresa/ObtenhaDadosEmpresaAdmin", { IdEmpresa: this.dadosAcesso.IdEmpresa })
+          .then((resposta: RetornoRequestModel) => {
+            resolve(resposta.Result);
+            this.storageEmpresa.armazeneDadosEmpresaAdmin(resposta.Result);
+            this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
+          })
+          .catch(() => {
+
+          });
+      });
+    }
   }
 
   obtenhaPerfisEmpresa() {
 
-    return new Promise<Perfil[]>(resolve => {
-      this.comunicacao.post("empresa/empresa/ObtenhaPerfisDaEmpresaParaSelecao", { IdEmpresa: this.dadosAcesso.IdEmpresa })
-        .then((resposta: RetornoRequestModel) => {
+    var enumeradorDeCache = new EnumeradorDeCacheStorageEmpresa().obtenhaDadosEmpresaAdmin;
+    if (this.estaEmCach(enumeradorDeCache)) {
+      return new Promise<Perfil[]>(resolve => {
+        var dados = this.storageEmpresa.recupereDadosPerfilsEmpresa();
+        resolve(dados);
+      });
+    }
+    else {
+      return new Promise<Perfil[]>(resolve => {
+        this.comunicacao.post("empresa/empresa/ObtenhaPerfisDaEmpresaParaSelecao", { IdEmpresa: this.dadosAcesso.IdEmpresa })
+          .then((resposta: RetornoRequestModel) => {
+            this.storageEmpresa.armazeneDadosPerfilsEmpresa(resposta.Result);
+            this.storage.armazene(enumeradorDeCache.Descricao, new Date().getTime());
+            resolve(resposta.Result);
+          })
+          .catch(() => {
 
-          resolve(resposta.Result);
-        });
-    });
+          });
+      });
+    }
   }
-
 
   atualizeConta(conta: AtualizeContaModel) {
     return this.comunicacao.post("Empresa/Empresa/AtualizeContaEmpresa", conta);
@@ -89,7 +115,6 @@ export class EmpresaProvider {
           reject(retorno);
         })
     });
-
   }
 
   private addIdNotificacaoEmpresa() {
@@ -112,5 +137,13 @@ export class EmpresaProvider {
   obtenhaLogoEmpresa(idEmpresa: number) {
     return "https://keshstorage.blob.core.windows.net/perfilempresa/" + idEmpresa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
+  }
+
+  estaEmCach(enumerador: Enumerador) {
+    var cache = this.storage.recupere(enumerador.Descricao);
+    if (cache && cache != undefined) {
+      return !navigator.onLine || (cache > (new Date().getTime() - ((24 * 60 * 60 * 1000) * 1)))
+    }
+    return false;
   }
 }

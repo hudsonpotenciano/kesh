@@ -1,40 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="segment" color="light">
+            <ion-segment-button value="cadastro">
+                <ion-icon name="list"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="localizacao">
+                <ion-icon name="navigate"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="catalogo">
+                <ion-icon name="images"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
+    <div *ngIf="segment == 'cadastro'">
+        <form [formGroup]="form" (submit)="atualizePerfil()">
+            <ion-item>
+                <ion-label floating>Nome</ion-label>
+                <ion-input type="text" [(ngModel)]="dadosEmpresa.Perfil.Descricao" formControlName="descricao"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Telefone</ion-label>
+                <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone" formControlName="telefone"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Telefone Secundário</ion-label>
+                <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone2" formControlName="telefone2"></ion-input>
+            </ion-item>
+        </form>
+    </div>
 
-    <form [formGroup]="form" (submit)="atualizePerfil()">
-        <ion-item>
-            <ion-label fixed>Nome</ion-label>
-            <ion-input type="text" [(ngModel)]="dadosEmpresa.Perfil.Descricao" formControlName="descricao"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label fixed>Telefone</ion-label>
-            <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone" formControlName="telefone"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label fixed>Telefone Secundário</ion-label>
-            <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone2" formControlName="telefone2"></ion-input>
-        </ion-item>
-    </form>
+    <div *ngIf="segment == 'localizacao'">
+        <button ion-button (click)="selecioneLocalizacao()">Localizacao</button>
+    </div>
 
-    <button ion-button (click)="selecioneLocalizacao()">Localizacao</button>
+    <div *ngIf="segment == 'catalogo'">
 
+        <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
-    <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+        <ion-slides #slides pager="true">
+            <ion-slide *ngFor="let imagemCatalogo of imagensCatalogo;let i = index">
+                <div *ngIf="!imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
+                <div *ngIf="imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(data:image/jpg;base64,' + imagemCatalogo.Imagem + ')'"></div>
+                <div class="botoes">
+                    <button ion-button (click)="removaImagem(i)"> Remover</button>
+                </div>
+            </ion-slide>
+        </ion-slides>
 
-    <ion-slides #slides pager="true">
-        <ion-slide *ngFor="let imagemCatalogo of imagensCatalogo;let i = index">
-            <div *ngIf="!imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
-            <div *ngIf="imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(data:image/jpg;base64,' + imagemCatalogo.Imagem + ')'"></div>
-            <div class="botoes">
-                <button ion-button (click)="removaImagem(i)"> Remover</button>
-            </div>
-        </ion-slide>
-    </ion-slides>
-
-    <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
+        <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
+    </div>
     <button ion-button (click)="salvar()"> Salvar</button>
 
     <button ion-button (click)="sair()">
-        <ion-icon name="power"></ion-icon> Sair
-    </button>
+    <ion-icon name="power"></ion-icon> Sair
+</button>
 
 </ion-content>

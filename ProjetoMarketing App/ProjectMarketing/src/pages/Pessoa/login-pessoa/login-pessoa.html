@@ -18,12 +18,13 @@
                 </ion-list>
             </form>
 
-            <button class="botao" ion-button color="primary" round block (click)="login()">Login</button>
-            <button class="botao" ion-button color="primary" round block (click)="abraCadastro()">Registrar</button>
-            <button class="botao facebook" ion-button round block (click)="loginFacebook()">
-                    <ion-icon name="logo-facebook"></ion-icon>
-                    Facebook
-                </button>
+            <button class="botao" ion-button color="primary" full (click)="login()">Login</button>
+            <button class="botao" ion-button color="primary" full (click)="abraCadastro()">Registrar</button>
+            <button class="botao facebook" color="gray" ion-button full (click)="loginFacebook()">
+                <ion-icon name="logo-facebook"></ion-icon>
+                Facebook
+            </button>
+            <p text-center>Esqueceu a senha?</p>
         </div>
     </div>
 </ion-content>
