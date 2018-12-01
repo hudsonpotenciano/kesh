@@ -1,13 +1,9 @@
 page-codigo-cupom-pessoa {
-    .content {
-        background-color: white;
-    }
-    .img-codigo {
-        margin: 0 auto;
-        display: block;
-        height: 100px;
-    }
-    h3 {
-        margin-top: 20px;
+    ion-card {
+        img {
+            max-height: 80px;
+            margin-top: 20%;
+        }
+        height: calc(100% - 24px);
     }
 }

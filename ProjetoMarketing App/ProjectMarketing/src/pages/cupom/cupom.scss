@@ -1,13 +1,25 @@
 page-cupom {
+    // .qrcode {
+    //     height: 100%;
+    //     background-color: white;
+    //     img {
+    //         background-color: white;
+    //         height: 75%;
+    //         margin: 0 auto;
+    //         display: block;
+    //         margin-top: 15%;
+    //     }
+    // }
     .qrcode {
         height: 100%;
         background-color: white;
         img {
             background-color: white;
-            height: 75%;
+            height: 251px;
+            margin: 0 auto;
+            width: 250px;
             margin: 0 auto;
             display: block;
-            margin-top: 15%;
         }
     }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
@@ -20,6 +20,7 @@ export class TransacoesPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private transacaoProvider: TransacaoProvider,
+    private popoverCtrl: PopoverController,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider) {
 
@@ -39,7 +40,9 @@ export class TransacoesPage {
   }
 
   abraQrCode(cupomVenda: DTOCupomVenda) {
-    this.navCtrl.push("CupomPage", cupomVenda.Cupom);
+    var popover = this.popoverCtrl.create("CupomPage", cupomVenda.Cupom, { enableBackdropDismiss: true, cssClass: "popover-shadow" });
+    popover.present();
+    // this.navCtrl.push("CupomPage", cupomVenda.Cupom);
   }
 
   obtenhaLogoEmpresa(idEmpresa: number) {

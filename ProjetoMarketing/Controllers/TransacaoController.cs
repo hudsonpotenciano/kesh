@@ -26,38 +26,52 @@ namespace ProjetoMarketing.Controllers
         [HttpPost("GereCupomCompartilhamento")]
         public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCodigoCompartilhamento parametros)
         {
-            var cupom = await TransacaoService.Instancia.GereCupomCompartilhamento(parametros, _context);
-
-            if (cupom != null)
+            try
             {
-                RetornoRequestModel retorno = new RetornoRequestModel()
+                Cupom cupom = await TransacaoService.Instancia.GereCupomCompartilhamento(parametros, _context);
+
+                if (cupom != null)
                 {
-                    Result = Projecoes.ProjecaoCupom(cupom)
-                };
+                    RetornoRequestModel retorno = new RetornoRequestModel()
+                    {
+                        Result = Projecoes.ProjecaoCupom(cupom)
+                    };
 
-                return retorno;
+                    return retorno;
+                }
+
+                return RetornoRequestModel.CrieFalha();
             }
-
-            return RetornoRequestModel.CrieFalha();
+            catch (System.Exception e)
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
         }
 
         [Authorize("Bearer")]
         [HttpPost("GereCompartilhamento")]
         public async Task<RetornoRequestModel> GereCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
         {
-            var compartilhamento = await TransacaoService.Instancia.GereCompartilhamento(parametros, _context);
-
-            if (compartilhamento != null)
+            try
             {
-                RetornoRequestModel retorno = new RetornoRequestModel()
+                Compartilhamento compartilhamento = await TransacaoService.Instancia.GereCompartilhamento(parametros, _context);
+
+                if (compartilhamento != null)
                 {
-                    Result = Projecoes.ProjecaoCompartilhamento(compartilhamento)
-                };
+                    RetornoRequestModel retorno = new RetornoRequestModel()
+                    {
+                        Result = Projecoes.ProjecaoCompartilhamento(compartilhamento)
+                    };
 
-                return retorno;
+                    return retorno;
+                }
+
+                return RetornoRequestModel.CrieFalha();
             }
-
-            return RetornoRequestModel.CrieFalha();
+            catch (System.Exception e)
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
         }
 
         [Authorize("Bearer")]

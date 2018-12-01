@@ -10,19 +10,18 @@ import { StorageProvider } from '../../../providers/storage/storage';
 })
 export class ConfiguracoesPessoaPage {
 
-  cultura: string;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private storageProvider: StorageProvider,
     private socialSharing: SocialSharing) {
+      this.storageProvider;
   }
 
   ionViewDidLoad() {
-    this.cultura = this.storageProvider.recupereCultura();
   }
 
   compartilhe() {
-    this.socialSharing.share("Já conhece o Kesh? Faça suas compras e ganhe dinheiro de volta. É só instalar o app a partir deste link e começar a ecominizar.", undefined, ["https://image.flaticon.com/icons/png/128/144/144041.png"], "https://play.google.com");
+    this.socialSharing.share("Já conhece o Kesh? Faça suas compras e acumule $kesh. É só instalar o app a partir deste link", undefined, [""], "https://play.google.com");
   }
 
   abraTutorial() {

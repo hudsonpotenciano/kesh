@@ -7,22 +7,32 @@
 </ion-header>
 
 
-<ion-content padding>
-    <img class="img-codigo" src="./assets/svg/codigoCompartilhamento.svg" alt="">
+<ion-content>
+    <!-- <img class="img-codigo" src="./assets/svg/codigoCompartilhamento.svg" alt="">
     <h3 text-center>
         Recebeu um compartilhamento?
     </h3>
     <p text-center>
         Digite o código para receber o seu cupom e gerar o cupom de quem compartilhou com você
-    </p>
-
-    <ion-list>
-        <ion-item>
-            <ion-label floating>
-                Código
-            </ion-label>
-            <ion-input maxlength="6" type="text" [(ngModel)]="codigo"></ion-input>
-        </ion-item>
-    </ion-list>
-    <button class="botao" ion-button color="primary" full (click)="gerarCupomViaCodigo()">Gerar cupom</button>
+    </p> -->
+    <ion-card>
+        <img src="./assets/svg/codigoCompartilhamento.svg" />
+        <ion-card-content text-center>
+            <ion-card-title>
+                Recebeu um compartilhamento?
+            </ion-card-title>
+            <p>
+                Digite o código para receber o seu cupom e gerar o cupom de quem compartilhou com você
+            </p>
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>
+                        Código
+                    </ion-label>
+                    <ion-input maxlength="6" type="text" [(ngModel)]="codigo"></ion-input>
+                </ion-item>
+            </ion-list>
+            <button class="botao" ion-button color="primary" full (click)="gerarCupomViaCodigo()">Gerar cupom</button>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

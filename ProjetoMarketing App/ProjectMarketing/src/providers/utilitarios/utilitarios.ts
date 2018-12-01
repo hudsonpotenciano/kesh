@@ -87,7 +87,7 @@ export class UtilitariosProvider {
               .then((estaAutorizado) => {
 
                 if (estaAutorizado) {
-                  this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 5000 } as GeolocationOptions)
+                  this.geolocation.getCurrentPosition({ enableHighAccuracy: false, timeout: 5000 } as GeolocationOptions)
                     .then((resp) => {
                       var localizacao = new Localizacao(resp.coords.latitude, resp.coords.longitude);
                       resolve(localizacao);

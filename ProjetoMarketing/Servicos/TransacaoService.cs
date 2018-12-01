@@ -18,11 +18,23 @@ namespace ProjetoMarketing.Servicos
                 return null;
             }
 
-            var compartilhamento = _context.Compartilhamento.FirstOrDefault(c => c.Codigo == parametros.Codigo);
+            //Compartilhamento compartilhamento = _context.Compartilhamento.FirstOrDefault(c => c.Codigo == parametros.Codigo &&
+            //                                                        c.IdPessoa != parametros.IdPessoaReceptor && !c.CupomFoiGerado);
+            Compartilhamento compartilhamento = _context.Compartilhamento.FirstOrDefault(c => c.Codigo == parametros.Codigo);
             if (compartilhamento != null)
             {
+                var transacaoDao = new TransacaoDAO(_context);
+
                 Cupom cupom = new Cupom();
-                await new TransacaoDAO(_context).GereCupom(parametros, out cupom, compartilhamento);
+                await transacaoDao.GereCupom(parametros, out cupom, compartilhamento);
+
+                if (cupom.IdCupom == 0)
+                {
+                    return null;
+                }
+
+                compartilhamento.CupomFoiGerado = true;
+                await transacaoDao.UpdateCompartilhamento(compartilhamento);
 
                 NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento(compartilhamento.IdPessoa, _context);
                 return cupom;

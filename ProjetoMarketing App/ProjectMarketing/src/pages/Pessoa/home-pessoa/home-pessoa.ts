@@ -80,8 +80,8 @@ export class HomePessoaPage {
     this.navCtrl.push("PerfilPessoaPage");
   }
 
-  onInput($event) {
-    $event;
+  pesquise() {
+    this.mostrarPesquisa = false;
     var filtrados = this.pessoaEmpresas
       .filter(a => a.Perfil.Descricao.includes(this.inputPesquisa) || a.Empresa.Nome.includes(this.inputPesquisa));
     this.pessoaEmpresasLimit = this.utilitarios.pagine(filtrados, 0, tamanhoPagina);

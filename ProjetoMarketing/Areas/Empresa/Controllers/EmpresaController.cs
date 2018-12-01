@@ -127,7 +127,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
                 return RetornoRequestModel.CrieSucesso();
             }
-            catch (System.Exception e)
+            catch
             {
                 return RetornoRequestModel.CrieFalha();
             }

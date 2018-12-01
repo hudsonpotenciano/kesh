@@ -1,7 +1,7 @@
 <ion-content padding>
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
-    <form *ngIf="!pessoaRedeSocial" [formGroup]="form" (submit)="cadastre()">
+    <form *ngIf="!pessoaRedeSocial" (submit)="cadastre()">
         <div class="profile-image" (click)="selecioneImagem()">
             <div class="image-wrapper" *ngIf="!profilePic">
                 <ion-icon name="images"></ion-icon>
@@ -14,33 +14,33 @@
                 <ion-label floating>
                     Nome
                 </ion-label>
-                <ion-input type="text" [(ngModel)]="pessoa.Nome"></ion-input>
+                <ion-input type="text" [(ngModel)]="pessoa.Nome" name="nome"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>
                     Email
                 </ion-label>
-                <ion-input type="email" [(ngModel)]="pessoa.Email"></ion-input>
+                <ion-input type="email" [(ngModel)]="pessoa.Email" name="email"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>
                     Senha
                 </ion-label>
-                <ion-input type="password" [(ngModel)]="pessoa.Senha"></ion-input>
+                <ion-input type="password" [(ngModel)]="pessoa.Senha" name="senha1"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>
                     Confirme a senha
                 </ion-label>
-                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha"></ion-input>
+                <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" name="senha2"></ion-input>
             </ion-item>
         </ion-list>
     </form>
 
-    <form *ngIf="pessoaRedeSocial" [formGroup]="form2">
+    <form *ngIf="pessoaRedeSocial" (submit)="cadastreRedeSocial()">
         <div class="profile-image" (click)="selecioneImagem()">
             <div class="image-wrapper" *ngIf="!profilePic">
                 <ion-icon name="images"></ion-icon>
@@ -52,14 +52,14 @@
                 <ion-label floating>
                     Nome
                 </ion-label>
-                <ion-input type="text" [(ngModel)]="pessoaRedeSocial.Nome"></ion-input>
+                <ion-input type="text" [(ngModel)]="pessoaRedeSocial.Nome" name="nome-social"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>
                     Email
                 </ion-label>
-                <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email"></ion-input>
+                <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email" name="email-social"></ion-input>
             </ion-item>
         </ion-list>
     </form>

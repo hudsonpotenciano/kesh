@@ -7,14 +7,10 @@
             <ion-title (click)="mostrePerfilPessoaModal()">Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
             <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
             </ion-icon>
-            <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = false">
-            </ion-icon>
         </ion-item>
 
         <ion-item no-lines *ngIf="mostrarPesquisa">
             <ion-title>Filtro</ion-title>
-            <ion-icon *ngIf="mostrarPesquisa" item-end name="close" (click)="mostrarPesquisa = false">
-            </ion-icon>
         </ion-item>
     </ion-navbar>
 </ion-header>
@@ -22,7 +18,7 @@
 <ion-content>
     <div class="filtro" *ngIf="mostrarPesquisa">
         <ion-item class="item-search-filtro" no-lines>
-            <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa" (ionInput)="onInput($event)">
+            <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa">
             </ion-searchbar>
         </ion-item>
     </div>
@@ -55,4 +51,9 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     </ion-list>
+
+    <ion-fab bottom right *ngIf="mostrarPesquisa">
+        <button ion-fab (click)="pesquise()"> <ion-icon name="search"></ion-icon>
+                </button>
+    </ion-fab>
 </ion-content>

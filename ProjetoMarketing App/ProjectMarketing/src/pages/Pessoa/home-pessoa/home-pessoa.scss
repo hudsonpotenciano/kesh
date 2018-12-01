@@ -3,6 +3,12 @@ page-home-pessoa {
         min-height: 0 !important;
         height: 54px !important;
         padding: 0 !important;
+        .item {
+            padding: 0 !important;
+        }
+        .label {
+            margin: 0 !important;
+        }
     }
     //IONIC
     .list {

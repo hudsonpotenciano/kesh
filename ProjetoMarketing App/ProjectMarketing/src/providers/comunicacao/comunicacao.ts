@@ -71,7 +71,7 @@ export class ComunicacaoProvider {
 
           if (e.status == 401) {
 
-            if (this.tentativasDePost++ >= 3) {
+            if (this.tentativasDePost++ >= 2) {
               this.tentativasDePost = 0;
               this.events.publish("forcar-retorno-login");
             }

@@ -6,7 +6,6 @@ import { Cupom } from '../../../models/models.model';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
-import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
 import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
@@ -29,7 +28,6 @@ export class PerfilEmpresaPage {
     public pessoaProvider: PessoaProvider,
     public storageTransacaoProvider: StorageTransacaoProvider,
     private transacaoProvider: TransacaoProvider,
-    private storagePessoaProvider: StoragePessoaProvider,
     private platform: Platform,
     private utilitarios: UtilitariosProvider,
     private socialSharing: SocialSharing,
@@ -50,16 +48,16 @@ export class PerfilEmpresaPage {
       });
   }
 
-  atualizeDadosPessoaEmpresa() {
+  // atualizeDadosPessoaEmpresa() {
 
-    this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
-      this.dadosPessoaEmpresa.PessoaEmpresa.Comentario,
-      this.dadosPessoaEmpresa.PessoaEmpresa.Nota)
-      .then(() => {
+  //   this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
+  //     this.dadosPessoaEmpresa.PessoaEmpresa.Comentario,
+  //     this.dadosPessoaEmpresa.PessoaEmpresa.Nota)
+  //     .then(() => {
 
-        this.storagePessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa);
-      });
-  }
+  //       this.storagePessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa);
+  //     });
+  // }
 
   compartilhe() {
 

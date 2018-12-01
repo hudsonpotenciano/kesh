@@ -1,17 +1,14 @@
 <ion-header>
     <ion-navbar>
-        <ion-item no-lines>
-            <ion-title>
-                Perfil
-            </ion-title>
-            <ion-icon item-end name="images" (click)="abraPopoverCatalogo($event)"></ion-icon>
-            <ion-icon item-end name="navigate" (click)="rota()"></ion-icon>
-        </ion-item>
+        <ion-title text-left>
+            Perfil
+        </ion-title>
+
     </ion-navbar>
 </ion-header>
 <ion-content>
 
-    <ion-list>
+    <ion-list class="cards">
 
         <ion-item no-lines class="item-info">
             <ion-avatar item-start>
@@ -22,8 +19,19 @@
 
         </ion-item>
 
-        <button class="botao-bool" (click)="verMaisInformacoes = true" ion-item clear full *ngIf="!verMaisInformacoes"> Ver mais
-                </button>
+        <ion-row class="grid-botoes">
+            <ion-col (click)="abraPopoverCatalogo($event)">
+                <button text-center no-lines ion-item clear full> 
+        <ion-icon class="icone" name="images"></ion-icon> Galeria
+        </button>
+            </ion-col>
+            <ion-col (click)="rota()">
+                <button text-center no-lines ion-item clear full> 
+                <ion-icon class="icone" name="navigate"></ion-icon> Rota
+        </button>
+            </ion-col>
+        </ion-row>
+
 
         <div *ngIf="verMaisInformacoes">
             <ion-item class="item-info" no-lines>
@@ -40,7 +48,7 @@
         </div>
     </ion-list>
 
-    <ion-list no-lines>
+    <ion-list class="cards" no-lines>
         <ion-item-divider> Minha avaliação
         </ion-item-divider>
 
@@ -50,8 +58,8 @@
                 <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
 
             </ion-item>
-            <button class="botao-bool" (click)="avaliando = true" ion-item clear full> Editar
-                </button>
+            <!-- <button class="botao-bool" (click)="avaliando = true" ion-item clear full> Editar
+                </button> -->
         </div>
 
         <div *ngIf="avaliando">
@@ -76,7 +84,7 @@
                 </button>
     </ion-list>
 
-    <ion-list *ngIf="notasComentariosPessoasEmpresas && notasComentariosPessoasEmpresas.length > 0">
+    <ion-list class="cards" *ngIf="notasComentariosPessoasEmpresas && notasComentariosPessoasEmpresas.length > 0">
         <ion-item-divider> Avaliações
         </ion-item-divider>
         <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">

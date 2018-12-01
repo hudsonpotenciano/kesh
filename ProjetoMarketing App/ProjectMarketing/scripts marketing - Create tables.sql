@@ -139,6 +139,7 @@ ALTER SEQUENCE public.sq_compartilhamento
     idpessoa integer NOT NULL,
     codigo text NOT NULL,
     idperfilempresa integer NOT NULL,
+    cupomfoigerado boolean NOT NULL DEFAULT false,
     data date NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
@@ -171,6 +172,7 @@ CREATE TABLE public.cupom
     idcompartilhamento bigint NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_cupom UNIQUE (idCupom),
+    CONSTRAINT uk_cupom_dia UNIQUE (idpessoa, idperfilempresa, data),
     CONSTRAINT uk_cupom_token UNIQUE (idpessoa, idperfilempresa, token),    
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
         REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
@@ -216,11 +218,11 @@ CREATE TABLE public.venda
     CONSTRAINT fk_pessoa FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
         REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE
@@ -342,7 +344,7 @@ CREATE TABLE public.pessoaloja
     CONSTRAINT fk_idperfilempresa FOREIGN KEY (idperfilempresa)
         REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE

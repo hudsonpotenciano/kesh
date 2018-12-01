@@ -1,15 +1,17 @@
 // FONTES
 h2,
 h1,
-.card-title,
-.label {
+.title,
+.item-divider .label,
+.card-title {
+    color: #424242 !important;
     font-family: 'Lato', sans-serif !important;
 }
 
 p,
 h3,
+.label,
 .text-input {
-    color: #424242;
     font-family: 'Roboto', sans-serif !important;
 }
 
@@ -68,9 +70,26 @@ button {
     background: $tema !important;
 }
 
+.cards {
+    .item-inner {
+        background-image: none !important;
+        padding-right: 0px !important;
+    }
+    .icone {
+        margin: 0 auto;
+        display: block;
+        padding-bottom: 4px;
+    }
+    margin: 5px;
+    background-color: white !important;
+    box-shadow: 0 2px 2px 0 rgba(150, 150, 150, 0.14),
+    0 3px 1px -2px rgba(150, 150, 150, 0.2),
+    0 1px 5px 0 rgba(150, 150, 150, 0.12);
+}
+
 .item-divider {
     border-bottom: none;
-    background-color: #f7f7f7 !important;
+    background-color: white !important;
 }
 
 .scroll-content {
@@ -121,8 +140,7 @@ ion-icon {
     }
 }
 
-.popover-catalogo {
-    min-height: 300px;
+.popover-shadow {
     ion-backdrop {
         opacity: 0.6;
     }
@@ -142,6 +160,11 @@ ion-icon {
 }
 
 @media screen and (max-height: 500px) {
+    ion-card {
+        img {
+            display: none;
+        }
+    }
     ion-fab {
         display: none !important;
     }
@@ -190,10 +213,14 @@ ion-header {
 }
 
 .toolbar-content {
-    animation-name: fadeIn;
-    animation-duration: 1s;
     ion-icon {
         color: #424242 !important;
         margin: 0 5px 0 20px !important;
+    }
+}
+
+.grid-botoes {
+    .col {
+        padding: 0px !important;
     }
 }

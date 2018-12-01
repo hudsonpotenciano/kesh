@@ -19,5 +19,7 @@ namespace ProjetoMarketing.Entidade
         public long IdPerfilEmpresa { get; set; }
         [Column("data")]
         public DateTime Data { get; set; }
+        [Column("cupomfoigerado")]
+        public bool CupomFoiGerado { get; set; }
     }
 }

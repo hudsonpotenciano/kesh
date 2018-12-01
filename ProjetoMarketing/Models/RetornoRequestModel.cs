@@ -3,12 +3,13 @@
     public class RetornoRequestModel
     {
         const int erroLoginIncorreto = 1;
-        const int erroDuplicidadeUsuario = 2;
+        const int erroDuplicidadeCadastro = 2;
 
         public RetornoRequestModel()
         {
             Mensagem = string.Empty;
             Erro = 0;
+            Result = new { };
         }
 
         public string Mensagem { get; set; }
@@ -21,8 +22,7 @@
         {
             return new RetornoRequestModel
             {
-                Erro = erroLoginIncorreto,
-                Authenticated = false
+                Erro = erroLoginIncorreto
             };
         }
 
@@ -30,8 +30,7 @@
         {
             return new RetornoRequestModel
             {
-                Erro = -1,
-                Authenticated = false
+                Erro = -1
             };
         }
 
@@ -39,8 +38,7 @@
         {
             return new RetornoRequestModel
             {
-                Erro = 2,
-                Authenticated = false
+                Erro = erroDuplicidadeCadastro
             };
         }
 

@@ -71,9 +71,9 @@ namespace ProjetoMarketing.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task RemovaCompartilhamento (Compartilhamento compartilhamento)
+        public Task UpdateCompartilhamento (Compartilhamento compartilhamento)
         {
-            _context.Compartilhamento.Remove(compartilhamento);
+            _context.Compartilhamento.Update(compartilhamento);
             return _context.SaveChangesAsync();
         }
 

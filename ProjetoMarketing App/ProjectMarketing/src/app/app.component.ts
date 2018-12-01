@@ -52,6 +52,8 @@ export class MyApp {
       else {
         this.nav.setRoot("LoginPessoaPage");
       }
+
+      this.storageProvider.limpeTudo();
     });
   }
 
@@ -106,19 +108,19 @@ export class MyApp {
     // Definir o idioma padrão para as sequências de tradução e o idioma atual.
     this.translate.setDefaultLang('pt-br');
 
-    this.translate.use('pt-br');
+    this.translate.use(navigator.language.toLowerCase());
     // mudar a linguagem de acordo com a linguagem selecionada nas configuracoes 
 
     //unidade de medida
     this.storageProvider.armazeneUnidadeDeMedidaLocalizacao(UnidadeDeMedidaLocalizacao.Kilometros);
-    this.storageProvider.armazeneCultura("pt-br");
+    this.storageProvider.armazeneCultura(navigator.language.toLowerCase());
   }
 
   openPage(page) {
     this.nav.setRoot(page.component);
   }
 
-  sair(){
-    
+  sair() {
+
   }
 }

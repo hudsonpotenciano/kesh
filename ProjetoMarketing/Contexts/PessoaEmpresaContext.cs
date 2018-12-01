@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ProjetoMarketing.Contexts
 {
@@ -34,18 +32,22 @@ namespace ProjetoMarketing.Contexts
         {
             try
             {
-                var saveChangesAsync = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-                Database.CommitTransaction();
+                int saveChangesAsync = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+                if (Database.CurrentTransaction != null)
+                {
+                    Database.CommitTransaction();
+                }
+
                 return saveChangesAsync;
             }
             catch (System.Data.DBConcurrencyException e)
             {
-                var a = e.Message;
+                string a = e.Message;
                 Database.RollbackTransaction();
             }
             catch (Exception e)
             {
-                var a = e.Message;
+                string a = e.Message;
                 Database.RollbackTransaction();
             }
 
