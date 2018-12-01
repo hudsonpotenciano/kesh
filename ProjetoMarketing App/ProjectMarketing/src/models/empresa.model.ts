@@ -4,9 +4,6 @@ export class Empresa {
     Email: string;
     IdEmpresa: number;
     Nome: string;
-    RecompensaCompartilhamento: number;
-    RecompensaPontos: number;
-    Resumo: string;
     Categoria: number;
 }
 

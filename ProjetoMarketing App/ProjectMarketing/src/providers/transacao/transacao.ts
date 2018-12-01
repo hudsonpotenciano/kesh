@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cupom, RetornoRequestModel, Venda, DTOCupomVenda } from '../../models/models.model';
 import { ComunicacaoProvider } from '../comunicacao/comunicacao';
 import { VendaAdminLoja } from '../../models/empresa.model';
-import { DTOCupomParaVenda } from '../../models/pessoa.model';
+import { DTOCupomParaVenda, Compartilhamento } from '../../models/pessoa.model';
 import { EnumeradorDeCacheStorageTransacoes, Enumerador } from '../../models/enumeradores.model';
 import { StorageTransacaoProvider } from '../storage/storage-transacao';
 import { StorageProvider } from '../storage/storage';
@@ -20,11 +20,33 @@ export class TransacaoProvider {
     return (new Date(new Date(data).setHours(0, 0, 0, 0)).getTime()) < (new Date(new Date().setHours(0, 0, 0, 0)).getTime());
   }
 
-  GereCupomCompartilhamento(idPerfilEmpresa: number, idEmpresa: number, idPessoa: number, idsPessoas: number[]) {
+  GereCupomCompartilhamento(idPessoaReceptor: number, guidCompartilhamento: string) {
     return new Promise<Cupom>(resolve => {
-      this.comunicacao.post("Transacao/GereCupomCompartilhamento", { IdPerfilEmpresa: idPerfilEmpresa, IdEmpresa: idEmpresa, IdPessoa: idPessoa, IdsPessoas: idsPessoas })
+      this.comunicacao.post("Transacao/GereCupomCompartilhamento",
+        { IdPessoaReceptor: idPessoaReceptor, Codigo: guidCompartilhamento })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
+          this.storageProvider.remova(new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoa.Descricao);
+        })
+        .catch(() => {
+
+        });
+    });
+  }
+
+  gereCodigoDeCompartilhamento(idPerfilEmpresa: number, idPessoa: number, guidCompartilhamento: string) {
+
+    return new Promise<Compartilhamento>((resolve, reject) => {
+      this.comunicacao.post("transacao/GereCompartilhamento", {
+        IdPerfilEmpresa: idPerfilEmpresa,
+        IdPessoa: idPessoa,
+        Codigo: guidCompartilhamento
+      })
+        .then((resposta: RetornoRequestModel) => {
+          resolve(resposta.Result);
+        })
+        .catch(() => {
+          reject();
         });
     });
   }

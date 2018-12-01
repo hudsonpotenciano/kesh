@@ -32,7 +32,7 @@ export class TransacoesPage {
           resultado.forEach(dto => {
             dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
           });
-          
+
         this.cuponsVendas = resultado;
         this.estaCarregando = false;
       })
@@ -45,5 +45,9 @@ export class TransacoesPage {
   obtenhaLogoEmpresa(idEmpresa: number) {
 
     return this.empresaProvider.obtenhaLogoEmpresa(idEmpresa);
+  }
+
+  abraGeracaoDeCupomViaCodigo() {
+    this.navCtrl.push("CodigoCupomPessoaPage", { idPessoa: this.pessoaProvider.dadosAcesso.IdPessoa });
   }
 }

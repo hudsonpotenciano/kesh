@@ -46,4 +46,8 @@
     <lista-vazia *ngIf="!estaCarregando && cuponsVendas.length == 0">
 
     </lista-vazia>
+    <ion-fab bottom right>
+        <button ion-fab (click)="abraGeracaoDeCupomViaCodigo()"> <ion-icon name="contacts"></ion-icon>
+        </button>
+    </ion-fab>
 </ion-content>

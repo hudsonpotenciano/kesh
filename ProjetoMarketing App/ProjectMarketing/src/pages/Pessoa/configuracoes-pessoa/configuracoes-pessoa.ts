@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -9,12 +10,15 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 })
 export class ConfiguracoesPessoaPage {
 
+  cultura: string;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private storageProvider: StorageProvider,
     private socialSharing: SocialSharing) {
   }
 
   ionViewDidLoad() {
+    this.cultura = this.storageProvider.recupereCultura();
   }
 
   compartilhe() {

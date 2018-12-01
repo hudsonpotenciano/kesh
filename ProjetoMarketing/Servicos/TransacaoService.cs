@@ -11,36 +11,41 @@ namespace ProjetoMarketing.Servicos
     {
         public static TransacaoService Instancia => new TransacaoService();
 
-        public async Task<Cupom> GereCupomCompartilhamento(ParametrosCompartilhamento parametros, PessoaEmpresaContext _context)
+        public async Task<Cupom> GereCupomCompartilhamento(ParametrosCodigoCompartilhamento parametros, PessoaEmpresaContext _context)
         {
-            if (parametros.IdsPessoas == null || parametros.IdsPessoas.Count() == 0)
-                return null;
-
-            Compartilhamento compartilhamento = new Compartilhamento();
-            new TransacaoDAO(_context).GereCompartilhamento(parametros, out compartilhamento);
-
-            if (compartilhamento.IdCompartilhamento != 0)
+            if (string.IsNullOrEmpty(parametros.Codigo))
             {
-                Cupom cupom = new Cupom();
-                await new TransacaoDAO(_context).GereCupom(parametros, out cupom, compartilhamento.IdCompartilhamento);
-                Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == cupom.IdPessoa);
-
-                foreach (int idPessoa in compartilhamento.IdsPessoas)
-                {
-                    Entidade.Pessoa.Pessoa pessoaCompartilhamento = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
-
-                    if (pessoaCompartilhamento != null && 
-                        pessoaCompartilhamento.IdsNotificacao != null &&
-                        pessoaCompartilhamento.IdsNotificacao.Count > 0)
-                    {
-                        NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento(pessoa.Nome, pessoaCompartilhamento.IdsNotificacao);
-                    }
-                }
-
-                return cupom;
+                return null;
             }
 
-            return null;
+            var compartilhamento = _context.Compartilhamento.FirstOrDefault(c => c.Codigo == parametros.Codigo);
+            if (compartilhamento != null)
+            {
+                Cupom cupom = new Cupom();
+                await new TransacaoDAO(_context).GereCupom(parametros, out cupom, compartilhamento);
+
+                NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento(compartilhamento.IdPessoa, _context);
+                return cupom;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Compartilhamento> GereCompartilhamento(ParametrosCompartilhamento parametros, PessoaEmpresaContext _context)
+        {
+            try
+            {
+                Compartilhamento compartilhamento = new Compartilhamento();
+                await new TransacaoDAO(_context).GereCompartilhamento(parametros, out compartilhamento);
+                return compartilhamento;
+            }
+            catch (System.Exception)
+            {
+                return null;
+                throw;
+            }
         }
     }
 }

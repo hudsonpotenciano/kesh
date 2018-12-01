@@ -13,8 +13,8 @@ namespace ProjetoMarketing.Entidade
         public long IdCompartilhamento { get; set; }
         [Column("idpessoa")]
         public int IdPessoa { get; set; }
-        [Column("idspessoas")]
-        public int[] IdsPessoas { get; set; }
+        [Column("codigo")]
+        public string Codigo { get; set; }
         [Column("idperfilempresa")]
         public long IdPerfilEmpresa { get; set; }
         [Column("data")]

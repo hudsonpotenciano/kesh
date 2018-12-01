@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
-using ProjetoMarketing.Entidade.Pessoa;
+using ProjetoMarketing.Contexts;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Servicos
 {
@@ -11,9 +13,19 @@ namespace ProjetoMarketing.Servicos
     {
         public static NotificacaoService Instancia => new NotificacaoService();
 
-        public void EnvieNotificacaoDeCompartilhamento(string nomePessoa, List<string> playersIds)
+        public void EnvieNotificacaoDeCompartilhamento(int idPessoa, PessoaEmpresaContext _context)
         {
-            EnvieNotificacao(playersIds, $"Você acabou de receber um cupom de {nomePessoa}");
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
+
+            Task.Factory.StartNew(() =>
+            {
+                if (pessoa != null &&
+                    pessoa.IdsNotificacao != null &&
+                    pessoa.IdsNotificacao.Count > 0)
+                {
+                    EnvieNotificacao(pessoa.IdsNotificacao, $"Você acabou de receber um cupom de {pessoa.Nome}");
+                }
+            });
         }
 
         private void EnvieNotificacao(List<string> playersIds, string Mensagem)

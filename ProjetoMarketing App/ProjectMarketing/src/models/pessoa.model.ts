@@ -1,5 +1,6 @@
 import { Empresa, Perfil, ImagemCatalogo, Conta } from "./empresa.model";
 import { Cupom } from "./models.model";
+import { Data } from "../pipes/pipes/pipes";
 
 export class CadastroPessoaModel {
     Nome: string;
@@ -63,4 +64,10 @@ export class PessoaLoja {
 export class DTOCupomParaVenda {
     Cupom: Cupom;
     TotalDinheiroPessoa: number;
+}
+
+export class Compartilhamento {
+    GuidCompartilhamento: string;
+    IdCompartilhamento: number;
+    Data: Data;
 }

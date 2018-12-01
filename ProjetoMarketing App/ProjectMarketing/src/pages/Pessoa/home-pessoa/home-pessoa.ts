@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
+import { DadosPessoaEmpresa, Pessoa, PessoaEmpresa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { Localizacao, RetornoRequestModel } from '../../../models/models.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
@@ -29,6 +29,7 @@ export class HomePessoaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private modalCtrl: ModalController,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private utilitarios: UtilitariosProvider,
@@ -93,5 +94,13 @@ export class HomePessoaPage {
     infinit.complete();
     if (this.pessoaEmpresasLimit.length == this.pessoaEmpresas.length)
       infinit.enable(false);
+  }
+
+  abraPopoverCatalogo(pessoaEmpresa: PessoaEmpresa, evento) {
+    let modal = this.modalCtrl.create("CatalogoComponentPage",
+      { catalogo: pessoaEmpresa.Catalogo },
+      { cssClass: "popover-catalogo" });
+
+    modal.present({ ev: evento });
   }
 }

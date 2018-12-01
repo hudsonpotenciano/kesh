@@ -10,6 +10,6 @@ namespace ProjetoMarketing.Models
         public long IdPerfilEmpresa { get; set; }
         public int IdEmpresa { get; set; }
         public int IdPessoa { get; set; }
-        public int[] IdsPessoas { get; set; }
+        public string Codigo { get; set; }
     }
 }

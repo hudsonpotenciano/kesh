@@ -137,7 +137,7 @@ ALTER SEQUENCE public.sq_compartilhamento
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idcompartilhamento bigint NOT NULL DEFAULT nextval('sq_compartilhamento'::regclass),
     idpessoa integer NOT NULL,
-    idspessoas integer[] NOT NULL,
+    codigo text NOT NULL,
     idperfilempresa integer NOT NULL,
     data date NOT NULL,
     PRIMARY KEY (id),

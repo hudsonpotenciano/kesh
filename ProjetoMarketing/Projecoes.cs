@@ -156,6 +156,16 @@ namespace ProjetoMarketing
             };
         }
 
+        public static dynamic ProjecaoCompartilhamento(Compartilhamento compartilhamento)
+        {
+            return new
+            {
+                compartilhamento.Data,
+                compartilhamento.Codigo,
+                compartilhamento.IdCompartilhamento,
+            };
+        }
+
         public static dynamic ProjecaoCupom(Cupom cupom)
         {
             return new

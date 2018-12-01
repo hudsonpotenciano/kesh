@@ -27,6 +27,27 @@ export class UtilitariosProvider {
     });
   }
 
+  gereImagemComTexto(menesagem: string) {
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.font = "40pt Calibri";
+    ctx.textBaseline = "alphabetic";
+    ctx.textAlign = "center";
+    ctx.fillText(menesagem, 100, 50);
+    ctx.fillStyle = "#fcc000";
+    ctx.textBaseline = 'middle';
+
+    return canvas.toDataURL("image/png", 0.5);
+  }
+
+  gereGuid6() {
+    var firstPart: any = (Math.random() * 46656) | 0;
+    var secondPart: any = (Math.random() * 46656) | 0;
+    firstPart = ("000" + firstPart.toString(36)).slice(-3);
+    secondPart = ("000" + secondPart.toString(36)).slice(-3);
+    return firstPart + secondPart;
+  }
+
   getBase64Image(url: string, callback: Function) {
 
     let img = document.createElement("img") as HTMLImageElement;
@@ -39,7 +60,6 @@ export class UtilitariosProvider {
       canvas.height = img.height;
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
-
       callback(canvas.toDataURL("image/png", 0.5).replace(/^data:image\/(png|jpg);base64,/, ""));
     }
   }
@@ -136,7 +156,7 @@ export class UtilitariosProvider {
     alert(mensagem);
   }
 
-  
+
   mostreToastTenteNovamente() {
     alert("Ocorreu algum problema, tente novamente");
   }

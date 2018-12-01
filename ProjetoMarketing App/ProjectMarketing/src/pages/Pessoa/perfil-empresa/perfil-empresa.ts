@@ -8,7 +8,7 @@ import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { StorageTransacaoProvider } from '../../../providers/storage/storage-transacao';
 import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sharing';
-import { Pessoa, DadosPessoaEmpresa } from '../../../models/pessoa.model';
+import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
@@ -67,32 +67,23 @@ export class PerfilEmpresaPage {
       .then((pode: boolean) => {
         if (!pode) return;
 
-        let profileModal = this.modalCtrl.create("SelecaoPessoaCompartilhamentoPage",
-          { idPerfilEmpresa: this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa });
+        var guid6 = this.utilitarios.gereGuid6();
+        this.socialSharing.share("utiliza esse codigo aew " + guid6)
+          .then(() => {
 
-        profileModal.present();
-
-        profileModal.onDidDismiss((pessoas: Pessoa[]) => {
-
-          if (!pessoas || pessoas.length == 0) {
-            this.compartilharHabilitado = true;
-            return;
-          }
-
-          let idsPessoas = pessoas.map(p => p.IdPessoa);
-
-          this.transacaoProvider
-            .GereCupomCompartilhamento(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
-              this.dadosPessoaEmpresa.Empresa.IdEmpresa,
+            this.transacaoProvider.gereCodigoDeCompartilhamento(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
               this.pessoaProvider.dadosAcesso.IdPessoa,
-              idsPessoas)
-            .then(() => {
-              alert("Um novo cupom foi adicionado na carteira");
-            })
-            .catch(() => {
+              guid6)
+              .then(() => {
+                alert("Voce será avisado quando receber seu cupom");
+              })
+              .catch(() => {
 
-            });
-        })
+              })
+          })
+          .catch(() => {
+
+          })
       });
   }
 

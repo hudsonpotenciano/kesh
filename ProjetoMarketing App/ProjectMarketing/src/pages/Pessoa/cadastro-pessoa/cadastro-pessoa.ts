@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { CadastroPessoaModel, CadastroPessoaRedeSocialModel } from '../../../models/pessoa.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
@@ -18,29 +17,14 @@ export class CadastroPessoaPage {
   pessoaRedeSocial: CadastroPessoaRedeSocialModel;
 
   confirmacaoDaSenha: string;
-  form: FormGroup;
-  form2: FormGroup;
   isReadyToSave: boolean;
+  profilePic = undefined;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    formBuilder: FormBuilder,
     private pessoaProvider: PessoaProvider,
     private utilitarioProvider: UtilitariosProvider) {
-
-    this.form = formBuilder.group({
-      profilePic: [''],
-      nome: ['', Validators.required],
-      email: ['', Validators.required],
-      senha: ['', Validators.required],
-      confirmacaoDaSenha: ['', Validators.required]
-    });
-
-    this.form2 = formBuilder.group({
-      nome: ['', Validators.required],
-      email: ['', Validators.required],
-    });
 
     if (this.navParams.get("CadastroPessoaRedeSocialModel")) {
       this.pessoaRedeSocial = this.navParams.get("CadastroPessoaRedeSocialModel");
@@ -60,7 +44,7 @@ export class CadastroPessoaPage {
     reader.onloadend = (readerEvent) => {
 
       let imageData = (readerEvent.target as any).result;
-      this.form.patchValue({ 'profilePic': imageData });
+      this.profilePic = imageData;
       let imagem = imageData.split(',')[1];
 
       if (this.pessoaRedeSocial)
@@ -74,7 +58,7 @@ export class CadastroPessoaPage {
 
   getProfileImageStyle() {
     if (this.pessoaRedeSocial) return 'url(' + this.pessoaRedeSocial.Foto + ')'
-    return 'url(' + this.form.controls['profilePic'].value + ')'
+    return 'url(' + this.profilePic + ')'
   }
 
   cadastre() {

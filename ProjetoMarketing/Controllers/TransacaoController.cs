@@ -24,7 +24,7 @@ namespace ProjetoMarketing.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("GereCupomCompartilhamento")]
-        public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
+        public async Task<RetornoRequestModel> GereCupomCompartilhamento([FromBody] ParametrosCodigoCompartilhamento parametros)
         {
             var cupom = await TransacaoService.Instancia.GereCupomCompartilhamento(parametros, _context);
 
@@ -33,6 +33,25 @@ namespace ProjetoMarketing.Controllers
                 RetornoRequestModel retorno = new RetornoRequestModel()
                 {
                     Result = Projecoes.ProjecaoCupom(cupom)
+                };
+
+                return retorno;
+            }
+
+            return RetornoRequestModel.CrieFalha();
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("GereCompartilhamento")]
+        public async Task<RetornoRequestModel> GereCompartilhamento([FromBody] ParametrosCompartilhamento parametros)
+        {
+            var compartilhamento = await TransacaoService.Instancia.GereCompartilhamento(parametros, _context);
+
+            if (compartilhamento != null)
+            {
+                RetornoRequestModel retorno = new RetornoRequestModel()
+                {
+                    Result = Projecoes.ProjecaoCompartilhamento(compartilhamento)
                 };
 
                 return retorno;

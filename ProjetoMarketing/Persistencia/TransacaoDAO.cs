@@ -27,49 +27,53 @@ namespace ProjetoMarketing.Persistencia
             _context.Database.BeginTransaction();
         }
 
-        public void GereCompartilhamento(ParametrosCompartilhamento parametros, out Compartilhamento compartilhamento)
+        public Task GereCompartilhamento(ParametrosCompartilhamento parametros, out Compartilhamento compartilhamento)
         {
             compartilhamento = new Compartilhamento()
             {
                 IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                 IdPessoa = parametros.IdPessoa,
-                IdsPessoas = parametros.IdsPessoas,
+                Codigo = parametros.Codigo,
                 Data = DateTime.Today
             };
 
             _context.Compartilhamento.Add(compartilhamento);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public Task GereCupom(ParametrosCompartilhamento model, out Entidade.Cupom cupom, long idCompartilhamento)
+        public Task GereCupom(ParametrosCodigoCompartilhamento parametros, out Entidade.Cupom cupom, Compartilhamento compartilhamento)
         {
+            var Data = DateTime.Now;
             List<Entidade.Cupom> cupons = new List<Entidade.Cupom>();
 
             cupom = new Entidade.Cupom()
             {
-                IdPerfilEmpresa = model.IdPerfilEmpresa,
-                IdPessoa = model.IdPessoa,
-                Data = DateTime.Now,
-                DataValidade = DateTime.Now.AddDays(1),
-                IdCompartilhamento = idCompartilhamento
+                IdPerfilEmpresa = compartilhamento.IdPerfilEmpresa,
+                IdPessoa = parametros.IdPessoaReceptor,
+                Data = Data,
+                DataValidade = Data.AddDays(1),
+                IdCompartilhamento = compartilhamento.IdCompartilhamento
             };
 
             cupons.Add(cupom);
 
-            foreach (int idPessoa in model.IdsPessoas)
+            //pessoas do compartilhamento
+            cupons.Add(new Entidade.Cupom()
             {
-                //pessoas do compartilhamento
-                cupons.Add(new Entidade.Cupom()
-                {
-                    IdPerfilEmpresa = model.IdPerfilEmpresa,
-                    IdPessoa = idPessoa,
-                    Data = DateTime.Now,
-                    DataValidade = DateTime.Now.AddDays(1),
-                    IdCompartilhamento = idCompartilhamento
-                });
-            }
+                IdPerfilEmpresa = compartilhamento.IdPerfilEmpresa,
+                IdPessoa = compartilhamento.IdPessoa,
+                Data = Data,
+                DataValidade = Data.AddDays(1),
+                IdCompartilhamento = compartilhamento.IdCompartilhamento
+            });
 
             _context.Cupom.AddRange(cupons);
+            return _context.SaveChangesAsync();
+        }
+
+        public Task RemovaCompartilhamento (Compartilhamento compartilhamento)
+        {
+            _context.Compartilhamento.Remove(compartilhamento);
             return _context.SaveChangesAsync();
         }
 
@@ -201,7 +205,7 @@ namespace ProjetoMarketing.Persistencia
             return (from cupom in _context.Cupom
                     join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.IdEmpresa }) on parametros.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join conta in _context.ContaEmpresa.Select(a => new { a.IdEmpresa, a.ValorPontos }) on perfilEmpresa.IdEmpresa equals conta.IdEmpresa
-                    let pessoaEmpresa = _context.PessoaLoja.Select(a => new { a.IdPessoa, a.IdPerfilEmpresa, a.Pontos }).FirstOrDefault(a=>a.IdPessoa == cupom.IdPessoa)
+                    let pessoaEmpresa = _context.PessoaLoja.Select(a => new { a.IdPessoa, a.IdPerfilEmpresa, a.Pontos }).FirstOrDefault(a => a.IdPessoa == cupom.IdPessoa)
                     where cupom.Token == parametros.CupomToken
                     select new DTOCupomParaVenda()
                     {
