@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController, PopoverController } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosPessoaEmpresa, Pessoa, PessoaEmpresa } from '../../../models/pessoa.model';
@@ -30,12 +30,14 @@ export class HomePessoaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
+    private popoverCtrl: PopoverController,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider,
     private utilitarios: UtilitariosProvider,
     private empresaLojaProvider: EmpresaLojaProvider) {
     this.empresaProvider;
     this.empresaLojaProvider;
+    this.popoverCtrl;
   }
 
   ionViewDidLoad() {
@@ -74,6 +76,15 @@ export class HomePessoaPage {
 
   abraPerfilEmpresa(pessoaEmpresa: DadosPessoaEmpresa) {
     this.navCtrl.push("PerfilEmpresaPage", pessoaEmpresa);
+    // if (document.documentElement.clientHeight < 1000) {
+    //   var popover = this.popoverCtrl.create("PreviewPerfilEmpresaPage", { dadosPessoaEmpresa: pessoaEmpresa }, { cssClass: "popover-shadow" });
+    //   popover.present();
+    // }
+    // else{
+      
+    //   var modal = this.modalCtrl.create("PreviewPerfilEmpresaPage", { dadosPessoaEmpresa: pessoaEmpresa });
+    //   modal.present();
+    // }
   }
 
   mostrePerfilPessoaModal() {

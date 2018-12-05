@@ -21,6 +21,7 @@ export class PerfilEmpresaPage {
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
   verMaisInformacoes = false;
   compartilharHabilitado = true;
+  segment: string = "catalogo";
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -42,6 +43,8 @@ export class PerfilEmpresaPage {
   }
 
   ionViewDidLoad() {
+    this.dadosPessoaEmpresa = this.navParams.data;
+
     this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;

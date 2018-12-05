@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-segment [(ngModel)]="segment" color="primary">
+        <ion-segment-button value="catalogo">
+            <ion-icon name="images"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="mapa">
+            <ion-icon name="navigate"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="loja">
+            <ion-icon name="paper"></ion-icon>
+        </ion-segment-button>
+    </ion-segment>
+</ion-header>
+<ion-content>
+    <ion-slides *ngIf="segment == 'catalogo' && dadosPessoaEmpresa && dadosPessoaEmpresa.Catalogo" color="tema" autoplay="4000" speed="2000" effect="slide" loop="true" pager="true">
+        <ion-slide *ngFor="let imagemCatalogo of dadosPessoaEmpresa.Catalogo">
+            <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
+        </ion-slide>
+    </ion-slides>
+</ion-content>

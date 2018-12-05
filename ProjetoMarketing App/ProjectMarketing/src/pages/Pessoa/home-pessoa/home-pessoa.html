@@ -8,40 +8,29 @@
             <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
             </ion-icon>
         </ion-item>
-
         <ion-item no-lines *ngIf="mostrarPesquisa">
-            <ion-title>Filtro</ion-title>
+            <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa" (ionInput)="pesquise()">
+            </ion-searchbar>
         </ion-item>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <div class="filtro" *ngIf="mostrarPesquisa">
-        <ion-item class="item-search-filtro" no-lines>
-            <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa">
-            </ion-searchbar>
-        </ion-item>
-    </div>
-    <ion-list id="flex-box" no-lines *ngIf="!mostrarPesquisa && pessoaEmpresasLimit.length > 0">
-
+    <ion-list id="flex-box" no-lines *ngIf="pessoaEmpresasLimit.length > 0">
         <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresasLimit" (click)="abraPerfilEmpresa(pessoaEmpresa)">
-            <ion-item class="item-header">
-                <!-- <ion-avatar item-start>
-                    <img [src]="empresaProvider.obtenhaLogoEmpresa(pessoaEmpresa.Empresa.IdEmpresa)">
-                </ion-avatar> -->
+            <ion-slides color="tema" autoplay="2000" effect="fade" speed="2000" loop="true" paginationType="bullets" pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
+                <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
+                    <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)">
+                </ion-slide>
+            </ion-slides>
+            <ion-item>
                 <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
                 <p>{{pessoaEmpresa.Perfil.Descricao}}</p>
             </ion-item>
-            <ion-slides color="tema" autoplay="2000" speed="2000" effect="fade" loop="true" paginationType="bullets" pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
-                <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
-                    <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
-                </ion-slide>
-            </ion-slides>
-
             <ion-item class="item-footer">
-                <p item-left><img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/localizacao.svg" alt=""> {{pessoaEmpresa.Distancia}}</p>
+                <p item-left>{{pessoaEmpresa.Distancia}}</p>
                 <p item-right *ngIf="pessoaEmpresa.NotaGeral && pessoaEmpresa.NotaGeral > 0">
-                    <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{pessoaEmpresa.NotaGeral}}
+                    <img src="./assets/svg/estrela.svg" alt="">{{pessoaEmpresa.NotaGeral}}
                 </p>
             </ion-item>
         </div>
@@ -51,9 +40,4 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     </ion-list>
-
-    <ion-fab bottom right *ngIf="mostrarPesquisa">
-        <button ion-fab (click)="pesquise()"> <ion-icon name="search"></ion-icon>
-                </button>
-    </ion-fab>
 </ion-content>

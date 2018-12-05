@@ -30,6 +30,7 @@ export class CarteiraPessoaPage {
     this.pessoaProvider.obtenhaDadosPessoaLojas()
       .then((resultado: any) => {
         this.pessoaLojas = resultado;
+        this.pessoaLojas.sort(a => a.Pontos);
         this.estaCarregando = false;
       })
       .catch(() => {

@@ -4,6 +4,7 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { DTOCupomVenda } from '../../../models/models.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 
 @IonicPage()
@@ -13,7 +14,7 @@ import { DTOCupomVenda } from '../../../models/models.model';
 })
 export class TransacoesPage {
 
-  cuponsVendas: DTOCupomVenda[] = [];
+  cuponsVendasAgrupados: DTOCupomVenda[][] = [[]];
   estaCarregando = true;
 
   constructor(
@@ -22,6 +23,7 @@ export class TransacoesPage {
     private transacaoProvider: TransacaoProvider,
     private popoverCtrl: PopoverController,
     private pessoaProvider: PessoaProvider,
+    private utilitarios: UtilitariosProvider,
     private empresaProvider: EmpresaProvider) {
 
   }
@@ -34,7 +36,11 @@ export class TransacoesPage {
             dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
           });
 
-        this.cuponsVendas = resultado;
+        this.cuponsVendasAgrupados = this.utilitarios
+          .groupBy(resultado, function (item: DTOCupomVenda) {
+            return [new Date(item.Cupom.DataValidade).toLocaleDateString()]
+          }) as [DTOCupomVenda[]];
+
         this.estaCarregando = false;
       })
   }

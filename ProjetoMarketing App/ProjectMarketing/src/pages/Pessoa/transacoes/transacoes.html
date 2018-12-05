@@ -10,40 +10,39 @@
 </ion-header>
 
 <ion-content>
-    <ion-list class="lista" no-lines *ngIf="!estaCarregando && cuponsVendas.length > 0">
-        <div class="item-customizado" *ngFor="let cupomVenda of cuponsVendas">
-            <ion-item>
-                <ion-avatar item-start>
-                    <img [src]="obtenhaLogoEmpresa(cupomVenda.IdEmpresa)">
-                </ion-avatar>
-                <h2>{{cupomVenda.NomeEmpresa}}</h2>
-                <p>{{cupomVenda.DescricaoPerfilEmpresa}}</p>
+    <ion-list class="lista" no-lines *ngIf="!estaCarregando && cuponsVendasAgrupados.length > 0">
+        <div *ngFor="let cupomVendas of cuponsVendasAgrupados">
+            <ion-item-divider> {{cupomVendas[0].Cupom.DataValidade | Data}}
+            </ion-item-divider>
+            <div class="item-customizado" *ngFor="let cupomVenda of cupomVendas">
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img [src]="obtenhaLogoEmpresa(cupomVenda.IdEmpresa)">
+                    </ion-avatar>
+                    <h2>{{cupomVenda.NomeEmpresa}}</h2>
+                    <p>{{cupomVenda.DescricaoPerfilEmpresa}}</p>
 
-                <div item-end>
-                    <p *ngIf="cupomVenda.Venda" class="venda-valor">
-                        <ion-icon name="logo-usd"></ion-icon>
-                        {{cupomVenda.Venda.Valor}}
+                    <div item-end>
+                        <p *ngIf="cupomVenda.Venda" class="venda-valor">
+                            R$ {{cupomVenda.Venda.Valor}}
+                        </p>
+                    </div>
+
+                    <p class="warning" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado">
+                        Expira em: {{cupomVenda.Cupom.DataValidade | Data}}
                     </p>
-                </div>
 
-                <p *ngIf="cupomVenda.Venda">
-                    {{cupomVenda.Venda.Data | Data}}
-                </p>
-                <p class="warning" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado">
-                    Expira em: {{cupomVenda.Cupom.DataValidade | Data}}
-                </p>
+                    <p item-end class="danger" *ngIf="!cupomVenda.Venda && cupomVenda.Cupom.Expirado">
+                        Expirado
+                    </p>
 
-                <p class="danger" *ngIf="!cupomVenda.Venda && cupomVenda.Cupom.Expirado">
-                    Trade expirado
-                </p>
-
-                <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
-            </ion-item>
-
+                    <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
+                </ion-item>
+            </div>
         </div>
     </ion-list>
 
-    <lista-vazia *ngIf="!estaCarregando && cuponsVendas.length == 0">
+    <lista-vazia *ngIf="!estaCarregando && cuponsVendasAgrupados.length == 0">
 
     </lista-vazia>
     <ion-fab bottom right>

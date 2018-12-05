@@ -1,13 +1,17 @@
 page-perfil-empresa {
     .logo {
-        width: 80px !important;
-        height: 80px !important;
-        border-radius: 6px !important;
-    }
-    .minha-avaliacao {
-        ion-icon {
-            font-size: 2.2rem !important;
+        background-color: white;
+        img {
+            border: 1px solid rgb(235, 235, 235);
+            display: block;
+            margin: 0 auto;
+            height: 80px;
+            border-radius: 100%;
         }
+    }
+    ion-slides {
+        background-color: black;
+        max-height: calc(100% - 34px);
     }
     .estrela-nota {
         img {
@@ -17,38 +21,6 @@ page-perfil-empresa {
     .estrela-nota-avaliacao {
         img {
             height: 12px;
-        }
-    }
-    .item-info {
-        p,
-        h2 {
-            ion-icon {
-                margin-right: 7px !important;
-            }
-        }
-        .label {
-            white-space: unset;
-        }
-        h2 {
-            font-size: 2rem;
-        }
-    }
-    .list {
-        margin: 5px 5px 15px 5px !important;
-    }
-    .botao-bool {
-        color: $tema;
-        text-align: center;
-    }
-    button {
-        .label {
-            font-size: 1.4rem !important;
-            color: $tema;
-        }
-    }
-    .item {
-        p {
-            white-space: pre-line;
         }
     }
 }

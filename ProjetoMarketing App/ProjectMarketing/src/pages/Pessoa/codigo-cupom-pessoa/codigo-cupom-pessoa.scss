@@ -1,9 +1,17 @@
 page-codigo-cupom-pessoa {
-    ion-card {
-        img {
-            max-height: 80px;
-            margin-top: 20%;
-        }
-        height: calc(100% - 24px);
+    .content {
+        background-color: white !important;
     }
+    @media screen and (max-height: 500px) {
+        img {
+            display: none;
+        }
+    }
+    img {
+        margin: 0 auto;
+        display: block;
+        max-height: 80px;
+        margin-top: 20px;
+    }
+    height: calc(100% - 24px);
 }
