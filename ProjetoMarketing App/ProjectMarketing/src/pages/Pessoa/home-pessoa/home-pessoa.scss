@@ -5,7 +5,7 @@ page-home-pessoa {
             margin: 0;
         }
     }
-    #flex-box {
+    .flex-box {
         list-style: none;
         display: -webkit-box;
         display: -moz-box;
@@ -13,59 +13,88 @@ page-home-pessoa {
         display: -webkit-flex;
         display: flex;
         flex-flow: row wrap;
-        justify-content: start;
+        justify-content: center;
     }
-    .item-perfil-empresa {
-        .imagem-catalogo {
-            height: 175px;
+    .container {
+        box-shadow: 0 14px 26px rgba(0, 0, 0, 0.11);
+        margin: 7px;
+        // width: 150px;
+        width: calc(calc(100% / 2) - 14px);
+        height: 200px;
+        position: relative;
+        perspective: 800px;
+        border-radius: 10px;
+        .card {
             width: 100%;
-            object-fit: cover;
-            border-radius: 5px 5px 0 0;
-        }
-        .swiper-container {
-            border-radius: 5px 5px 0 0 !important;
-        }
-        ion-slides {
-            height: 180px;
-        }
-        border-radius: 5px;
-        width: calc((100% / 2) - 10px);
-        max-width: calc((100% / 2) - 10px);
-        height: 245px;
-        background-color: white;
-        margin: 5px;
-        // box-shadow: 0 2px 2px 0 rgba(150, 150, 150, 0.14),
-        // 0 3px 1px -2px rgba(150, 150, 150, 0.2),
-        // 0 1px 5px 0 rgba(150, 150, 150, 0.12);
-        .item {
-            padding-left: 4px;
-            .label {
-                margin: 0;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 10px;
+            background-color: $tema;
+            &.flipped {
+                transform: rotateY(180deg);
             }
         }
-        .item-footer {
-            p {
-                margin: 0;
-            }
-            p[item-right] {
-                color: $tema;
-            }
+        .slides {
+            padding: 3px;
+            border-radius: 10px;
+        }
+        .swiper-slide {
             img {
-                height: 1em;
-                margin-right: 2px;
+                object-fit: cover;
+                height: 21rem;
+                width: calc(100%);
             }
-            min-height: 20px;
-            border-radius: 5px;
+            border-radius: 6px;
         }
-    }
-    .filtro {
-        height: 100%;
-        width: 100%;
-        background-color: white;
-        animation-name: fadeIn;
-        animation-duration: 1s;
+        .card,
+        .front,
+        .back {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            background: #fff;
+        }
+        .front {
+            backface-visibility: hidden;
+        }
+        .back {
+            display: none;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+            .informacoes {
+                position: absolute;
+                top: 1em;
+                left: 10%;
+                width: 80%;
+                margin: 0 auto;
+                img {
+                    height: 65px;
+                    width: 65px;
+                    margin: 0 auto;
+                    display: block;
+                    border-radius: 100%;
+                    box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+                }
+                h1 {
+                    font-family: 'Titillium Web', sans-serif !important;
+                    font-weight: 700;
+                    font-size: 2rem;
+                    margin: 0;
+                    padding-top: 10px;
+                }
+                h1,
+                p {
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    width: 100%;
+                    overflow: hidden;
+                }
+                ion-row {
+                    color: $tema;
+                }
+            }
+        }
     }
 }

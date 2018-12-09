@@ -16,28 +16,33 @@
 </ion-header>
 
 <ion-content>
-    <ion-list id="flex-box" no-lines *ngIf="pessoaEmpresasLimit.length > 0">
-        <div class="item-perfil-empresa" *ngFor="let pessoaEmpresa of pessoaEmpresasLimit" (click)="abraPerfilEmpresa(pessoaEmpresa)">
-            <ion-slides color="tema" autoplay="2000" effect="fade" speed="2000" loop="true" paginationType="bullets" pager="true" *ngIf="pessoaEmpresa.Catalogo.length > 0">
-                <ion-slide *ngFor="let imagemCatalogo of pessoaEmpresa.Catalogo">
-                    <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)">
-                </ion-slide>
-            </ion-slides>
-            <ion-item>
-                <h2>{{pessoaEmpresa.Empresa.Nome}}</h2>
-                <p>{{pessoaEmpresa.Perfil.Descricao}}</p>
-            </ion-item>
-            <ion-item class="item-footer">
-                <p item-left>{{pessoaEmpresa.Distancia}}</p>
-                <p item-right *ngIf="pessoaEmpresa.NotaGeral && pessoaEmpresa.NotaGeral > 0">
-                    <img src="./assets/svg/estrela.svg" alt="">{{pessoaEmpresa.NotaGeral}}
-                </p>
-            </ion-item>
-        </div>
+    <div class="flex-box">
+        <div class="container" *ngFor="let empresa of pessoaEmpresasLimit">
+            <div class="card" [id]="empresa.Empresa.IdEmpresa">
+                <div class="front" [id]="'front' + empresa.Empresa.IdEmpresa" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                    <ion-slides color="tema" autoplay="4000" speed="2000" effect="fade" loop="true" pager="true">
+                        <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
+                            <img [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
+                        </ion-slide>
+                    </ion-slides>
+                </div>
+                <div class="back" [id]="'back' + empresa.Empresa.IdEmpresa">
+                    <div class="informacoes" text-center>
+                        <img (click)="abraPerfilEmpresa(empresa)" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
+                        <h1 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h1>
+                        <p (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</p>
+                        <ion-row>
+                            <ion-col color="tema" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                                Girar
+                            </ion-col>
 
-        <ion-infinite-scroll #infinitScroll (ionInfinite)="doInfinite($event)">
-            <ion-infinite-scroll-content loadingSpinner="circles" loadingText="">
-            </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-    </ion-list>
+                            <ion-col (click)="abraModalCatalogo(empresa)">
+                                Galeria
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </ion-content>

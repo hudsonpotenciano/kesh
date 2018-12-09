@@ -6,86 +6,14 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-segment [(ngModel)]="segment" color="primary">
-        <ion-segment-button value="catalogo">
-            <ion-icon name="images"></ion-icon>
-        </ion-segment-button>
-        <ion-segment-button value="loja">
-            <ion-icon name="paper"></ion-icon>
-        </ion-segment-button>
-    </ion-segment>
 
-    <ion-slides *ngIf="segment == 'catalogo' && dadosPessoaEmpresa && dadosPessoaEmpresa.Catalogo" color="tema" autoplay="4000" speed="2000" effect="slide" loop="true" pager="true">
-        <ion-slide *ngFor="let imagemCatalogo of dadosPessoaEmpresa.Catalogo">
-            <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
-        </ion-slide>
-    </ion-slides>
-
-    <div *ngIf="segment == 'loja'">
-        <div class="logo" padding-top margin-bottom>
+    <div class="informacoes-loja">
+        <div class="logo" padding-top padding-bottom>
             <img src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
-            <ion-item no-lines>
-                <h2 text-center>{{dadosPessoaEmpresa.Empresa.Nome}}</h2>
-                <p text-center>{{dadosPessoaEmpresa.Perfil.Descricao}}</p>
-            </ion-item>
-            <!-- <p text-left>{{dadosPessoaEmpresa.Perfil.Telefone}} {{dadosPessoaEmpresa.Perfil.Telefone2}}</p>
-            <p text-left>{{dadosPessoaEmpresa.Conta.Resumo}}</p> -->
         </div>
-
-        <ion-list no-lines>
-            <ion-item-divider> Minha avaliação
-            </ion-item-divider>
-
-            <div *ngIf="!avaliando && dadosPessoaEmpresa.PessoaEmpresa.Comentario">
-                <ion-item class="minha-avaliacao">
-                    <p>Comentario: {{dadosPessoaEmpresa.PessoaEmpresa.Comentario}}</p>
-                    <p class="estrela-nota-avaliacao" *ngIf="dadosPessoaEmpresa.PessoaEmpresa.Nota">Nota: <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{dadosPessoaEmpresa.PessoaEmpresa.Nota}}</p>
-                </ion-item>
-            </div>
-
-            <div *ngIf="avaliando">
-                <ion-item>
-                    <ion-label>
-                        <ion-icon name="star"></ion-icon>
-                    </ion-label>
-                    <ion-input type="number" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Nota" placeholder="0 a 5"></ion-input>
-                </ion-item>
-
-                <ion-item>
-                    <ion-label>
-                        <ion-icon name="paper"></ion-icon>
-                    </ion-label>
-                    <ion-textarea rows="2" maxlength="100" [(ngModel)]="dadosPessoaEmpresa.PessoaEmpresa.Comentario" placeholder="Comentário"></ion-textarea>
-                </ion-item>
-            </div>
-
-            <button class="botao-bool" (click)="avaliando = true" ion-item clear full *ngIf="!avaliando && !dadosPessoaEmpresa.PessoaEmpresa.Comentario"> Avaliar
-                </button>
-            <button class="botao-bool" (click)="atualizeDadosPessoaEmpresa(); avaliando = false" ion-item clear full *ngIf="avaliando"> Salvar
-                </button>
-        </ion-list>
-
-        <ion-list *ngIf="notasComentariosPessoasEmpresas && notasComentariosPessoasEmpresas.length > 0">
-            <ion-item-divider> Avaliações
-            </ion-item-divider>
-            <ion-item *ngFor="let notaComentarios of notasComentariosPessoasEmpresas">
-                <ion-avatar item-start>
-                    <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="pessoaProvider.obtenhaFotoPessoa(notaComentarios.IdPessoa)">
-                </ion-avatar>
-                <h2>{{notaComentarios.Nome}}</h2>
-                <p>{{notaComentarios.Comentario}}</p>
-                <p class="estrela-nota-avaliacao" *ngIf="notaComentarios.Nota"><img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="./assets/svg/estrela.svg" alt=""> {{notaComentarios.Nota}}</p>
-                <p item-end>{{notaComentarios.DataAvaliacao | Data}}</p>
-            </ion-item>
-        </ion-list>
     </div>
 
-    <ion-fab bottom right *ngIf="segment == 'catalogo'">
-        <button ion-fab [disabled]="!compartilharHabilitado" (click)="compartilhe()">  <ion-icon name="contacts"></ion-icon>
-            </button>
-    </ion-fab>
-
-    <ion-fab bottom right *ngIf="segment == 'loja'">
+    <ion-fab bottom right>
         <button ion-fab>
                 <ion-icon name="settings"></ion-icon>
                 </button>

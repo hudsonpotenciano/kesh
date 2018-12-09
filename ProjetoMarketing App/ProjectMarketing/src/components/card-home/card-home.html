@@ -1,0 +1,12 @@
+<div class="container" *ngFor="let empresa of empresasObject">
+    <div class="card" [id]="empresa.Empresa.IdEmpresa" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+        <div class="front">Click to flip</div>
+        <div class="back">
+            <button color="primary" (click)="vireOCard(empresa.Empresa.IdEmpresa)">Voltar</button>
+        </div>
+    </div>
+</div>
+<!-- <ion-infinite-scroll *ngIf="empresasObject.length == 10" #infinitScroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="circles" loadingText="">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->

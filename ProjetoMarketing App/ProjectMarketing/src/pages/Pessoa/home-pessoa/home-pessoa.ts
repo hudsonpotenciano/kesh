@@ -81,7 +81,7 @@ export class HomePessoaPage {
     //   popover.present();
     // }
     // else{
-      
+
     //   var modal = this.modalCtrl.create("PreviewPerfilEmpresaPage", { dadosPessoaEmpresa: pessoaEmpresa });
     //   modal.present();
     // }
@@ -107,11 +107,26 @@ export class HomePessoaPage {
       infinit.enable(false);
   }
 
-  abraPopoverCatalogo(pessoaEmpresa: PessoaEmpresa, evento) {
+  abraModalCatalogo(empresa: DadosPessoaEmpresa, evento) {
     let modal = this.modalCtrl.create("CatalogoComponentPage",
-      { catalogo: pessoaEmpresa.Catalogo },
+      { empresa: empresa },
       { cssClass: "popover-catalogo" });
 
     modal.present({ ev: evento });
+  }
+
+  vireOCard(id: number) {
+    document.getElementById(id.toString()).classList.toggle("flipped");
+    var front = document.getElementById('front' + id.toString());
+    var back = document.getElementById('back' + id.toString());
+
+    if (front.style.display != "none") {
+      front.style.display = "none";
+      back.style.display = "block";
+    }
+    else {
+      front.style.display = "block";
+      back.style.display = "none";
+    }
   }
 }
