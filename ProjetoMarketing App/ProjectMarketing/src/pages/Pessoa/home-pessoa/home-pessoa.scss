@@ -91,6 +91,10 @@ page-home-pessoa {
                     width: 100%;
                     overflow: hidden;
                 }
+                p {
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                }
                 ion-row {
                     color: $tema;
                 }

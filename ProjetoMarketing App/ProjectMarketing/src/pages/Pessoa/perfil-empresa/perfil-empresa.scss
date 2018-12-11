@@ -1,37 +1,83 @@
 page-perfil-empresa {
+    // $gradient: linear-gradient(to bottom right, #5E5AEC, #3F9EFC);
+    // $shadow: 0 13px 26px rgba(#000, .2), 0 3px 6px rgba(#000, .2);
     .content {
         background-color: white;
     }
-    .label {
-        white-space: inherit;
-    }
-    .informacoes-loja {
-        background-color: white;
-        .logo {
-            height: 120px;
-            width: 120px;
+    .profile {
+        margin-top: 20px;
+        position: relative;
+        &:after {
+            width: 100%;
+            height: 1px;
+            content: ' ';
             display: block;
-            margin: 0 auto;
-            img {
-                height: 120px;
-                width: 120px;
-                border-radius: 100%;
-                box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+            background: #E9EFF6;
+        }
+        .thumbnail {
+            width: 124px;
+            height: 124px;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 100%;
+            // box-shadow: $shadow;
+            border: 2px solid #f2f4f8;
+        }
+        .name {
+            color: #2D354A;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            text-align: center;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .description {
+            font-size: 14px;
+            font-weight: 300;
+            text-align: center;
+        }
+        .avaliacao {
+            text-align: center;
+            color: yellow;
+        }
+    }
+    .social-icons {
+        display: flex;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        justify-content: center;
+        .icon {
+            display: flex;
+            margin: 5px;
+            align-items: center;
+            flex-direction: column;
+            background: #f9f9f9;
+            width: 60px;
+            height: 60px;
+            font-size: 3.5rem;
+            line-height: 60px;
+            text-align: center;
+            border-radius: 30px;
+            // box-shadow: $shadow;
+            border: 2px solid #f2f4f8;
+            i {
+                padding-top: 1.2rem;
             }
-        }
-    }
-    ion-slides {
-        background-color: black;
-        max-height: calc(100% - 34px);
-    }
-    .estrela-nota {
-        img {
-            height: 14px;
-        }
-    }
-    .estrela-nota-avaliacao {
-        img {
-            height: 12px;
+            .fa-map-marker-alt {
+                color: rgb(49, 145, 255);
+            }
+            .fa-images {
+                color: rgb(255, 137, 137);
+            }
+            .fa-grin-hearts {
+                color: rgb(253, 74, 104);
+            }
         }
     }
 }

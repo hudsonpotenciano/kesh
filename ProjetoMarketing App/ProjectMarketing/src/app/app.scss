@@ -3,13 +3,11 @@ h2,
 h3,
 h1,
 .item-divider .label {
-    color: #666666 !important;
     font-family: 'Lato', sans-serif !important;
 }
 
 p {
     font-family: 'Roboto', sans-serif !important;
-    color: #666666 !important;
 }
 
 button {
@@ -19,7 +17,6 @@ button {
     }
     .icon {
         font-size: 3rem !important;
-        color: #424242;
     }
     .item {
         height: 70px !important;
@@ -32,13 +29,6 @@ button {
 
 .item-select .label {
     font-size: 2rem;
-}
-
-.card-title,
-.card,
-.label,
-.titulo {
-    color: #424242;
 }
 
 .content,
@@ -207,7 +197,6 @@ ion-header {
 
 .toolbar-content {
     ion-icon {
-        color: #424242 !important;
         margin: 0 5px 0 20px !important;
     }
 }

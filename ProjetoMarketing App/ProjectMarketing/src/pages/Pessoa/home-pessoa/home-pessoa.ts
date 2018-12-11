@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController, PopoverController } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { DadosPessoaEmpresa, Pessoa, PessoaEmpresa } from '../../../models/pessoa.model';
+import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { Localizacao, RetornoRequestModel } from '../../../models/models.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';

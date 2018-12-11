@@ -143,4 +143,12 @@ export class PerfilEmpresaPage {
         })
     });
   }
+
+  abraPopoverAvaliacao() {
+    let popover = this.popOverCtrl.create("AvaliacaoLojaComponent",
+      { catalogo: this.dadosPessoaEmpresa.Catalogo },
+      { cssClass: "popover-shadow" });
+
+      popover.present();
+  }
 }
