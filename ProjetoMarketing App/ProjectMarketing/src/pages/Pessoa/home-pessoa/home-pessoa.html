@@ -27,20 +27,30 @@
                     </ion-slides>
                 </div>
                 <div class="back" [id]="'back' + empresa.Empresa.IdEmpresa">
+                    <ion-row class="header">
+                        <ion-col color="tema">
+                            {{empresa.Distancia}}
+                        </ion-col>
+                        <ion-col>
+                            <div class="stars-outer">
+                                <div class="stars-inner"></div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
                     <div class="informacoes" text-center>
                         <img (click)="abraPerfilEmpresa(empresa)" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
-                        <h1 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h1>
+                        <h6 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h6>
                         <p (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</p>
-                        <ion-row>
-                            <ion-col color="tema" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
-                                Girar
-                            </ion-col>
-
-                            <ion-col (click)="abraModalCatalogo(empresa)">
-                                Galeria
-                            </ion-col>
-                        </ion-row>
                     </div>
+                    <ion-row class="footer">
+                        <ion-col color="tema" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                            <i class="fas fa-undo"></i>
+                        </ion-col>
+
+                        <ion-col (click)="abraModalCatalogo(empresa)">
+                            <i class="fas fa-images"></i>
+                        </ion-col>
+                    </ion-row>
                 </div>
             </div>
         </div>

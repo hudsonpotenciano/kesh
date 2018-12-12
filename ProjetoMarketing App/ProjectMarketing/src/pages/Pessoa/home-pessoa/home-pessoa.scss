@@ -16,7 +16,7 @@ page-home-pessoa {
         justify-content: center;
     }
     .container {
-        box-shadow: 0 14px 26px rgba(0, 0, 0, 0.11);
+        // box-shadow: 0 14px 26px rgba(0, 0, 0, 0.11);
         margin: 7px;
         // width: 150px;
         width: calc(calc(100% / 2) - 14px);
@@ -65,7 +65,7 @@ page-home-pessoa {
             transform: rotateY(180deg);
             .informacoes {
                 position: absolute;
-                top: 1em;
+                top: 2.7rem;
                 left: 10%;
                 width: 80%;
                 margin: 0 auto;
@@ -75,30 +75,37 @@ page-home-pessoa {
                     margin: 0 auto;
                     display: block;
                     border-radius: 100%;
-                    box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+                    border: 2px solid #f2f4f8;
+                    // box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
                 }
-                h1 {
-                    font-family: 'Titillium Web', sans-serif !important;
-                    font-weight: 700;
-                    font-size: 2rem;
-                    margin: 0;
-                    padding-top: 10px;
-                }
-                h1,
-                p {
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    width: 100%;
-                    overflow: hidden;
+                h6 {
+                    margin-bottom: 4px;
                 }
                 p {
-                    letter-spacing: 1.5px;
-                    text-transform: uppercase;
-                }
-                ion-row {
-                    color: $tema;
+                    margin-top: 0px;
                 }
             }
+            .header {
+                position: absolute;
+                top: 0.1em;
+                width: 100%;
+                text-align: center;
+            }
+            .footer {
+                color: $tema;
+                position: absolute;
+                bottom: 0.3em;
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+            }
+        }
+        .stars-outer {
+            font-family: "Font Awesome 5 Free";
+        }
+        .stars-inner::before {
+            content: "\f005 \f005 \f005 \f005 \f005";
+            color: #f8ce0b;
         }
     }
 }

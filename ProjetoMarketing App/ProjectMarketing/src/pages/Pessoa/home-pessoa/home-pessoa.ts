@@ -12,7 +12,7 @@ const tamanhoPagina = 10;
 @IonicPage()
 @Component({
   selector: 'page-home-pessoa',
-  templateUrl: 'home-pessoa.html',
+  templateUrl: 'home-pessoa.html'
 })
 
 export class HomePessoaPage {
@@ -127,6 +127,18 @@ export class HomePessoaPage {
     else {
       front.style.display = "block";
       back.style.display = "none";
+    }
+  }
+
+  obtenhaEstrelas(nota : 1){
+    var array = [nota];
+    var estrelas = "";
+    array.forEach(nota => {
+      return '<i class="fas fa-star"></i>'
+      
+    });
+    if(nota = 1){
+      return '<i class="fas fa-star"></i>'
     }
   }
 }
