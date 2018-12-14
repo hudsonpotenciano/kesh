@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage, ViewController, NavParams } from 'ionic-angular';
+import { UtilitariosProvider } from '../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -8,44 +9,41 @@ import { IonicPage } from 'ionic-angular';
 })
 export class AvaliacaoLojaComponent {
 
-  constructor() {
+  comentario: string = "";
+  nota: number = 0;
+  somenteVisualizacao: boolean = true;
+  constructor(
+    private utilitarios: UtilitariosProvider,
+    private navParamns: NavParams,
+    private viewCtrl: ViewController) {
+    this.nota = this.navParamns.get("nota");
+    this.comentario = this.navParamns.get("comentario");
+    this.somenteVisualizacao = this.nota != null && this.comentario != null;
+
+    if (this.somenteVisualizacao) {
+      setTimeout(() => {
+        var porcentam = this.utilitarios.obtenhaPorcentagemAvaliacao(this.nota);
+        document.getElementById("estelas-nota").style.width = porcentam + "%";
+      }, 1000);
+    }
   }
 
-  ratingStar(event) {
-    var checkValue = document.querySelectorAll("input");
-    var checkStar = document.querySelectorAll("label");
-    var checkSmiley = document.querySelectorAll("i");
-    var checkCount = 0;
-    for (var i = 0; i < checkValue.length; i++) {
-      if (checkValue[i] == event.target) {
-        checkCount = i + 1;
-      }
-    }
-    for (var j = 0; j < checkCount; j++) {
-      checkValue[j].checked = true;
-      checkStar[j].className = "rated";
-      checkSmiley[j].style.display = "none";
-    }
+  altereNota(nota: number) {
+    this.nota = nota;
+    var porcentam = this.utilitarios.obtenhaPorcentagemAvaliacao(nota);
+    document.getElementById("estelas-nota").style.width = porcentam + "%";
+  }
 
-    for (var k = checkCount; k < checkValue.length; k++) {
-      checkValue[k].checked = false;
-      checkStar[k].className = "check"
-      checkSmiley[k].style.display = "none";
+  avalie() {
+
+    if (this.nota < 1) {
+      this.utilitarios.mostreToast("Dê uma nota");
+      return;
     }
-    if (checkCount == 1) {
-      document.querySelectorAll("i")[0].style.display = "block";
+    if (this.comentario === "") {
+      this.utilitarios.mostreToast("Você precisa comentar algo para avaliar");
+      return;
     }
-    if (checkCount == 2) {
-      document.querySelectorAll("i")[1].style.display = "block";
-    }
-    if (checkCount == 3) {
-      document.querySelectorAll("i")[2].style.display = "block";
-    }
-    if (checkCount == 4) {
-      document.querySelectorAll("i")[3].style.display = "block";
-    }
-    if (checkCount == 5) {
-      document.querySelectorAll("i")[4].style.display = "block";
-    }
+    this.viewCtrl.dismiss({ Nota: this.nota, Comentario: this.comentario });
   }
 }

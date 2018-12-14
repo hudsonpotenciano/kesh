@@ -10,6 +10,7 @@ import { SocialSharing } from '../../../../node_modules/@ionic-native/social-sha
 import { DadosPessoaEmpresa } from '../../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { StoragePessoaProvider } from '../../../providers/storage/storage-pessoa';
 
 @IonicPage()
 @Component({
@@ -32,6 +33,7 @@ export class PerfilEmpresaPage {
     private platform: Platform,
     private utilitarios: UtilitariosProvider,
     private socialSharing: SocialSharing,
+    private storagePessoaProvider: StoragePessoaProvider,
     private popOverCtrl: PopoverController,
     private modalCtrl: ModalController,
     private empresaLojaProvider: EmpresaLojaProvider) {
@@ -50,17 +52,6 @@ export class PerfilEmpresaPage {
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
       });
   }
-
-  // atualizeDadosPessoaEmpresa() {
-
-  //   this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
-  //     this.dadosPessoaEmpresa.PessoaEmpresa.Comentario,
-  //     this.dadosPessoaEmpresa.PessoaEmpresa.Nota)
-  //     .then(() => {
-
-  //       this.storagePessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa);
-  //     });
-  // }
 
   compartilhe() {
 
@@ -144,11 +135,34 @@ export class PerfilEmpresaPage {
     });
   }
 
+  verInformacoesDaLoja() {
+
+  }
+
   abraPopoverAvaliacao() {
     let popover = this.popOverCtrl.create("AvaliacaoLojaComponent",
-      { catalogo: this.dadosPessoaEmpresa.Catalogo },
-      { cssClass: "popover-shadow" });
+      {
+        nota: this.dadosPessoaEmpresa.PessoaEmpresa.Nota,
+        comentario: this.dadosPessoaEmpresa.PessoaEmpresa.Comentario
+      },
+      { cssClass: "popover-avaliacao popover-shadow" });
 
-      popover.present();
+    popover.present();
+    popover.onDidDismiss((retorno: any) => {
+
+      if (!retorno || (retorno.Nota == 0 || retorno.Comentario === ""))
+        return;
+
+      this.pessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
+        retorno.Comentario,
+        retorno.Nota)
+        .then(() => {
+          this.dadosPessoaEmpresa.PessoaEmpresa.Comentario = retorno.Comentario;
+          this.dadosPessoaEmpresa.PessoaEmpresa.Nota = retorno.Nota;
+          this.storagePessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa);
+          this.utilitarios.mostreMensagemSucesso("Avaliado com sucesso");
+        }).catch(() => {
+        });
+    });
   }
 }

@@ -80,16 +80,26 @@ page-home-pessoa {
                 }
                 h6 {
                     margin-bottom: 4px;
+                    margin-top: 7px;
                 }
                 p {
                     margin-top: 0px;
+                    margin-bottom: 0px;
                 }
             }
             .header {
+                p {
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                }
                 position: absolute;
                 top: 0.1em;
                 width: 100%;
                 text-align: center;
+                .p-distancia {
+                    font-weight: 600;
+                    color: $azul;
+                }
             }
             .footer {
                 color: $tema;
@@ -100,12 +110,26 @@ page-home-pessoa {
                 font-size: 2rem;
             }
         }
-        .stars-outer {
-            font-family: "Font Awesome 5 Free";
-        }
-        .stars-inner::before {
-            content: "\f005 \f005 \f005 \f005 \f005";
-            color: #f8ce0b;
-        }
+    }
+    %flex-display {
+        display: flex;
+    }
+    .star-rating {
+        @extend %flex-display;
+        align-items: center;
+        font-size: 1.2rem;
+        justify-content: center;
+    }
+    .back-stars {
+        @extend %flex-display;
+        color: #d8d8d8;
+        position: relative;
+    }
+    .front-stars {
+        @extend %flex-display;
+        color: #FFBC0B;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
     }
 }

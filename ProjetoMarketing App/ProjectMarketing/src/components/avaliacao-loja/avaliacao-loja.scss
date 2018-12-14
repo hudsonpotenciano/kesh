@@ -1,42 +1,48 @@
+@media screen and (max-height: 500px) {
+    .popover-avaliacao {
+        .popover-content {
+            top: 20px !important;
+            height: 15rem;
+            .titulo-nota {
+                display: none;
+            }
+            .star-rating {
+                display: none;
+            }
+        }
+    }
+}
+
 avaliacao-loja {
-    table {
-        margin: 0 auto;
-        text-align: center;
-        border-collapse: collapse;
-        border: 1px solid #d4d4d4;
-        font-size: 20px;
-        background: #fff;
+    overflow: hidden;
+    #textarea-comentario {
+        font-size: 1.7rem;
+        margin: 0px;
+        padding: 0;
+        width: 100%;
+        background-color: #f9f9f9;
+        border-radius: 4px;
     }
-    table th,
-    table tr:nth-child(2n+2) {
-        background: #e7e7e7;
+    %flex-display {
+        display: flex;
     }
-    table th,
-    table td {
-        padding: 20px 50px;
+    .star-rating {
+        margin-top: 2rem;
+        @extend %flex-display;
+        align-items: center;
+        font-size: 2.6rem;
+        justify-content: center;
     }
-    table th {
-        border-bottom: 1px solid #d4d4d4;
-    }
-    .stars-outer {
-        font-family: "Font Awesome 5 Free";
-        display: inline-block;
+    .back-stars {
+        @extend %flex-display;
+        color: #d8d8d8;
         position: relative;
-        font-family: FontAwesome;
     }
-    .stars-outer::before {
-        content: "\f006 \f006 \f006 \f006 \f006";
-    }
-    .stars-inner {
+    .front-stars {
+        @extend %flex-display;
+        color: #FFBC0B;
+        overflow: hidden;
         position: absolute;
         top: 0;
-        left: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        width: 0;
-    }
-    .stars-inner::before {
-        content: "\f005 \f005 \f005 \f005 \f005";
-        color: #f8ce0b;
     }
 }

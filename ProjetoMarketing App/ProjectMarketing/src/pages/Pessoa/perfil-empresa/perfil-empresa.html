@@ -7,34 +7,61 @@
 </ion-header>
 <ion-content>
 
-    <div class="profile" padding>
+    <div class="profile card-custom" padding>
         <img class="thumbnail" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
         <h3 class="name">{{dadosPessoaEmpresa.Empresa.Nome}}</h3>
         <p class="title">{{dadosPessoaEmpresa.Perfil.Descricao}}</p>
-        <p class="description">{{dadosPessoaEmpresa.Conta.Resumo}}</p>
-        <h4 class="avaliacao">
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-        </h4>
-    </div>
 
-    <div class="social-icons">
-        <div class="icon" (click)="abraPopoverAvaliacao()">
-            <i class="far fa-grin-hearts"></i>
-        </div>
+        <div class="social-icons">
+            <div class="icon" (click)="verInformacoesDaLoja()">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
 
-        <div class="icon">
-            <i class="fas fa-map-marker-alt"></i>
-        </div>
+            <div class="icon" (click)="abraPopoverAvaliacao()">
+                <i class="fas fa-grin"></i>
+            </div>
 
-        <div class="icon">
-            <i class="fas fa-images"></i>
+            <div class="icon" (click)="rota()">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+
+            <div class="icon">
+                <i class="fas fa-images"></i>
+            </div>
         </div>
     </div>
 
+    <div class="card-custom" padding>
+        <p class="titulo">Avaliações</p>
+        <ion-list *ngIf="notasComentariosPessoasEmpresas.length > 0">
+            <ion-item *ngFor="let notacomentario of notasComentariosPessoasEmpresas">
+                <h2>{{notacomentario.NomePessoa}}</h2>
+                <p>{{notacomentario.Comentario}}</p>
+                <div item-end>
+                    <div class="star-rating">
+                        <div class="back-stars">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <div class="front-stars" [style.width]="utilitarios.obtenhaPorcentagemAvaliacao(notacomentario.Nota) + '%'">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="p-datacomentario">{{notacomentario.DataAvaliacao | Data}}</p>
+                </div>
+            </ion-item>
+        </ion-list>
+        <p text-center *ngIf="notasComentariosPessoasEmpresas.length == 0">
+            Nenhuma avaliação
+        </p>
+    </div>
 
     <ion-fab bottom right>
         <button color="primary" ion-fab [disabled]="!compartilharHabilitado" (click)="compartilhe()">

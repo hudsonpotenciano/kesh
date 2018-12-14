@@ -1,19 +1,7 @@
 page-perfil-empresa {
     // $gradient: linear-gradient(to bottom right, #5E5AEC, #3F9EFC);
     // $shadow: 0 13px 26px rgba(#000, .2), 0 3px 6px rgba(#000, .2);
-    .content {
-        background-color: white;
-    }
     .profile {
-        margin-top: 20px;
-        position: relative;
-        &:after {
-            width: 100%;
-            height: 1px;
-            content: ' ';
-            display: block;
-            background: #E9EFF6;
-        }
         .thumbnail {
             width: 124px;
             height: 124px;
@@ -21,7 +9,6 @@ page-perfil-empresa {
             margin-left: auto;
             margin-right: auto;
             border-radius: 100%;
-            // box-shadow: $shadow;
             border: 2px solid #f2f4f8;
         }
         .name {
@@ -34,8 +21,6 @@ page-perfil-empresa {
             font-size: 1.8rem;
             font-weight: 300;
             text-align: center;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
         }
         .description {
             font-size: 14px;
@@ -50,14 +35,14 @@ page-perfil-empresa {
     .social-icons {
         display: flex;
         margin-top: 5px;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
         justify-content: center;
         .icon {
             display: flex;
             margin: 5px;
             align-items: center;
             flex-direction: column;
-            background: #f9f9f9;
+            background: $background;
             width: 60px;
             height: 60px;
             font-size: 3.5rem;
@@ -69,15 +54,42 @@ page-perfil-empresa {
             i {
                 padding-top: 1.2rem;
             }
+            .fa-clipboard-list {
+                color: rgb(117, 53, 0);
+            }
             .fa-map-marker-alt {
-                color: rgb(49, 145, 255);
+                color: rgb(253, 39, 39);
             }
             .fa-images {
-                color: rgb(255, 137, 137);
+                color: rgb(54, 181, 240);
             }
-            .fa-grin-hearts {
-                color: rgb(253, 74, 104);
+            .fa-grin {
+                color: rgb(255, 218, 11);
             }
         }
+    }
+    %flex-display {
+        display: flex;
+    }
+    .star-rating {
+        @extend %flex-display;
+        align-items: center;
+        font-size: 1.2rem;
+        justify-content: center;
+    }
+    .back-stars {
+        @extend %flex-display;
+        color: #d8d8d8;
+        position: relative;
+    }
+    .front-stars {
+        @extend %flex-display;
+        color: #FFBC0B;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+    }
+    .p-datacomentario {
+        margin-top: 5px;
     }
 }

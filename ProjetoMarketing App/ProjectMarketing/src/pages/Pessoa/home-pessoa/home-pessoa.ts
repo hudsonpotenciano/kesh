@@ -66,7 +66,6 @@ export class HomePessoaPage {
           });
       })
       .catch(() => {
-        debugger;
         //quer dizer que clicou em tentar novamente ou deu erro
         setTimeout(() => {
           this.obtenhaEmpresas();
@@ -127,18 +126,6 @@ export class HomePessoaPage {
     else {
       front.style.display = "block";
       back.style.display = "none";
-    }
-  }
-
-  obtenhaEstrelas(nota : 1){
-    var array = [nota];
-    var estrelas = "";
-    array.forEach(nota => {
-      return '<i class="fas fa-star"></i>'
-      
-    });
-    if(nota = 1){
-      return '<i class="fas fa-star"></i>'
     }
   }
 }

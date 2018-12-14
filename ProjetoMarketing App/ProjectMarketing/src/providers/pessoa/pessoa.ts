@@ -94,7 +94,6 @@ export class PessoaProvider {
   ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: number) {
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaComentarioENotaPessoasEmpresas;
     var dados = this.storagePessoa.recupereComentariosENotas(idPerfilEmpresa);
-    debugger;
     if (this.estaEmCach(enumeradorDeCache) && dados.length > 0) {
       return new Promise<NotaComentarioPessoaEmpresa[]>(resolve => {
         resolve(dados);

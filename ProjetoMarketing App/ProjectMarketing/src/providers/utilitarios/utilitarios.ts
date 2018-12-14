@@ -109,7 +109,7 @@ export class UtilitariosProvider {
               .then((estaAutorizado) => {
 
                 if (estaAutorizado) {
-                  this.geolocation.getCurrentPosition({ enableHighAccuracy: false, timeout: 10000 } as GeolocationOptions)
+                  this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000 } as GeolocationOptions)
                     .then((resp) => {
                       var localizacao = new Localizacao(resp.coords.latitude, resp.coords.longitude);
                       resolve(localizacao);
@@ -180,5 +180,13 @@ export class UtilitariosProvider {
 
   mostreToastTenteNovamente() {
     alert("Ocorreu algum problema, tente novamente");
+  }
+
+  mostreMensagemSucesso(mensagem) {
+    alert(mensagem);
+  }
+
+  obtenhaPorcentagemAvaliacao(nota: number) {
+    return (nota / 5) * 100;
   }
 }

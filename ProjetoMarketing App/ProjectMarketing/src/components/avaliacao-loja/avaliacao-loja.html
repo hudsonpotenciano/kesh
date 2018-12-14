@@ -1,29 +1,22 @@
-<table>
-    <thead>
-        <tr>
-            <th>Hotel</th>
-            <th>Rating</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="hotel-a">
-            <td>Hotel A</td>
-            <td>
-                <div class="stars-outer">
-                    <div class="stars-inner"></div>
-                </div>
-            </td>
-        </tr>
-        <tr class="hotel-b">
-            <td>Hotel B</td>
-            <td>
-                <div class="stars-outer">
-                    <div class="stars-inner"></div>
-                </div>
-            </td>
-        </tr>
-
-        <!-- 3 more rows here -->
-
-    </tbody>
-</table>
+<div class="card-custom" padding>
+    <p class="titulo titulo-nota">Nota</p>
+    <div class="star-rating">
+        <div class="back-stars">
+            <i class="fas fa-star" aria-hidden="true" (click)="!somenteVisualizacao && altereNota(1)"></i>
+            <i class="fas fa-star" aria-hidden="true" (click)="!somenteVisualizacao && altereNota(2)"></i>
+            <i class="fas fa-star" aria-hidden="true" (click)="!somenteVisualizacao && altereNota(3)"></i>
+            <i class="fas fa-star" aria-hidden="true" (click)="!somenteVisualizacao && altereNota(4)"></i>
+            <i class="fas fa-star" aria-hidden="true" (click)="!somenteVisualizacao && altereNota(5)"></i>
+            <div class="front-stars" id="estelas-nota" style="width:0%">
+                <i class="fas fa-star" (click)="!somenteVisualizacao && altereNota(1)" aria-hidden="true"></i>
+                <i class="fas fa-star" (click)="!somenteVisualizacao && altereNota(2)" aria-hidden="true"></i>
+                <i class="fas fa-star" (click)="!somenteVisualizacao && altereNota(3)" aria-hidden="true"></i>
+                <i class="fas fa-star" (click)="!somenteVisualizacao && altereNota(4)" aria-hidden="true"></i>
+                <i class="fas fa-star" (click)="!somenteVisualizacao && altereNota(5)" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+    <p class="titulo" style="margin-top: 1rem;">Comentário</p>
+    <ion-textarea [disabled]="somenteVisualizacao" id="textarea-comentario" rows="3" [(ngModel)]="comentario" name="comentario"></ion-textarea>
+    <button *ngIf="!somenteVisualizacao" class="botao-rodape" ion-item claer (click)="avalie()" color="primary">Avaliar</button>
+</div>

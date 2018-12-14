@@ -29,11 +29,26 @@
                 <div class="back" [id]="'back' + empresa.Empresa.IdEmpresa">
                     <ion-row class="header">
                         <ion-col color="tema">
-                            {{empresa.Distancia}}
+                            <p class="p-distancia">
+                                {{empresa.Distancia}}
+                            </p>
                         </ion-col>
                         <ion-col>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
+                            <div class="star-rating">
+                                <div class="back-stars">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <div class="front-stars" [style.width]="utilitarios.obtenhaPorcentagemAvaliacao(empresa.NotaGeral) + '%'">
+                                        <i class="fas fa-star" aria-hidden="true"></i>
+                                        <i class="fas fa-star" aria-hidden="true"></i>
+                                        <i class="fas fa-star" aria-hidden="true"></i>
+                                        <i class="fas fa-star" aria-hidden="true"></i>
+                                        <i class="fas fa-star" aria-hidden="true"></i>
+                                    </div>
+                                </div>
                             </div>
                         </ion-col>
                     </ion-row>
