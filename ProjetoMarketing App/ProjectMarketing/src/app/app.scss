@@ -145,6 +145,7 @@ ion-icon {
 }
 
 .popover-shadow {
+    border-radius: 10px;
     ion-backdrop {
         opacity: 0.6;
     }
@@ -192,7 +193,7 @@ ion-header {
 
 .item-customizado {
     background-color: white;
-    margin: 10px;
+    margin: 5px;
     border-radius: 10px;
     .item {
         border-radius: 10px;
@@ -220,4 +221,30 @@ ion-header {
     .col {
         padding: 0px !important;
     }
+}
+
+.alertaMensagem {
+    img {
+        margin: 0 auto;
+        display: block;
+        height: 70px;
+    }
+    p {
+        text-align: center;
+        font-size: 1.8rem;
+        color: white;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    .alert-wrapper {
+        border-radius: 10px;
+    }
+}
+
+.erro .alert-wrapper {
+    background-color: #e45353;
+}
+
+.sucesso .alert-wrapper {
+    background-color: #33be5c;
 }

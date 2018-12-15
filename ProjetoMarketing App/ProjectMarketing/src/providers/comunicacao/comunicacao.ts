@@ -4,6 +4,7 @@ import { ComunicacaoSettings } from '../../comunicacao.settings';
 import { StorageProvider } from '../storage/storage';
 import { RetornoRequestModel } from '../../models/models.model';
 import { Events } from 'ionic-angular';
+import { UtilitariosProvider } from '../utilitarios/utilitarios';
 
 @Injectable()
 export class ComunicacaoProvider {
@@ -13,6 +14,7 @@ export class ComunicacaoProvider {
   constructor(
     public http: HttpClient,
     private storage: StorageProvider,
+    private utilitarios: UtilitariosProvider,
     private events: Events) {
 
   }
@@ -45,7 +47,7 @@ export class ComunicacaoProvider {
     return new Promise<any>((resolve, reject) => {
 
       if (!navigator.onLine) {
-        alert("Sem conexao com a internet" + servico);
+        this.utilitarios.mostreMensagemErro("Sem conexao com a internet, o wifi ou os dados móveis devem estar ativos");
         reject({ Erro: -1 } as RetornoRequestModel);
         return;
       }
@@ -59,7 +61,7 @@ export class ComunicacaoProvider {
           if (retorno.Erro != 0) {
 
             if (retorno.Mensagem && retorno.Mensagem != "")
-              alert(retorno.Mensagem)
+              this.utilitarios.mostreMensagemErro(retorno.Mensagem);
 
             reject(retorno);
             return;
@@ -95,7 +97,7 @@ export class ComunicacaoProvider {
             }
           }
           else {
-            alert(e.message);
+            this.utilitarios.mostreMensagemErro(e.message);
           }
         });
     });

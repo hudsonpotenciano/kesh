@@ -7,6 +7,7 @@ import { StoragePessoaProvider } from '../storage/storage-pessoa';
 import { NotaComentarioPessoaEmpresa } from '../../models/empresa.model';
 import { EnumeradorDeCacheStoragePessoa, Enumerador } from '../../models/enumeradores.model';
 import { LoadingController } from 'ionic-angular';
+import { UtilitariosProvider } from '../utilitarios/utilitarios';
 
 @Injectable()
 export class PessoaProvider {
@@ -17,6 +18,7 @@ export class PessoaProvider {
   constructor(private storage: StorageProvider,
     private loadingCtrl: LoadingController,
     private storagePessoa: StoragePessoaProvider,
+    private utilitariosProvider: UtilitariosProvider,
     private comunicacao: ComunicacaoProvider) {
 
     this.dadosAcesso = this.storage.recupereDadosAcesso();
@@ -124,7 +126,7 @@ export class PessoaProvider {
 
     if (this.storagePessoa.recupereDadosPessoa() == null) {
       this.loadingPrimeiroCarregamento = this.loadingCtrl.create({
-        content: 'Carregando dados...'
+        content: 'Carregando lojas...'
       });
       this.loadingPrimeiroCarregamento.present();
     }
@@ -153,6 +155,9 @@ export class PessoaProvider {
   }
 
   realizeLogin(usuario: User) {
+
+    this.utilitariosProvider.mostreAlertaCarregando("Buscando seus dados, aguarde um instante");
+
     return new Promise<any>((resolve, reject) => {
       this.comunicacao.post("pessoa/login/realizelogin", {
         Login: usuario.Login,
@@ -163,13 +168,19 @@ export class PessoaProvider {
         this.storage.armazeneDadosAcesso(result);
         this.dadosAcesso = result;
         resolve(result);
+        this.utilitariosProvider.removaAlertaCarregando();
       }).catch((retorno) => {
         reject(retorno);
+        this.utilitariosProvider.removaAlertaCarregando();
+        this.utilitariosProvider.mostreMensagemErro("Usuario ou senha não encontrados");
       })
     });
   }
 
   realizeLoginRedeSocial(usuario: SocialUser) {
+
+    this.utilitariosProvider.mostreAlertaCarregando("Buscando seus dados, aguarde um instante");
+
     return new Promise<any>((resolve, reject) => {
       this.comunicacao.post("pessoa/login/RealizeLoginRedeSocial", {
         Email: usuario.Email,
@@ -178,21 +189,29 @@ export class PessoaProvider {
       }).then((resposta: RetornoRequestModel) => {
         this.storage.armazeneDadosAcesso(resposta.Result);
         resolve(resposta.Result);
+        this.utilitariosProvider.removaAlertaCarregando();
       }).catch((retorno) => {
+        this.utilitariosProvider.removaAlertaCarregando();
+        this.utilitariosProvider.mostreMensagemErro("Usuario ou senha não encontrados");
         reject(retorno);
       })
     });
   }
 
   cadastrePessoa(pessoa: CadastroPessoaModel) {
+
+    this.utilitariosProvider.mostreAlertaCarregando();
+
     return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoa", pessoa)
         .then((resposta: RetornoRequestModel) => {
           this.storage.armazeneDadosAcesso(resposta.Result);
           resolve();
+          this.utilitariosProvider.removaAlertaCarregando();
         }).catch((resposta: RetornoRequestModel) => {
           if (resposta.Erro == 2) {
-            alert("Este Email já está cadastrado");
+            this.utilitariosProvider.removaAlertaCarregando();
+            this.utilitariosProvider.mostreMensagemErro("Este email já está cadastrado, tente utilizar outro ou realize o login");
             reject(resposta);
           };
         });
@@ -200,15 +219,20 @@ export class PessoaProvider {
   }
 
   cadastrePessoaRedeSocial(pessoa: CadastroPessoaRedeSocialModel) {
+
+    this.utilitariosProvider.mostreAlertaCarregando();
+
     return new Promise((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/CadastrePessoaRedeSocial", pessoa)
         .then((resposta: RetornoRequestModel) => {
           this.storage.armazeneDadosAcesso(resposta.Result);
           resolve();
+          this.utilitariosProvider.removaAlertaCarregando();
         })
         .catch((resposta: RetornoRequestModel) => {
           if (resposta.Erro == 2) {
-            alert("Este Email já está cadastrado");
+            this.utilitariosProvider.removaAlertaCarregando();
+            this.utilitariosProvider.mostreMensagemErro("Este email já está cadastrado, tente utilizar outro ou realize o login");
             reject(resposta);
           };
         });

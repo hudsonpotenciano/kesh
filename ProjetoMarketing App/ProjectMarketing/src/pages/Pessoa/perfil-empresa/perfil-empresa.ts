@@ -67,14 +67,14 @@ export class PerfilEmpresaPage {
               this.pessoaProvider.dadosAcesso.IdPessoa,
               guid6)
               .then(() => {
-                alert("Voce será avisado quando receber seu cupom");
+                this.utilitarios.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")
               })
               .catch(() => {
-
+                this.utilitarios.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.")
               })
           })
           .catch(() => {
-
+            this.utilitarios.mostreMensagemErro("Ocorreu um erro, tente novamente.")
           })
       });
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { Cupom } from '../../../models/models.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -14,9 +15,10 @@ export class CodigoCupomPessoaPage {
   idPessoa: number;
 
   constructor(public navCtrl: NavController,
+    private utilitariosProvider: UtilitariosProvider,
     private transacaoProvider: TransacaoProvider,
     public navParams: NavParams) {
-      this.idPessoa = this.navParams.get("idPessoa");
+    this.idPessoa = this.navParams.get("idPessoa");
   }
 
   ionViewDidLoad() {
@@ -28,14 +30,14 @@ export class CodigoCupomPessoaPage {
         .then((resultado: Cupom) => {
           resultado;
           this.navCtrl.pop();
-          alert("cupom gerado com sucesso");
+          this.utilitariosProvider.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")
         })
         .catch(() => {
-          alert("erro na geracao de cupom");
+          this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.")
         })
     }
     else {
-      alert("nao carregou o usuario");
+      this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro, tente novamente.")
     }
   }
 }

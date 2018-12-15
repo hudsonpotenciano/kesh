@@ -25,7 +25,7 @@
                 <i class="fas fa-map-marker-alt"></i>
             </div>
 
-            <div class="icon">
+            <div class="icon" (click)="abraPopoverCatalogo($event)">
                 <i class="fas fa-images"></i>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <ion-list *ngIf="notasComentariosPessoasEmpresas.length > 0">
             <ion-item *ngFor="let notacomentario of notasComentariosPessoasEmpresas">
                 <h2>{{notacomentario.NomePessoa}}</h2>
-                <p>{{notacomentario.Comentario}}</p>
+                <p style="white-space: normal;"> {{notacomentario.Comentario}}</p>
                 <div item-end>
                     <div class="star-rating">
                         <div class="back-stars">

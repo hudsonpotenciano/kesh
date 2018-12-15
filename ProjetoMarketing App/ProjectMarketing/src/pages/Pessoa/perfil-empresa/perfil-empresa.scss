@@ -54,17 +54,20 @@ page-perfil-empresa {
             i {
                 padding-top: 1.2rem;
             }
+            .fas {
+                color: $tema;
+            }
             .fa-clipboard-list {
-                color: rgb(117, 53, 0);
+                // color: rgb(117, 53, 0);
             }
             .fa-map-marker-alt {
-                color: rgb(253, 39, 39);
+                // color: rgb(253, 39, 39);
             }
             .fa-images {
-                color: rgb(54, 181, 240);
+                // color: rgb(54, 181, 240);
             }
             .fa-grin {
-                color: rgb(255, 218, 11);
+                // color: rgb(255, 218, 11);
             }
         }
     }

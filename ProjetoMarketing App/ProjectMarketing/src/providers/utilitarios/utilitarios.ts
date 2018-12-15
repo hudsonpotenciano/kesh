@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PopoverController, AlertController, Platform } from 'ionic-angular';
+import { PopoverController, AlertController, Platform, LoadingController } from 'ionic-angular';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Localizacao } from '../../models/models.model';
 import { StorageProvider } from '../storage/storage';
@@ -8,10 +8,13 @@ import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
 @Injectable()
 export class UtilitariosProvider {
 
+  loadingPrimeiroCarregamento = null;
+
   constructor(private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
     private geolocation: Geolocation,
     private plataforma: Platform,
+    private loadingCtrl: LoadingController,
     private storage: StorageProvider,
     private diagnostic: Diagnostic) {
   }
@@ -170,6 +173,11 @@ export class UtilitariosProvider {
     alerta.present();
   }
 
+  bloqueiaBotaoPromise(idElemento: string) {
+    var elemento = document.getElementById(idElemento);
+    elemento.innerHTML = "<img src='../assets/svg/loading.svg'>"
+  }
+
   toastPadraoDeInternet() {
     alert("É necessario se conectar à internet para acessar essa função");
   }
@@ -183,10 +191,48 @@ export class UtilitariosProvider {
   }
 
   mostreMensagemSucesso(mensagem) {
-    alert(mensagem);
+    var alerta = this.alertCtrl.create({
+      cssClass: "alertaMensagem sucesso",
+      enableBackdropDismiss: false,
+      message: `<img src='./assets/svg/emojisucesso.svg'>
+                <p>${mensagem}</p>`
+    });
+
+    alerta.present();
+    setTimeout(() => {
+      alerta.dismiss();
+    }, 5000);
+  }
+
+  mostreMensagemErro(mensagem) {
+
+    var alerta = this.alertCtrl.create({
+      cssClass: "alertaMensagem erro",
+      enableBackdropDismiss: false,
+      message: `<img src='./assets/svg/emojierro.svg'>
+                <p>${mensagem}</p>`
+    });
+
+    alerta.present();
+    setTimeout(() => {
+      alerta.dismiss();
+    }, 5000);
   }
 
   obtenhaPorcentagemAvaliacao(nota: number) {
     return (nota / 5) * 100;
+  }
+
+  mostreAlertaCarregando(mensagem?: string) {
+    this.loadingPrimeiroCarregamento = this.loadingCtrl.create({
+      content: mensagem ? mensagem : "Salvando seus dados, aguarde um instante."
+    });
+
+    this.loadingPrimeiroCarregamento.present();
+  }
+
+  removaAlertaCarregando() {
+    if (this.loadingPrimeiroCarregamento)
+      this.loadingPrimeiroCarregamento.dismiss();
   }
 }
