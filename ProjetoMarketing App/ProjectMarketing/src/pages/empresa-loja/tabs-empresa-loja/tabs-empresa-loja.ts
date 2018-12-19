@@ -10,7 +10,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class TabsEmpresaLojaPage {
 
   homePage: any = "HomeEmpresaLojaPage";
-  pefilPage: any = "PerfilEmpresaLojaPage";
+  opcoesPage: any = "OpcoesEmpresaLojaPage";
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

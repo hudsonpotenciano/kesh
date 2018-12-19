@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { StorageProvider } from '../../providers/storage/storage';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Pipe({
   name: 'Data',
@@ -24,3 +25,15 @@ export class SplitPrimeiro implements PipeTransform {
   }
 }
 
+@Pipe({
+  name: 'Safe',
+})
+export class Safe implements PipeTransform {
+
+  constructor(protected sanitizer: DomSanitizer) { }
+
+  public transform(value: any): SafeUrl {
+    var teste = this.sanitizer.bypassSecurityTrustUrl(value);
+    return teste;
+  }
+}

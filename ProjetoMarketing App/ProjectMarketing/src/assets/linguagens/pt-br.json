@@ -1,5 +1,5 @@
 {
     "NOME": "Nome",
     "INFO-CATEGORIAS": "Selecione a categoria que a empresa pertence",
-    "INFO-PONTOS": "Pontos por cada venda realizada"
+    "INFO-PONTOS": "Quantos pontos valem 1 real. A cada real gasto o usuario receberá os pontos baseados neste valor"
 }

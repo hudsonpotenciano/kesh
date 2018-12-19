@@ -1,61 +1,79 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-segment [(ngModel)]="segment" color="light">
-            <ion-segment-button value="cadastro">
-                <ion-icon name="list"></ion-icon>
-            </ion-segment-button>
-            <ion-segment-button value="localizacao">
-                <ion-icon name="navigate"></ion-icon>
-            </ion-segment-button>
-            <ion-segment-button value="catalogo">
-                <ion-icon name="images"></ion-icon>
-            </ion-segment-button>
-        </ion-segment>
-    </ion-toolbar>
+    <ion-navbar>
+        <ion-item no-lines>
+            <ion-segment style="min-width: 70%;" item-end [(ngModel)]="segment" color="light">
+                <ion-segment-button value="cadastro">
+                    Meus dados
+                </ion-segment-button>
+                <ion-segment-button value="catalogo">
+                    Catálogo
+                </ion-segment-button>
+            </ion-segment>
+        </ion-item>
+    </ion-navbar>
 </ion-header>
 
 <ion-content>
     <div *ngIf="segment == 'cadastro'">
-        <form [formGroup]="form" (submit)="atualizePerfil()">
-            <ion-item>
-                <ion-label floating>Nome</ion-label>
-                <ion-input type="text" [(ngModel)]="dadosEmpresa.Perfil.Descricao" formControlName="descricao"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label floating>Telefone</ion-label>
-                <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone" formControlName="telefone"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label floating>Telefone Secundário</ion-label>
-                <ion-input type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone2" formControlName="telefone2"></ion-input>
-            </ion-item>
-        </form>
-    </div>
-
-    <div *ngIf="segment == 'localizacao'">
-        <button ion-button (click)="selecioneLocalizacao()">Localizacao</button>
+        <ion-list no-lines>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>Nome</ion-label>
+                    <ion-input name="nome" type="text" [(ngModel)]="dadosEmpresa.Perfil.Descricao"></ion-input>
+                </ion-item>
+            </div>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>Telefone</ion-label>
+                    <ion-input name="telefone" type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone"></ion-input>
+                </ion-item>
+            </div>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>Telefone Secundário</ion-label>
+                    <ion-input name="telefone2" type="tel" [(ngModel)]="dadosEmpresa.Perfil.Telefone2"></ion-input>
+                </ion-item>
+            </div>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>Localização</ion-label>
+                    <ion-input type="number" disabled [(ngModel)]="dadosEmpresa.Perfil.Latitude"></ion-input>
+                    <ion-input type="number" disabled [(ngModel)]="dadosEmpresa.Perfil.Longitude"></ion-input>
+                    <button ion-button item-end (click)="selecioneLocalizacao()">Buscar</button>
+                </ion-item>
+            </div>
+        </ion-list>
     </div>
 
     <div *ngIf="segment == 'catalogo'">
-
-        <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
-
-        <ion-slides #slides pager="true">
-            <ion-slide *ngFor="let imagemCatalogo of imagensCatalogo;let i = index">
-                <div *ngIf="!imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div>
-                <div *ngIf="imagemCatalogo.Imagem" class="imagem" [style.background-image]="'url(data:image/jpg;base64,' + imagemCatalogo.Imagem + ')'"></div>
-                <div class="botoes">
-                    <button ion-button (click)="removaImagem(i)"> Remover</button>
+        <ion-row>
+            <ion-col col-6>
+                <div class="item-customizado">
+                    <button no-lines ion-item (click)="removaImagem()"> 
+                                            <ion-icon  color="tema" item-start name="trash"></ion-icon>Remover 
+                                        </button>
                 </div>
+            </ion-col>
+            <ion-col col-6>
+                <div class="item-customizado">
+                    <button no-lines ion-item (click)="selecioneImagem()"> 
+                                            <ion-icon  color="tema" item-start name="add-circle"></ion-icon>Adicionar
+                                        </button>
+                </div>
+            </ion-col>
+        </ion-row>
+        <input type="file" #fileInput style="display: none;" accept="image/*" (change)="aoEscolherImagem($event)">
+        <ion-slides #slides pager="true">
+            <ion-slide *ngFor="let imagemCatalogo of imagensCatalogo;let i = index" autoplay="4000" speed="2000" effect="slide" loop="true" paginationType="fraction" pager="true">
+                <img *ngIf="!imagemCatalogo.Imagem" class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
+                <img *ngIf="imagemCatalogo.Imagem" class="imagem-catalogo" [src]="sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + imagemCatalogo.Imagem)" alt="">
             </ion-slide>
         </ion-slides>
-
-        <button ion-button (click)="selecioneImagem()"> add imagem catalogo</button>
     </div>
-    <button ion-button (click)="salvar()"> Salvar</button>
-
-    <button ion-button (click)="sair()">
-    <ion-icon name="power"></ion-icon> Sair
-</button>
-
 </ion-content>
+
+<ion-footer>
+    <button *ngIf="dadosEmpresa" color="tema" no-lines ion-item (click)="salvar()"> 
+                <ion-icon item-start name="checkmark"></ion-icon>Salvar 
+            </button>
+</ion-footer>

@@ -81,8 +81,8 @@ export class UtilitariosProvider {
     img.onload = () => {
 
       var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = img.width > 2000 ? (img.width / 2) : img.width;
+      canvas.height = img.height > 2000 ? (img.height / 2) : img.height;
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
       callback(canvas.toDataURL("image/png", 0.5).replace(/^data:image\/(png|jpg);base64,/, ""));
@@ -186,6 +186,10 @@ export class UtilitariosProvider {
     alert(mensagem);
   }
 
+  mostreToastSucesso(mensagem: string) {
+    alert(mensagem);
+  }
+
   mostreToastTenteNovamente() {
     alert("Ocorreu algum problema, tente novamente");
   }
@@ -234,5 +238,15 @@ export class UtilitariosProvider {
   removaAlertaCarregando() {
     if (this.loadingPrimeiroCarregamento)
       this.loadingPrimeiroCarregamento.dismiss();
+  }
+
+  facaPerguntaSimNao(mensagem, sim, nao) {
+    var alerta = this.alertCtrl.create({
+      message: mensagem,
+      enableBackdropDismiss: true,
+      buttons: [{ text: "Não", handler: nao }, { text: "Sim", handler: sim }]
+    });
+
+    alerta.present();
   }
 }

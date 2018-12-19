@@ -10,19 +10,6 @@ p {
     font-family: 'Roboto', sans-serif !important;
 }
 
-button {
-    .label {
-        font-family: 'Roboto', sans-serif !important;
-        font-size: 1.8rem !important;
-    }
-    .icon {
-        font-size: 3rem !important;
-    }
-    .item {
-        height: 70px !important;
-    }
-}
-
 .item-input {
     font-size: 2.0rem;
 }
@@ -55,6 +42,12 @@ button {
 
 .toolbar-background {
     background: $tema !important;
+}
+
+.back-button,
+.toolbar-title,
+.toolbar ion-icon {
+    color: #424242 !important;
 }
 
 .card-custom {
@@ -107,10 +100,6 @@ button {
             padding: 5px;
         }
     }
-}
-
-.swiper-slide {
-    overflow: auto !important;
 }
 
 icone-informacao {
@@ -197,6 +186,11 @@ ion-header {
     border-radius: 10px;
     .item {
         border-radius: 10px;
+    }
+    &.no-border {
+        .item {
+            border-radius: 0px;
+        }
     }
 }
 

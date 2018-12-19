@@ -11,29 +11,34 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item>
-            <ion-label floating>
-                Nome
-            </ion-label>
-            <ion-input disabled type="text" [(ngModel)]="pessoa.Nome"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>
-                Email
-            </ion-label>
-            <ion-input disabled type="text" [(ngModel)]="pessoa.Email"></ion-input>
-        </ion-item>
+    <ion-list no-lines>
+        <div class="item-customizado">
+            <ion-item>
+                <ion-label floating>
+                    Nome
+                </ion-label>
+                <ion-input disabled type="text" [(ngModel)]="pessoa.Nome"></ion-input>
+            </ion-item>
+        </div>
+        <div class="item-customizado">
+            <ion-item>
+                <ion-label floating>
+                    Email
+                </ion-label>
+                <ion-input disabled type="text" [(ngModel)]="pessoa.Email"></ion-input>
+            </ion-item>
+        </div>
+        <div class="item-customizado">
+            <button ion-item (click)="mudarSenha() ">
+                            <ion-icon color="tema" item-start name="lock"></ion-icon>
+                            <h2>Alterar senha</h2>
+                        </button>
+        </div>
+        <div class="item-customizado">
+            <button ion-item (click)="sair()">
+                        <ion-icon color="tema" item-start name="power"></ion-icon>
+                        <h2>Sair</h2>
+                    </button>
+        </div>
     </ion-list>
-    <ion-list>
-        <button ion-item full (click)="mudarSenha()">
-            <ion-icon item-start name="lock"></ion-icon>
-            Alterar senha
-        </button>
-        <button ion-item full (click)="sair()">
-            <ion-icon item-start name="power"></ion-icon>
-            Sair
-        </button>
-    </ion-list>
-
 </ion-content>

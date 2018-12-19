@@ -5,6 +5,7 @@ import { User, RetornoLogin } from '../../../models/models.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { Perfil } from '../../../models/empresa.model';
 import { StorageProvider } from '../../../providers/storage/storage';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class LoginEmpresaPage {
     public navParams: NavParams,
     private empresaProvider: EmpresaProvider,
     private storage: StorageProvider,
+    private utilitarios: UtilitariosProvider,
     private storageEmpresa: StorageEmpresaProvider) {
 
     this.usuario.Login = "teste2@gmail.com";
@@ -38,12 +40,16 @@ export class LoginEmpresaPage {
 
   login() {
 
+    this.utilitarios.mostreAlertaCarregando("Buscando seus dados, aguarde um instante.");
     this.empresaProvider.realizeLogin(this.usuario)
       .then((retornoLogin: RetornoLogin) => {
         this.dadosAcesso = retornoLogin;
         this.viewAtual = this.views[1];
+        this.utilitarios.removaAlertaCarregando();
       })
       .catch(() => {
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("Login ou senha não encontrados");
       })
   }
 
@@ -86,18 +92,22 @@ export class LoginEmpresaPage {
 
   realizeLoginEmpresaAdmin() {
 
+    this.utilitarios.mostreAlertaCarregando("Validando dados de administrador, aguarde um instante.")
     this.empresaProvider.realizeLoginAdmin(this.usuario)
       .then((resposta) => {
         if (resposta && resposta.Erro === 0) {
           this.navCtrl.setRoot("TabsEmpresaPage");
-
           this.storage.armazeneDadosAcesso(this.dadosAcesso);
+          this.utilitarios.removaAlertaCarregando();
         }
-        else
-          alert("nao autenticado");
+        else {
+          this.utilitarios.removaAlertaCarregando();
+          this.utilitarios.mostreMensagemErro("A senha de adminstrador está incorreta");
+        }
       })
       .catch(() => {
-        alert("nao autenticado");
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("A senha de adminstrador está incorreta");
       })
   }
 

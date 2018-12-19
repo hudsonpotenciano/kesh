@@ -66,8 +66,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("AtualizePerfilEmpresa")]
         public async Task<RetornoRequestModel> AtualizePerfilEmpresa([FromBody]CadastroPerfilModel parametros)
         {
-            await EmpresaService.Instancia.AtualizePerfilEmpresa(parametros, _context);
-            return RetornoRequestModel.CrieSucesso();
+            return await EmpresaService.Instancia.AtualizePerfilEmpresa(parametros, _context);
         }
 
         [Authorize("Bearer")]

@@ -36,7 +36,6 @@ export class NotaComentarioPessoaEmpresa {
 export class ImagemCatalogo {
     IdImagem: number;
     Imagem: any;
-    IdPerfilEmpresa: number;
 }
 
 export class AtualizeContaModel {

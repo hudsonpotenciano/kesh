@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { CadastroEmpresaModel } from '../../../models/empresa.model';
 import { Enumerador, EnumeradorDeCategorias } from '../../../models/enumeradores.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -16,16 +17,12 @@ export class CadastroEmpresaPage {
   confirmacaoDaSenha: string = "";
   profilePic = undefined;
 
-  conta: string = "conta";
-  perfil: string = "perfil";
-  financeiro: string = "financeiro";
-  opcaoAtual = this.conta;
-
   @ViewChild('fileInput') fileInput;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private utilitarios: UtilitariosProvider,
     private empresaProvider: EmpresaProvider,
     private modalCtrl: ModalController) {
   }
@@ -56,10 +53,15 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
-
+    this.utilitarios.mostreAlertaCarregando("Salvando dados da empresa, aguarde um instante.");
     this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
+        this.utilitarios.removaAlertaCarregando();
         this.navCtrl.setRoot("LoginEmpresaPage");
+      })
+      .catch(() => {
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("Ocorreu um erro ao cadastrar a empresa, tente novamente.");
       });
   }
 
@@ -92,19 +94,6 @@ export class CadastroEmpresaPage {
     return true;
   }
 
-  proximo() {
-    if (this.opcaoAtual == this.conta) {
-      if (!this.podeSalvarConta()) return;
-      this.opcaoAtual = this.perfil;
-    }
-    else if (this.opcaoAtual == this.perfil) {
-      if (!this.podeSalvarPerfil()) return;
-      this.opcaoAtual = this.financeiro;
-    }
-    else {
-      this.cadastre();
-    }
-  }
   podeSalvarPerfil() {
     if (!this.empresa.Latitude || this.empresa.Latitude == 0 || !this.empresa.Longitude || this.empresa.Longitude == 0) {
       alert("selecione a localizacao da loja");
@@ -137,20 +126,5 @@ export class CadastroEmpresaPage {
     if (this.empresa.Categoria)
       return this.categorias.find(c => c.Codigo == this.empresa.Categoria).Descricao;
   }
-
-  // makeid() {
-  //   var text = "";
-  //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  //   for (var i = 0; i < 10; i++)
-  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  //   return text;
-  // }
-
-  // getRandomInt() {
-  //   var min = Math.ceil(1000000);
-  //   var max = Math.floor(90000000);
-  //   return Math.floor(Math.random() * (max - min)) + min;
-  // }
 }
+

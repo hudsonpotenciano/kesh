@@ -16,58 +16,60 @@
 </ion-header>
 
 <ion-content>
-    <div class="flex-box">
-        <div class="container" *ngFor="let empresa of pessoaEmpresasLimit">
-            <div class="card" [id]="empresa.Empresa.IdEmpresa">
-                <div class="front" [id]="'front' + empresa.Empresa.IdEmpresa" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
-                    <ion-slides color="tema" autoplay="4000" speed="2000" effect="fade" loop="true" pager="true">
-                        <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
-                            <img [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
-                        </ion-slide>
-                    </ion-slides>
-                </div>
-                <div class="back" [id]="'back' + empresa.Empresa.IdEmpresa">
-                    <ion-row class="header">
-                        <ion-col color="tema">
-                            <p class="p-distancia">
-                                {{empresa.Distancia}}
-                            </p>
-                        </ion-col>
-                        <ion-col>
-                            <div class="star-rating">
-                                <div class="back-stars">
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <div class="front-stars" [style.width]="utilitarios.obtenhaPorcentagemAvaliacao(empresa.NotaGeral) + '%'">
+    <ion-list>
+        <div class="flex-box">
+            <div class="container" *ngFor="let empresa of pessoaEmpresasLimit">
+                <div class="card" [id]="empresa.Empresa.IdEmpresa">
+                    <div class="front" [id]="'front' + empresa.Empresa.IdEmpresa" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                        <ion-slides *ngIf="empresa.Catalogo.length > 0" color="tema" autoplay="4000" speed="2000" effect="fade" loop="true" pager="true">
+                            <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
+                                <img [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
+                            </ion-slide>
+                        </ion-slides>
+                    </div>
+                    <div class="back" [id]="'back' + empresa.Empresa.IdEmpresa">
+                        <ion-row class="header">
+                            <ion-col color="tema">
+                                <p class="p-distancia">
+                                    {{empresa.Distancia}}
+                                </p>
+                            </ion-col>
+                            <ion-col>
+                                <div class="star-rating">
+                                    <div class="back-stars">
                                         <i class="fas fa-star" aria-hidden="true"></i>
                                         <i class="fas fa-star" aria-hidden="true"></i>
                                         <i class="fas fa-star" aria-hidden="true"></i>
                                         <i class="fas fa-star" aria-hidden="true"></i>
                                         <i class="fas fa-star" aria-hidden="true"></i>
+                                        <div class="front-stars" [style.width]="utilitarios.obtenhaPorcentagemAvaliacao(empresa.NotaGeral) + '%'">
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ion-col>
-                    </ion-row>
-                    <div class="informacoes" text-center>
-                        <img (click)="abraPerfilEmpresa(empresa)" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
-                        <h6 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h6>
-                        <p (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</p>
-                    </div>
-                    <ion-row class="footer">
-                        <ion-col color="tema" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
-                            <i class="fas fa-undo"></i>
-                        </ion-col>
+                            </ion-col>
+                        </ion-row>
+                        <div class="informacoes" text-center>
+                            <img (click)="abraPerfilEmpresa(empresa)" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
+                            <!-- <h6 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h6> -->
+                            <h6 (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</h6>
+                        </div>
+                        <ion-row class="footer">
+                            <ion-col color="tema" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                                <i class="fas fa-undo"></i>
+                            </ion-col>
 
-                        <ion-col (click)="abraModalCatalogo(empresa)">
-                            <i class="fas fa-images"></i>
-                        </ion-col>
-                    </ion-row>
+                            <ion-col (click)="abraModalCatalogo(empresa)">
+                                <i class="fas fa-images"></i>
+                            </ion-col>
+                        </ion-row>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ion-list>
 </ion-content>

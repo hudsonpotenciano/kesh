@@ -1,14 +1,11 @@
 page-perfil-empresa-loja {
-    ion-slides {
-        // .botoes {}
-        .imagem {
-            height: 250px;
-            width: 100%;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+    ion-row {
+        .item-inner {
+            background-image: none !important;
+            padding-right: 0px !important;
         }
-        max-height: 300px;
-        max-width: 100%;
+    }
+    .fab ion-icon {
+        font-size: 4rem !important;
     }
 }

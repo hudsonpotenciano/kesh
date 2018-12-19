@@ -97,7 +97,7 @@ export class ComunicacaoProvider {
             }
           }
           else {
-            this.utilitarios.mostreMensagemErro(e.message);
+            reject();
           }
         });
     });

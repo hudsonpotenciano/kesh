@@ -7,8 +7,20 @@
         </ion-item>
     </ion-navbar>
 </ion-header>
+
 <ion-content>
     <ion-list no-lines>
+        <div class="item-customizado">
+            <button ion-item (click)="abraEdicao()">
+                <ion-icon color="tema" item-start name="person"></ion-icon>
+                <h2>
+                    Editar
+                </h2>
+                <p>
+                    Alterar dados da conta
+                </p>
+            </button>
+        </div>
         <div class="item-customizado">
             <button ion-item (click)="compartilhe()">
                 <ion-icon color="tema" item-start name="share"></ion-icon>
@@ -16,7 +28,7 @@
                     Compartilhe
                 </h2>
                 <p>
-                    Convide seus amigos para ganhar Keshs
+                    Convide pessoas
                 </p>
             </button>
         </div>
@@ -28,6 +40,17 @@
                     </h2>
                     <p>
                         Veja os tutorais  
+                    </p>
+                </button>
+        </div>
+        <div class="item-customizado">
+            <button ion-item (click)="sair()">
+                    <ion-icon color="tema" item-start name="power"></ion-icon>
+                    <h2>
+                        Sair
+                    </h2>
+                    <p>
+                        Deslogar da sua conta  
                     </p>
                 </button>
         </div>

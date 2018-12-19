@@ -45,6 +45,7 @@ namespace ProjetoMarketing.Controllers
             catch (System.Exception e)
             {
                 return RetornoRequestModel.CrieFalha();
+                throw e;
             }
         }
 
@@ -71,6 +72,7 @@ namespace ProjetoMarketing.Controllers
             catch (System.Exception e)
             {
                 return RetornoRequestModel.CrieFalha();
+                throw e;
             }
         }
 

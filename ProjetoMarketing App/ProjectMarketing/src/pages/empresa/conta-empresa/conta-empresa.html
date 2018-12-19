@@ -5,41 +5,42 @@
 </ion-header>
 <ion-content *ngIf="dadosEmpresa">
 
-    <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
+    <input type="file" #fileInput style="display: none; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
-    <div class="div-avatar">
-        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!novaImagem" (click)="selecioneImagem()" [src]="empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)" alt="">
-        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="novaImagem" (click)="selecioneImagem()" [src]="novaImagem" alt="">
+    <div class="profile card-custom" padding>
+        <img (click)="selecioneImagem()" class="thumbnail" src="{{empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)}}" alt="">
+        <h3 class="name">{{dadosPessoaEmpresa.Empresa.Nome}}</h3>
+        <p class="title">{{dadosPessoaEmpresa.Perfil.Descricao}}</p>
+
+        <form [formGroup]="form" (submit)="atualizeConta()">
+            <ion-item>
+                <ion-label fixed>Resumo</ion-label>
+                <ion-input type="text" [(ngModel)]="dadosEmpresa.Conta.Resumo" formControlName="resumo"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Valor dos Pontos</ion-label>
+                <ion-input type="number" [(ngModel)]="dadosEmpresa.Conta.ValorPontos" formControlName="valorPontos"></ion-input>
+            </ion-item>
+        </form>
     </div>
-
-    <form [formGroup]="form" (submit)="atualizeConta()">
-        <ion-item>
-            <ion-label fixed>Resumo</ion-label>
-            <ion-input type="text" [(ngModel)]="dadosEmpresa.Conta.Resumo" formControlName="resumo"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label fixed>Valor dos Pontos</ion-label>
-            <ion-input type="number" [(ngModel)]="dadosEmpresa.Conta.ValorPontos" formControlName="valorPontos"></ion-input>
-        </ion-item>
-        <button ion-button (click)="atualizeConta()">Salvar</button>
-    </form>
 
     <ion-list>
         <ion-item-divider> Perfis
         </ion-item-divider>
+        <button ion-item>             
+                <ion-icon item-start name="add"></ion-icon> Novo perfil
+        </button>
         <ion-item *ngFor="let perfil of dadosEmpresa.PerfisEmpresaCatalogo" (click)="abraAtualizacaoPerfil(perfil)">
             <h2>
                 {{perfil.Descricao}}
             </h2>
         </ion-item>
     </ion-list>
-
-    <ion-fab right bottom (click)="adicioneNovoPerfil()">
-        <button ion-fab>             
-                 <ion-icon name="add"></ion-icon>
-                  </button>
-    </ion-fab>
-
-    <button ion-button (click)="sair()">Sair</button>
 </ion-content>
+
+<ion-footer>
+    <button *ngIf="dadosEmpresa" color="tema" no-lines ion-item (click)="salvar()"> 
+                    <ion-icon item-start name="checkmark"></ion-icon>Salvar 
+                </button>
+</ion-footer>

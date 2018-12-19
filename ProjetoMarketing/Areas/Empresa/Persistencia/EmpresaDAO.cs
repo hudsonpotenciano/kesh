@@ -13,9 +13,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 {
     public class EmpresaDAO
     {
-
         private readonly PessoaEmpresaContext _context;
-        private readonly object imagemservice;
 
         public EmpresaDAO(PessoaEmpresaContext context)
         {

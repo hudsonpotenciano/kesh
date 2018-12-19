@@ -25,6 +25,13 @@ export class CodigoCupomPessoaPage {
   }
 
   gerarCupomViaCodigo() {
+    
+    if(!this.codigo || this.codigo === "")
+    {
+      this.utilitariosProvider.mostreToast("Informe o código");
+      return;
+    }
+
     if (this.idPessoa && this.idPessoa > 0) {
       this.transacaoProvider.GereCupomCompartilhamento(this.idPessoa, this.codigo)
         .then((resultado: Cupom) => {
@@ -32,12 +39,14 @@ export class CodigoCupomPessoaPage {
           this.navCtrl.pop();
           this.utilitariosProvider.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")
         })
-        .catch(() => {
+        .catch((retorno) => {
+          retorno;
           this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.")
         })
     }
     else {
-      this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro, tente novamente.")
+      this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.");
+      this.navCtrl.pop();
     }
   }
 }

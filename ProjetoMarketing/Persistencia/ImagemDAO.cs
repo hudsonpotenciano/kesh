@@ -28,7 +28,7 @@ namespace ProjetoMarketing.Persistencia
                 return;
             }
 
-            SaveImagem(imagemPerfil.Imagem, (int)imagemPerfil.IdEmpresa, container).Wait();
+            SaveImagem(imagemPerfil.Imagem, (int)imagemPerfil.IdEmpresa, container);
         }
 
         public void SaveImagemPerfilPessoa(ImagemPerfil imagemPerfil, string container)
@@ -38,22 +38,25 @@ namespace ProjetoMarketing.Persistencia
                 return;
             }
 
-            SaveImagem(imagemPerfil.Imagem, (int)imagemPerfil.IdPessoa, container).Wait();
+            SaveImagem(imagemPerfil.Imagem, (int)imagemPerfil.IdPessoa, container);
         }
 
-        private Task SaveImagemCatalogo(byte[] imagem, long idImagem, string container)
+        private void SaveImagemCatalogoContainer(byte[] imagem, long idImagem, string container)
         {
-            return SaveImagem(imagem, idImagem, container);
+            SaveImagem(imagem, idImagem, container);
         }
 
-        private Task SaveImagem(byte[] imagem, long idImagem, string containerName)
+        private void SaveImagem(byte[] imagem, long idImagem, string containerName)
         {
             try
             {
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                CloudBlobContainer container = blobClient.GetContainerReference(containerName);
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(idImagem + imageType);
-                return blockBlob.UploadFromByteArrayAsync(imagem, 0, imagem.Length);
+                Task.Factory.StartNew(() =>
+                {
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(idImagem + imageType);
+                    blockBlob.UploadFromByteArrayAsync(imagem, 0, imagem.Length);
+                });
             }
             catch (System.Exception e)
             {
@@ -61,14 +64,17 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        private void DeleteImagemCatalogo(long idImagem, string nomeContainer)
+        private void DeleteImagemCatalogoContainer(long idImagem, string nomeContainer)
         {
             try
             {
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                CloudBlobContainer container = blobClient.GetContainerReference(nomeContainer);
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(idImagem + imageType);
-                blockBlob.DeleteAsync();
+                Task.Factory.StartNew(() =>
+                {
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(nomeContainer);
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(idImagem + imageType);
+                    blockBlob.DeleteAsync();
+                });
             }
             catch (System.Exception e)
             {
@@ -115,20 +121,20 @@ namespace ProjetoMarketing.Persistencia
                         _context.ImagemCatalogo.Add(imagem);
                         _context.SaveChanges();
                         item.IdImagem = imagem.IdImagem;
-                        SaveImagemCatalogo(item.Imagem, imagem.IdImagem, container);
+                        SaveImagemCatalogoContainer(item.Imagem, imagem.IdImagem, container);
                     }
                     else
                     {
-                        DeleteImagemCatalogo(item.IdImagem, container);
-                        SaveImagemCatalogo(item.Imagem, imagem.IdImagem, container);
+                        DeleteImagemCatalogoContainer(item.IdImagem, container);
+                        SaveImagemCatalogoContainer(item.Imagem, imagem.IdImagem, container);
                     }
                 }
 
                 foreach (long item in imagensSalvas.Select(a => a.IdImagem).Except(Imagens.Select(a => a.IdImagem)))
                 {
-                    DeleteImagemCatalogo(item, container);
+                    DeleteImagemCatalogoContainer(item, container);
                     _context.ImagemCatalogo.Remove(imagensSalvas.FirstOrDefault(a => a.IdImagem == item));
-                    _context.SaveChanges();
+                    _context.SaveChangesAsync();
                 }
             }
             catch (System.Exception e)

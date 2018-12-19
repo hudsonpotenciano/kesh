@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Data, SplitPrimeiro } from './pipes/pipes';
+import { Data, SplitPrimeiro, Safe } from './pipes/pipes';
 @NgModule({
-	declarations: [Data,SplitPrimeiro],
+	declarations: [Data, SplitPrimeiro, Safe],
 	imports: [],
-	exports: [Data, SplitPrimeiro]
+	exports: [Data, SplitPrimeiro, Safe]
 })
 export class PipesModule { }

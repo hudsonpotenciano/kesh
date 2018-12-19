@@ -46,7 +46,7 @@ export class HomePessoaPage {
       .then((pessoa: Pessoa) => {
         this.pessoa = pessoa;
         this.obtenhaEmpresas();
-      });
+      }).catch(() => { });
   }
 
   obtenhaEmpresas() {

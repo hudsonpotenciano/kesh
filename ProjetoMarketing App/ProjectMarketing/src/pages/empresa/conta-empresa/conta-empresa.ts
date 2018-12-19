@@ -5,6 +5,7 @@ import { DadosEmpresaAdmin, AtualizeContaModel, Perfil } from '../../../models/e
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { StorageProvider } from '../../../providers/storage/storage';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -26,6 +27,7 @@ export class ContaEmpresaPage {
     public navParams: NavParams,
     private storageEmpresa: StorageEmpresaProvider,
     private storage: StorageProvider,
+    private utilitarios: UtilitariosProvider,
     private empresaProvider: EmpresaProvider) {
     this.empresaProvider;
 
@@ -58,7 +60,7 @@ export class ContaEmpresaPage {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  atualizeConta() {
+  salvar() {
 
     let conta: AtualizeContaModel = new AtualizeContaModel();
     conta.Categorias = [0, 1];
@@ -67,11 +69,20 @@ export class ContaEmpresaPage {
     conta.IdEmpresa = this.dadosEmpresa.Empresa.IdEmpresa;
     conta.Logo = this.novaImagem.split(",")[1];
 
+    this.utilitarios.mostreAlertaCarregando("Salvando, aguarde um instante.");
     this.empresaProvider.atualizeConta(conta)
       .then(() => {
-
         this.storageEmpresa.armazeneDadosEmpresaAdmin(this.dadosEmpresa);
-      });
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreToastSucesso("Dados salvos com sucesso");
+        this.navCtrl.pop();
+      })
+      .catch((retorno) => {
+        retorno;
+        this.navCtrl.pop();
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("Houve um erro ao salvar os dados, tente novamente");
+      })
   }
 
   adicioneNovoPerfil() {
@@ -87,4 +98,3 @@ export class ContaEmpresaPage {
     this.navCtrl.setRoot("LoginEmpresaPage");
   }
 }
-

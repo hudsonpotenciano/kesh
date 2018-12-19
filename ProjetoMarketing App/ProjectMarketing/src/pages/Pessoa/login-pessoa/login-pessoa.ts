@@ -66,6 +66,8 @@ export class LoginPessoaPage {
     this.pessoaProvider.realizeLogin(this.usuario)
       .then(() => {
         this.navCtrl.setRoot("TabsPessoaPage");
+      }).catch(()=>{
+
       });
   }
 
@@ -75,5 +77,9 @@ export class LoginPessoaPage {
 
   mostreInformacao(event: any) {
     this.utilitarioProvider.mestrePopInformacao("adas", event);
+  }
+
+  voltar() {
+    this.navCtrl.setRoot("IntroducaoPage");
   }
 }

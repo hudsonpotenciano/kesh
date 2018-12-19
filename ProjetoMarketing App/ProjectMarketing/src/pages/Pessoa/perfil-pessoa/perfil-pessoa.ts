@@ -4,6 +4,7 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Pessoa } from '../../../models/pessoa.model';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 
 @IonicPage()
@@ -17,7 +18,8 @@ export class PerfilPessoaPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private app: App,
-    private splashScreen : SplashScreen,
+    private splashScreen: SplashScreen,
+    private utilidades: UtilitariosProvider,
     private pessoaProvider: PessoaProvider,
     private storage: StorageProvider) {
   }
@@ -38,6 +40,15 @@ export class PerfilPessoaPage {
   }
 
   sair() {
+    this.utilidades.facaPerguntaSimNao("Tem certeza de que deseja sair ?",
+      () => {
+        this.saia()
+      },() => {
+
+      })
+  }
+
+  saia() {
     this.storage.limpeTudo();
     this.splashScreen.show();
     this.app.getRootNavs()[0].setRoot("IntroducaoPage");
