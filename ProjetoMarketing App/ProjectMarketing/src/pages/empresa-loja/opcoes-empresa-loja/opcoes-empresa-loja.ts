@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, App, NavController } from 'ionic-angular';
+import { IonicPage, Slides, App } from 'ionic-angular';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { DadosEmpresaLoja, ImagemCatalogo } from '../../../models/empresa.model';
 import { StorageProvider } from '../../../providers/storage/storage';
@@ -25,8 +25,7 @@ export class OpcoesEmpresaLojaPage {
     private storage: StorageProvider,
     private splashScreen: SplashScreen,
     private app: App,
-    private utilitarios:UtilitariosProvider,
-    private navCtrl: NavController,
+    private utilitarios: UtilitariosProvider,
     private sanitizer: DomSanitizer) {
     this.sanitizer;
     this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaLoja()
@@ -38,14 +37,14 @@ export class OpcoesEmpresaLojaPage {
   }
 
   abraEdicao() {
-    this.navCtrl.push("PerfilEmpresaLojaPage");
+    this.app.getRootNavs()[0].push("PerfilEmpresaLojaPage");
   }
 
   sair() {
     this.utilitarios.facaPerguntaSimNao("Tem certeza de que deseja sair ?",
       () => {
         this.saia()
-      },() => {
+      }, () => {
 
       })
   }

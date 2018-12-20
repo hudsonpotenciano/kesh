@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ConfiguracoesPessoaPage } from './configuracoes-pessoa';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
   ],
   providers:
   [
-    SocialSharing
+    SocialSharing,
+    SplashScreen
   ]
 })
 export class ConfiguracoesPessoaPageModule {}

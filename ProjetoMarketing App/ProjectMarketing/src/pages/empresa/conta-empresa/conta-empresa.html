@@ -1,46 +1,43 @@
-<ion-header>
-    <ion-navbar>
-        <ion-title>Conta</ion-title>
-    </ion-navbar>
-</ion-header>
 <ion-content *ngIf="dadosEmpresa">
-
     <input type="file" #fileInput style="display: none; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
-
-    <div class="profile card-custom" padding>
-        <img (click)="selecioneImagem()" class="thumbnail" src="{{empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)}}" alt="">
-        <h3 class="name">{{dadosPessoaEmpresa.Empresa.Nome}}</h3>
-        <p class="title">{{dadosPessoaEmpresa.Perfil.Descricao}}</p>
-
-        <form [formGroup]="form" (submit)="atualizeConta()">
-            <ion-item>
-                <ion-label fixed>Resumo</ion-label>
-                <ion-input type="text" [(ngModel)]="dadosEmpresa.Conta.Resumo" formControlName="resumo"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label fixed>Valor dos Pontos</ion-label>
-                <ion-input type="number" [(ngModel)]="dadosEmpresa.Conta.ValorPontos" formControlName="valorPontos"></ion-input>
-            </ion-item>
-        </form>
+    <div class="profile card-custom">
+        <p class="titulo">Dados</p>
+        <ion-list no-lines>
+            <img class="thumbnail" (click)="selecioneImagem()" class="thumbnail" src="{{empresaProvider.obtenhaLogoEmpresa(dadosEmpresa.Empresa.IdEmpresa)}}" alt="">
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>Resumo</ion-label>
+                    <ion-input type="text" [(ngModel)]="dadosEmpresa.Conta.Resumo" name="resumo"></ion-input>
+                </ion-item>
+            </div>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>Valor dos Pontos</ion-label>
+                    <ion-input type="number" [(ngModel)]="dadosEmpresa.Conta.ValorPontos" name="valorPontos"></ion-input>
+                </ion-item>
+            </div>
+        </ion-list>
     </div>
 
-    <ion-list>
-        <ion-item-divider> Perfis
-        </ion-item-divider>
-        <button ion-item>             
-                <ion-icon item-start name="add"></ion-icon> Novo perfil
-        </button>
-        <ion-item *ngFor="let perfil of dadosEmpresa.PerfisEmpresaCatalogo" (click)="abraAtualizacaoPerfil(perfil)">
+    <div class="card-custom">
+        <p class="titulo">Perfis
+            <ion-icon color="tema" style="float:right;font-size: 3rem;" name="add" (click)="adicioneNovoPerfil()"></ion-icon>
+        </p>
+        <ion-item no-lines *ngFor="let perfil of dadosEmpresa.PerfisEmpresaCatalogo" (click)="abraAtualizacaoPerfil(perfil)">
             <h2>
                 {{perfil.Descricao}}
             </h2>
         </ion-item>
-    </ion-list>
+    </div>
 </ion-content>
 
 <ion-footer>
-    <button *ngIf="dadosEmpresa" color="tema" no-lines ion-item (click)="salvar()"> 
-                    <ion-icon item-start name="checkmark"></ion-icon>Salvar 
-                </button>
+    <ion-row class="footer-botoes">
+        <ion-col>
+            <button color="tema" no-lines ion-item (click)="voltar()">Voltar</button>
+        </ion-col>
+        <ion-col>
+            <button *ngIf="dadosEmpresa" color="tema" no-lines ion-item (click)="salvar()">Salvar </button>
+        </ion-col>
+    </ion-row>
 </ion-footer>

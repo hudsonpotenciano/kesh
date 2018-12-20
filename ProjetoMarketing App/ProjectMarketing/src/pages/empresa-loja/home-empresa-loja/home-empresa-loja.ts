@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, App } from 'ionic-angular';
 import { DTOCupomVenda } from '../../../models/models.model';
 import { DadosEmpresaLoja } from '../../../models/empresa.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
@@ -20,6 +20,7 @@ export class HomeEmpresaLojaPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private app:App,
     public empresaLojaProvider: EmpresaLojaProvider,
     public modalCtrl: ModalController,
     private transacaoProvider: TransacaoProvider,
@@ -55,7 +56,7 @@ export class HomeEmpresaLojaPage {
 
     modal.onDidDismiss((cupom: DTOCupomParaVenda) => {
       if (!cupom) return;
-      this.navCtrl.push("VendaPage", cupom);
+      this.app.getRootNavs()[0].push("VendaPage", cupom);
     });
   }
   obtenhaFotoPessoa(idPessoa) {

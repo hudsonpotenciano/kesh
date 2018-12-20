@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms';
 import { DadosEmpresaAdmin, AtualizeContaModel, Perfil } from '../../../models/empresa.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
@@ -25,6 +25,7 @@ export class ContaEmpresaPage {
   constructor(public navCtrl: NavController,
     formBuilder: FormBuilder,
     public navParams: NavParams,
+    private app:App,
     private storageEmpresa: StorageEmpresaProvider,
     private storage: StorageProvider,
     private utilitarios: UtilitariosProvider,
@@ -86,15 +87,19 @@ export class ContaEmpresaPage {
   }
 
   adicioneNovoPerfil() {
-    this.navCtrl.push("CadastroPerfilEmpresaPage")
+    this.app.getRootNavs()[0].push("CadastroPerfilEmpresaPage")
   }
 
   abraAtualizacaoPerfil(perfil: Perfil) {
-    this.navCtrl.push("CadastroPerfilEmpresaPage", { perfil: perfil });
+    this.app.getRootNavs()[0].push("CadastroPerfilEmpresaPage", { perfil: perfil });
   }
 
   sair() {
     this.storage.limpeTudo();
     this.navCtrl.setRoot("LoginEmpresaPage");
+  }
+
+  voltar() {
+    this.navCtrl.pop();
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { User, RetornoLogin } from '../../../models/models.model';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
@@ -24,6 +24,7 @@ export class LoginEmpresaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private app: App,
     private empresaProvider: EmpresaProvider,
     private storage: StorageProvider,
     private utilitarios: UtilitariosProvider,
@@ -87,7 +88,7 @@ export class LoginEmpresaPage {
   }
 
   abraCadastro() {
-    this.navCtrl.push("CadastroEmpresaPage");
+    this.app.getRootNavs()[0].push("CadastroEmpresaPage");
   }
 
   realizeLoginEmpresaAdmin() {

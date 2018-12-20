@@ -1,44 +1,35 @@
-<ion-header>
-
-    <ion-navbar>
-        <ion-item no-lines>
-            <ion-avatar item-end *ngIf="pessoa">
-                <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="obtenhaFotoPessoa()">
-            </ion-avatar>
-        </ion-item>
-    </ion-navbar>
-
-</ion-header>
-
 <ion-content>
-    <ion-list no-lines>
-        <div class="item-customizado">
-            <ion-item>
-                <ion-label floating>
-                    Nome
-                </ion-label>
-                <ion-input disabled type="text" [(ngModel)]="pessoa.Nome"></ion-input>
-            </ion-item>
-        </div>
-        <div class="item-customizado">
-            <ion-item>
-                <ion-label floating>
-                    Email
-                </ion-label>
-                <ion-input disabled type="text" [(ngModel)]="pessoa.Email"></ion-input>
-            </ion-item>
-        </div>
-        <div class="item-customizado">
-            <button ion-item (click)="mudarSenha() ">
-                            <ion-icon color="tema" item-start name="lock"></ion-icon>
-                            <h2>Alterar senha</h2>
-                        </button>
-        </div>
-        <div class="item-customizado">
-            <button ion-item (click)="sair()">
-                        <ion-icon color="tema" item-start name="power"></ion-icon>
-                        <h2>Sair</h2>
-                    </button>
-        </div>
-    </ion-list>
+    <div class="profile card-custom">
+        <img class="thumbnail" src="obtenhaFotoPessoa()" alt="" onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'">
+        <ion-list no-lines>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>
+                        Nome
+                    </ion-label>
+                    <ion-input disabled type="text" [(ngModel)]="pessoa.Nome"></ion-input>
+                </ion-item>
+            </div>
+            <div class="item-customizado no-border">
+                <ion-item>
+                    <ion-label floating>
+                        Email
+                    </ion-label>
+                    <ion-input disabled type="text" [(ngModel)]="pessoa.Email"></ion-input>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
 </ion-content>
+
+
+<ion-footer>
+    <ion-row class="footer-botoes">
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="voltar()"> Voltar </button>
+        </ion-col>
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="salvar()"> Salvar </button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, PopoverController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, PopoverController, ModalController, App } from 'ionic-angular';
 import { NotaComentarioPessoaEmpresa } from '../../../models/empresa.model';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { Cupom } from '../../../models/models.model';
@@ -26,6 +26,7 @@ export class PerfilEmpresaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private app:App,
     public empresaProvider: EmpresaProvider,
     public pessoaProvider: PessoaProvider,
     public storageTransacaoProvider: StorageTransacaoProvider,
@@ -81,7 +82,7 @@ export class PerfilEmpresaPage {
 
   maps() {
 
-    this.navCtrl.push("MapsPage", { latitude: this.dadosPessoaEmpresa.Perfil.Latitude, longitude: this.dadosPessoaEmpresa.Perfil.Longitude });
+    this.app.getRootNavs()[0].push("MapsPage", { latitude: this.dadosPessoaEmpresa.Perfil.Latitude, longitude: this.dadosPessoaEmpresa.Perfil.Longitude });
   }
 
   rota() {
@@ -98,7 +99,7 @@ export class PerfilEmpresaPage {
   }
 
   abraCupom(cupom: Cupom) {
-    this.navCtrl.push("CupomPage", cupom);
+    this.app.getRootNavs()[0].push("CupomPage", cupom);
   }
 
   abraPopoverCatalogo(evento) {

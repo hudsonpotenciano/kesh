@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { User, SocialUser } from '../../../models/models.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
@@ -19,6 +19,7 @@ export class LoginPessoaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private app: App,
     public pessoaProvider: PessoaProvider,
     private utilitarioProvider: UtilitariosProvider,
     private fb: Facebook) {
@@ -54,7 +55,7 @@ export class LoginPessoaPage {
                   Id: responseLogin.authResponse.userID
                 } as CadastroPessoaRedeSocialModel;
 
-                this.navCtrl.push("CadastroPessoaPage", { CadastroPessoaRedeSocialModel: cadastroPessoaRedeSocialModel });
+                this.app.getRootNavs()[0].push("CadastroPessoaPage", { CadastroPessoaRedeSocialModel: cadastroPessoaRedeSocialModel });
               });
           });
       })
@@ -66,13 +67,13 @@ export class LoginPessoaPage {
     this.pessoaProvider.realizeLogin(this.usuario)
       .then(() => {
         this.navCtrl.setRoot("TabsPessoaPage");
-      }).catch(()=>{
+      }).catch(() => {
 
       });
   }
 
   abraCadastro() {
-    this.navCtrl.push("CadastroPessoaPage");
+    this.app.getRootNavs()[0].push("CadastroPessoaPage");
   }
 
   mostreInformacao(event: any) {

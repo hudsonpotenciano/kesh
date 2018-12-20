@@ -100,4 +100,8 @@ export class PerfilEmpresaLojaPage {
         this.utilitarios.removaAlertaCarregando();
       })
   }
+
+  voltar() {
+    this.navCtrl.pop();
+  }
 }

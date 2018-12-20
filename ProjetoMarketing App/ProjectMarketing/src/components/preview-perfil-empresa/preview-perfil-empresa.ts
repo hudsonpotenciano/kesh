@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams, App } from 'ionic-angular';
 import { DadosPessoaEmpresa } from '../../models/pessoa.model';
 import { EmpresaLojaProvider } from '../../providers/empresa-loja/empresa-loja';
 
@@ -11,9 +11,9 @@ import { EmpresaLojaProvider } from '../../providers/empresa-loja/empresa-loja';
 export class PreviewPerfilEmpresaPage {
   dadosPessoaEmpresa: DadosPessoaEmpresa;
   segment: string = "catalogo";
-  
-  constructor(public navCtrl: NavController,
-    private empresaLojaProvider: EmpresaLojaProvider,
+
+  constructor(private empresaLojaProvider: EmpresaLojaProvider,
+    private app: App,
     public navParams: NavParams) {
     this.empresaLojaProvider;
     this.dadosPessoaEmpresa = this.navParams.get("dadosPessoaEmpresa");
@@ -23,6 +23,6 @@ export class PreviewPerfilEmpresaPage {
   }
 
   abraPerfilEmpresa() {
-    this.navCtrl.push("PerfilEmpresaPage", this.dadosPessoaEmpresa);
+    this.app.getRootNavs()[0].push("PerfilEmpresaPage", this.dadosPessoaEmpresa);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Sanitizer } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { ImagemCatalogo, CadastroPerfilModel } from '../../../models/empresa.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
@@ -20,11 +20,12 @@ export class CadastroPerfilEmpresaPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private utilitarios: UtilitariosProvider,
+    private sanitizer: Sanitizer,
     private empresaLojaProvider: EmpresaLojaProvider,
     private empresaProvider: EmpresaProvider) {
     this.empresaLojaProvider;
     this.empresaProvider;
-
+    this.sanitizer;
     var perfilViaParams = this.navParams.get("perfil");
     if (perfilViaParams)
       this.perfil = perfilViaParams;
@@ -74,5 +75,9 @@ export class CadastroPerfilEmpresaPage {
           this.navCtrl.pop();
         });
     }
+  }
+
+  voltar() {
+    this.navCtrl.pop();
   }
 }

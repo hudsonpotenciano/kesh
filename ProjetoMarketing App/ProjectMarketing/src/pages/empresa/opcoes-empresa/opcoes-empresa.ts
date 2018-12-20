@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, App, NavController } from 'ionic-angular';
+import { IonicPage, App } from 'ionic-angular';
 import { StorageEmpresaProvider } from '../../../providers/storage/storage-empresa';
 import { DadosEmpresaLoja } from '../../../models/empresa.model';
 import { StorageProvider } from '../../../providers/storage/storage';
@@ -23,14 +23,13 @@ export class OpcoesEmpresaPage {
     private splashScreen: SplashScreen,
     private app: App,
     private utilitarios:UtilitariosProvider,
-    private navCtrl: NavController,
     private sanitizer: DomSanitizer) {
     this.sanitizer;
     this.dadosEmpresa = this.storageEmpresa.recupereDadosEmpresaLoja()
   };
 
   abraEdicao() {
-    this.navCtrl.push("ContaEmpresaPage");
+    this.app.getRootNavs()[0].push("ContaEmpresaPage");
   }
 
   sair() {
