@@ -78,4 +78,8 @@ export class CadastroPessoaPage {
         });
     });
   }
+
+  voltar(){
+    this.navCtrl.pop();
+  }
 }

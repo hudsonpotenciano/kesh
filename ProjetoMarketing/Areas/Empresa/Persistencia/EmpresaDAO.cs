@@ -65,7 +65,8 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             Entidade.ImagemPerfil imagemPerfilEmpresa = new Entidade.ImagemPerfil()
             {
                 IdEmpresa = empresa.IdEmpresa,
-                Imagem = model.Logo
+                Imagem = model.Logo,
+                //GuidImagem = Guid.NewGuid().ToString()
             };
 
             PerfilEmpresa perfil = new Entidade.Empresa.PerfilEmpresa()
@@ -93,7 +94,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task UpdatePerfil(CadastroPerfilModel model)
+        public void UpdatePerfil(CadastroPerfilModel model, bool executarSaveChanges = false)
         {
             PerfilEmpresa perfil = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == model.IdPerfilEmpresa);
             perfil.Latitude = model.Latitude != 0 ? model.Latitude : perfil.Latitude;
@@ -103,10 +104,10 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             perfil.Descricao = !string.IsNullOrEmpty(model.Descricao) ? model.Descricao : perfil.Descricao;
 
             _context.PerfilEmpresa.Update(perfil);
-            return _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
-        public Task AddPerfilEmpresa(CadastroPerfilModel model, out PerfilEmpresa perfil)
+        public void AddPerfilEmpresa(CadastroPerfilModel model, out PerfilEmpresa perfil)
         {
             perfil = new PerfilEmpresa()
             {
@@ -119,7 +120,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             };
 
             _context.PerfilEmpresa.Add(perfil);
-            return _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public Task UpdateConta(AtualizeContaModel model)

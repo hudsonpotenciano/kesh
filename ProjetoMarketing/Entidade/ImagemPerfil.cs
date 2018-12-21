@@ -10,5 +10,6 @@ namespace ProjetoMarketing.Entidade
         public int? IdPessoa { get; set; }
         public int? IdEmpresa { get; set; }
         public byte[] Imagem { get; set; }
+        //public string GuidImagem { get; set; }
     }
 }

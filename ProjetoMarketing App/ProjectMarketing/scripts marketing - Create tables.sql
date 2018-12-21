@@ -293,6 +293,7 @@ ALTER SEQUENCE public.sq_imagemcatalogo
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idperfilempresa bigint NOT NULL,
     idimagem bigint NOT NULL DEFAULT nextval('sq_imagemcatalogo'::regclass),
+    guidimagem text NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
     REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE

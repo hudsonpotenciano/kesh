@@ -1,7 +1,7 @@
 <ion-content padding>
     <input type="file" #fileInput style="visibility: hidden; height: 0px" accept="image/*" (change)="aoEscolherImagem($event)">
 
-    <form *ngIf="!pessoaRedeSocial" (submit)="cadastre()">
+    <div *ngIf="!pessoaRedeSocial" (submit)="cadastre()">
         <div class="profile-image" (click)="selecioneImagem()">
             <div class="image-wrapper" *ngIf="!profilePic">
                 <ion-icon name="images"></ion-icon>
@@ -38,9 +38,9 @@
                 <ion-input type="password" [(ngModel)]="confirmacaoDaSenha" name="senha2"></ion-input>
             </ion-item>
         </ion-list>
-    </form>
+    </div>
 
-    <form *ngIf="pessoaRedeSocial" (submit)="cadastreRedeSocial()">
+    <div *ngIf="pessoaRedeSocial" (submit)="cadastreRedeSocial()">
         <div class="profile-image" (click)="selecioneImagem()">
             <div class="image-wrapper" *ngIf="!profilePic">
                 <ion-icon name="images"></ion-icon>
@@ -62,8 +62,18 @@
                 <ion-input type="email" [(ngModel)]="pessoaRedeSocial.Email" name="email-social"></ion-input>
             </ion-item>
         </ion-list>
-    </form>
-
-    <button *ngIf="pessoaRedeSocial" class="botao" ion-button color="primary" full (click)="cadastreRedeSocial()">Cadastrar</button>
-    <button *ngIf="!pessoaRedeSocial" class="botao" ion-button color="primary" full (click)="cadastre()">Cadastrar</button>
+    </div>
 </ion-content>
+
+
+<ion-footer>
+    <ion-row class="footer-botoes">
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="voltar()">Voltar</button>
+        </ion-col>
+        <ion-col text-center>
+            <button *ngIf="pessoaRedeSocial" color="tema" no-lines ion-item (click)="cadastreRedeSocial()"> Cadastrar </button>
+            <button *ngIf="!pessoaRedeSocial" color="tema" no-lines ion-item (click)="cadastre()"> Cadastrar </button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

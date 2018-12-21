@@ -59,7 +59,8 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             ImagemPerfil imagemPerfil = new ImagemPerfil()
             {
                 Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
-                IdPessoa = pessoa.IdPessoa
+                IdPessoa = pessoa.IdPessoa,
+                //GuidImagem = Guid.NewGuid().ToString()
             };
 
             usuario = new Usuario()

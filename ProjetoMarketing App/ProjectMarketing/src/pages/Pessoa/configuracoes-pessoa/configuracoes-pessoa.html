@@ -9,7 +9,7 @@
 </ion-header>
 <ion-content>
     <ion-list no-lines>
-        <div class="item-customizado">
+        <!-- <div class="item-customizado">
             <button ion-item (click)="abraPerfilPessoa()">
                         <ion-icon color="tema" item-start name="person"></ion-icon>
                         <h2>
@@ -19,7 +19,7 @@
                             Alterar dados da conta
                         </p>
                     </button>
-        </div>
+        </div> -->
         <div class="item-customizado">
             <button ion-item (click)="compartilhe()">
                 <ion-icon color="tema" item-start name="share"></ion-icon>
@@ -41,6 +41,17 @@
                         Veja os tutorais  
                     </p>
                 </button>
+        </div>
+        <div class="item-customizado" (click)="abraTutorial()">
+            <button ion-item (click)="sincronize()">
+                        <ion-icon color="tema" item-start name="refresh"></ion-icon>
+                        <h2>
+                            Sincronizar
+                        </h2>
+                        <p>
+                            Atualizar todas informações  
+                        </p>
+                    </button>
         </div>
         <div class="item-customizado">
             <button ion-item (click)="mudarSenha() ">

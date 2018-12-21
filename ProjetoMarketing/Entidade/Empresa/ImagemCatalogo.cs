@@ -15,5 +15,7 @@ namespace ProjetoMarketing.Entidade.Empresa
         public long IdImagem { get; set; }
         [Column("idperfilempresa")]
         public long IdPerfilEmpresa { get; set; }
+        [Column("guidimagem")]
+        public string GuidImagem { get; set; }
     }
 }

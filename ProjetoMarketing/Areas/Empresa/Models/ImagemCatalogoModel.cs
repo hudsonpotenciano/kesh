@@ -9,5 +9,6 @@ namespace ProjetoMarketing.Areas.Empresa.Models
     {
         public byte[] Imagem { get; set; }
         public long IdImagem { get; set; }
+        public string Guid { get; set; }
     }
 }

@@ -1,8 +1,7 @@
 <ion-content>
     <ion-slides *ngIf="empresa" color="tema" autoplay="4000" speed="2000" effect="slide" loop="true" paginationType="fraction" pager="true">
         <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
-            <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem)" alt="">
-            <!-- <div class="imagem-catalogo" [style.background-image]="'url(' + empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.IdImagem) + ')'"></div> -->
+            <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
         </ion-slide>
     </ion-slides>
     <ion-fab left bottom (click)="voltar()">

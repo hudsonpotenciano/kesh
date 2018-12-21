@@ -3,7 +3,6 @@ using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Entidade.Pessoa;
 using ProjetoMarketing.Negocio.Enumeradores;
-using ProjetoMarketing.Servicos;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,7 +41,7 @@ namespace ProjetoMarketing
                            select new
                            {
                                imagem.IdPerfilEmpresa,
-                               imagem.IdImagem
+                               imagem.GuidImagem
                            }
             };
         }
@@ -126,7 +125,7 @@ namespace ProjetoMarketing
                                   select new
                                   {
                                       imagem.IdPerfilEmpresa,
-                                      imagem.IdImagem
+                                      imagem.GuidImagem
                                   }
                    };
         }
@@ -210,7 +209,7 @@ namespace ProjetoMarketing
                            dto.Venda.Valor,
                            dto.Venda.IdVenda,
                            dto.Venda.Data
-                       } : null,  
+                       } : null,
                        dto.DescricaoPerfilEmpresa,
                        dto.IdEmpresa,
                        dto.NomePessoa,
@@ -303,7 +302,7 @@ namespace ProjetoMarketing
                        perfil.Perfil.Longitude,
                        perfil.Perfil.Telefone,
                        perfil.Perfil.Telefone2,
-                       perfil.Catalogo
+                       Catalogo = perfil.Catalogo.Select(a => new { a.GuidImagem, a.IdPerfilEmpresa })
                    };
         }
 

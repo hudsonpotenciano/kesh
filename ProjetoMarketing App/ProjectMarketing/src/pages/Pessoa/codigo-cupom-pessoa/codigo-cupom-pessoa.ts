@@ -25,24 +25,25 @@ export class CodigoCupomPessoaPage {
   }
 
   gerarCupomViaCodigo() {
-    
-    if(!this.codigo || this.codigo === "")
-    {
+
+    if (!this.codigo || this.codigo === "") {
       this.utilitariosProvider.mostreToast("Informe o código");
       return;
     }
-
+    this.utilitariosProvider.mostreAlertaCarregando("Gerando cupom, aguarde um instante");
     if (this.idPessoa && this.idPessoa > 0) {
       this.transacaoProvider.GereCupomCompartilhamento(this.idPessoa, this.codigo)
         .then((resultado: Cupom) => {
           resultado;
           this.navCtrl.pop();
+          this.utilitariosProvider.removaAlertaCarregando();
           this.utilitariosProvider.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")
         })
         .catch((retorno) => {
           retorno;
-          this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.")
-        })
+          this.utilitariosProvider.removaAlertaCarregando();
+          this.utilitariosProvider.mostreMensagemErro("Cupom inválido ou expirado")
+        });
     }
     else {
       this.utilitariosProvider.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.");

@@ -22,12 +22,11 @@ namespace ProjetoMarketing.Contexts
         public DbSet<Entidade.Usuario> Usuario { get; set; }
         public DbSet<Entidade.Pessoa.PessoaLoja> PessoaLoja { get; set; }
 
-
-
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             return base.SaveChangesAsync(cancellationToken);
         }
+
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
             try

@@ -22,7 +22,6 @@ export class PerfilEmpresaPage {
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
   verMaisInformacoes = false;
   compartilharHabilitado = true;
-  segment: string = "catalogo";
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -104,7 +103,7 @@ export class PerfilEmpresaPage {
 
   abraPopoverCatalogo(evento) {
     let modal = this.modalCtrl.create("CatalogoComponentPage",
-      { catalogo: this.dadosPessoaEmpresa.Catalogo },
+      { empresa: this.dadosPessoaEmpresa },
       { cssClass: "popover-catalogo" });
 
     modal.present({ ev: evento });

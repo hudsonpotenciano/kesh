@@ -21,7 +21,6 @@ export class HomePessoaPage {
   pessoaEmpresasLimit: DadosPessoaEmpresa[] = [];
   pessoa: Pessoa;
   mostrarPesquisa: boolean = false;
-  estaCarregando = true;
   pagina = 0;
   minhaLocalizacao: Localizacao;
   inputPesquisa: string;
@@ -50,7 +49,8 @@ export class HomePessoaPage {
       }).catch(() => { });
   }
 
-  obtenhaEmpresas() {
+  obtenhaEmpresas(refresher?) {
+
     this.utilitarios.obtenhaLocalizacao()
       .then((localizacao) => {
         this.minhaLocalizacao = localizacao;
@@ -59,11 +59,11 @@ export class HomePessoaPage {
             this.pessoaEmpresas = retorno;
             this.pessoaEmpresasLimit = this.utilitarios.pagine(retorno, this.pagina, tamanhoPagina);
             this.pagina++;
-            this.estaCarregando = false
+            refresher.complete();
           })
           .catch((retorno: RetornoRequestModel) => {
             retorno;
-            this.estaCarregando = false;
+            refresher.complete();
           });
       })
       .catch(() => {

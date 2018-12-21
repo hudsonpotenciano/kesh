@@ -21,15 +21,16 @@ export class TransacaoProvider {
   }
 
   GereCupomCompartilhamento(idPessoaReceptor: number, guidCompartilhamento: string) {
-    return new Promise<Cupom>(resolve => {
+    return new Promise<Cupom>((resolve, reject) => {
       this.comunicacao.post("Transacao/GereCupomCompartilhamento",
         { IdPessoaReceptor: idPessoaReceptor, Codigo: guidCompartilhamento })
         .then((retorno: RetornoRequestModel) => {
           resolve(retorno.Result);
           this.storageProvider.remova(new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoa.Descricao);
         })
-        .catch(() => {
-
+        .catch((retorno) => {
+          retorno;
+          reject();
         });
     });
   }

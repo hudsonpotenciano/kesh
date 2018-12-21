@@ -34,7 +34,7 @@ export class NotaComentarioPessoaEmpresa {
 }
 
 export class ImagemCatalogo {
-    IdImagem: number;
+    GuidImagem: string;
     Imagem: any;
 }
 
