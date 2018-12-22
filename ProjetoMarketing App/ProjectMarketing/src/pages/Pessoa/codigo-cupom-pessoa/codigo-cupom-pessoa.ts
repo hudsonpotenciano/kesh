@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { Cupom } from '../../../models/models.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
@@ -16,6 +16,7 @@ export class CodigoCupomPessoaPage {
 
   constructor(public navCtrl: NavController,
     private utilitariosProvider: UtilitariosProvider,
+    private events: Events,
     private transacaoProvider: TransacaoProvider,
     public navParams: NavParams) {
     this.idPessoa = this.navParams.get("idPessoa");
@@ -35,6 +36,7 @@ export class CodigoCupomPessoaPage {
       this.transacaoProvider.GereCupomCompartilhamento(this.idPessoa, this.codigo)
         .then((resultado: Cupom) => {
           resultado;
+          this.events.publish("atualizar-obtenhaTransacoes");
           this.navCtrl.pop();
           this.utilitariosProvider.removaAlertaCarregando();
           this.utilitariosProvider.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")

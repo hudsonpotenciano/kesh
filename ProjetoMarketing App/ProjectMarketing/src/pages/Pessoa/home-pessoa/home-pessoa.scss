@@ -72,6 +72,14 @@ page-home-pessoa {
                 left: 10%;
                 width: 80%;
                 margin: 0 auto;
+                .label,
+                .item,
+                .item-inner {
+                    padding-left: 0 !important;
+                    padding-right: 0 !important;
+                    margin-right: 0 !important;
+                    margin-left: 0 !important;
+                }
                 img {
                     height: 65px;
                     width: 65px;

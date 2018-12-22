@@ -25,7 +25,7 @@ export class PerfilEmpresaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private app:App,
+    private app: App,
     public empresaProvider: EmpresaProvider,
     public pessoaProvider: PessoaProvider,
     public storageTransacaoProvider: StorageTransacaoProvider,
@@ -59,13 +59,18 @@ export class PerfilEmpresaPage {
       .then((pode: boolean) => {
         if (!pode) return;
 
+        var urlsImagems = [];
+        this.dadosPessoaEmpresa.Catalogo.forEach((catalogo) => {
+          urlsImagems.push(this.empresaLojaProvider.obtenhaImagemCatalogo(catalogo.GuidImagem));
+        });
+
         var guid6 = this.utilitarios.gereGuid6();
-        this.socialSharing.share("utiliza esse codigo aew " + guid6)
+        var mensagemCompartilhamento = `Autilize este código *${guid6}* para ganhar o seu cupom e receber *$Keshs* na *${this.dadosPessoaEmpresa.Empresa.Nome}* 🎁`;
+        this.socialSharing.share(mensagemCompartilhamento, "teste", urlsImagems)
           .then(() => {
 
             this.transacaoProvider.gereCodigoDeCompartilhamento(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa,
-              this.pessoaProvider.dadosAcesso.IdPessoa,
-              guid6)
+              this.pessoaProvider.dadosAcesso.IdPessoa, guid6)
               .then(() => {
                 this.utilitarios.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")
               })
@@ -114,7 +119,7 @@ export class PerfilEmpresaPage {
 
     return new Promise((resolve) => {
       if (!navigator.onLine) {
-        alert("Conecte-se à internet para poder compartilhar");
+        this.utilitarios.mostreMensagemErro("Conecte-se à internet para poder compartilhar");
         return false;
       }
 
@@ -125,18 +130,20 @@ export class PerfilEmpresaPage {
           resolve(podeCompartilhar);
           if (!podeCompartilhar) {
             this.compartilharHabilitado = false;
-            this.utilitarios.mostreToast("Voce nao pode compartilhar agora pois possui um cupom válido para esta loja");
+            this.utilitarios.mostreToast("Você nao pode compartilhar agora pois possui um cupom válido para esta loja");
           }
         })
         .catch(() => {
           resolve(false);
-          this.utilitarios.mostreToastTenteNovamente();
+          this.utilitarios.mostreMensagemErro("Ocorreu algum problema, tente novamente");
         })
     });
   }
 
   verInformacoesDaLoja() {
-
+    let popover = this.popOverCtrl.create("InformacoesDaEmpresaPage", { empresa: this.dadosPessoaEmpresa },
+      { cssClass: "popover-avaliacao popover-shadow" });
+    popover.present();
   }
 
   abraPopoverAvaliacao() {

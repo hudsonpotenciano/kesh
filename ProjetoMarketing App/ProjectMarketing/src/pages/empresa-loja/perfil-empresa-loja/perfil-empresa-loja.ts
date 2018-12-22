@@ -92,7 +92,7 @@ export class PerfilEmpresaLojaPage {
         this.storageEmpresa.armazeneDadosEmpresaLoja(this.dadosEmpresa);
         this.utilitarios.removaAlertaCarregando();
         this.navCtrl.pop();
-        this.utilitarios.mostreToastSucesso("Dados salvos com sucesso");
+        this.utilitarios.mostreMensagemSucesso("Dados salvos com sucesso");
       }).catch((retorno) => {
         retorno;
         this.navCtrl.pop();

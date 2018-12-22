@@ -102,7 +102,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             };
 
             _context.Usuario.Add(usuario);
-            _context.ImagemPerfil.Add(imagemPerfil);
+            new ImagemService(_context).SaveImagemPerfilPessoa(imagemPerfil);
             return _context.SaveChangesAsync();
         }
 
@@ -182,7 +182,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                             ContaEmpresa = conta,
                             PerfilEmpresa = perfil,
                             PessoaEmpresa = pessoaEmpresa,
-                            NotaGeral = 1,
+                            NotaGeral = notaGeral,
                             Distancia = distancia,
                         }).ToListAsync();
             }

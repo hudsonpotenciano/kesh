@@ -77,12 +77,12 @@ export class CatalogoComponentPage {
           resolve(podeCompartilhar);
           if (!podeCompartilhar) {
             this.compartilharHabilitado = false;
-            this.utilitarios.mostreToast("Voce nao pode compartilhar agora pois possui um cupom válido para esta loja");
+            this.utilitarios.mostreToast("Você não pode compartilhar agora pois possui um cupom válido para esta loja");
           }
         })
         .catch(() => {
           resolve(false);
-          this.utilitarios.mostreToastTenteNovamente();
+          this.utilitarios.mostreMensagemErro("Ocorreu um erro, tente novamente");
         })
     });
   }

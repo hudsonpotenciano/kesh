@@ -166,6 +166,9 @@ ion-icon {
         margin-top: 0 !important;
         margin-bottom: 0 !important;
     }
+    ion-footer {
+        display: none !important;
+    }
 }
 
 .botao {
@@ -255,4 +258,8 @@ ion-header {
         color: $light;
     }
     background-color: $tema;
+}
+
+.checkbox-inner {
+    border-color: $light !important;
 }

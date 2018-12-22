@@ -47,12 +47,11 @@ export class PessoaProvider {
     }
   }
 
-  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao): Promise<DadosPessoaEmpresa[]> {
+  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao,desconsiderarCache : boolean = false): Promise<DadosPessoaEmpresa[]> {
 
     var dadosSalvos = this.storagePessoa.recupereDadosPessoaEmpresas();
-
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas;
-    if (this.estaEmCach(enumeradorDeCache)) {
+    if ((!navigator.onLine) || !desconsiderarCache && this.estaEmCach(enumeradorDeCache)) {
       return new Promise<DadosPessoaEmpresa[]>(resolve => {
         resolve(dadosSalvos);
       });

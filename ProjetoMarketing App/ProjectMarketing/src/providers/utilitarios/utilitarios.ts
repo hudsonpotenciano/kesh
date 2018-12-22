@@ -70,7 +70,7 @@ export class UtilitariosProvider {
     var secondPart: any = (Math.random() * 46656) | 0;
     firstPart = ("000" + firstPart.toString(36)).slice(-3);
     secondPart = ("000" + secondPart.toString(36)).slice(-3);
-    return firstPart + secondPart;
+    return (firstPart + secondPart).toString().toUpperCase();
   }
 
   getBase64Image(url: string, callback: Function) {
@@ -190,14 +190,10 @@ export class UtilitariosProvider {
     alert(mensagem);
   }
 
-  mostreToastTenteNovamente() {
-    alert("Ocorreu algum problema, tente novamente");
-  }
-
   mostreMensagemSucesso(mensagem) {
     var alerta = this.alertCtrl.create({
       cssClass: "alertaMensagem sucesso",
-      enableBackdropDismiss: false,
+      enableBackdropDismiss: true,
       message: `<img src='./assets/svg/emojisucesso.svg'>
                 <p>${mensagem}</p>`
     });
@@ -212,7 +208,7 @@ export class UtilitariosProvider {
 
     var alerta = this.alertCtrl.create({
       cssClass: "alertaMensagem erro",
-      enableBackdropDismiss: false,
+      enableBackdropDismiss: true,
       message: `<img src='./assets/svg/emojierro.svg'>
                 <p>${mensagem}</p>`
     });
@@ -243,10 +239,11 @@ export class UtilitariosProvider {
   facaPerguntaSimNao(mensagem, sim, nao) {
     var alerta = this.alertCtrl.create({
       message: mensagem,
-      enableBackdropDismiss: true,
+      enableBackdropDismiss: false,
       buttons: [{ text: "Não", handler: nao }, { text: "Sim", handler: sim }]
     });
 
     alerta.present();
   }
+
 }

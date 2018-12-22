@@ -8,7 +8,7 @@
 <ion-content>
 
     <div class="profile card-custom" padding>
-        <img class="thumbnail" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
+        <img (click)="verInformacoesDaLoja()" class="thumbnail" src="{{empresaProvider.obtenhaLogoEmpresa(dadosPessoaEmpresa.Empresa.IdEmpresa)}}" alt="">
         <h3 class="name">{{dadosPessoaEmpresa.Empresa.Nome}}</h3>
         <p class="title">{{dadosPessoaEmpresa.Perfil.Descricao}}</p>
 

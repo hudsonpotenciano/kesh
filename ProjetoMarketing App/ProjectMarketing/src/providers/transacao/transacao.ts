@@ -79,11 +79,11 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCuponsEVendasEmpresa(idPerfilEmpresa: number) {
+  obtenhaCuponsEVendasEmpresa(idPerfilEmpresa: number, desconsiderarCache: boolean = false) {
 
-    return new Promise<any>(resolve => {
+    return new Promise<any>((resolve, reject) => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresa;
-      if (this.estaEmCach(enumerador)) {
+      if ((!navigator.onLine) || !desconsiderarCache && this.estaEmCach(enumerador)) {
         resolve(this.storageTransacao.recupereObtenhaCuponsEVendasEmpresa());
       }
       else {
@@ -92,7 +92,9 @@ export class TransacaoProvider {
             resolve(retorno.Result);
             this.storageTransacao.armazeneObtenhaCuponsEVendasEmpresa(retorno.Result);
             this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
-          });
+          }).catch(() => {
+            reject();
+          })
       }
     });
   }
@@ -125,10 +127,10 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCuponsEVendasPessoa(idPessoa: number) {
-    return new Promise<DTOCupomVenda[]>(resolve => {
+  obtenhaCuponsEVendasPessoa(idPessoa: number, desconsiderarCache: boolean = false) {
+    return new Promise<DTOCupomVenda[]>((resolve, reject) => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoa;
-      if (this.estaEmCach(enumerador)) {
+      if ((!navigator.onLine) || !desconsiderarCache && this.estaEmCach(enumerador)) {
         resolve(this.storageTransacao.recupereObtenhaCuponsEVendasPessoa());
       }
       else {
@@ -137,7 +139,10 @@ export class TransacaoProvider {
             resolve(retorno.Result);
             this.storageTransacao.armazeneObtenhaCuponsEVendasPessoa(retorno.Result);
             this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
-          });
+          }).catch((retorno) => {
+            retorno;
+            reject();
+          })
       }
     });
   }

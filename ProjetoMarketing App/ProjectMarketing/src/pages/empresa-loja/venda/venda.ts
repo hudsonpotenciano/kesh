@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Venda } from '../../../models/models.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { DTOCupomParaVenda } from '../../../models/pessoa.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -13,19 +14,22 @@ export class VendaPage {
 
   cupom: DTOCupomParaVenda;
   venda: Venda = new Venda();
+  valor: string = "";
   utilizarPontos: boolean = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private events: Events,
+    private utilitarios: UtilitariosProvider,
     private transacaoProvider: TransacaoProvider) {
     this.cupom = this.navParams.data;
   }
 
   realizeVenda() {
-    
+
     if (this.utilizarPontos) {
       if (this.cupom.TotalDinheiroPessoa <= 0) {
-        alert("pontos insuficientes");
+        this.utilitarios.mostreMensagemErro("Keshs insuficientes");
         //melhorar mensagem
         return;
       }
@@ -33,12 +37,16 @@ export class VendaPage {
 
     this.transacaoProvider.GereVenda(this.cupom.Cupom.Token, this.venda.Valor, this.utilizarPontos)
       .then(() => {
-
+        this.events.publish("atualizar-obtenhaCuponsEVendas");
         this.navCtrl.pop();
-        alert("venda gerada com sucesso!");
-
+        this.utilitarios.mostreMensagemSucesso("Venda gerada com sucesso");
       })
-      .catch(() => { });
+      .catch(() => {
+        this.utilitarios.mostreMensagemSucesso("Não foi possível gerar esta venda, por favor verifique os dados e tente novamente");
+      });
   }
 
+  voltar() {
+    this.navCtrl.pop();
+  }
 }

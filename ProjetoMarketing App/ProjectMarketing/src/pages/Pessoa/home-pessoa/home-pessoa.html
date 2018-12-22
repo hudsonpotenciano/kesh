@@ -5,34 +5,34 @@
                 <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="{{pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)}}" alt="">
             </ion-avatar>
             <ion-title>Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
-            <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
-            </ion-icon>
+            <!-- <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
+            </ion-icon> -->
         </ion-item>
-        <ion-item no-lines style="height:45px;" *ngIf="mostrarPesquisa">
+        <!-- <ion-item no-lines style="height:45px;" *ngIf="mostrarPesquisa">
             <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa" (ionInput)="pesquise()">
             </ion-searchbar>
-        </ion-item>
+        </ion-item> -->
     </ion-navbar>
 </ion-header>
 
 <ion-content>
 
     <ion-refresher (ionRefresh)="obtenhaEmpresas($event)">
-        <ion-refresher-content></ion-refresher-content>
+        <ion-refresher-content pullingIcon="refresh" pullingText="" refreshingSpinner="circles" refreshingText="Sincronizando..."></ion-refresher-content>
     </ion-refresher>
 
     <ion-list>
         <div class="flex-box">
             <div class="container" *ngFor="let empresa of pessoaEmpresasLimit">
-                <div class="card" [id]="empresa.Empresa.IdEmpresa">
-                    <div class="front" [id]="'front' + empresa.Empresa.IdEmpresa" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                <div class="card" [id]="empresa.Perfil.IdPerfilEmpresa">
+                    <div class="front" [id]="'front' + empresa.Perfil.IdPerfilEmpresa" (click)="vireOCard(empresa.Perfil.IdPerfilEmpresa)">
                         <ion-slides *ngIf="empresa.Catalogo.length > 0" color="tema" autoplay="4000" speed="2000" effect="fade" loop="true" pager="true">
                             <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
                                 <img [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
                             </ion-slide>
                         </ion-slides>
                     </div>
-                    <div class="back" [id]="'back' + empresa.Empresa.IdEmpresa">
+                    <div class="back" [id]="'back' + empresa.Perfil.IdPerfilEmpresa">
                         <ion-row class="header">
                             <ion-col color="tema">
                                 <p class="p-distancia">
@@ -59,12 +59,14 @@
                             </ion-col>
                         </ion-row>
                         <div class="informacoes" text-center>
-                            <img (click)="abraPerfilEmpresa(empresa)" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
-                            <!-- <h6 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h6> -->
-                            <h6 (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</h6>
+                            <img (click)="abraPerfilEmpresa(empresa)" onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
+                            <ion-item no-lines text-center>
+                                <h2 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h2>
+                                <p (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</p>
+                            </ion-item>
                         </div>
                         <ion-row class="footer">
-                            <ion-col color="tema" (click)="vireOCard(empresa.Empresa.IdEmpresa)">
+                            <ion-col color="tema" (click)="vireOCard(empresa.Perfil.IdPerfilEmpresa)">
                                 <i class="fas fa-undo"></i>
                             </ion-col>
 
@@ -77,7 +79,7 @@
             </div>
         </div>
     </ion-list>
-    <lista-vazia *ngIf="pessoaEmpresasLimit && pessoaEmpresasLimit.length == 0">
+    <lista-vazia *ngIf="!carregando && pessoaEmpresasLimit && pessoaEmpresasLimit.length == 0">
 
     </lista-vazia>
 </ion-content>

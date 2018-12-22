@@ -21,6 +21,7 @@ export class HomePessoaPage {
   pessoaEmpresasLimit: DadosPessoaEmpresa[] = [];
   pessoa: Pessoa;
   mostrarPesquisa: boolean = false;
+  carregando: boolean = true;
   pagina = 0;
   minhaLocalizacao: Localizacao;
   inputPesquisa: string;
@@ -31,7 +32,7 @@ export class HomePessoaPage {
     private modalCtrl: ModalController,
     private popoverCtrl: PopoverController,
     private pessoaProvider: PessoaProvider,
-    private app:App,
+    private app: App,
     private empresaProvider: EmpresaProvider,
     private utilitarios: UtilitariosProvider,
     private empresaLojaProvider: EmpresaLojaProvider) {
@@ -53,17 +54,24 @@ export class HomePessoaPage {
 
     this.utilitarios.obtenhaLocalizacao()
       .then((localizacao) => {
+        debugger;
         this.minhaLocalizacao = localizacao;
-        this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao)
+        this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao, refresher !== undefined)
           .then((retorno: DadosPessoaEmpresa[]) => {
             this.pessoaEmpresas = retorno;
             this.pessoaEmpresasLimit = this.utilitarios.pagine(retorno, this.pagina, tamanhoPagina);
             this.pagina++;
-            refresher.complete();
+            this.carregando = false;
+            if (refresher) {
+              refresher.complete();
+            }
           })
           .catch((retorno: RetornoRequestModel) => {
             retorno;
-            refresher.complete();
+            this.carregando = false;
+            if (refresher) {
+              refresher.complete();
+            }
           });
       })
       .catch(() => {
@@ -112,7 +120,11 @@ export class HomePessoaPage {
   }
 
   vireOCard(id: number) {
-    document.getElementById(id.toString()).classList.toggle("flipped");
+    var elemento = document.getElementById(id.toString());
+    
+    if (!elemento) return;
+
+    elemento.classList.toggle("flipped");
     var front = document.getElementById('front' + id.toString());
     var back = document.getElementById('back' + id.toString());
 

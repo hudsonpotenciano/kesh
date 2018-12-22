@@ -51,11 +51,11 @@ export class ContaEmpresaPage {
   }
 
   aoEscolherImagem(event: any) {
-
+    debugger;
     let reader = new FileReader();
     reader.onloadend = (readerEvent) => {
-
       this.novaImagem = (readerEvent.target as any).result;
+      (document.getElementsByClassName("thumbnail")[0] as any).src = this.novaImagem; 
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -75,7 +75,7 @@ export class ContaEmpresaPage {
       .then(() => {
         this.storageEmpresa.armazeneDadosEmpresaAdmin(this.dadosEmpresa);
         this.utilitarios.removaAlertaCarregando();
-        this.utilitarios.mostreToastSucesso("Dados salvos com sucesso");
+        this.utilitarios.mostreMensagemSucesso("Dados salvos com sucesso");
         this.navCtrl.pop();
       })
       .catch((retorno) => {

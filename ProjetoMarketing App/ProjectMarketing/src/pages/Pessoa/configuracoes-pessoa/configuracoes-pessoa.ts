@@ -27,7 +27,7 @@ export class ConfiguracoesPessoaPage {
   }
 
   compartilhe() {
-    this.socialSharing.share("Já conhece o Kesh? Faça suas compras e acumule $kesh. É só instalar o app a partir deste link", undefined, [""], "https://play.google.com");
+    this.socialSharing.share("Já conhece o *Kesh*? Faça suas compras e acumule *$keshs*. É só instalar o app e começar a usar");
   }
 
   abraTutorial() {
@@ -53,9 +53,9 @@ export class ConfiguracoesPessoaPage {
   }
 
   saia() {
+    this.app.getRootNavs()[0].setRoot("IntroducaoPage");
     this.storage.limpeTudo();
     this.splashScreen.show();
-    this.app.getRootNavs()[0].setRoot("IntroducaoPage");
     setTimeout(() => {
       window.location.reload(true);
     }, 500);

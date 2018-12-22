@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { QRScannerStatus, QRScanner } from '@ionic-native/qr-scanner';
 import { TransacaoProvider } from '../../providers/transacao/transacao';
 import { DTOCupomParaVenda } from '../../models/pessoa.model';
+import { UtilitariosProvider } from '../../providers/utilitarios/utilitarios';
 
 
 @IonicPage()
@@ -18,8 +19,9 @@ export class QrCodeScannerPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     private qrScanner: QRScanner,
+    private utilitarios: UtilitariosProvider,
     private transacaoProvider: TransacaoProvider) {
-      this.idPerfilEmpresa = this.navParams.get("idPerfilEmpresa");
+    this.idPerfilEmpresa = this.navParams.get("idPerfilEmpresa");
   }
 
   ionViewDidLeave() {
@@ -27,8 +29,6 @@ export class QrCodeScannerPage {
   }
 
   ionViewDidLoad() {
-
-
     this.inicialize();
   }
 
@@ -47,19 +47,20 @@ export class QrCodeScannerPage {
             });
         }
         else {
-          alert("deu pau na permissao");
         }
       });
   }
 
   valideCupom(text: string) {
     //exiba carregando
-    this.transacaoProvider.obtenhaCupomPeloToken(text,this.idPerfilEmpresa)
+    this.transacaoProvider.obtenhaCupomPeloToken(text, this.idPerfilEmpresa)
       .then((cupom: DTOCupomParaVenda) => {
         this.viewCtrl.dismiss(cupom);
+        this.removeVisibilidade();
       }).catch(() => {
-        alert("cupom invalido!");
+        this.utilitarios.mostreMensagemErro("Cupom invalido");
         this.viewCtrl.dismiss();
+        this.removeVisibilidade();
       });
   }
 

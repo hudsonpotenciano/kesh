@@ -18,7 +18,7 @@ export class Data implements PipeTransform {
   name: 'SplitPrimeiro',
 })
 export class SplitPrimeiro implements PipeTransform {
-
+  
   transform(texto: string) {
     if (texto && texto.trim() != "")
       return texto.split(" ")[0];

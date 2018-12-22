@@ -1,23 +1,28 @@
-<ion-header>
-
-    <ion-navbar>
-        <ion-title>venda</ion-title>
-    </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-    <ion-item>
-        <ion-label fixed>Valor</ion-label>
-        <ion-input type="number" [(ngModel)]="venda.Valor" name="valor"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Usar Pontos</ion-label>
-        <ion-checkbox [(ngModel)]="utilizarPontos"></ion-checkbox>
-    </ion-item>
-    <p>
-        Trade da pessoa {{cupom.TotalDinheiroPessoa}}
-    </p>
-    <button ion-button (click)="realizeVenda()">Venda</button>
+<ion-content>
+    <div class="card-custom">
+        <ion-item no-lines>
+            <ion-label>Usar keshs</ion-label>
+            <ion-checkbox *ngIf="cupom.TotalDinheiroPessoa > 0" [(ngModel)]="utilizarPontos"></ion-checkbox>
+            <ion-checkbox *ngIf="cupom.TotalDinheiroPessoa == 0" disabled [(ngModel)]="utilizarPontos"></ion-checkbox>
+            <p item-end class="texto-dinheiro-pessoa">R$ {{cupom.TotalDinheiroPessoa}}</p>
+        </ion-item>
+    </div>
+    <div class="card-custom">
+        <p class="titulo">Informe o valor da venda</p>
+        <ion-item style="padding-right:10px;">
+            <ion-icon class="input-venda-icone" item-start name="logo-usd"></ion-icon>
+            <ion-input id="input-valor" placeholder="0,00" class="input-venda" type="number" [(ngModel)]="valor" name="valor"></ion-input>
+        </ion-item>
+    </div>
 </ion-content>
+
+<ion-footer>
+    <ion-row class="footer-botoes">
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="voltar()">Voltar</button>
+        </ion-col>
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="realizeVenda()"> Vender </button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, App, Events } from 'ionic-angular';
 import { DTOCupomVenda } from '../../../models/models.model';
 import { DadosEmpresaLoja } from '../../../models/empresa.model';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
@@ -20,7 +20,8 @@ export class HomeEmpresaLojaPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private app:App,
+    private app: App,
+    private events: Events,
     public empresaLojaProvider: EmpresaLojaProvider,
     public modalCtrl: ModalController,
     private transacaoProvider: TransacaoProvider,
@@ -29,6 +30,10 @@ export class HomeEmpresaLojaPage {
     this.empresaLojaProvider;
     this.empresaProvider;
     this.pessoaProvider;
+
+    this.events.subscribe("atualizar-obtenhaCuponsEVendas", () => {
+      this.obtenhaCuponsEVendas(true);
+    });
   }
 
   ionViewDidLoad() {
@@ -43,10 +48,12 @@ export class HomeEmpresaLojaPage {
       });
   }
 
-  obtenhaCuponsEVendas() {
-    this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa)
+  obtenhaCuponsEVendas(desconsiderarCache: boolean = false) {
+    this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa, desconsiderarCache)
       .then((retorno: any) => {
         this.cuponsVendas = retorno;
+      }).catch(() => {
+
       });
   }
 
@@ -59,6 +66,7 @@ export class HomeEmpresaLojaPage {
       this.app.getRootNavs()[0].push("VendaPage", cupom);
     });
   }
+
   obtenhaFotoPessoa(idPessoa) {
     return this.pessoaProvider.obtenhaFotoPessoa(idPessoa);
   }

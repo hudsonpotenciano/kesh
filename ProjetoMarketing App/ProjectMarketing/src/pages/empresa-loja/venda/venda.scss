@@ -1,3 +1,17 @@
 page-venda {
-
+    .input-venda {
+        font-size: 4rem;
+        color: green;
+    }
+    .input-venda-icone {
+        color: green;
+        font-size: 3.8rem;
+    }
+    .texto-dinheiro-pessoa {
+        color: $tema;
+        font-size: 2rem;
+    }
+    .item-inner {
+        box-shadow: none !important;
+    }
 }

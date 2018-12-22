@@ -21,20 +21,6 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
-        [HttpGet("ObtenhaLogoEmpresa")]
-        public ActionResult ObtenhaLogoEmpresa(int idEmpresa)
-        {
-            byte[] foto = _context.ImagemPerfil.FirstOrDefault(x => x.IdEmpresa == idEmpresa)?.Imagem;
-
-            if (foto == null)
-            {
-                return null;
-            }
-
-            return File(foto, "image/jpeg");
-        }
-
         //[AllowAnonymous]
         //[HttpGet("ObtenhaImagemCatalogo")]
         //public async Task<ActionResult> ObtenhaImagemCatalogo(int idImagem)

@@ -125,27 +125,35 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
         public Task UpdateConta(AtualizeContaModel model)
         {
-            ContaEmpresa conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == model.IdEmpresa);
-
-            if (conta == null)
+            try
             {
-                throw new Exception();
+                ContaEmpresa conta = _context.ContaEmpresa.FirstOrDefault(c => c.IdEmpresa == model.IdEmpresa);
+
+                if (conta == null)
+                {
+                    throw new Exception();
+                }
+
+                conta.Resumo = !string.IsNullOrEmpty(model.Resumo) ? model.Resumo : conta.Resumo;
+                conta.ValorPontos = model.ValorPontos != 0 ? model.ValorPontos : conta.ValorPontos;
+                conta.Categoria = model.Categoria != 0 ? model.Categoria : conta.Categoria;
+
+                _context.ContaEmpresa.Update(conta);
+
+                Entidade.ImagemPerfil imagemPerfilEmpresa = new Entidade.ImagemPerfil()
+                {
+                    IdEmpresa = model.IdEmpresa,
+                    Imagem = model.Logo,
+                    //GuidImagem = Guid.NewGuid().ToString()
+                };
+
+                new ImagemService(_context).SaveImagemPerfilEmpresa(imagemPerfilEmpresa);
+                return _context.SaveChangesAsync();
             }
-
-            conta.Resumo = !string.IsNullOrEmpty(model.Resumo) ? model.Resumo : conta.Resumo;
-            conta.ValorPontos = model.ValorPontos != 0 ? model.ValorPontos : conta.ValorPontos;
-            conta.Categoria = model.Categoria != 0 ? model.Categoria : conta.Categoria;
-
-            _context.ContaEmpresa.Update(conta);
-
-            Entidade.ImagemPerfil imagemPerfilEmpresa = _context.ImagemPerfil.FirstOrDefault(i => i.IdEmpresa == model.IdEmpresa);
-            if (imagemPerfilEmpresa != null)
+            catch (Exception e)
             {
-                imagemPerfilEmpresa.Imagem = model.Logo;
-                _context.ImagemPerfil.Update(imagemPerfilEmpresa);
+                throw e;
             }
-
-            return _context.SaveChangesAsync();
         }
 
         public async Task<DTODadosEmpresaAdmin> SelectEmpresaAdmin(int idEmpresa)
