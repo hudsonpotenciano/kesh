@@ -11,6 +11,11 @@
 </ion-header>
 
 <ion-content id="home-container" class="container">
+    <ion-refresher (ionRefresh)="obtenhaCuponsEVendasComRefesh($event)">
+        <ion-refresher-content pullingIcon="refresh" pullingText="" refreshingSpinner="circles" refreshingText=""></ion-refresher-content>
+    </ion-refresher>
+
+
     <ion-list no-lines>
         <div class="item-customizado" *ngFor="let cupomevenda of cuponsVendas">
             <ion-item>
@@ -34,4 +39,8 @@
              <ion-icon name="qr-scanner"></ion-icon>
               </button>
     </ion-fab>
+
+    <lista-vazia *ngIf="!estaCarregando && cuponsVendas.length == 0">
+
+    </lista-vazia>
 </ion-content>

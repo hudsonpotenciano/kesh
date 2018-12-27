@@ -35,8 +35,7 @@ namespace ProjetoMarketing.Servicos
 
                 compartilhamento.CupomFoiGerado = true;
                 await transacaoDao.UpdateCompartilhamento(compartilhamento);
-
-                NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento(compartilhamento.IdPessoa, _context);
+                NotificacaoService.Instancia.EnvieNotificacaoDeCompartilhamento(compartilhamento, _context);
                 return cupom;
             }
             else

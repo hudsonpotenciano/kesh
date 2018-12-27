@@ -5,6 +5,7 @@ import { User, RetornoRequestModel, RetornoLogin } from '../../models/models.mod
 import { CadastroEmpresaModel, Perfil, DadosEmpresaAdmin, AtualizeContaModel } from '../../models/empresa.model';
 import { StorageEmpresaProvider } from '../storage/storage-empresa';
 import { EnumeradorDeCacheStorageEmpresa, Enumerador } from '../../models/enumeradores.model';
+import { UtilitariosProvider } from '../utilitarios/utilitarios';
 
 @Injectable()
 export class EmpresaProvider {
@@ -13,6 +14,7 @@ export class EmpresaProvider {
 
   constructor(private storage: StorageProvider,
     private storageEmpresa: StorageEmpresaProvider,
+    private utilitarios: UtilitariosProvider,
     private comunicacao: ComunicacaoProvider) {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
@@ -49,6 +51,8 @@ export class EmpresaProvider {
   }
 
   obtenhaDadosEmpresaAdmin() {
+
+    this.utilitarios.mostreAlertaCarregando("")
 
     var enumeradorDeCache = new EnumeradorDeCacheStorageEmpresa().obtenhaDadosEmpresaAdmin;
     if (this.estaEmCach(enumeradorDeCache)) {
@@ -137,6 +141,11 @@ export class EmpresaProvider {
   obtenhaLogoEmpresa(idEmpresa: number) {
     return "https://keshstorage.blob.core.windows.net/perfilempresa/" + idEmpresa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
+  }
+
+  deslogueEmpresaLoja() {
+    var dados = this.storageEmpresa.recupereDadosEmpresaLoja();
+    this.comunicacao.post("empresa/login/DeslogueEmpresa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: dados.Perfil.IdPerfilEmpresa, IdPessoa: 0 });
   }
 
   estaEmCach(enumerador: Enumerador) {

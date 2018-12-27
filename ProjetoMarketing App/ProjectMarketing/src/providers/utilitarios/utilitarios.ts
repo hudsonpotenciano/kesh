@@ -9,6 +9,7 @@ import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
 export class UtilitariosProvider {
 
   loadingPrimeiroCarregamento = null;
+  localizacao: Localizacao = null;
 
   constructor(private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
@@ -98,7 +99,7 @@ export class UtilitariosProvider {
     return new Promise<Localizacao>((resolve, reject) => {
 
       if (!this.plataforma.is("cordova")) {
-        resolve(new Localizacao(-16.7064275, -49.2078104));
+        resolve(new Localizacao(-16.6021529, -49.3181457));
         return;
       }
 
@@ -246,4 +247,25 @@ export class UtilitariosProvider {
     alerta.present();
   }
 
+  calculeDistancia(lat1, lon1, unit = "K") {
+    if ((lat1 == this.localizacao.Latitude) && (lon1 == this.localizacao.Longitude)) {
+      return 0;
+    }
+    else {
+      var radlat1 = Math.PI * lat1 / 180;
+      var radlat2 = Math.PI * parseFloat(this.localizacao.Latitude) / 180;
+      var theta = lon1 - parseFloat(this.localizacao.Longitude);
+      var radtheta = Math.PI * theta / 180;
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180 / Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit == "K") { dist = dist * 1.609344 }
+      if (unit == "N") { dist = dist * 0.8684 }
+      return dist;
+    }
+  }
 }

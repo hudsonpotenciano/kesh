@@ -206,7 +206,7 @@ namespace ProjetoMarketing.Persistencia
                     join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.IdEmpresa }) on parametros.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join conta in _context.ContaEmpresa.Select(a => new { a.IdEmpresa, a.ValorPontos }) on perfilEmpresa.IdEmpresa equals conta.IdEmpresa
                     let pessoaEmpresa = _context.PessoaLoja.Select(a => new { a.IdPessoa, a.IdPerfilEmpresa, a.Pontos }).FirstOrDefault(a => a.IdPessoa == cupom.IdPessoa)
-                    where cupom.Token == parametros.CupomToken
+                    where cupom.Token == parametros.CupomToken && cupom.IdPerfilEmpresa == parametros.IdPerfilEmpresa
                     select new DTOCupomParaVenda()
                     {
                         Cupom = cupom,
@@ -217,7 +217,8 @@ namespace ProjetoMarketing.Persistencia
         public Task<bool> PessoaPodeCompartilhar(ParametrosObtenhaPessoasCompartilhamento parametros)
         {
             return _context.Cupom.AnyAsync(a => a.IdPessoa == parametros.IdPessoa
-                                                     && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.DataValidade >= DateTime.Now);
+                                                     && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.DataValidade >= DateTime.Now
+                                                     && !_context.Venda.Any(b=>b.IdCupom == a.IdCupom));
         }
     }
 }

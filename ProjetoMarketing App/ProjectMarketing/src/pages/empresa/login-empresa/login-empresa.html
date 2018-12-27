@@ -66,7 +66,7 @@
         </ion-list>
     </div>
 
-    <ion-fab left bottom (click)="voltar()">
+    <ion-fab *ngIf="viewAtual == views[0]" left bottom (click)="voltar()">
         <button ion-fab color="light">             
              <ion-icon name="arrow-back"></ion-icon>
               </button>

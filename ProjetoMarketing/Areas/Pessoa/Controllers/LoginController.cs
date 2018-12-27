@@ -6,6 +6,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
+using System.Linq;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
 {
@@ -89,6 +90,26 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             }
 
             return retorno;
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("DesloguePessoa")]
+        public void DesloguePessoa([FromBody]ParametrosDeslogueUsuario parametros)
+        {
+            if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) && 
+                !string.IsNullOrWhiteSpace(parametros.IdNotificacao) && parametros.IdPessoa > 0)
+            {
+                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).UsuarioPeloToken(parametros.Token);
+                if (usuarioAutenticado == null)
+                {
+                    return;
+                }
+
+                Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == usuarioAutenticado.IdPessoa);
+                pessoa.IdsNotificacao = pessoa.IdsNotificacao.Where(id => id != parametros.IdNotificacao).ToList();
+                _context.Pessoa.Update(pessoa);
+                _context.SaveChangesAsync();
+            }
         }
     }
 }

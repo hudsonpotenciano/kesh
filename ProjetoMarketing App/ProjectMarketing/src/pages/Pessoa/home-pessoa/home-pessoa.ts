@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController, PopoverController, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController, PopoverController, App, Platform } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
@@ -33,6 +33,7 @@ export class HomePessoaPage {
     private popoverCtrl: PopoverController,
     private pessoaProvider: PessoaProvider,
     private app: App,
+    private platform: Platform,
     private empresaProvider: EmpresaProvider,
     private utilitarios: UtilitariosProvider,
     private empresaLojaProvider: EmpresaLojaProvider) {
@@ -121,7 +122,7 @@ export class HomePessoaPage {
 
   vireOCard(id: number) {
     var elemento = document.getElementById(id.toString());
-    
+
     if (!elemento) return;
 
     elemento.classList.toggle("flipped");
@@ -135,6 +136,19 @@ export class HomePessoaPage {
     else {
       front.style.display = "block";
       back.style.display = "none";
+    }
+  }
+
+  rota(perfil) {
+
+    let destination = perfil.Latitude + ',' + perfil.Longitude;
+
+    if (this.platform.is('ios')) {
+      window.open('maps://?q=' + destination, '_system');
+    }
+    else if (this.platform.is('android')) {
+      let label = encodeURI(perfil.Descricao);
+      window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
     }
   }
 }

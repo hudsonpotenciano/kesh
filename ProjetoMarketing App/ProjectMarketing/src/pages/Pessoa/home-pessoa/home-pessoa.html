@@ -1,13 +1,10 @@
 <ion-header>
     <ion-navbar>
-        <ion-item no-lines *ngIf="pessoa && !mostrarPesquisa">
-            <ion-avatar item-start>
-                <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="{{pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)}}" alt="">
-            </ion-avatar>
-            <ion-title>Olá, {{pessoa.Nome | SplitPrimeiro}}</ion-title>
-            <!-- <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
+        <ion-title *ngIf="pessoa && !mostrarPesquisa">
+            <img class="avatar-header" onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" src="{{pessoaProvider.obtenhaFotoPessoa(pessoa.IdPessoa)}}" alt=""> Olá, {{pessoa.Nome | SplitPrimeiro}}
+        </ion-title>
+        <!-- <ion-icon *ngIf="!mostrarPesquisa" item-end name="search" (click)="mostrarPesquisa = true">
             </ion-icon> -->
-        </ion-item>
         <!-- <ion-item no-lines style="height:45px;" *ngIf="mostrarPesquisa">
             <ion-searchbar placeholder="Pesquisa" type="search" [(ngModel)]="inputPesquisa" (ionInput)="pesquise()">
             </ion-searchbar>
@@ -18,7 +15,7 @@
 <ion-content>
 
     <ion-refresher (ionRefresh)="obtenhaEmpresas($event)">
-        <ion-refresher-content pullingIcon="refresh" pullingText="" refreshingSpinner="circles" refreshingText="Sincronizando..."></ion-refresher-content>
+        <ion-refresher-content pullingIcon="refresh" pullingText="" refreshingSpinner="circles" refreshingText=""></ion-refresher-content>
     </ion-refresher>
 
     <ion-list>
@@ -34,9 +31,9 @@
                     </div>
                     <div class="back" [id]="'back' + empresa.Perfil.IdPerfilEmpresa">
                         <ion-row class="header">
-                            <ion-col color="tema">
+                            <ion-col color="tema" (click)="rota(empresa.Perfil)">
                                 <p class="p-distancia">
-                                    {{empresa.Distancia}}
+                                    {{empresa.Distancia | Distancia}}
                                 </p>
                             </ion-col>
                             <ion-col>

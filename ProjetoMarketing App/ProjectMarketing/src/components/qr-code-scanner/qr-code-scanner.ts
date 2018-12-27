@@ -58,7 +58,7 @@ export class QrCodeScannerPage {
         this.viewCtrl.dismiss(cupom);
         this.removeVisibilidade();
       }).catch(() => {
-        this.utilitarios.mostreMensagemErro("Cupom invalido");
+        this.utilitarios.mostreMensagemErro("Cupom inválido");
         this.viewCtrl.dismiss();
         this.removeVisibilidade();
       });

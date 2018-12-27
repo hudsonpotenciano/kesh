@@ -88,5 +88,25 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
 
             return retorno;
         }
+
+        [Authorize("Bearer")]
+        [HttpPost("DeslogueEmpresa")]
+        public void DeslogueEmpresa([FromBody]ParametrosDeslogueUsuario parametros)
+        {
+            if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) && 
+                parametros.IdPerfilEmpresa > 0 && !string.IsNullOrWhiteSpace(parametros.IdNotificacao))
+            {
+                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).UsuarioPeloToken(parametros.Token);
+                if (usuarioAutenticado == null)
+                {
+                    return;
+                }
+
+                Entidade.Empresa.PerfilEmpresa perfil = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
+                perfil.IdsNotificacao = perfil.IdsNotificacao.Where(id => id != parametros.IdNotificacao).ToList();
+                _context.PerfilEmpresa.Update(perfil);
+                _context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,7 @@ export class ConfiguracoesPessoaPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private app: App,
+    private pessoaProvider: PessoaProvider,
     private storage: StorageProvider,
     private splashScreen: SplashScreen,
     private utilitarios: UtilitariosProvider,
@@ -44,6 +46,12 @@ export class ConfiguracoesPessoaPage {
   }
 
   sair() {
+
+    if(!navigator.onLine){
+      this.utilitarios.mostreMensagemErro("Conecte-se à internet para sair");
+      return;
+    }
+
     this.utilitarios.facaPerguntaSimNao("Tem certeza de que deseja sair ?",
       () => {
         this.saia()
@@ -53,6 +61,7 @@ export class ConfiguracoesPessoaPage {
   }
 
   saia() {
+    this.pessoaProvider.desloguePessoa();
     this.app.getRootNavs()[0].setRoot("IntroducaoPage");
     this.storage.limpeTudo();
     this.splashScreen.show();

@@ -130,11 +130,12 @@ export class PerfilEmpresaPage {
           resolve(podeCompartilhar);
           if (!podeCompartilhar) {
             this.compartilharHabilitado = false;
-            this.utilitarios.mostreToast("Você nao pode compartilhar agora pois possui um cupom válido para esta loja");
+            this.utilitarios.mostreMensagemErro("Você nao pode compartilhar agora pois possui um cupom válido para esta loja");
           }
         })
         .catch(() => {
           resolve(false);
+          this.compartilharHabilitado = false;
           this.utilitarios.mostreMensagemErro("Ocorreu algum problema, tente novamente");
         })
     });

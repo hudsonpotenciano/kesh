@@ -6,6 +6,7 @@ import { StorageProvider } from '../../../providers/storage/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { EmpresaProvider } from '../../../providers/empresa/empresa';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class OpcoesEmpresaLojaPage {
     private storage: StorageProvider,
     private splashScreen: SplashScreen,
     private app: App,
+    private empresaProvider: EmpresaProvider,
     private utilitarios: UtilitariosProvider,
     private sanitizer: DomSanitizer) {
     this.sanitizer;
@@ -41,6 +43,12 @@ export class OpcoesEmpresaLojaPage {
   }
 
   sair() {
+
+    if (!navigator.onLine) {
+      this.utilitarios.mostreMensagemErro("Conecte-se à internet para sair");
+      return;
+    }
+
     this.utilitarios.facaPerguntaSimNao("Tem certeza de que deseja sair ?",
       () => {
         this.saia()
@@ -50,6 +58,7 @@ export class OpcoesEmpresaLojaPage {
   }
 
   saia() {
+    this.empresaProvider.deslogueEmpresaLoja();
     this.storage.limpeTudo();
     this.splashScreen.show();
     this.app.getRootNavs()[0].setRoot("IntroducaoPage");

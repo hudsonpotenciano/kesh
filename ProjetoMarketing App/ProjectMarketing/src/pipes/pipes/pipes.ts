@@ -37,3 +37,13 @@ export class Safe implements PipeTransform {
     return teste;
   }
 }
+
+@Pipe({
+  name: 'Distancia',
+})
+export class Distancia implements PipeTransform {
+  
+  transform(distancia: number) {
+      return distancia > 1 ? `${distancia.toFixed(1)} km` : `${distancia.toFixed(1)} m`
+  }
+}

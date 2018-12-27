@@ -14,7 +14,7 @@ export class VendaPage {
 
   cupom: DTOCupomParaVenda;
   venda: Venda = new Venda();
-  valor: string = "";
+  valor: number = 0;
   utilizarPontos: boolean = false;
 
   constructor(public navCtrl: NavController,
@@ -34,8 +34,13 @@ export class VendaPage {
         return;
       }
     }
-
-    this.transacaoProvider.GereVenda(this.cupom.Cupom.Token, this.venda.Valor, this.utilizarPontos)
+    
+    if(this.valor <= 0){
+      this.utilitarios.mostreMensagemErro("Informe um valor maior que zero");
+      return;
+    }
+    
+    this.transacaoProvider.GereVenda(this.cupom.Cupom.Token, this.valor, this.utilizarPontos)
       .then(() => {
         this.events.publish("atualizar-obtenhaCuponsEVendas");
         this.navCtrl.pop();

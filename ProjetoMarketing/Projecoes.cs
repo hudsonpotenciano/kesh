@@ -120,7 +120,7 @@ namespace ProjetoMarketing
                        Conta = ProjecaoContaEmpresa(item.ContaEmpresa),
                        PessoaEmpresa = item.PessoaEmpresa != null ? ProjecaoPessoaEmpresa(item.PessoaEmpresa) : new PessoaEmpresa(),
                        item.NotaGeral,
-                       Distancia = Negocio.Localizacao.GereDistanciaUnidadeMedida(item.Distancia, unit),
+                       item.Distancia,
                        Catalogo = from imagem in item.Catalogo
                                   select new
                                   {

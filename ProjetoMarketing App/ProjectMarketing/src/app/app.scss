@@ -263,3 +263,12 @@ ion-header {
 .checkbox-inner {
     border-color: $light !important;
 }
+
+.avatar-header {
+    background-color: white;
+    border-radius: 100%;
+    position: absolute;
+    height: 45px;
+    right: 5px;
+    top: -10px;
+}

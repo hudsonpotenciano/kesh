@@ -6,6 +6,7 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { PipesModule } from '../../../pipes/pipes.module';
+import { ComponentsModule } from '../../../components/components.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { PipesModule } from '../../../pipes/pipes.module';
   ],
   imports: [
     IonicPageModule.forChild(HomeEmpresaLojaPage),
-    PipesModule
+    PipesModule,
+    ComponentsModule
   ],
   providers:[
     EmpresaLojaProvider,

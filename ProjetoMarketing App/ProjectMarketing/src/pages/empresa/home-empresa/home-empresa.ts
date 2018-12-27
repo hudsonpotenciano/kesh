@@ -4,6 +4,7 @@ import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosEmpresaAdmin, VendaAdminLoja } from '../../../models/empresa.model';
 import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ export class HomeEmpresaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private utilitarios:UtilitariosProvider,
     public empresaProvider: EmpresaProvider,
     public empresaLojaProvider: EmpresaLojaProvider,
     public transacaoProvider: TransacaoProvider) {
@@ -29,12 +31,14 @@ export class HomeEmpresaPage {
   }
 
   obtenhaEmpresa() {
+    this.utilitarios.mostreAlertaCarregando("Buscando vendas de todas as lojas, aguarde um instante.");
     this.empresaProvider.obtenhaDadosEmpresaAdmin()
       .then((retorno: DadosEmpresaAdmin) => {
         this.dadosEmpresa = retorno;
         this.obtenhaCuponsEVendasEmpresaAdmin();
       }).catch(() => {
         this.vendasAdminLoja = [];
+        this.utilitarios.removaAlertaCarregando();
       });
   }
 
@@ -43,8 +47,10 @@ export class HomeEmpresaPage {
       .then((retorno: VendaAdminLoja[]) => {
         this.vendasAdminLoja = retorno;
         this.estaCarregando = false;
+        this.utilitarios.removaAlertaCarregando();
       }).catch(() => {
         this.vendasAdminLoja = [];
+        this.utilitarios.removaAlertaCarregando();
       });
   }
 

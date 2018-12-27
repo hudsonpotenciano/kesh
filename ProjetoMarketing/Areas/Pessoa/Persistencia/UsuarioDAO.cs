@@ -39,9 +39,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.Usuario.FirstOrDefault(u => u.TokenEmpresaAdmin == token && u.IdEmpresa != null);
         }
 
-        public bool ValideToken(string token)
+        public Usuario UsuarioPeloToken(string token)
         {
-            return _context.Usuario.FirstOrDefault(u => u.Token == token) != null;
+            return _context.Usuario.FirstOrDefault(u => u.Token == token);
         }
 
         public void Remove(Usuario usuario)

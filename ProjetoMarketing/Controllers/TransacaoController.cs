@@ -100,7 +100,7 @@ namespace ProjetoMarketing.Controllers
 
         [Authorize("Bearer")]
         [HttpPost("ObtenhaCuponsEVendasEmpresa")]
-        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]ParametrosObtenhaDadosPessoaEmpresa parametros)
+        public async Task<RetornoRequestModel> ObtenhaCuponsEVendasEmpresa([FromBody]ParametrosObtenhaDadosEmpresaLoja parametros)
         {
             RetornoRequestModel retorno = new RetornoRequestModel
             {

@@ -7,6 +7,7 @@ import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loj
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DTOCupomParaVenda } from '../../../models/pessoa.model';
+import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class HomeEmpresaLojaPage {
 
   dadosEmpresa: DadosEmpresaLoja;
   cuponsVendas: DTOCupomVenda[];
+  estaCarregando = true;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -24,6 +26,7 @@ export class HomeEmpresaLojaPage {
     private events: Events,
     public empresaLojaProvider: EmpresaLojaProvider,
     public modalCtrl: ModalController,
+    private utilitarios: UtilitariosProvider,
     private transacaoProvider: TransacaoProvider,
     private pessoaProvider: PessoaProvider,
     private empresaProvider: EmpresaProvider) {
@@ -41,10 +44,28 @@ export class HomeEmpresaLojaPage {
   }
 
   obtenhaEmpresa() {
+    this.utilitarios.mostreAlertaCarregando("Buscando as vendas da loja, aguarde um instante.");
+
     this.empresaLojaProvider.obtenhaDadosEmpresaLoja()
       .then((retorno: DadosEmpresaLoja) => {
         this.dadosEmpresa = retorno;
         this.obtenhaCuponsEVendas();
+      })
+      .catch(() => {
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("Ocorreu um erro ao carregar os dados, puxe a lista para baixo e tente novamente");
+      })
+  }
+
+  obtenhaCuponsEVendasComRefesh(refresh) {
+    this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa, refresh !== undefined)
+      .then((retorno: any) => {
+        this.cuponsVendas = retorno;
+        if (refresh)
+          refresh.complete();
+      }).catch(() => {
+        if (refresh)
+          refresh.complete();
       });
   }
 
@@ -52,8 +73,12 @@ export class HomeEmpresaLojaPage {
     this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa, desconsiderarCache)
       .then((retorno: any) => {
         this.cuponsVendas = retorno;
+        this.utilitarios.removaAlertaCarregando();
+        this.estaCarregando = false;
       }).catch(() => {
-
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("Ocorreu um erro ao carregar os dados, puxe a lista para baixo e tente novamente");
+        this.estaCarregando = false;
       });
   }
 

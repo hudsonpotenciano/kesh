@@ -28,24 +28,24 @@ namespace ProjetoMarketing.Negocio
             return dist;
         }
 
-        public static string GereDistanciaUnidadeMedida(double distancia, Enumeradores.Enumeradores.UnidadeMedidaLocalizacao unit)
-        {
-            switch (unit)
-            {
-                case Enumeradores.Enumeradores.UnidadeMedidaLocalizacao.Kilometros:
-                    {
-                        if (distancia <= 0)
-                        {
-                            return string.Concat(distancia.ToString("0.0"), " m");
-                        }
+        //public static string GereDistanciaUnidadeMedida(double distancia, Enumeradores.Enumeradores.UnidadeMedidaLocalizacao unit)
+        //{
+        //    switch (unit)
+        //    {
+        //        case Enumeradores.Enumeradores.UnidadeMedidaLocalizacao.Kilometros:
+        //            {
+        //                if (distancia <= 0)
+        //                {
+        //                    return string.Concat(distancia.ToString("0.0"), " m");
+        //                }
 
-                        return string.Concat(distancia.ToString("0.0"), " km");
-                    }
-                case Enumeradores.Enumeradores.UnidadeMedidaLocalizacao.Milhas:
-                    return string.Concat(distancia.ToString("0.0"), " mi");
-            }
+        //                return string.Concat(distancia.ToString("0.0"), " km");
+        //            }
+        //        case Enumeradores.Enumeradores.UnidadeMedidaLocalizacao.Milhas:
+        //            return string.Concat(distancia.ToString("0.0"), " mi");
+        //    }
 
-            return string.Concat(distancia.ToString("0.0"), " mi");
-        }
+        //    return string.Concat(distancia.ToString("0.0"), " mi");
+        //}
     }
 }

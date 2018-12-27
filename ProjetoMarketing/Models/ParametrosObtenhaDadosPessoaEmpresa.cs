@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Models
 {
-    public class ParametrosObtenhaDadosPessoaEmpresa : ParametrosRequestModel
+    public class ParametrosObtenhaDadosEmpresaLoja : ParametrosRequestModel
     {
         public long IdPerfilEmpresa { get; set; }
-        public int IdPessoa { get; set; }
     }
 }

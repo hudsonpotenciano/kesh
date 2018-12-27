@@ -33,6 +33,7 @@ export class OpcoesEmpresaPage {
   }
 
   sair() {
+
     this.utilitarios.facaPerguntaSimNao("Tem certeza de que deseja sair ?",
       () => {
         this.saia()

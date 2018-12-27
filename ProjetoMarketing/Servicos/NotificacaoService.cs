@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Entidade;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,9 +14,10 @@ namespace ProjetoMarketing.Servicos
     {
         public static NotificacaoService Instancia => new NotificacaoService();
 
-        public void EnvieNotificacaoDeCompartilhamento(int idPessoa, PessoaEmpresaContext _context)
+        public void EnvieNotificacaoDeCompartilhamento(Compartilhamento compartilhamento, PessoaEmpresaContext _context)
         {
-            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == compartilhamento.IdPessoa);
+            Entidade.Empresa.PerfilEmpresa perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == compartilhamento.IdPerfilEmpresa);
 
             Task.Factory.StartNew(() =>
             {
@@ -23,7 +25,7 @@ namespace ProjetoMarketing.Servicos
                     pessoa.IdsNotificacao != null &&
                     pessoa.IdsNotificacao.Count > 0)
                 {
-                    EnvieNotificacao(pessoa.IdsNotificacao, $"Você acabou de receber um cupom de {pessoa.Nome}");
+                    EnvieNotificacao(pessoa.IdsNotificacao, $"Heeey, você acabou de receber um cupom de {pessoa.Nome} para usar no {perfilEmpresa.Descricao} 🎁");
                 }
             });
         }

@@ -47,13 +47,17 @@ export class PessoaProvider {
     }
   }
 
-  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao,desconsiderarCache : boolean = false): Promise<DadosPessoaEmpresa[]> {
-
+  obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao, desconsiderarCache: boolean = false): Promise<DadosPessoaEmpresa[]> {
     var dadosSalvos = this.storagePessoa.recupereDadosPessoaEmpresas();
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas;
     if ((!navigator.onLine) || !desconsiderarCache && this.estaEmCach(enumeradorDeCache)) {
+      this.utilitariosProvider.localizacao = localizacao;
       return new Promise<DadosPessoaEmpresa[]>(resolve => {
-        resolve(dadosSalvos);
+        resolve(dadosSalvos.sort((a, b) => {
+          var distancia1 = this.utilitariosProvider.calculeDistancia(a.Perfil.Latitude, a.Perfil.Longitude);
+          var distancia2 = this.utilitariosProvider.calculeDistancia(b.Perfil.Latitude, b.Perfil.Longitude);
+          return distancia1 - distancia2;
+        }));
       });
     }
     else {
@@ -174,6 +178,11 @@ export class PessoaProvider {
         this.utilitariosProvider.mostreMensagemErro("Usuario ou senha não encontrados");
       })
     });
+  }
+
+  desloguePessoa() {
+    var dadosAcesso = this.storage.recupereDadosAcesso();
+    this.comunicacao.post("pessoa/login/DesloguePessoa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: 0, IdPessoa: dadosAcesso.IdPessoa });
   }
 
   realizeLoginRedeSocial(usuario: SocialUser) {

@@ -36,13 +36,16 @@ export class TransacoesPage {
     this.obtenhaTransacoes();
   }
 
-  obtenhaTransacoes(desconsiderarCache: boolean = false) {
-    this.transacaoProvider.obtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa, desconsiderarCache)
+  obtenhaTransacoes(refresh?) {
+    this.transacaoProvider.obtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa, refresh !== undefined)
       .then((resultado: DTOCupomVenda[]) => {
         if (resultado)
           resultado.forEach(dto => {
             dto.Cupom.Expirado = this.transacaoProvider.valideCupomExpirado(dto.Cupom.DataValidade);
           });
+
+        if (refresh)
+          refresh.complete();
 
         this.cuponsVendasAgrupados = this.utilitarios
           .groupBy(resultado, function (item: DTOCupomVenda) {
@@ -51,12 +54,17 @@ export class TransacoesPage {
 
         this.estaCarregando = false;
       })
+      .catch(() => {
+        
+        if (refresh)
+          refresh.complete();
+      })
   }
 
   abraQrCode(cupomVenda: DTOCupomVenda) {
     var popover = this.popoverCtrl.create("CupomPage", cupomVenda.Cupom, { enableBackdropDismiss: true, cssClass: "popover-shadow" });
     popover.present();
-    popover.onDidDismiss(()=>{
+    popover.onDidDismiss(() => {
       this.obtenhaTransacoes(true);
     })
     // this.app.getRootNavs()[0].push("CupomPage", cupomVenda.Cupom);
