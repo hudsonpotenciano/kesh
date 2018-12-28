@@ -25,7 +25,7 @@
                     <div class="front" [id]="'front' + empresa.Perfil.IdPerfilEmpresa" (click)="vireOCard(empresa.Perfil.IdPerfilEmpresa)">
                         <ion-slides *ngIf="empresa.Catalogo.length > 0" color="tema" autoplay="4000" speed="2000" effect="fade" loop="true" pager="true">
                             <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
-                                <img [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
+                                <img onerror="this.src='./assets/imgs/camera.svg'" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
                             </ion-slide>
                         </ion-slides>
                     </div>
@@ -56,7 +56,7 @@
                             </ion-col>
                         </ion-row>
                         <div class="informacoes" text-center>
-                            <img (click)="abraPerfilEmpresa(empresa)" onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="">
+                            <img (click)="abraPerfilEmpresa(empresa)" [src]="empresaProvider.obtenhaLogoEmpresa(empresa.Empresa.IdEmpresa)" alt="" onerror="this.src='./assets/imgs/camera.svg'">
                             <ion-item no-lines text-center>
                                 <h2 (click)="abraPerfilEmpresa(empresa)">{{empresa.Empresa.Nome}}</h2>
                                 <p (click)="abraPerfilEmpresa(empresa)">{{empresa.Perfil.Descricao}}</p>

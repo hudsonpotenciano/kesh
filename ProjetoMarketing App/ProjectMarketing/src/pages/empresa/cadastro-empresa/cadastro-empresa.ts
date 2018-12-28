@@ -1,9 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Component, ViewChild, Sanitizer } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, Slides } from 'ionic-angular';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
-import { CadastroEmpresaModel } from '../../../models/empresa.model';
+import { CadastroEmpresaModel, ImagemCatalogo } from '../../../models/empresa.model';
 import { Enumerador, EnumeradorDeCategorias } from '../../../models/enumeradores.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
+import { EmpresaLojaProvider } from '../../../providers/empresa-loja/empresa-loja';
 
 @IonicPage()
 @Component({
@@ -18,24 +19,31 @@ export class CadastroEmpresaPage {
   profilePic = undefined;
 
   @ViewChild('fileInput') fileInput;
+  @ViewChild('fileInputCatalogo') fileInputCatalogo;
+  @ViewChild('slides') Slides: Slides;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private empresaLojaProvider: EmpresaLojaProvider,
     private utilitarios: UtilitariosProvider,
+    private sanitizer: Sanitizer,
     private empresaProvider: EmpresaProvider,
     private modalCtrl: ModalController) {
+    this.empresaLojaProvider;
+    this.sanitizer;
+    this.empresa.Catalogo = [];
   }
 
   ionViewDidLoad() {
 
   }
 
-  selecioneImagem() {
+  selecioneImagemLogo() {
     this.fileInput.nativeElement.click();
   }
 
-  aoEscolherImagem(event: any) {
+  aoEscolherImagemLogo(event: any) {
 
     let reader = new FileReader();
     reader.onloadend = (readerEvent) => {
@@ -126,5 +134,33 @@ export class CadastroEmpresaPage {
     if (this.empresa.Categoria)
       return this.categorias.find(c => c.Codigo == this.empresa.Categoria).Descricao;
   }
-}
 
+  aoEscolherImagem(event: any) {
+
+    let reader = new FileReader();
+    reader.onloadend = (readerEvent) => {
+
+      if (!this.empresa.Catalogo[this.empresa.Catalogo.length])
+        this.empresa.Catalogo[this.empresa.Catalogo.length] = new ImagemCatalogo();
+
+      this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
+        this.empresa.Catalogo[this.empresa.Catalogo.length - 1].Imagem = imagem;
+      })
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  selecioneImagem() {
+    this.fileInputCatalogo.nativeElement.click();
+  }
+
+  removaImagem(i: number) {
+    this.empresa.Catalogo.splice(i, 1);
+    this.Slides.slidePrev();
+  }
+
+  voltar(){
+    this.navCtrl.pop();
+  }
+}

@@ -1,4 +1,5 @@
 ﻿using ProjetoMarketing.Entidade;
+using System.Collections.Generic;
 
 namespace ProjetoMarketing.Areas.Empresa.Models
 {
@@ -18,5 +19,6 @@ namespace ProjetoMarketing.Areas.Empresa.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public int Categoria { get; set; }
+        public List<ImagemCatalogoModel> Catalogo { get; set; }
     }
 }

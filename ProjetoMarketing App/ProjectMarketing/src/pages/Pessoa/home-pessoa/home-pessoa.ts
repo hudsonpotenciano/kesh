@@ -59,6 +59,7 @@ export class HomePessoaPage {
         this.minhaLocalizacao = localizacao;
         this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao, refresher !== undefined)
           .then((retorno: DadosPessoaEmpresa[]) => {
+            this.pagina = 0;
             this.pessoaEmpresas = retorno;
             this.pessoaEmpresasLimit = this.utilitarios.pagine(retorno, this.pagina, tamanhoPagina);
             this.pagina++;

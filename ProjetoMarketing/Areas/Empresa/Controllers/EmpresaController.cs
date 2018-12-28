@@ -8,6 +8,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
+using ProjetoMarketing.Servicos;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,27 +31,36 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
-            if (_context.Empresa.Any(e => e.Cnpj == model.Cnpj || e.Email == model.Email))
+            try
             {
-                return RetornoRequestModel.CrieFalhaDuplicidade();
-            }
-
-            Entidade.Empresa.Empresa empresa = new Entidade.Empresa.Empresa();
-            Entidade.Usuario usuario = new Entidade.Usuario();
-
-            await new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa, out usuario);
-
-            if (usuario.IdUsuario != 0)
-            {
-                RetornoRequestModel retorno = new RetornoRequestModel
+                if (_context.Empresa.Any(e => e.Cnpj == model.Cnpj || e.Email == model.Email))
                 {
-                    Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
-                };
+                    return RetornoRequestModel.CrieFalhaDuplicidade();
+                }
 
-                return retorno;
+                Entidade.Empresa.Empresa empresa = new Entidade.Empresa.Empresa();
+                Entidade.Usuario usuario = new Entidade.Usuario();
+                Entidade.Empresa.PerfilEmpresa perfil = new Entidade.Empresa.PerfilEmpresa();
+
+                await new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa, out usuario, out perfil);
+                await new ImagemService(_context).AtualizeImagensCatalogo(model.Catalogo, perfil.IdPerfilEmpresa);
+
+                if (usuario.IdUsuario != 0)
+                {
+                    RetornoRequestModel retorno = new RetornoRequestModel
+                    {
+                        Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
+                    };
+
+                    return retorno;
+                }
+
+                return RetornoRequestModel.CrieFalha();
             }
-
-            return RetornoRequestModel.CrieFalha();
+            catch (System.Exception e)
+            {
+                throw e;
+            }
         }
 
         [Authorize("Bearer")]

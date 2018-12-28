@@ -24,9 +24,9 @@ export class PessoaProvider {
     this.dadosAcesso = this.storage.recupereDadosAcesso();
   }
 
-  obtenhaDadosPessoaLojas() {
+  obtenhaDadosPessoaLojas(desconsiderarCache: boolean = false) {
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaDadosPessoaLojas;
-    if (this.estaEmCach(enumeradorDeCache)) {
+    if (!desconsiderarCache && this.estaEmCach(enumeradorDeCache)) {
       return new Promise<PessoaLoja[]>(resolve => {
         var dados = this.storagePessoa.recupereDadosPessoaLojas();
         resolve(dados);
@@ -48,25 +48,41 @@ export class PessoaProvider {
   }
 
   obtenhaPessoaEPerfilEmpresas(localizacao: Localizacao, desconsiderarCache: boolean = false): Promise<DadosPessoaEmpresa[]> {
+
+    if (this.storagePessoa.recupereDadosPessoa() == null) {
+      this.loadingPrimeiroCarregamento = this.loadingCtrl.create({
+        content: 'Carregando lojas...'
+      });
+      this.loadingPrimeiroCarregamento.present();
+    }
+    else
+      this.loadingPrimeiroCarregamento = null
+
+    let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
+    unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
+
     var dadosSalvos = this.storagePessoa.recupereDadosPessoaEmpresas();
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaPessoaEPerfilEmpresas;
     if ((!navigator.onLine) || !desconsiderarCache && this.estaEmCach(enumeradorDeCache)) {
       this.utilitariosProvider.localizacao = localizacao;
       return new Promise<DadosPessoaEmpresa[]>(resolve => {
         resolve(dadosSalvos.sort((a, b) => {
-          var distancia1 = this.utilitariosProvider.calculeDistancia(a.Perfil.Latitude, a.Perfil.Longitude);
-          var distancia2 = this.utilitariosProvider.calculeDistancia(b.Perfil.Latitude, b.Perfil.Longitude);
+          var distancia1 = this.utilitariosProvider.calculeDistancia(a.Perfil.Latitude, a.Perfil.Longitude, unidadeDeMedida);
+          var distancia2 = this.utilitariosProvider.calculeDistancia(b.Perfil.Latitude, b.Perfil.Longitude, unidadeDeMedida);
           return distancia1 - distancia2;
         }));
       });
     }
     else {
-      let unidadeDeMedida = this.storage.recupereUnidadeDeMedidaLocalizacao();
-      unidadeDeMedida = unidadeDeMedida ? unidadeDeMedida : UnidadeDeMedidaLocalizacao.Kilometros;
       return new Promise<DadosPessoaEmpresa[]>((resolve, reject) => {
 
-        if (dadosSalvos != null)
-          resolve(dadosSalvos);
+        if (dadosSalvos != null) {
+          resolve(dadosSalvos.sort((a, b) => {
+            var distancia1 = this.utilitariosProvider.calculeDistancia(a.Perfil.Latitude, a.Perfil.Longitude, unidadeDeMedida);
+            var distancia2 = this.utilitariosProvider.calculeDistancia(b.Perfil.Latitude, b.Perfil.Longitude, unidadeDeMedida);
+            return distancia1 - distancia2;
+          }));
+        }
 
         this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaEPerfilEmpresas",
           { IdPessoa: this.dadosAcesso.IdPessoa, Latitude: localizacao.Latitude, Longitude: localizacao.Longitude, UnidadeDeMedida: unidadeDeMedida })
@@ -126,16 +142,6 @@ export class PessoaProvider {
   }
 
   ObtenhaDadosPessoa() {
-
-    if (this.storagePessoa.recupereDadosPessoa() == null) {
-      this.loadingPrimeiroCarregamento = this.loadingCtrl.create({
-        content: 'Carregando lojas...'
-      });
-      this.loadingPrimeiroCarregamento.present();
-    }
-    else
-      this.loadingPrimeiroCarregamento = null
-
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaDadosPessoa;
     if (this.estaEmCach(enumeradorDeCache)) {
       return new Promise<Pessoa>(resolve => {

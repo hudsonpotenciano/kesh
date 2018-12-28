@@ -27,15 +27,23 @@ export class CarteiraPessoaPage {
   }
 
   ionViewDidLoad() {
+    this.obtenhaDados();
+  }
+
+  obtenhaDados(refresh = undefined) {
     this.pessoaProvider.obtenhaDadosPessoaLojas()
       .then((resultado: any) => {
         this.pessoaLojas = resultado;
         this.pessoaLojas.sort(a => a.Pontos);
         this.estaCarregando = false;
+        if (refresh)
+          refresh.complete();
       })
-      .catch(() => {
-
-      })
+      .catch((retorno) => {
+        retorno;
+        if (refresh)
+        refresh.complete();
+      });
   }
 
   obtenhaLogoEmpresa(idEmpresa: number) {

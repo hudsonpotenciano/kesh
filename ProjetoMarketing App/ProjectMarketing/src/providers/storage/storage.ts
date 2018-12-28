@@ -21,6 +21,15 @@ export class StorageProvider {
     this.armazeneIdNotificacao(idNotificao);
   }
 
+  
+  limpeParaSincronizar() {
+    var idNotificao = this.recupereIdNotificacao();
+    var dadosAcesso = this.recupereDadosAcesso();
+    localStorage.clear();
+    this.armazeneDadosAcesso(dadosAcesso);
+    this.armazeneIdNotificacao(idNotificao);
+  }
+
   armazene(chave, valor) {
     valor = JSON.stringify(valor);
     localStorage.setItem(chave, valor);

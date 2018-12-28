@@ -79,6 +79,7 @@ export class CadastroEmpresaModel {
     Latitude: number;
     Longitude: number;
     Categoria: number;
+    Catalogo: ImagemCatalogo[];
 }
 
 export class DadosEmpresaLoja {

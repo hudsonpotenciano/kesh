@@ -4,6 +4,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { Localizacao } from '../../models/models.model';
 import { StorageProvider } from '../storage/storage';
 import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
+import { UnidadeDeMedidaLocalizacao } from '../../models/pessoa.model';
 
 @Injectable()
 export class UtilitariosProvider {
@@ -247,7 +248,7 @@ export class UtilitariosProvider {
     alerta.present();
   }
 
-  calculeDistancia(lat1, lon1, unit = "K") {
+  calculeDistancia(lat1, lon1, unit : UnidadeDeMedidaLocalizacao) {
     if ((lat1 == this.localizacao.Latitude) && (lon1 == this.localizacao.Longitude)) {
       return 0;
     }
@@ -263,8 +264,7 @@ export class UtilitariosProvider {
       dist = Math.acos(dist);
       dist = dist * 180 / Math.PI;
       dist = dist * 60 * 1.1515;
-      if (unit == "K") { dist = dist * 1.609344 }
-      if (unit == "N") { dist = dist * 0.8684 }
+      if (unit == UnidadeDeMedidaLocalizacao.Kilometros) { dist = dist * 1.609344 }
       return dist;
     }
   }

@@ -41,7 +41,8 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             });
         }
 
-        public Task AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa, out Entidade.Usuario usuario)
+        public Task AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa,
+                                     out Entidade.Usuario usuario, out PerfilEmpresa perfil )
         {
             empresa = new Entidade.Empresa.Empresa()
             {
@@ -69,7 +70,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 //GuidImagem = Guid.NewGuid().ToString()
             };
 
-            PerfilEmpresa perfil = new Entidade.Empresa.PerfilEmpresa()
+            perfil = new PerfilEmpresa()
             {
                 IdEmpresa = empresa.IdEmpresa,
                 Latitude = model.Latitude,

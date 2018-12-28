@@ -36,11 +36,9 @@ export class LoginEmpresaPage {
   }
 
   ionViewDidLoad() {
-
   }
 
   login() {
-
     this.utilitarios.mostreAlertaCarregando("Buscando seus dados, aguarde um instante.");
     this.empresaProvider.realizeLogin(this.usuario)
       .then((retornoLogin: RetornoLogin) => {

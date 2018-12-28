@@ -40,6 +40,15 @@ export class ConfiguracoesPessoaPage {
 
   }
 
+  sincronize(){
+    
+    this.storage.limpeParaSincronizar();
+    this.splashScreen.show();
+    setTimeout(() => {
+      window.location.reload(true);
+    }, 500);
+  }
+
   abraPerfilPessoa() {
 
     this.app.getRootNavs()[0].push("PerfilPessoaPage");
