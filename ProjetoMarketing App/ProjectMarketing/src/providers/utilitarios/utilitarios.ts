@@ -180,16 +180,17 @@ export class UtilitariosProvider {
     elemento.innerHTML = "<img src='../assets/svg/loading.svg'>"
   }
 
-  toastPadraoDeInternet() {
-    alert("É necessario se conectar à internet para acessar essa função");
-  }
-
   mostreToast(mensagem: string) {
-    alert(mensagem);
-  }
+    var alerta = this.alertCtrl.create({
+      cssClass: "alertaPadrao",
+      enableBackdropDismiss: true,
+      message: `<p>${mensagem}</p>`
+    });
 
-  mostreToastSucesso(mensagem: string) {
-    alert(mensagem);
+    alerta.present();
+    setTimeout(() => {
+      alerta.dismiss();
+    }, 5000);
   }
 
   mostreMensagemSucesso(mensagem) {

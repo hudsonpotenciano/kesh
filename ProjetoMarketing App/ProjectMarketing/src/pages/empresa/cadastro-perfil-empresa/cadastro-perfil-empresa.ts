@@ -64,15 +64,21 @@ export class CadastroPerfilEmpresaPage {
     if (this.perfil.IdPerfilEmpresa > 0) {
       this.empresaLojaProvider.atualizePerfilEmpresa(this.perfil)
         .then(() => {
-          alert("Perfil atualizado");
+          this.utilitarios.mostreToast("Perfil atualizado com sucesso");
           this.navCtrl.pop();
+        })
+        .catch(()=>{
+
         });
     }
     else {
       this.empresaLojaProvider.cadastrePerfilEmpresa(this.perfil)
         .then(() => {
-          alert("Perfil adicionado");
+          this.utilitarios.mostreToast("Perfil adicionado com sucesso");
           this.navCtrl.pop();
+        })
+        .catch(()=>{
+
         });
     }
   }

@@ -36,28 +36,40 @@ export class CatalogoComponentPage {
   }
 
   compartilhe() {
-
+    this.utilitarios.mostreAlertaCarregando("Verificando se você pode compartilhar agora, aguarde um instante");
     this.podeCompartilhar()
       .then((pode: boolean) => {
+
+        this.utilitarios.removaAlertaCarregando();
+
         if (!pode) return;
 
+        var urlsImagems = [];
+        this.empresa.Catalogo.forEach((catalogo) => {
+          urlsImagems.push(this.empresaLojaProvider.obtenhaImagemCatalogo(catalogo.GuidImagem));
+        });
+
         var guid6 = this.utilitarios.gereGuid6();
-        this.socialSharing.share("utiliza esse codigo aew " + guid6)
+        var mensagemCompartilhamento = `Autilize este código *${guid6}* para ganhar o seu cupom e receber *$Keshs* na *${this.empresa.Empresa.Nome.trim()}* 🎁`;
+        this.socialSharing.share(mensagemCompartilhamento, "teste", urlsImagems)
           .then(() => {
 
             this.transacaoProvider.gereCodigoDeCompartilhamento(this.empresa.Perfil.IdPerfilEmpresa,
-              this.pessoaProvider.dadosAcesso.IdPessoa,
-              guid6)
+              this.pessoaProvider.dadosAcesso.IdPessoa, guid6)
               .then(() => {
-                alert("Voce será avisado quando receber seu cupom");
+                this.utilitarios.mostreMensagemSucesso("Codigo compartilhado com sucesso, você receberá seu cupom assim que o seu codigo for utilizado.")
               })
               .catch(() => {
-
+                this.utilitarios.mostreMensagemErro("Ocorreu um erro ao compartilhar, tente novamente.")
               })
           })
           .catch(() => {
-
+            this.utilitarios.removaAlertaCarregando();
+            this.utilitarios.mostreMensagemErro("Ocorreu um erro, tente novamente.")
           })
+      })
+      .catch(()=>{
+        this.utilitarios.removaAlertaCarregando();
       });
   }
 
@@ -66,7 +78,8 @@ export class CatalogoComponentPage {
 
     return new Promise((resolve) => {
       if (!navigator.onLine) {
-        alert("Conecte-se à internet para poder compartilhar");
+        this.utilitarios.removaAlertaCarregando();
+        this.utilitarios.mostreMensagemErro("Conecte-se à internet para poder compartilhar");
         return false;
       }
 
@@ -77,12 +90,12 @@ export class CatalogoComponentPage {
           resolve(podeCompartilhar);
           if (!podeCompartilhar) {
             this.compartilharHabilitado = false;
-            this.utilitarios.mostreToast("Você não pode compartilhar agora pois possui um cupom válido para esta loja");
+            this.utilitarios.mostreMensagemErro("Você nao pode compartilhar agora pois possui um cupom válido para esta loja");
           }
         })
         .catch(() => {
           resolve(false);
-          this.utilitarios.mostreMensagemErro("Ocorreu um erro, tente novamente");
+          this.compartilharHabilitado = false;
         })
     });
   }

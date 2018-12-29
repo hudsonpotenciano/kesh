@@ -16,6 +16,7 @@ export class CadastroEmpresaPage {
   categorias: Enumerador[] = new EnumeradorDeCategorias().obtenhaTodos();
   empresa: CadastroEmpresaModel = new CadastroEmpresaModel();
   confirmacaoDaSenha: string = "";
+  confirmacaoDaSenhaAdmin: string = "";
   profilePic = undefined;
 
   @ViewChild('fileInput') fileInput;
@@ -61,6 +62,7 @@ export class CadastroEmpresaPage {
   }
 
   cadastre() {
+    if (!this.podeSalvar()) return;
     this.utilitarios.mostreAlertaCarregando("Salvando dados da empresa, aguarde um instante.");
     this.empresaProvider.cadastreEmpresa(this.empresa)
       .then(() => {
@@ -90,40 +92,37 @@ export class CadastroEmpresaPage {
     });
   }
 
-  valideImagem() {
-    return true;
-  }
-
-  valideDadosEmpresa() {
-    return true;
-  }
-
-  valideDadosConta() {
-    return true;
-  }
-
-  podeSalvarPerfil() {
-    if (!this.empresa.Latitude || this.empresa.Latitude == 0 || !this.empresa.Longitude || this.empresa.Longitude == 0) {
-      alert("selecione a localizacao da loja");
+  podeSalvar() {
+    if (!this.empresa.Nome || this.empresa.Nome.trim() == "") {
+      this.utilitarios.mostreToast("Informe o nome");
       return false;
     }
-    return true;
-  }
-  podeSalvarConta() {
-    if (this.empresa.Senha.length < 6) {
-      alert("a senha deve conter pelo menos 6 caracteres");
+    if (!this.empresa.Senha || this.empresa.Senha.length < 6) {
+      this.utilitarios.mostreToast("A senha deve conter pelo menos 6 caracteres");
       return false;
     }
     if (this.empresa.Senha != this.confirmacaoDaSenha) {
-      alert("a senha está diferente da confirmacao");
+      this.utilitarios.mostreToast("A senha está diferente da confirmação");
       return false;
     }
     if (this.empresa.SenhaAdmin == "") {
-      alert("Informe a senha de administrador");
+      this.utilitarios.mostreToast("Informe a senha de administrador");
+      return false;
+    }
+    if (this.empresa.SenhaAdmin != this.confirmacaoDaSenhaAdmin) {
+      this.utilitarios.mostreToast("A senha de administrador está diferente da confirmação");
       return false;
     }
     if (this.empresa.SenhaAdmin.length < 6) {
-      alert("a senha de admin deve conter pelo menos 6 caracteres");
+      this.utilitarios.mostreToast("A senha de admin deve conter pelo menos 6 caracteres");
+      return false;
+    }
+    if (!this.empresa.Latitude || this.empresa.Latitude == 0 || !this.empresa.Longitude || this.empresa.Longitude == 0) {
+      this.utilitarios.mostreToast("selecione a localizacao da loja");
+      return false;
+    }
+    if (!this.empresa.Logo || this.empresa.Logo == "") {
+      this.utilitarios.mostreToast("Selecione uma imagem de logotipo");
       return false;
     }
     return true;
@@ -160,7 +159,7 @@ export class CadastroEmpresaPage {
     this.Slides.slidePrev();
   }
 
-  voltar(){
+  voltar() {
     this.navCtrl.pop();
   }
 }

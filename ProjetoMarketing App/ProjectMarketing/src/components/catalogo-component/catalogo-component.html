@@ -4,14 +4,14 @@
             <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
         </ion-slide>
     </ion-slides>
-    <ion-fab left bottom (click)="voltar()">
-        <button ion-fab>             
+    <ion-fab left bottom>
+        <button ion-fab (click)="voltar()">             
                  <ion-icon name="arrow-back"></ion-icon>
                   </button>
 
     </ion-fab>
     <ion-fab right bottom>
-        <button ion-fab>             
+        <button color="primary" ion-fab [disabled]="!compartilharHabilitado" (click)="compartilhe()">
                      <ion-icon name="contacts"></ion-icon>
                       </button>
     </ion-fab>

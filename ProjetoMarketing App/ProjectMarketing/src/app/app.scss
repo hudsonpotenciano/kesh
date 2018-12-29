@@ -225,6 +225,20 @@ ion-header {
     }
 }
 
+.alertaPadrao .alert-wrapper {
+    background-color: $tema;
+}
+
+.alertaPadrao {
+    p {
+        text-align: center;
+        font-size: 1.8rem;
+        color: $light;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+}
+
 .alertaMensagem {
     img {
         margin: 0 auto;
@@ -269,6 +283,7 @@ ion-header {
     border-radius: 100%;
     position: absolute;
     height: 45px;
+    width: 45px;
     right: 5px;
     top: -10px;
     padding: 2px;

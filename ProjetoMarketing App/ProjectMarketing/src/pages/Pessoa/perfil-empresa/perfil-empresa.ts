@@ -21,6 +21,7 @@ export class PerfilEmpresaPage {
   dadosPessoaEmpresa: DadosPessoaEmpresa = new DadosPessoaEmpresa();
   notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[] = [];
   verMaisInformacoes = false;
+  carregando = true;
   compartilharHabilitado = true;
   constructor(
     public navCtrl: NavController,
@@ -47,16 +48,27 @@ export class PerfilEmpresaPage {
   ionViewDidLoad() {
     this.dadosPessoaEmpresa = this.navParams.data;
 
+    this.obtenhaNotasEComantarios();
+  }
+
+  obtenhaNotasEComantarios() {
     this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
+        this.carregando = false;
+      })
+      .catch(() => {
+        this.carregando = false;
       });
   }
 
   compartilhe() {
-
+    this.utilitarios.mostreAlertaCarregando("Verificando se você pode compartilhar agora, aguarde um instante");
     this.podeCompartilhar()
       .then((pode: boolean) => {
+
+        this.utilitarios.removaAlertaCarregando();
+
         if (!pode) return;
 
         var urlsImagems = [];
@@ -65,7 +77,7 @@ export class PerfilEmpresaPage {
         });
 
         var guid6 = this.utilitarios.gereGuid6();
-        var mensagemCompartilhamento = `Autilize este código *${guid6}* para ganhar o seu cupom e receber *$Keshs* na *${this.dadosPessoaEmpresa.Empresa.Nome}* 🎁`;
+        var mensagemCompartilhamento = `Autilize este código *${guid6}* para ganhar o seu cupom e receber *$Keshs* na *${this.dadosPessoaEmpresa.Empresa.Nome.trim()}* 🎁`;
         this.socialSharing.share(mensagemCompartilhamento, "teste", urlsImagems)
           .then(() => {
 
@@ -79,8 +91,12 @@ export class PerfilEmpresaPage {
               })
           })
           .catch(() => {
+            this.utilitarios.removaAlertaCarregando();
             this.utilitarios.mostreMensagemErro("Ocorreu um erro, tente novamente.")
           })
+      })
+      .catch(()=>{
+        this.utilitarios.removaAlertaCarregando();
       });
   }
 
@@ -119,6 +135,7 @@ export class PerfilEmpresaPage {
 
     return new Promise((resolve) => {
       if (!navigator.onLine) {
+        this.utilitarios.removaAlertaCarregando();
         this.utilitarios.mostreMensagemErro("Conecte-se à internet para poder compartilhar");
         return false;
       }
@@ -136,7 +153,6 @@ export class PerfilEmpresaPage {
         .catch(() => {
           resolve(false);
           this.compartilharHabilitado = false;
-          this.utilitarios.mostreMensagemErro("Ocorreu algum problema, tente novamente");
         })
     });
   }
@@ -168,6 +184,7 @@ export class PerfilEmpresaPage {
           this.dadosPessoaEmpresa.PessoaEmpresa.Comentario = retorno.Comentario;
           this.dadosPessoaEmpresa.PessoaEmpresa.Nota = retorno.Nota;
           this.storagePessoaProvider.atualizeDadosPessoaEmpresa(this.dadosPessoaEmpresa);
+          this.obtenhaNotasEComantarios();
           this.utilitarios.mostreMensagemSucesso("Avaliado com sucesso");
         }).catch(() => {
         });

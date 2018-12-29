@@ -114,7 +114,7 @@ export class EmpresaProvider {
         })
         .catch((retorno) => {
           if (retorno && retorno.Erro == 2) {
-            alert("Este email já existe");
+            this.utilitarios.mostreToast("Este email já existe");
           };
           reject(retorno);
         })

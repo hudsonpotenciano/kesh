@@ -46,6 +46,13 @@
 
         <ion-item>
             <ion-label floating>
+                Confirme a senha de administrador
+            </ion-label>
+            <ion-input type="password" [(ngModel)]="confirmacaoDaSenhaAdmin"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>
                 Categoria
             </ion-label>
             <ion-select interface="alert" item-center [selectOptions]="{title: 'Categorias'}" [(ngModel)]="empresa.Categoria">

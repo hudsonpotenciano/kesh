@@ -34,6 +34,8 @@
     </ion-list>
 
     <lista-vazia *ngIf="!estaCarregando && pessoaLojas.length == 0">
-
     </lista-vazia>
+
+    <carregando *ngIf="estaCarregando">
+    </carregando>
 </ion-content>

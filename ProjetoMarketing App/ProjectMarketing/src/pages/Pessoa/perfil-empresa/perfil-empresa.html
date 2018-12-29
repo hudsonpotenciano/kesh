@@ -58,8 +58,11 @@
                 </div>
             </ion-item>
         </ion-list>
-        <p text-center *ngIf="notasComentariosPessoasEmpresas.length == 0">
+        <p text-center *ngIf="!carregando && notasComentariosPessoasEmpresas.length == 0">
             Nenhuma avaliação
+        </p>
+        <p text-center *ngIf="carregando && notasComentariosPessoasEmpresas.length == 0">
+            Carregando avaliações...
         </p>
     </div>
 

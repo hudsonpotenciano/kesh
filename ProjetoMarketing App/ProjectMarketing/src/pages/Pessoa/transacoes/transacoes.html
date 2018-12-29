@@ -47,8 +47,11 @@
     </ion-list>
 
     <lista-vazia *ngIf="!estaCarregando && cuponsVendasAgrupados.length == 0">
-
     </lista-vazia>
+
+    <carregando *ngIf="estaCarregando">
+    </carregando>
+
     <ion-fab bottom right>
         <button ion-fab (click)="abraGeracaoDeCupomViaCodigo()"> <ion-icon name="contacts"></ion-icon>
         </button>

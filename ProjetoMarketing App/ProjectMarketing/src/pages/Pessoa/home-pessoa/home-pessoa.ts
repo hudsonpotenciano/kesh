@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController, PopoverController, App, Platform } from 'ionic-angular';
+import { Component, QueryList, ViewChildren } from '@angular/core';
+import { IonicPage, NavController, NavParams, InfiniteScroll, ModalController, PopoverController, App, Platform, Slides } from 'ionic-angular';
 import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { EmpresaProvider } from '../../../providers/empresa/empresa';
 import { DadosPessoaEmpresa, Pessoa } from '../../../models/pessoa.model';
@@ -16,6 +16,8 @@ const tamanhoPagina = 10;
 })
 
 export class HomePessoaPage {
+
+  @ViewChildren('slides') Slides: QueryList<Slides>;
 
   pessoaEmpresas: DadosPessoaEmpresa[] = [];
   pessoaEmpresasLimit: DadosPessoaEmpresa[] = [];
@@ -130,12 +132,12 @@ export class HomePessoaPage {
     var front = document.getElementById('front' + id.toString());
     var back = document.getElementById('back' + id.toString());
 
-    if (front.style.display != "none") {
-      front.style.display = "none";
+    if (front.style.height != "0px") {
+      front.style.height = "0px";
       back.style.display = "block";
     }
     else {
-      front.style.display = "block";
+      front.style.height = "100%";
       back.style.display = "none";
     }
   }
