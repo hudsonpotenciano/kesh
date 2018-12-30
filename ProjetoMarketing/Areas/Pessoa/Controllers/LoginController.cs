@@ -27,33 +27,43 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
-            RetornoRequestModel retorno = new RetornoRequestModel();
-
-            if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Senha))
+            try
             {
-                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
 
-                if (usuarioAutenticado != null)
+
+                RetornoRequestModel retorno = new RetornoRequestModel();
+
+                if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Login) && !string.IsNullOrWhiteSpace(usuario.Senha))
                 {
-                    string token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
-                    retorno.Authenticated = true;
-                    retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
-                    if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdPessoa != null)
+                    Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioPessoa(usuario);
+
+                    if (usuarioAutenticado != null)
                     {
-                        new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
+                        string token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
+                        retorno.Authenticated = true;
+                        retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
+                        if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdPessoa != null && usuarioAutenticado.IdPessoa > 0)
+                        {
+                            new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
+                        }
+                    }
+                    else
+                    {
+                        return RetornoRequestModel.CrieFalhaLogin();
                     }
                 }
                 else
                 {
                     return RetornoRequestModel.CrieFalhaLogin();
                 }
+
+                return retorno;
             }
-            else
+            catch (System.Exception e)
             {
                 return RetornoRequestModel.CrieFalhaLogin();
+                throw e;
             }
-
-            return retorno;
         }
 
         [AllowAnonymous]
@@ -96,7 +106,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         [HttpPost("DesloguePessoa")]
         public void DesloguePessoa([FromBody]ParametrosDeslogueUsuario parametros)
         {
-            if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) && 
+            if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) &&
                 !string.IsNullOrWhiteSpace(parametros.IdNotificacao) && parametros.IdPessoa > 0)
             {
                 Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).UsuarioPeloToken(parametros.Token);

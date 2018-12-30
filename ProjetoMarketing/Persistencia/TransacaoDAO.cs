@@ -150,7 +150,7 @@ namespace ProjetoMarketing.Persistencia
                     join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Descricao, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join empresa in _context.Empresa.Select(a => new { a.IdEmpresa, a.Nome }) on perfilEmpresa.IdEmpresa equals empresa.IdEmpresa
                     from inVenda in vendas.DefaultIfEmpty()
-                    orderby cupom.DataValidade.ToLongTimeString()
+                    orderby cupom.DataValidade descending
                     select new DTO.DTOCupomVenda()
                     {
                         Cupom = cupom,

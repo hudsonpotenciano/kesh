@@ -145,7 +145,13 @@ export class EmpresaProvider {
 
   deslogueEmpresaLoja() {
     var dados = this.storageEmpresa.recupereDadosEmpresaLoja();
-    this.comunicacao.post("empresa/login/DeslogueEmpresa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: dados.Perfil.IdPerfilEmpresa, IdPessoa: 0 });
+    this.comunicacao.post("empresa/login/DeslogueEmpresa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: dados.Perfil.IdPerfilEmpresa, IdPessoa: 0 })
+    .then(()=>{
+
+    })
+    .catch(()=>{
+
+    });
   }
 
   estaEmCach(enumerador: Enumerador) {

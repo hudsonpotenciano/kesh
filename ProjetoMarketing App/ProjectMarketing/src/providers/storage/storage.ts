@@ -102,8 +102,14 @@ export class StorageProvider {
     this.armazene(this.ID_NOTIFICACAO, value);
   }
 
-  recupereIdNotificacao(): RetornoLogin {
-    return this.recupere(this.ID_NOTIFICACAO);
+  recupereIdNotificacao(): string {
+    var id = this.recupere(this.ID_NOTIFICACAO);
+    
+    if(!id){
+      return "";
+    }
+
+    return id;
   }
 
   removaIdNotificacao() {

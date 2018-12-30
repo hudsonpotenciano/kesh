@@ -32,7 +32,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task AddIdNotificacao(int? idPessoa, string tokenNotificacao)
         {
-            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.First(p => p.IdPessoa == idPessoa);
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
             pessoa.IdsNotificacao = pessoa.IdsNotificacao ?? new List<string>();
 
             if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))

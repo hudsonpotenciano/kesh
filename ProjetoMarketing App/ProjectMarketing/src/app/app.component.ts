@@ -97,11 +97,16 @@ export class MyApp {
 
     this.oneSignal.endInit();
 
-    if (!this.storageProvider.recupereIdNotificacao())
+    var idNotificacao = this.storageProvider.recupereIdNotificacao();
+    
+    if (idNotificacao === "") {
       this.oneSignal.getIds()
         .then((retorno) => {
           this.storageProvider.armazeneIdNotificacao(retorno.userId);
+        }).catch(() => {
+
         });
+    }
   }
 
   initTranslate() {

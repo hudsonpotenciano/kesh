@@ -4,7 +4,7 @@ CREATE SEQUENCE public.sq_pessoa
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_pessoa
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
 CREATE TABLE public.pessoa
 (
@@ -24,7 +24,7 @@ WITH (
 );
 
 ALTER TABLE public.pessoa
-    OWNER to postgres;
+    OWNER to keshuser;
 
 CREATE SEQUENCE public.sq_empresa
     INCREMENT 1
@@ -32,7 +32,7 @@ CREATE SEQUENCE public.sq_empresa
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_empresa
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
 CREATE TABLE public.empresa
 (
@@ -55,18 +55,18 @@ CREATE SEQUENCE public.sq_usuario
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_usuario
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
 CREATE TABLE public.usuario
 (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     idusuario integer NOT NULL DEFAULT nextval('sq_usuario'),
     token text NOT NULL,
-    tokenempresaadmin text,
     login text NOT NULL,
     idpessoa integer,
     idempresa integer,
     redesocial boolean NOT NULL,
+    tokenempresaadmin text,
     PRIMARY KEY (id),
     CONSTRAINT uk_usuario UNIQUE (idusuario,token),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
@@ -83,13 +83,7 @@ WITH (
 );
 
 ALTER TABLE public.empresa
-    OWNER to postgres;
-
-CREATE SEQUENCE public.sq_cupom;
-
-ALTER SEQUENCE public.sq_cupom
-    OWNER TO postgres;
-
+    OWNER to keshuser;
 
 CREATE SEQUENCE public.sq_perfilempresa
     INCREMENT 1
@@ -97,7 +91,7 @@ CREATE SEQUENCE public.sq_perfilempresa
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_perfilempresa
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
 CREATE TABLE public.perfilempresa
 (
@@ -111,7 +105,7 @@ CREATE TABLE public.perfilempresa
     idsnotificacao text[],
     telefone2 text,
     PRIMARY KEY (id),
-    CONSTRAINT uk_perfilempresa UNIQUE (idempresa, idperfilempresa)
+    CONSTRAINT uk_perfilempresa UNIQUE (idempresa, idperfilempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -122,7 +116,10 @@ WITH (
 );
 
 ALTER TABLE public.perfilempresa
-    OWNER to postgres;
+    OWNER to keshuser;
+
+
+-- EXECUTAR A PARTE DE CIMA ANTES 
 
 CREATE SEQUENCE public.sq_compartilhamento
     INCREMENT 1
@@ -130,7 +127,7 @@ CREATE SEQUENCE public.sq_compartilhamento
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_compartilhamento
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
  CREATE TABLE public.compartilhamento
 (
@@ -143,7 +140,6 @@ ALTER SEQUENCE public.sq_compartilhamento
     data date NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
-    CONSTRAINT uk_compartilhamento_mesmodia UNIQUE (idpessoa, idperfilempresa, idspessoas, data),
     CONSTRAINT fk_pessoa_compartilhamento FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -158,7 +154,12 @@ WITH (
 );
 
 ALTER TABLE public.compartilhamento
-    OWNER to postgres;
+    OWNER to keshuser;
+
+CREATE SEQUENCE public.sq_cupom;
+
+ALTER SEQUENCE public.sq_cupom
+    OWNER TO keshuser;
 
 CREATE TABLE public.cupom
 (
@@ -192,12 +193,12 @@ WITH (
 );
 
 ALTER TABLE public.cupom
-    OWNER to postgres;
+    OWNER to keshuser;
 
 CREATE SEQUENCE public.sq_venda;
 
 ALTER SEQUENCE public.sq_venda
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
 CREATE TABLE public.venda
 (
@@ -229,7 +230,7 @@ WITH (
 );
 
 ALTER TABLE public.venda
-    OWNER to postgres;
+    OWNER to keshuser;
 
   CREATE TABLE public.pessoaempresa
 (
@@ -255,7 +256,7 @@ WITH (
 );
 
 ALTER TABLE public.pessoaempresa
-    OWNER to postgres;
+    OWNER to keshuser;
 
 -- CREATE TABLE public.imagemperfil
 -- (
@@ -278,7 +279,7 @@ ALTER TABLE public.pessoaempresa
 -- );
 
 -- ALTER TABLE public.imagemperfil
---     OWNER to postgres;
+--     OWNER to keshuser;
 
 CREATE SEQUENCE public.sq_imagemcatalogo
     INCREMENT 1
@@ -286,7 +287,7 @@ CREATE SEQUENCE public.sq_imagemcatalogo
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_imagemcatalogo
-    OWNER TO postgres;
+    OWNER TO keshuser;
 
     CREATE TABLE public.imagemcatalogo
 (
@@ -305,7 +306,7 @@ WITH (
 );
 
 ALTER TABLE public.imagemcatalogo
-    OWNER to postgres;
+    OWNER to keshuser;
 
 CREATE TABLE public.contaempresa
 (
@@ -326,12 +327,7 @@ WITH (
 );
 
 ALTER TABLE public.contaempresa
-    OWNER to postgres;
-
-CREATE SEQUENCE public.sq_compartilhamento
-    INCREMENT 1
-    START 1
-    MINVALUE 1;
+    OWNER to keshuser;
 
 CREATE TABLE public.pessoaloja
 (
@@ -352,4 +348,4 @@ WITH (
 );
 
 ALTER TABLE public.pessoaloja
-    OWNER to postgres;
+    OWNER to keshuser;

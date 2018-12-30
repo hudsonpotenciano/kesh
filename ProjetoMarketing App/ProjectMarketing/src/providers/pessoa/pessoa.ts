@@ -188,7 +188,13 @@ export class PessoaProvider {
 
   desloguePessoa() {
     var dadosAcesso = this.storage.recupereDadosAcesso();
-    this.comunicacao.post("pessoa/login/DesloguePessoa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: 0, IdPessoa: dadosAcesso.IdPessoa });
+    this.comunicacao.post("pessoa/login/DesloguePessoa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: 0, IdPessoa: dadosAcesso.IdPessoa })
+    .then(()=>{
+
+    })
+    .catch(()=>{
+
+    });
   }
 
   realizeLoginRedeSocial(usuario: SocialUser) {
