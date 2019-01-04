@@ -6,8 +6,8 @@ namespace ProjetoMarketing.Entidade
 {
     public class ImagemPerfil
     {
-        public int? IdPessoa { get; set; }
-        public int? IdEmpresa { get; set; }
+        public Guid? IdPessoa { get; set; }
+        public Guid? IdEmpresa { get; set; }
         public byte[] Imagem { get; set; }
         //public string GuidImagem { get; set; }
     }

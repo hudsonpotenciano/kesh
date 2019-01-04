@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjetoMarketing.Entidade
@@ -6,17 +7,18 @@ namespace ProjetoMarketing.Entidade
     [Table("compartilhamento")]
     public class Compartilhamento
     {
+        [Key]
         [Column("id")]
-        public Guid Id { get; set; }
-        [Column("idcompartilhamento")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long IdCompartilhamento { get; set; }
+        public long Id { get; set; }
+        [Column("idcompartilhamento")]
+        public Guid IdComartilhamento { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
         [Column("codigo")]
         public string Codigo { get; set; }
         [Column("idperfilempresa")]
-        public long IdPerfilEmpresa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         [Column("data")]
         public DateTime Data { get; set; }
         [Column("cupomfoigerado")]

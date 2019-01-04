@@ -29,15 +29,15 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
-            var retorno = new RetornoRequestModel();
+            RetornoRequestModel retorno = new RetornoRequestModel();
 
-            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Senha))
+            if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Senha))
             {
-                var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioEmpresa(usuario);
+                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioEmpresa(usuario);
 
                 if (usuarioAutenticado != null)
                 {
-                    var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
+                    string token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
                     if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdEmpresa != null)
@@ -64,15 +64,15 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                                                 [FromServices]SigningConfigurations signingConfigurations,
                                                 [FromServices]TokenConfigurations tokenConfigurations)
         {
-            var retorno = new RetornoRequestModel();
+            RetornoRequestModel retorno = new RetornoRequestModel();
 
-            if (usuario != null && !String.IsNullOrWhiteSpace(usuario.Senha))
+            if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Senha))
             {
-                var usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioAdminEmpresa(usuario);
+                Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).FindUsuarioAdminEmpresa(usuario);
 
                 if (usuarioAutenticado != null)
                 {
-                    var token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
+                    string token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
                     retorno.Authenticated = true;
                     retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
                 }
@@ -93,8 +93,8 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
         [HttpPost("DeslogueEmpresa")]
         public void DeslogueEmpresa([FromBody]ParametrosDeslogueUsuario parametros)
         {
-            if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) && 
-                parametros.IdPerfilEmpresa > 0 && !string.IsNullOrWhiteSpace(parametros.IdNotificacao))
+            if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) &&
+                !parametros.IdPerfilEmpresa.Equals(Guid.Empty) && !string.IsNullOrWhiteSpace(parametros.IdNotificacao))
             {
                 Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).UsuarioPeloToken(parametros.Token);
                 if (usuarioAutenticado == null)
@@ -102,7 +102,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                     return;
                 }
 
-                Entidade.Empresa.PerfilEmpresa perfil = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == parametros.IdPerfilEmpresa);
+                Entidade.Empresa.PerfilEmpresa perfil = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa.Equals(parametros.IdPerfilEmpresa));
                 perfil.IdsNotificacao = perfil.IdsNotificacao.Where(id => id != parametros.IdNotificacao).ToList();
                 _context.PerfilEmpresa.Update(perfil);
                 _context.SaveChangesAsync();

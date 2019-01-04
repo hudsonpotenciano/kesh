@@ -11,15 +11,15 @@ namespace ProjetoMarketing.Entidade.Pessoa
     public class PessoaLoja
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-        [Column("idpessoaloja")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdPessoaLoja { get; set; }
+        [Column("id")]
+        public int Id { get; set; }
+        [Column("idpessoaloja")]
+        public Guid IdPessoaLoja { get; set; }        
         [Column("idperfilempresa")]
-        public long IdPerfilEmpresa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
         [Column("pontos")]
         public decimal Pontos { get; set; }
     }

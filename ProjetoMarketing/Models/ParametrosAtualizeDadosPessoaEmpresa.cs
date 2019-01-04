@@ -9,7 +9,7 @@ namespace ProjetoMarketing.Models
     {
         public decimal Nota { get; set; }
         public string Comentario { get; set; }
-        public int IdPessoa { get; set; }
-        public long IdPerfilEmpresa { get; set; }
+        public Guid IdPessoa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
     }
 }

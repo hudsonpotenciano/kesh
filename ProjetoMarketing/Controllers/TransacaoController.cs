@@ -6,6 +6,7 @@ using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Persistencia;
 using ProjetoMarketing.Servicos;
+using System;
 using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Controllers
@@ -85,7 +86,7 @@ namespace ProjetoMarketing.Controllers
 
             await new TransacaoDAO(_context).GereVendaComCupom(parametros, cupom, out venda);
 
-            if (venda.IdVenda != 0)
+            if (!venda.IdVenda.Equals(Guid.Empty))
             {
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {

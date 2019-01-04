@@ -7,7 +7,7 @@ namespace ProjetoMarketing.Models
 {
     public class ParametrosCodigoCompartilhamento : ParametrosRequestModel
     {
-        public int IdPessoaReceptor { get; set; }
+        public Guid IdPessoaReceptor { get; set; }
         public string Codigo { get; set; }
     }
 }

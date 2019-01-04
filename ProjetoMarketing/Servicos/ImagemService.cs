@@ -2,6 +2,7 @@
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Persistencia;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +24,9 @@ namespace ProjetoMarketing.Servicos
             _objetoDeAcesso = new ImagemDAO(contexto);
         }
 
-        public Task AtualizeImagensCatalogo(List<ImagemCatalogoModel> imagens, long idPerfilEmpresa)
+        public Task AtualizeImagensCatalogo(List<ImagemCatalogoModel> imagens, Guid idPerfilEmpresa)
         {
-            if (imagens.Any(a => a.IdImagem == 0 && string.IsNullOrEmpty(a.Guid)))
+            if (imagens.Any(a => a.IdImagem.Equals(Guid.Empty) && string.IsNullOrEmpty(a.Guid)))
             {
                 return _objetoDeAcesso.AtualizeImagensCatalogo(imagens, idPerfilEmpresa, containerCatalogo);
             }

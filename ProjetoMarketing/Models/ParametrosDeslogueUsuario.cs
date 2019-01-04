@@ -7,8 +7,8 @@ namespace ProjetoMarketing.Models
 {
     public class ParametrosDeslogueUsuario : ParametrosRequestModel
     {
-        public int IdPessoa { get; set; }
-        public int IdPerfilEmpresa { get; set; }
+        public Guid IdPessoa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         public string IdNotificacao { get; set; }
     }
 }

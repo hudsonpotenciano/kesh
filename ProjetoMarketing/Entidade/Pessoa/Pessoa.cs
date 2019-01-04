@@ -9,11 +9,11 @@ namespace ProjetoMarketing.Entidade.Pessoa
     public class Pessoa
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id")]
+        public int Id { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
         [Column("nome")]
         public string Nome { get; set; }
         [Column("email")]

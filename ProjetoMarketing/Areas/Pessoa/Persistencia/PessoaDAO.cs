@@ -30,9 +30,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context.Database.BeginTransaction();
         }
 
-        public Task AddIdNotificacao(int? idPessoa, string tokenNotificacao)
+        public Task AddIdNotificacao(Guid? idPessoa, string tokenNotificacao)
         {
-            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa);
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == idPessoa.Value);
             pessoa.IdsNotificacao = pessoa.IdsNotificacao ?? new List<string>();
 
             if (!pessoa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
@@ -112,9 +112,9 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context.SaveChanges();
         }
 
-        public Task<Entidade.Pessoa.Pessoa> Select(int idPessoa)
+        public Task<Entidade.Pessoa.Pessoa> Selecione(Guid idPessoa)
         {
-            return _context.Pessoa.FirstOrDefaultAsync(p => p.IdPessoa == idPessoa);
+            return _context.Pessoa.FirstOrDefaultAsync(p => p.IdPessoa.Equals(idPessoa));
         }
 
         public Task UpdatePessoaLocalizacao(ParametrosObtenhaPessoaEPerfilEmpresas parametros)
@@ -215,7 +215,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     {
                         Comentario = pe.Comentario,
                         Nota = pe.Nota,
-                        IdPessoa = p.IdPessoa,
+                        IdPessoa = p.Id,
                         IdPerfilEmpresa = pe.IdPerfilEmpresa,
                         NomePessoa = p.Nome,
                         DataAvaliacao = pe.DataAvaliacao

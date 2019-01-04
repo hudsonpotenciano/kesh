@@ -6,6 +6,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
+using System;
 using System.Linq;
 
 namespace ProjetoMarketing.Areas.Pessoa.Controllers
@@ -42,7 +43,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
                         string token = GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations);
                         retorno.Authenticated = true;
                         retorno.Result = Projecoes.ProjecaoRetornoLogin(usuarioAutenticado, token);
-                        if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdPessoa != null && usuarioAutenticado.IdPessoa > 0)
+                        if (!string.IsNullOrEmpty(usuario.TokenNotificacao) && usuarioAutenticado.IdPessoa != null && !usuarioAutenticado.IdPessoa.Equals(Guid.Empty))
                         {
                             new PessoaDAO(_context).AddIdNotificacao(usuarioAutenticado.IdPessoa, usuario.TokenNotificacao);
                         }
@@ -107,7 +108,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         public void DesloguePessoa([FromBody]ParametrosDeslogueUsuario parametros)
         {
             if (parametros != null && !string.IsNullOrWhiteSpace(parametros.Token) &&
-                !string.IsNullOrWhiteSpace(parametros.IdNotificacao) && parametros.IdPessoa > 0)
+                !string.IsNullOrWhiteSpace(parametros.IdNotificacao) && !parametros.IdPessoa.Equals(Guid.Empty))
             {
                 Entidade.Usuario usuarioAutenticado = new UsuarioDAO(_context).UsuarioPeloToken(parametros.Token);
                 if (usuarioAutenticado == null)

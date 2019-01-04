@@ -4,6 +4,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Servicos;
+using System;
 using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Empresa.Servicos
@@ -28,7 +29,7 @@ namespace ProjetoMarketing.Areas.Empresa.Servicos
 
         public async Task<RetornoRequestModel> AtualizePerfilEmpresa(CadastroPerfilModel model, PessoaEmpresaContext contexto)
         {
-            if (model == null || model.IdPerfilEmpresa == 0)
+            if (model == null || model.IdPerfilEmpresa.Equals(Guid.Empty))
             {
                 return RetornoRequestModel.CrieFalha();
             }

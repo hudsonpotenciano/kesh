@@ -12,9 +12,12 @@ namespace ProjetoMarketing.Entidade.Empresa
     {
         [Key]
         [Column("id")]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Column("idconta")]
+        public Guid IdConta { get; set; }
         [Column("idempresa")]
-        public int IdEmpresa { get; set; }
+        public Guid IdEmpresa { get; set; } 
         [Column("resumo")]
         public string Resumo { get; set; }
         [Column("valorpontos")]

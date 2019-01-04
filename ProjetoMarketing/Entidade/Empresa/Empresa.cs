@@ -9,11 +9,11 @@ namespace ProjetoMarketing.Entidade.Empresa
     public class Empresa
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-        [Column("idempresa")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdEmpresa { get; set; }
+        [Column("id")]
+        public int Id { get; set; }
+        [Column("idempresa")]
+        public Guid IdEmpresa { get; set; }
         [Column("nome")]
         public string Nome { get; set; }
         [Column("cnpj")]

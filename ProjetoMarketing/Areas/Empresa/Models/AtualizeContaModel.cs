@@ -8,7 +8,7 @@ namespace ProjetoMarketing.Areas.Empresa.Models
 {
     public class AtualizeContaModel : ParametrosRequestModel
     {
-        public int IdEmpresa { get; set; }
+        public Guid IdEmpresa { get; set; }
         public string Resumo { get; set; }
         public decimal ValorPontos { get; set; }
         public int Categoria { get; set; }

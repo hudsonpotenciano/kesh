@@ -8,12 +8,12 @@ namespace ProjetoMarketing.Entidade.Pessoa
     public class PessoaEmpresa
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
         [Column("idperfilempresa")]
-        public long IdPerfilEmpresa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         [Column("nota")]
         public decimal? Nota { get; set; }
         [Column("comentario")]

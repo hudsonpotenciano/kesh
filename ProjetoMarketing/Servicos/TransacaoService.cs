@@ -2,6 +2,7 @@
 using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Persistencia;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace ProjetoMarketing.Servicos
                 Cupom cupom = new Cupom();
                 await transacaoDao.GereCupom(parametros, out cupom, compartilhamento);
 
-                if (cupom.IdCupom == 0)
+                if (cupom.IdCupom.Equals(Guid.Empty))
                 {
                     return null;
                 }

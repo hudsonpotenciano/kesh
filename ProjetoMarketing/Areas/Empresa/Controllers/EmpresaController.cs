@@ -9,6 +9,7 @@ using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Servicos;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,7 +46,7 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                 await new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa, out usuario, out perfil);
                 await new ImagemService(_context).AtualizeImagensCatalogo(model.Catalogo, perfil.IdPerfilEmpresa);
 
-                if (usuario.IdUsuario != 0)
+                if (!usuario.IdUsuario.Equals(Guid.Empty))
                 {
                     RetornoRequestModel retorno = new RetornoRequestModel
                     {

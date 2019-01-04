@@ -26,11 +26,13 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             _context.Database.BeginTransaction();
         }
 
-        public Task AddIdNotificacao(int idPerfilEmpresa, string tokenNotificacao)
+        public Task AddIdNotificacao(Guid? idPerfilEmpresa, string tokenNotificacao)
         {
+            if (!idPerfilEmpresa.HasValue) return null;
+
             return Task.Factory.StartNew(() =>
             {
-                PerfilEmpresa perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == idPerfilEmpresa);
+                PerfilEmpresa perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa.Equals(idPerfilEmpresa));
                 if (!perfilEmpresa.IdsNotificacao.ToList().Any(n => n == tokenNotificacao))
                 {
                     perfilEmpresa.IdsNotificacao.ToList().Add(tokenNotificacao);
@@ -42,7 +44,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         }
 
         public Task AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa,
-                                     out Entidade.Usuario usuario, out PerfilEmpresa perfil )
+                                     out Entidade.Usuario usuario, out PerfilEmpresa perfil)
         {
             empresa = new Entidade.Empresa.Empresa()
             {
@@ -157,18 +159,18 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             }
         }
 
-        public async Task<DTODadosEmpresaAdmin> SelectEmpresaAdmin(int idEmpresa)
+        public async Task<DTODadosEmpresaAdmin> SelectEmpresaAdmin(Guid idEmpresa)
         {
             return new DTODadosEmpresaAdmin()
             {
-                Empresa = await _context.Empresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
-                PerfisEmpresaCatalogo = from perfil in _context.PerfilEmpresa.Where(a => a.IdEmpresa == idEmpresa)
+                Empresa = await _context.Empresa.FirstOrDefaultAsync(a => a.IdEmpresa.Equals(idEmpresa)),
+                PerfisEmpresaCatalogo = from perfil in _context.PerfilEmpresa.Where(a => a.IdEmpresa.Equals(idEmpresa))
                                         select new DTOPerfilEmpresaCatalogo()
                                         {
                                             Perfil = perfil,
                                             Catalogo = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == perfil.IdPerfilEmpresa)
                                         },
-                ContaEmpresa = await _context.ContaEmpresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
+                ContaEmpresa = await _context.ContaEmpresa.FirstOrDefaultAsync(a => a.IdEmpresa.Equals(idEmpresa)),
             };
         }
 
@@ -176,22 +178,22 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         {
             return new DTODadosEmpresaLoja()
             {
-                Empresa = await _context.Empresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
-                PerfilEmpresa = await _context.PerfilEmpresa.FirstOrDefaultAsync(a => a.IdPerfilEmpresa == idPerfilEmpresa),
-                ContaEmpresa = await _context.ContaEmpresa.FirstOrDefaultAsync(a => a.IdEmpresa == idEmpresa),
-                ImagensCatalogo = _context.ImagemCatalogo.Where(i => i.IdPerfilEmpresa == idPerfilEmpresa)
+                Empresa = await _context.Empresa.FirstOrDefaultAsync(a => a.IdEmpresa.Equals(idEmpresa)),
+                PerfilEmpresa = await _context.PerfilEmpresa.FirstOrDefaultAsync(a => a.IdPerfilEmpresa.Equals(idPerfilEmpresa)),
+                ContaEmpresa = await _context.ContaEmpresa.FirstOrDefaultAsync(a => a.IdEmpresa.Equals(idEmpresa)),
+                ImagensCatalogo = _context.ImagemCatalogo.Where(i => i.IdPerfilEmpresa.Equals(idPerfilEmpresa))
             };
         }
 
 
-        public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfisEmpresa(int idEmpresa)
+        public Task<List<Entidade.Empresa.PerfilEmpresa>> SelectPerfisEmpresa(Guid idEmpresa)
         {
-            return _context.PerfilEmpresa.Where(p => p.IdEmpresa == idEmpresa).ToListAsync();
+            return _context.PerfilEmpresa.Where(p => p.IdEmpresa.Equals(idEmpresa)).ToListAsync();
         }
 
         public Task AddIdNotificacao(int? idEmpresa, string tokenNotificacao)
         {
-            PerfilEmpresa perfil = _context.PerfilEmpresa.First(p => p.IdEmpresa == idEmpresa);
+            PerfilEmpresa perfil = _context.PerfilEmpresa.First(p => p.IdEmpresa.Equals(idEmpresa));
             perfil.IdsNotificacao = perfil.IdsNotificacao ?? new List<string>();
 
             if (!perfil.IdsNotificacao.Any(n => n == tokenNotificacao))

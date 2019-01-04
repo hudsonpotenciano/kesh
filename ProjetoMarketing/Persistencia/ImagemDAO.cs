@@ -24,7 +24,7 @@ namespace ProjetoMarketing.Persistencia
 
         public void SaveImagemPerfilEmpresa(ImagemPerfil imagemPerfil, string container)
         {
-            if (imagemPerfil.IdEmpresa == null || imagemPerfil.IdEmpresa == 0)
+            if (imagemPerfil.IdEmpresa == null || imagemPerfil.IdEmpresa.Equals(Guid.Empty))
             {
                 return;
             }
@@ -34,7 +34,7 @@ namespace ProjetoMarketing.Persistencia
 
         public void SaveImagemPerfilPessoa(ImagemPerfil imagemPerfil, string container)
         {
-            if (imagemPerfil.IdPessoa == null || imagemPerfil.IdPessoa == 0)
+            if (imagemPerfil.IdPessoa == null || imagemPerfil.IdPessoa.Equals(Guid.Empty))
             {
                 return;
             }
@@ -103,11 +103,11 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        public Task AtualizeImagensCatalogo(List<ImagemCatalogoModel> Imagens, long idPerfilEmpresa, string container)
+        public Task AtualizeImagensCatalogo(List<ImagemCatalogoModel> Imagens, Guid idPerfilEmpresa, string container)
         {
             try
             {
-                IQueryable<Entidade.Empresa.ImagemCatalogo> imagensSalvas = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa);
+                IQueryable<Entidade.Empresa.ImagemCatalogo> imagensSalvas = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa.Equals(idPerfilEmpresa));
 
                 foreach (ImagemCatalogoModel item in Imagens.Where(i => i.Imagem != null))
                 {

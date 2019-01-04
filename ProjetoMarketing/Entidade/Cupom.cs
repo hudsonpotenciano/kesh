@@ -8,23 +8,23 @@ namespace ProjetoMarketing.Entidade
     public class Cupom
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
-        public Guid Id { get; set; }
+        public long Id { get; set; }
+        [Column("idcupom")]
+        public Guid IdCupom { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("token")]
         public Guid Token { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("idcupom")]
-        public long IdCupom { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
         [Column("idperfilempresa")]
-        public long IdPerfilEmpresa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         [Column("data")]
         public DateTime Data { get; set; }
         [Column("datavalidade")]
         public DateTime DataValidade { get; set; }
         [Column("idcompartilhamento")]
-        public long IdCompartilhamento { get; set; }
+        public Guid IdCompartilhamento { get; set; }
     };
 }

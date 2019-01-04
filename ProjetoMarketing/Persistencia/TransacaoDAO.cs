@@ -43,7 +43,7 @@ namespace ProjetoMarketing.Persistencia
 
         public Task GereCupom(ParametrosCodigoCompartilhamento parametros, out Entidade.Cupom cupom, Compartilhamento compartilhamento)
         {
-            var Data = DateTime.Now;
+            DateTime Data = DateTime.Now;
             List<Entidade.Cupom> cupons = new List<Entidade.Cupom>();
 
             cupom = new Entidade.Cupom()
@@ -52,7 +52,7 @@ namespace ProjetoMarketing.Persistencia
                 IdPessoa = parametros.IdPessoaReceptor,
                 Data = Data,
                 DataValidade = Data.AddDays(1),
-                IdCompartilhamento = compartilhamento.IdCompartilhamento
+                IdCompartilhamento = compartilhamento.IdComartilhamento
             };
 
             cupons.Add(cupom);
@@ -64,14 +64,14 @@ namespace ProjetoMarketing.Persistencia
                 IdPessoa = compartilhamento.IdPessoa,
                 Data = Data,
                 DataValidade = Data.AddDays(1),
-                IdCompartilhamento = compartilhamento.IdCompartilhamento
+                IdCompartilhamento = compartilhamento.IdComartilhamento
             });
 
             _context.Cupom.AddRange(cupons);
             return _context.SaveChangesAsync();
         }
 
-        public Task UpdateCompartilhamento (Compartilhamento compartilhamento)
+        public Task UpdateCompartilhamento(Compartilhamento compartilhamento)
         {
             _context.Compartilhamento.Update(compartilhamento);
             return _context.SaveChangesAsync();
@@ -143,9 +143,9 @@ namespace ProjetoMarketing.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasPessoa(int idPessoa)
+        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasPessoa(Guid idPessoa)
         {
-            return (from cupom in _context.Cupom.Where(c => c.IdPessoa == idPessoa)
+            return (from cupom in _context.Cupom.Where(c => c.IdPessoa.Equals(idPessoa))
                     join venda in _context.Venda on cupom.IdCupom equals venda.IdCupom into vendas
                     join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Descricao, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
                     join empresa in _context.Empresa.Select(a => new { a.IdEmpresa, a.Nome }) on perfilEmpresa.IdEmpresa equals empresa.IdEmpresa
@@ -162,11 +162,11 @@ namespace ProjetoMarketing.Persistencia
                     }).ToListAsync();
         }
 
-        public Task<List<DTO.DTOVendasAdminLoja>> ObtenhaCuponsEVendasEmpresaAdmin(int idEmpresa)
+        public Task<List<DTO.DTOVendasAdminLoja>> ObtenhaCuponsEVendasEmpresaAdmin(Guid idEmpresa)
         {
             return (from venda in _context.Venda
                     join perfil in _context.PerfilEmpresa on venda.IdPerfilEmpresa equals perfil.IdPerfilEmpresa
-                    where perfil.IdEmpresa == idEmpresa
+                    where perfil.IdEmpresa.Equals(idEmpresa)
                     select new DTO.DTOVendasAdminLoja()
                     {
                         Venda = venda,
@@ -175,9 +175,9 @@ namespace ProjetoMarketing.Persistencia
         }
 
 
-        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasEmpresa(long idPerfilEmpresa)
+        public Task<List<DTO.DTOCupomVenda>> ObtenhaCuponsEVendasEmpresa(Guid idPerfilEmpresa)
         {
-            return (from cupom in _context.Cupom.Where(c => c.IdPerfilEmpresa == idPerfilEmpresa)
+            return (from cupom in _context.Cupom.Where(c => c.IdPerfilEmpresa.Equals(idPerfilEmpresa))
                     join venda in _context.Venda on cupom.IdCupom equals venda.IdCupom
                     join pessoa in _context.Pessoa.Select(a => new { a.IdPessoa, a.Nome }) on cupom.IdPessoa equals pessoa.IdPessoa
                     join perfilEmpresa in _context.PerfilEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Descricao, a.IdEmpresa }) on cupom.IdPerfilEmpresa equals perfilEmpresa.IdPerfilEmpresa
@@ -218,7 +218,7 @@ namespace ProjetoMarketing.Persistencia
         {
             return _context.Cupom.AnyAsync(a => a.IdPessoa == parametros.IdPessoa
                                                      && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && a.DataValidade >= DateTime.Now
-                                                     && !_context.Venda.Any(b=>b.IdCupom == a.IdCupom));
+                                                     && !_context.Venda.Any(b => b.IdCupom == a.IdCupom));
         }
     }
 }

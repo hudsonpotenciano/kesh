@@ -7,6 +7,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
 
-            if (usuario.IdUsuario != 0)
+            if (!usuario.IdUsuario.Equals(Guid.Empty))
             {
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {
@@ -69,7 +70,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
 
-            if (usuario.IdUsuario != 0)
+            if (!usuario.IdUsuario.Equals(Guid.Empty))
             {
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {
@@ -90,7 +91,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             {
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {
-                    Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Select(parametros.IdPessoa))
+                    Result = Projecoes.DadosPessoa(await new PessoaDAO(_context).Selecione(parametros.IdPessoa))
                 };
 
                 return retorno;

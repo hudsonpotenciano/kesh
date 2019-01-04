@@ -16,7 +16,7 @@ namespace ProjetoMarketing.Servicos
 
         public void EnvieNotificacaoDeCompartilhamento(Compartilhamento compartilhamento, PessoaEmpresaContext _context)
         {
-            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa == compartilhamento.IdPessoa);
+            Entidade.Pessoa.Pessoa pessoa = _context.Pessoa.FirstOrDefault(p => p.IdPessoa.Equals(compartilhamento.IdPessoa));
             Entidade.Empresa.PerfilEmpresa perfilEmpresa = _context.PerfilEmpresa.FirstOrDefault(p => p.IdPerfilEmpresa == compartilhamento.IdPerfilEmpresa);
 
             Task.Factory.StartNew(() =>

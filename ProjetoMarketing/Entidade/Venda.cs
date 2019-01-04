@@ -8,17 +8,17 @@ namespace ProjetoMarketing.Entidade
     public class Venda
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id")]
+        public int Id { get; set; }
         [Column("idvenda")]
-        public int IdVenda { get; set; }
+        public Guid IdVenda { get; set; }
         [Column("idperfilempresa")]
-        public long IdPerfilEmpresa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         [Column("idpessoa")]
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
         [Column("idcupom")]
-        public long IdCupom { get; set; }
+        public Guid IdCupom { get; set; }
         [Column("valor")]
         public decimal Valor { get; set; }
         [Column("data")]

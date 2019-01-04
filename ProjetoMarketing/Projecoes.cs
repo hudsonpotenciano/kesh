@@ -161,7 +161,7 @@ namespace ProjetoMarketing
             {
                 compartilhamento.Data,
                 compartilhamento.Codigo,
-                compartilhamento.IdCompartilhamento,
+                compartilhamento.IdComartilhamento,
             };
         }
 

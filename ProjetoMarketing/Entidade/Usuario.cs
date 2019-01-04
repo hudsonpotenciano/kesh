@@ -8,11 +8,11 @@ namespace ProjetoMarketing.Entidade
     public class Usuario
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id")]
+        public int Id { get; set; }
         [Column("idusuario")]
-        public int IdUsuario { get; set; }
+        public Guid IdUsuario { get; set; }
         [Column("token")]
         public string Token { get; set; }
         [Column("tokenempresaadmin")]
@@ -20,9 +20,9 @@ namespace ProjetoMarketing.Entidade
         [Column("login")]
         public string Login { get; set; }
         [Column("idpessoa")]
-        public int? IdPessoa { get; set; }
+        public Guid? IdPessoa { get; set; }
         [Column("idempresa")]
-        public int? IdEmpresa { get; set; }
+        public Guid? IdEmpresa { get; set; }
         [Column("redesocial")]
         public bool RedeSocial { get; set; }
 
