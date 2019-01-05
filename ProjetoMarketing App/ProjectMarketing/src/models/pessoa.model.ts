@@ -17,7 +17,7 @@ export class CadastroPessoaRedeSocialModel {
 }
 
 export class Pessoa {
-    IdPessoa: number;
+    IdPessoa: string;
     Nome: string;
     Email: string;
     Latitude: number;
@@ -27,8 +27,8 @@ export class Pessoa {
 
 export class PessoaEmpresaVenda {
     PontuacaoDinheiro: number;
-    IdPessoa: number;
-    IdEmpresa: number;
+    IdPessoa: string;
+    IdEmpresa: string;
 }
 
 export class PessoaEmpresa {
@@ -37,7 +37,7 @@ export class PessoaEmpresa {
     Comentario: string;
     Nota: number;
     NotaGeral: number;
-    IdPessoa: number;
+    IdPessoa: string;
 }
 
 export class DadosPessoaEmpresa {

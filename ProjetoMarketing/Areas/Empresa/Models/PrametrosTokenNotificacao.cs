@@ -7,7 +7,7 @@ namespace ProjetoMarketing.Areas.Empresa.Models
 {
     public class PrametrosTokenNotificacao
     {
-        public int IdPerfilEmpresa { get; set; }
+        public Guid IdPerfilEmpresa { get; set; }
         public string TokenNotificacao { get; set; }
     }
 }

@@ -8,6 +8,7 @@ import { StorageProvider } from '../providers/storage/storage';
 import { UnidadeDeMedidaLocalizacao } from '../models/pessoa.model';
 import { OneSignal } from '@ionic-native/onesignal';
 import { StorageEmpresaProvider } from '../providers/storage/storage-empresa';
+import { UtilitariosProvider } from '../providers/utilitarios/utilitarios';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,6 +28,7 @@ export class MyApp {
     splashScreen: SplashScreen,
     private translate: TranslateService,
     private storageProvider: StorageProvider,
+    private utilitarios: UtilitariosProvider,
     private storageEmpresa: StorageEmpresaProvider,
     private events: Events,
     private oneSignal: OneSignal) {
@@ -47,7 +49,7 @@ export class MyApp {
 
     this.events.subscribe("forcar-retorno-login", () => {
       var dadosAcesso = this.storageProvider.recupereDadosAcesso();
-      if (dadosAcesso !== null && dadosAcesso !== undefined && dadosAcesso.IdEmpresa > 0)
+      if (dadosAcesso !== null && dadosAcesso !== undefined && dadosAcesso.IdEmpresa !== this.utilitarios.guid36Empty())
         this.nav.setRoot("LoginEmpresaPage");
       else {
         this.nav.setRoot("LoginPessoaPage");
@@ -63,14 +65,14 @@ export class MyApp {
     console.log(dadosAcesso);
 
     if (dadosAcesso !== null && dadosAcesso !== undefined) {
-      if (dadosAcesso.IdEmpresa && dadosAcesso.IdEmpresa > 0 && dadosAcesso.Token != "") {
+      if (dadosAcesso.IdEmpresa && dadosAcesso.IdEmpresa !== this.utilitarios.guid36Empty() && dadosAcesso.Token != "") {
         if (this.storageEmpresa.recupereIdPerfilEmpresa())
           this.rootPage = "TabsEmpresaLojaPage";
         else {
           this.rootPage = this.TabsEmpresaPage;
         }
       }
-      else if (dadosAcesso.IdPessoa && dadosAcesso.IdPessoa > 0 && dadosAcesso.Token != "") {
+      else if (dadosAcesso.IdPessoa && dadosAcesso.IdPessoa !== this.utilitarios.guid36Empty() && dadosAcesso.Token != "") {
         this.rootPage = this.TabsPessoaPage;
       }
       else {
@@ -98,7 +100,7 @@ export class MyApp {
     this.oneSignal.endInit();
 
     var idNotificacao = this.storageProvider.recupereIdNotificacao();
-    
+
     if (idNotificacao === "") {
       this.oneSignal.getIds()
         .then((retorno) => {

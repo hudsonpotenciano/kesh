@@ -20,7 +20,7 @@ export class TransacaoProvider {
     return (new Date(new Date(data).setHours(0, 0, 0, 0)).getTime()) < (new Date(new Date().setHours(0, 0, 0, 0)).getTime());
   }
 
-  GereCupomCompartilhamento(idPessoaReceptor: number, guidCompartilhamento: string) {
+  GereCupomCompartilhamento(idPessoaReceptor: string, guidCompartilhamento: string) {
     return new Promise<Cupom>((resolve, reject) => {
       this.comunicacao.post("Transacao/GereCupomCompartilhamento",
         { IdPessoaReceptor: idPessoaReceptor, Codigo: guidCompartilhamento })
@@ -35,7 +35,7 @@ export class TransacaoProvider {
     });
   }
 
-  gereCodigoDeCompartilhamento(idPerfilEmpresa: number, idPessoa: number, guidCompartilhamento: string) {
+  gereCodigoDeCompartilhamento(idPerfilEmpresa: string, idPessoa: string, guidCompartilhamento: string) {
 
     return new Promise<Compartilhamento>((resolve, reject) => {
       this.comunicacao.post("transacao/GereCompartilhamento", {
@@ -61,7 +61,7 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: number) {
+  obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: string) {
 
     return new Promise<VendaAdminLoja[]>(resolve => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresaAdmin;
@@ -79,7 +79,7 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCuponsEVendasEmpresa(idPerfilEmpresa: number, desconsiderarCache: boolean = false) {
+  obtenhaCuponsEVendasEmpresa(idPerfilEmpresa: string, desconsiderarCache: boolean = false) {
 
     return new Promise<any>((resolve, reject) => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresa;
@@ -99,7 +99,7 @@ export class TransacaoProvider {
     });
   }
 
-  ObtenhaCuponsEVendasPessoaEmpresa(idPerfilEmpresa: number, idPessoa: number) {
+  ObtenhaCuponsEVendasPessoaEmpresa(idPerfilEmpresa: string, idPessoa: string) {
     return new Promise<any>(resolve => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoaEmpresa;
       if (this.estaEmCach(enumerador)) {
@@ -116,7 +116,7 @@ export class TransacaoProvider {
     });
   }
 
-  PessoaPodeCompartilhar(idPerfilEmpresa: number, idPessoa: number) {
+  PessoaPodeCompartilhar(idPerfilEmpresa: string, idPessoa: string) {
 
     return new Promise<boolean>(resolve => {
       this.comunicacao.post("Transacao/PessoaPodeCompartilhar",
@@ -127,7 +127,7 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCuponsEVendasPessoa(idPessoa: number, desconsiderarCache: boolean = false) {
+  obtenhaCuponsEVendasPessoa(idPessoa: string, desconsiderarCache: boolean = false) {
     return new Promise<DTOCupomVenda[]>((resolve, reject) => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasPessoa;
       if ((!navigator.onLine) || !desconsiderarCache && this.estaEmCach(enumerador)) {
@@ -147,7 +147,7 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCupomPeloToken(token: string, idPerfilEmpresa: number) {
+  obtenhaCupomPeloToken(token: string, idPerfilEmpresa: string) {
     return new Promise<DTOCupomParaVenda>((resolve, reject) => {
       this.comunicacao.post("Transacao/ObtenhaCupomPeloToken", { CupomToken: token, IdPerfilEmpresa: idPerfilEmpresa })
         .then((retorno: RetornoRequestModel) => {

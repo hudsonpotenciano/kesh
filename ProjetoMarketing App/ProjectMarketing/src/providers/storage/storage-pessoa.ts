@@ -38,7 +38,7 @@ export class StoragePessoaProvider {
         }
     }
 
-    recupereComentariosENotas(idPerfilEmpresa: number): NotaComentarioPessoaEmpresa[] {
+    recupereComentariosENotas(idPerfilEmpresa: string): NotaComentarioPessoaEmpresa[] {
         var dados = this.storage.recupere(this.COMENTARIOS_NOTAS) as NotaComentarioPessoaEmpresa[];
         if (dados)
             return dados.filter(a => a.IdPerfilEmpresa == idPerfilEmpresa);
@@ -71,7 +71,7 @@ export class StoragePessoaProvider {
         this.storage.armazene(this.DADOS_PESSOA_LOJAS, value);
     }
 
-    recupereDadosPessoaLoja(idPerfil: number): PessoaLoja {
+    recupereDadosPessoaLoja(idPerfil: string): PessoaLoja {
         let dados = this.recupereDadosPessoaLojas();
         return dados.find(p => p.Loja.IdPerfilEmpresa == idPerfil);
     }
@@ -90,7 +90,7 @@ export class StoragePessoaProvider {
         this.storage.armazene(this.DADOS_PESSOA_EMPRESAS, value);
     }
 
-    recupereDadosPessoaEmpresa(idEmpresa: number): DadosPessoaEmpresa {
+    recupereDadosPessoaEmpresa(idEmpresa: string): DadosPessoaEmpresa {
         let dados = this.recupereDadosPessoaEmpresas();
         return dados.find(p => p.Empresa.IdEmpresa == idEmpresa);
     }

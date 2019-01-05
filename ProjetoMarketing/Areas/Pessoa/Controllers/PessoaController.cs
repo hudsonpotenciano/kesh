@@ -7,7 +7,7 @@ using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
-using System;
+using ProjetoMarketing.Servicos;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,12 +36,15 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             }
 
             Entidade.Pessoa.Pessoa pessoa = new Entidade.Pessoa.Pessoa();
+            Entidade.ImagemPerfil imagemPerfil = new Entidade.ImagemPerfil();
             Entidade.Usuario usuario = new Entidade.Usuario();
 
-            await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
+            int resultado = await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario, out imagemPerfil);
 
-            if (!usuario.IdUsuario.Equals(Guid.Empty))
+            if (resultado > 0)
             {
+                new ImagemService(_context).SaveImagemPerfilPessoa(imagemPerfil);
+
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {
                     Result = Projecoes.ProjecaoRetornoCadastroPessoaUsuario(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))
@@ -70,7 +73,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             await new PessoaDAO(_context).AddPessoaUsuario(model, out pessoa, out usuario);
 
-            if (!usuario.IdUsuario.Equals(Guid.Empty))
+            if (usuario.Id > 0)
             {
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {
@@ -129,9 +132,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
 
             try
             {
+                System.Collections.Generic.List<DTO.DTOPessoa> pessoasEmpreas = await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros);
                 RetornoRequestModel retorno = new RetornoRequestModel
                 {
-                    Result = Projecoes.PessoaEmpresas(await new PessoaDAO(_context).ObtenhaPessoaEmpresas(parametros), parametros.UnidadeDeMedida)
+                    Result = Projecoes.PessoaEmpresas(pessoasEmpreas, parametros.UnidadeDeMedida)
                 };
 
                 return retorno;

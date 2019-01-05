@@ -8,7 +8,8 @@ namespace ProjetoMarketing.Entidade.Pessoa
     public class PessoaEmpresa
     {
         [Key]
-        [Column("Id")]
+        [Column("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Column("idpessoa")]
         public Guid IdPessoa { get; set; }

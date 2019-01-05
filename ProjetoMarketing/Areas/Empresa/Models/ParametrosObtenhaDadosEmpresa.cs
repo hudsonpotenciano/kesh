@@ -1,9 +1,10 @@
 ﻿using ProjetoMarketing.Models;
+using System;
 
 namespace ProjetoMarketing.Entidade.Empresa.Models
 {
     public class ParametrosObtenhaDadosEmpresa : ParametrosRequestModel
     {
-        public int IdEmpresa { get; set; }
+        public Guid IdEmpresa { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Models
     public class ParametrosAtualizeFoto : ParametrosRequestModel
     {
         public string Foto { get; set; }
-        public int IdPessoa { get; set; }
+        public Guid IdPessoa { get; set; }
     }
 }

@@ -25,7 +25,12 @@
                     <div class="front" [id]="'front' + empresa.Perfil.IdPerfilEmpresa" (click)="vireOCard(empresa.Perfil.IdPerfilEmpresa)">
                         <ion-slides #slides *ngIf="empresa.Catalogo.length > 0" color="tema" autoplay="4000" speed="2000" effect="fade" loop="true" pager="true">
                             <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
-                                <img onerror="this.src='./assets/imgs/camera.svg'" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
+                                <img class="img-catalogo" onerror="this.src='./assets/imgs/camera.svg'" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
+                            </ion-slide>
+                        </ion-slides>
+                        <ion-slides #slides *ngIf="empresa.Catalogo.length == 0" color="tema">
+                            <ion-slide>
+                                <img src="./assets/svg/empresa.svg" alt="">
                             </ion-slide>
                         </ion-slides>
                     </div>

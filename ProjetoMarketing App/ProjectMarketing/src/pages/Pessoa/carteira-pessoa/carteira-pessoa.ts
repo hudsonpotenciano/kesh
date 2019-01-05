@@ -46,7 +46,7 @@ export class CarteiraPessoaPage {
       });
   }
 
-  obtenhaLogoEmpresa(idEmpresa: number) {
+  obtenhaLogoEmpresa(idEmpresa: string) {
 
     return this.empresaProvider.obtenhaLogoEmpresa(idEmpresa);
   }

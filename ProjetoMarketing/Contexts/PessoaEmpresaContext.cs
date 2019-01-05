@@ -13,6 +13,7 @@ namespace ProjetoMarketing.Contexts
         public DbSet<Entidade.Pessoa.PessoaEmpresa> PessoaEmpresa { get; set; }
         public DbSet<Entidade.Empresa.PerfilEmpresa> PerfilEmpresa { get; set; }
         public DbSet<Entidade.Empresa.ContaEmpresa> ContaEmpresa { get; set; }
+        public DbSet<Entidade.Empresa.Adesao> Adesao { get; set; }
         public DbSet<Entidade.Empresa.Empresa> Empresa { get; set; }
         public DbSet<Entidade.Empresa.ImagemCatalogo> ImagemCatalogo { get; set; }
         public DbSet<Entidade.Cupom> Cupom { get; set; }

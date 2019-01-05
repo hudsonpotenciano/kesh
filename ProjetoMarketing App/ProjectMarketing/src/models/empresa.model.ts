@@ -2,13 +2,13 @@ import { Venda } from "./models.model";
 
 export class Empresa {
     Email: string;
-    IdEmpresa: number;
+    IdEmpresa: string;
     Nome: string;
     Categoria: number;
 }
 
 export class Conta {
-    IdEmpresa: number;
+    IdEmpresa: string;
     Categoria: number;
     Resumo: string;
     ValorPontos: number;
@@ -16,8 +16,8 @@ export class Conta {
 
 export class Perfil {
     Descricao: string;
-    IdPerfilEmpresa: number;
-    IdEmpresa: number;
+    IdPerfilEmpresa: string;
+    IdEmpresa: string;
     Telefone: string;
     Telefone2: string;
     Latitude: number;
@@ -26,8 +26,8 @@ export class Perfil {
 
 export class NotaComentarioPessoaEmpresa {
     NomePessoa: string;
-    IdPessoa: number;
-    IdPerfilEmpresa: number;
+    IdPessoa: string;
+    IdPerfilEmpresa: string;
     Nota: number;
     Comentario: string;
     DataAvaliacao: Date;
@@ -39,7 +39,7 @@ export class ImagemCatalogo {
 }
 
 export class AtualizeContaModel {
-    IdEmpresa: number;
+    IdEmpresa: string;
     Resumo: string;
     ValorPontos: number;
     Categorias: number[];
@@ -50,18 +50,18 @@ export class AtualizaPerfilModel {
     constructor() {
         this.Catalogo = [];
     }
-    IdPerfilEmpresa: number;
+    IdPerfilEmpresa: string;
     Descricao: string;
     Latitude: number;
     Longitude: number;
     Telefone: string;
     Telefone2: string;
-    IdEmpresa: number;
+    IdEmpresa: string;
     Catalogo: ImagemCatalogo[];
 }
 
 export class CadastroPerfilModel extends AtualizaPerfilModel {
-    IdEmpresa: number;
+    IdEmpresa: string;
 }
 
 export class CadastroEmpresaModel {

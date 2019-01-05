@@ -31,6 +31,7 @@ namespace ProjetoMarketing.Persistencia
         {
             compartilhamento = new Compartilhamento()
             {
+                IdComartilhamento = Guid.NewGuid(),
                 IdPerfilEmpresa = parametros.IdPerfilEmpresa,
                 IdPessoa = parametros.IdPessoa,
                 Codigo = parametros.Codigo,
@@ -48,6 +49,7 @@ namespace ProjetoMarketing.Persistencia
 
             cupom = new Entidade.Cupom()
             {
+                IdCupom = Guid.NewGuid(),
                 IdPerfilEmpresa = compartilhamento.IdPerfilEmpresa,
                 IdPessoa = parametros.IdPessoaReceptor,
                 Data = Data,
@@ -81,6 +83,7 @@ namespace ProjetoMarketing.Persistencia
         {
             venda = new Venda()
             {
+                IdVenda = Guid.NewGuid(),
                 IdCupom = cupom.IdCupom,
                 IdPessoa = cupom.IdPessoa,
                 IdPerfilEmpresa = cupom.IdPerfilEmpresa,

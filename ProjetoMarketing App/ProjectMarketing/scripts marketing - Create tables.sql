@@ -4,7 +4,7 @@ CREATE SEQUENCE public.sq_pessoa
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_pessoa
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.pessoa
 (
@@ -24,7 +24,7 @@ WITH (
 );
 
 ALTER TABLE public.pessoa
-    OWNER to keshuser;
+    OWNER to postgres;
 
 CREATE SEQUENCE public.sq_empresa
     INCREMENT 1
@@ -32,7 +32,7 @@ CREATE SEQUENCE public.sq_empresa
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_empresa
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.empresa
 (
@@ -42,7 +42,8 @@ CREATE TABLE public.empresa
     cnpj text NOT NULL,
     email text NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT uk_empresa_cnpj UNIQUE (cnpj)
+    CONSTRAINT uk_empresa_cnpj UNIQUE (cnpj),
+    CONSTRAINT uk_empresa_idempresa UNIQUE (idempresa)
 )
 WITH (
     OIDS = FALSE
@@ -54,7 +55,7 @@ CREATE SEQUENCE public.sq_usuario
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_usuario
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.usuario
 (
@@ -82,7 +83,7 @@ WITH (
 );
 
 ALTER TABLE public.empresa
-    OWNER to keshuser;
+    OWNER to postgres;
 
 CREATE SEQUENCE public.sq_perfilempresa
     INCREMENT 1
@@ -90,7 +91,7 @@ CREATE SEQUENCE public.sq_perfilempresa
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_perfilempresa
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.perfilempresa
 (
@@ -104,7 +105,8 @@ CREATE TABLE public.perfilempresa
     idsnotificacao text[],
     telefone2 text,
     PRIMARY KEY (id),
-    CONSTRAINT uk_perfilempresa UNIQUE (idempresa, idperfilempresa),
+    CONSTRAINT uk_perfilempresa UNIQUE (idperfilempresa),
+    CONSTRAINT uk_perfilempresa_empresa UNIQUE (idempresa, idperfilempresa),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -115,8 +117,7 @@ WITH (
 );
 
 ALTER TABLE public.perfilempresa
-    OWNER to keshuser;
-
+    OWNER to postgres;
 
 -- EXECUTAR A PARTE DE CIMA ANTES 
 
@@ -126,7 +127,7 @@ CREATE SEQUENCE public.sq_compartilhamento
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_compartilhamento
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
  CREATE TABLE public.compartilhamento
 (
@@ -138,6 +139,7 @@ ALTER SEQUENCE public.sq_compartilhamento
     cupomfoigerado boolean NOT NULL DEFAULT false,
     data date NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT uk_compartilhamento UNIQUE (idcompartilhamento),
     CONSTRAINT fk_pessoa_compartilhamento FOREIGN KEY (idpessoa)
         REFERENCES public.pessoa (idpessoa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -152,12 +154,12 @@ WITH (
 );
 
 ALTER TABLE public.compartilhamento
-    OWNER to keshuser;
+    OWNER to postgres;
 
 CREATE SEQUENCE public.sq_cupom;
 
 ALTER SEQUENCE public.sq_cupom
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.cupom
 (
@@ -191,12 +193,12 @@ WITH (
 );
 
 ALTER TABLE public.cupom
-    OWNER to keshuser;
+    OWNER to postgres;
 
 CREATE SEQUENCE public.sq_venda;
 
 ALTER SEQUENCE public.sq_venda
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.venda
 (
@@ -208,6 +210,7 @@ CREATE TABLE public.venda
     valor money NOT NULL,
     data date NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT uk_venda UNIQUE (idvenda),
     CONSTRAINT uk_venda_cupom UNIQUE (idcupom, idpessoa, idperfilempresa),    
     CONSTRAINT fk_cupom FOREIGN KEY (idcupom)
         REFERENCES public.cupom (idcupom) MATCH SIMPLE
@@ -227,13 +230,13 @@ WITH (
 );
 
 ALTER TABLE public.venda
-    OWNER to keshuser;
+    OWNER to postgres;
 
 
 CREATE SEQUENCE public.sq_pessoaempresa ;
 
 ALTER SEQUENCE public.sq_pessoaempresa
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
   CREATE TABLE public.pessoaempresa
 (
@@ -259,7 +262,7 @@ WITH (
 );
 
 ALTER TABLE public.pessoaempresa
-    OWNER to keshuser;
+    OWNER to postgres;
 
 CREATE SEQUENCE public.sq_imagemcatalogo
     INCREMENT 1
@@ -267,7 +270,7 @@ CREATE SEQUENCE public.sq_imagemcatalogo
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_imagemcatalogo
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
     CREATE TABLE public.imagemcatalogo
 (
@@ -276,6 +279,7 @@ ALTER SEQUENCE public.sq_imagemcatalogo
     idperfilempresa uuid NOT NULL,
     guidimagem text NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT uk_imagemcatalogo UNIQUE (idimagem),
     CONSTRAINT fk_perfilempresa FOREIGN KEY (idperfilempresa)
     REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
     ON UPDATE NO ACTION
@@ -286,13 +290,13 @@ WITH (
 );
 
 ALTER TABLE public.imagemcatalogo
-    OWNER to keshuser;
+    OWNER to postgres;
 
 
 CREATE SEQUENCE public.sq_contaempresa;
 
 ALTER SEQUENCE public.sq_contaempresa
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.contaempresa
 (
@@ -303,6 +307,7 @@ CREATE TABLE public.contaempresa
     categoria integer NOT NULL,
     idempresa uuid NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT uk_contaempresa UNIQUE (idconta),
     CONSTRAINT fk_empresa FOREIGN KEY (idempresa)
         REFERENCES public.empresa (idempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -313,7 +318,7 @@ WITH (
 );
 
 ALTER TABLE public.contaempresa
-    OWNER to keshuser;
+    OWNER to postgres;
 
 CREATE SEQUENCE public.sq_pessoaloja
     INCREMENT 1
@@ -321,7 +326,7 @@ CREATE SEQUENCE public.sq_pessoaloja
     MINVALUE 1;
 
 ALTER SEQUENCE public.sq_pessoaloja
-    OWNER TO keshuser;
+    OWNER TO postgres;
 
 CREATE TABLE public.pessoaloja
 (
@@ -331,7 +336,8 @@ CREATE TABLE public.pessoaloja
     idpessoa uuid NOT NULL,
     pontos numeric NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT uk_pessoaloja UNIQUE (idperfilempresa, idpessoa),
+    CONSTRAINT uk_pessoaloja UNIQUE (idpessoaloja),
+    CONSTRAINT uk_pessoaloja_pessoa UNIQUE (idperfilempresa, idpessoa),
     CONSTRAINT fk_idperfilempresa FOREIGN KEY (idperfilempresa)
         REFERENCES public.perfilempresa (idperfilempresa) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -342,4 +348,32 @@ WITH (
 );
 
 ALTER TABLE public.pessoaloja
-    OWNER to keshuser;
+    OWNER to postgres;
+
+CREATE SEQUENCE public.sq_adesao
+    INCREMENT 1
+    START 1
+    MINVALUE 1;
+
+CREATE TABLE public.adesao
+(
+    id bigint NOT NULL DEFAULT nextval('sq_adesao'::regclass),
+    idadesao uuid NOT NULL,
+    idempresa uuid NOT NULL,
+    limitedevendas integer NOT NULL,
+    ultimaatualizacao date NOT NULL,
+    disponivel boolean NOT NULL,
+    CONSTRAINT pk_adesao PRIMARY KEY (id),
+    CONSTRAINT uk_edesao UNIQUE (idadesao),
+    CONSTRAINT fk_edesao_ideempresa FOREIGN KEY (idempresa)
+        REFERENCES public.empresa (idempresa) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.adesao
+    OWNER to postgres;

@@ -2,6 +2,7 @@
 using ProjetoMarketing.Areas.Empresa.DTO;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Contexts;
+using ProjetoMarketing.Entidade;
 using ProjetoMarketing.Entidade.Empresa;
 using ProjetoMarketing.Servicos;
 using System;
@@ -28,7 +29,10 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
 
         public Task AddIdNotificacao(Guid? idPerfilEmpresa, string tokenNotificacao)
         {
-            if (!idPerfilEmpresa.HasValue) return null;
+            if (!idPerfilEmpresa.HasValue)
+            {
+                return null;
+            }
 
             return Task.Factory.StartNew(() =>
             {
@@ -43,33 +47,30 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             });
         }
 
-        public Task AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa,
-                                     out Entidade.Usuario usuario, out PerfilEmpresa perfil)
+        public Task<int> AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa,
+                                     out Entidade.Usuario usuario, out PerfilEmpresa perfil, out ImagemPerfil imagemPerfilEmpresa)
         {
             empresa = new Entidade.Empresa.Empresa()
             {
                 Cnpj = model.Cnpj,
                 Email = model.Email,
-                Nome = model.Nome
+                Nome = model.Nome,
+                IdEmpresa = Guid.NewGuid()
             };
 
-            //Necessário para obter o IDEMPRESA
-            _context.Empresa.Add(empresa);
-            _context.SaveChanges();
-
-            ContaEmpresa conta = new Entidade.Empresa.ContaEmpresa()
+            ContaEmpresa conta = new ContaEmpresa()
             {
                 ValorPontos = model.ValorPontos,
                 Resumo = model.Resumo,
                 Categoria = model.Categoria,
-                IdEmpresa = empresa.IdEmpresa
+                IdEmpresa = empresa.IdEmpresa,
+                IdConta = Guid.NewGuid()
             };
 
-            Entidade.ImagemPerfil imagemPerfilEmpresa = new Entidade.ImagemPerfil()
+            imagemPerfilEmpresa = new Entidade.ImagemPerfil()
             {
                 IdEmpresa = empresa.IdEmpresa,
                 Imagem = model.Logo,
-                //GuidImagem = Guid.NewGuid().ToString()
             };
 
             perfil = new PerfilEmpresa()
@@ -80,6 +81,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 Descricao = model.Descricao,
                 Telefone = model.Telefone,
                 Telefone2 = model.Telefone2,
+                IdPerfilEmpresa = Guid.NewGuid()
             };
 
             usuario = new Entidade.Usuario()
@@ -87,14 +89,37 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 IdEmpresa = empresa.IdEmpresa,
                 Login = model.Email,
                 Token = Autentication.Seguranca.GerarHashMd5(model.Email, model.Senha),
-                TokenEmpresaAdmin = Autentication.Seguranca.GerarHashMd5(model.Email, model.SenhaAdmin)
+                TokenEmpresaAdmin = Autentication.Seguranca.GerarHashMd5(model.Email, model.SenhaAdmin),
+                IdUsuario = Guid.NewGuid()
             };
 
-            _context.Usuario.Add(usuario);
-            _context.PerfilEmpresa.Add(perfil);
-            _context.ContaEmpresa.Add(conta);
-            new ImagemService(_context).SaveImagemPerfilEmpresa(imagemPerfilEmpresa);
-            return _context.SaveChangesAsync();
+            Adesao adesao = new Adesao()
+            {
+                IdEmpresa = empresa.IdEmpresa,
+                Disponivel = true,
+                IdAdesao = Guid.NewGuid(),
+                LimiteDeVendas = Negocio.Adesao.LimiteInicialDeVendas,
+                UltimaAtualizacao = DateTime.Now
+            };
+
+            try
+            {
+                _context.Empresa.Add(empresa);
+                _context.SaveChanges();
+
+                _context.Adesao.Add(adesao);
+                _context.ContaEmpresa.Add(conta);
+                _context.ContaEmpresa.Add(conta);
+                _context.PerfilEmpresa.Add(perfil);
+                _context.Usuario.Add(usuario);
+                return _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _context.Remove(empresa);
+                _context.Database.RollbackTransaction();
+                throw e;
+            }
         }
 
         public void UpdatePerfil(CadastroPerfilModel model, bool executarSaveChanges = false)
@@ -174,7 +199,7 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
             };
         }
 
-        public async Task<DTODadosEmpresaLoja> SelectEmpresaLoja(int idEmpresa, long idPerfilEmpresa)
+        public async Task<DTODadosEmpresaLoja> SelectEmpresaLoja(Guid idEmpresa, Guid idPerfilEmpresa)
         {
             return new DTODadosEmpresaLoja()
             {

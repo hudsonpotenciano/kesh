@@ -43,6 +43,21 @@ namespace ProjetoMarketing.Servicos
             _objetoDeAcesso.SaveImagemPerfilPessoa(imagem, containerPerfilPessoa);
         }
 
+        public void DeleteImagemPerfilPessoa(string guidImagem)
+        {
+            _objetoDeAcesso.DeleteImagem(guidImagem, containerPerfilPessoa);
+        }
+
+        public void DeleteImagemPerfilEmpresa(string guidImagem)
+        {
+            _objetoDeAcesso.DeleteImagem(guidImagem, containerPerfilEmpresa);
+        }
+
+        public void DeleteImagemCatalogo(string guidImagem)
+        {
+            _objetoDeAcesso.DeleteImagem(guidImagem, containerCatalogo);
+        }
+
         //public static string ObtenhaUrlImagemPessoa(int idPessoa)
         //{
         //    return $"{UrlStorage}/{containerPerfilPessoa}/{idPessoa}{ImagemDAO.imageType}";

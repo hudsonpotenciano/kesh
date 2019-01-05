@@ -67,6 +67,17 @@ export class UtilitariosProvider {
     return canvas.toDataURL("image/png", 0.5);
   }
 
+  gereGuid36() {
+    function S4() {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+  }
+
+  guid36Empty() {
+    return "00000000-0000-0000-0000-000000000000";
+  }
+
   gereGuid6() {
     var firstPart: any = (Math.random() * 46656) | 0;
     var secondPart: any = (Math.random() * 46656) | 0;
@@ -82,11 +93,20 @@ export class UtilitariosProvider {
 
     img.onload = () => {
 
+      var ratio = 1;
+      var max_width = 600;
+      var max_height = 900;
+
+      if (img.width > max_width)
+        ratio = max_width / img.width
+      else if (img.height > max_height)
+        ratio = max_height / img.height
+
       var canvas = document.createElement("canvas");
-      canvas.width = img.width > 2000 ? (img.width / 2) : img.width;
-      canvas.height = img.height > 2000 ? (img.height / 2) : img.height;
+      canvas.width = img.width * ratio;
+      canvas.height = img.height * ratio;
       var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       callback(canvas.toDataURL("image/png", 0.5).replace(/^data:image\/(png|jpg);base64,/, ""));
     }
   }
@@ -249,7 +269,7 @@ export class UtilitariosProvider {
     alerta.present();
   }
 
-  calculeDistancia(lat1, lon1, unit : UnidadeDeMedidaLocalizacao) {
+  calculeDistancia(lat1, lon1, unit: UnidadeDeMedidaLocalizacao) {
     if ((lat1 == this.localizacao.Latitude) && (lon1 == this.localizacao.Longitude)) {
       return 0;
     }

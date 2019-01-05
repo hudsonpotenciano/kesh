@@ -44,35 +44,41 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             return _context.SaveChangesAsync();
         }
 
-        public Task AddPessoaUsuario(Models.ParametrosCadastroPessoa model, out Entidade.Pessoa.Pessoa pessoa, out Usuario usuario)
+        public Task<int> AddPessoaUsuario(Models.ParametrosCadastroPessoa model, out Entidade.Pessoa.Pessoa pessoa,
+                                         out Usuario usuario, out ImagemPerfil imagemPerfil)
         {
-            pessoa = new Entidade.Pessoa.Pessoa()
+            try
             {
-                Email = model.Email,
-                Nome = model.Nome,
-            };
+                pessoa = new Entidade.Pessoa.Pessoa()
+                {
+                    IdPessoa = Guid.NewGuid(),
+                    Email = model.Email,
+                    Nome = model.Nome,
+                };
 
-            //Necessário para obter o IDPESSOA
-            _context.Pessoa.Add(pessoa);
-            _context.SaveChanges();
+                imagemPerfil = new ImagemPerfil()
+                {
+                    Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
+                    IdPessoa = pessoa.IdPessoa
+                };
 
-            ImagemPerfil imagemPerfil = new ImagemPerfil()
+                usuario = new Usuario()
+                {
+                    IdUsuario = Guid.NewGuid(),
+                    IdPessoa = pessoa.IdPessoa,
+                    Login = model.Email,
+                    Token = Seguranca.GerarHashMd5(model.Email, model.Senha)
+                };
+
+                _context.Usuario.Add(usuario);
+                _context.Pessoa.Add(pessoa);
+                return _context.SaveChangesAsync();
+            }
+            catch (Exception e)
             {
-                Imagem = model.Foto != null ? Convert.FromBase64String(model.Foto) : null,
-                IdPessoa = pessoa.IdPessoa,
-                //GuidImagem = Guid.NewGuid().ToString()
-            };
-
-            usuario = new Usuario()
-            {
-                IdPessoa = pessoa.IdPessoa,
-                Login = model.Email,
-                Token = Seguranca.GerarHashMd5(model.Email, model.Senha)
-            };
-
-            _context.Usuario.Add(usuario);
-            new ImagemService(_context).SaveImagemPerfilPessoa(imagemPerfil);
-            return _context.SaveChangesAsync();
+                _context.Database.RollbackTransaction();
+                throw e;
+            }
         }
 
         public Task AddPessoaUsuario(Models.ParametrosCadastroPessoaRedeSocial model, out Entidade.Pessoa.Pessoa pessoa, out Usuario usuario)
@@ -95,6 +101,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
             usuario = new Usuario()
             {
+                IdUsuario = Guid.NewGuid(),
                 IdPessoa = pessoa.IdPessoa,
                 Login = model.Email,
                 Token = Seguranca.GerarHashMd5(model.Email, model.Id),
@@ -169,10 +176,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                         let idPerfilEmpresa = perfil.IdPerfilEmpresa
                         join empresa in _context.Empresa on perfil.IdEmpresa equals empresa.IdEmpresa
                         join conta in _context.ContaEmpresa on empresa.IdEmpresa equals conta.IdEmpresa
-                        let imagensCatalogo = _context.ImagemCatalogo.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa)
-                        let countNota = _context.PessoaEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Nota }).Where(p => p.IdPerfilEmpresa == idPerfilEmpresa && p.Nota != null).Count()
-                        let notaGeral = _context.PessoaEmpresa.Select(a => new { a.IdPerfilEmpresa, a.Nota }).Where(p => p.IdPerfilEmpresa == idPerfilEmpresa).Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
-                        from pessoaEmpresa in _context.PessoaEmpresa.Where(a => a.IdPerfilEmpresa == idPerfilEmpresa && a.IdPessoa == parametros.IdPessoa).DefaultIfEmpty()
+                        let imagensCatalogo = _context.ImagemCatalogo.Where(x => x.IdPerfilEmpresa.Equals(idPerfilEmpresa))
+                        let countNota = _context.PessoaEmpresa.Select(x => new { x.IdPerfilEmpresa, x.Nota }).Where(p => p.IdPerfilEmpresa.Equals(idPerfilEmpresa) && p.Nota != null).Count()
+                        let notaGeral = _context.PessoaEmpresa.Select(x => new { x.IdPerfilEmpresa, x.Nota }).Where(p => p.IdPerfilEmpresa.Equals(idPerfilEmpresa)).Sum(p => p.Nota) / (countNota > 0 ? countNota : 1)
+                        from pessoaEmpresa in _context.PessoaEmpresa.Where(x => x.IdPerfilEmpresa.Equals(idPerfilEmpresa) && x.IdPessoa.Equals(parametros.IdPessoa)).DefaultIfEmpty()
                         where distancia < 30
                         orderby distancia
                         select new DTO.DTOPessoa()
@@ -194,10 +201,10 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
 
         public Task<List<DTOPessoaLoja>> ObtenhaDadosPessoaLojas(ParametrosObtenhaDadosPessoa parametros)
         {
-            return (from pessoaLoja in _context.PessoaLoja.Where(a => a.IdPessoa == parametros.IdPessoa)
+            return (from pessoaLoja in _context.PessoaLoja.Where(x => x.IdPessoa == parametros.IdPessoa)
                     join loja in _context.PerfilEmpresa on pessoaLoja.IdPerfilEmpresa equals loja.IdPerfilEmpresa
                     join conta in _context.ContaEmpresa on loja.IdEmpresa equals conta.IdEmpresa
-                    join empresa in _context.Empresa.Select(a => new { a.Nome, a.IdEmpresa }) on conta.IdEmpresa equals empresa.IdEmpresa
+                    join empresa in _context.Empresa.Select(x => new { x.Nome, x.IdEmpresa }) on conta.IdEmpresa equals empresa.IdEmpresa
                     select new DTOPessoaLoja
                     {
                         Loja = loja,
@@ -215,7 +222,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                     {
                         Comentario = pe.Comentario,
                         Nota = pe.Nota,
-                        IdPessoa = p.Id,
+                        IdPessoa = p.IdPessoa.ToString(),
                         IdPerfilEmpresa = pe.IdPerfilEmpresa,
                         NomePessoa = p.Nome,
                         DataAvaliacao = pe.DataAvaliacao
@@ -229,7 +236,7 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
                 return (from pessoa in _context.Pessoa
                         let distancia = Negocio.Localizacao.DistanceTo(parametros.Latitude, parametros.Longitude, pessoa.Latitude, pessoa.Longitude, parametros.UnidadeDeMedida)
                         where pessoa.IdPessoa != parametros.IdPessoa
-                        where !_context.Cupom.Where(a => a.IdPessoa == pessoa.IdPessoa && a.IdPerfilEmpresa == parametros.IdPerfilEmpresa && Negocio.Cupom.CalculeDataPodeCompartilhar(a.Data)).Any()
+                        where !_context.Cupom.Where(x => x.IdPessoa == pessoa.IdPessoa && x.IdPerfilEmpresa == parametros.IdPerfilEmpresa && Negocio.Cupom.CalculeDataPodeCompartilhar(x.Data)).Any()
                         select new Entidade.Pessoa.Pessoa
                         {
                             IdPessoa = pessoa.IdPessoa,

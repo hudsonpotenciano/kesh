@@ -13,7 +13,7 @@ import { UtilitariosProvider } from '../../providers/utilitarios/utilitarios';
 })
 export class QrCodeScannerPage {
 
-  idPerfilEmpresa: number;
+  idPerfilEmpresa: string;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,

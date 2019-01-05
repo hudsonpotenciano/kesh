@@ -69,7 +69,7 @@ export class TransacoesPage {
     // this.app.getRootNavs()[0].push("CupomPage", cupomVenda.Cupom);
   }
 
-  obtenhaLogoEmpresa(idEmpresa: number) {
+  obtenhaLogoEmpresa(idEmpresa: string) {
     return this.empresaProvider.obtenhaLogoEmpresa(idEmpresa);
   }
 

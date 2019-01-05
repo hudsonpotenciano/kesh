@@ -93,13 +93,14 @@ export class PessoaProvider {
             resolve(dados);
             if (this.loadingPrimeiroCarregamento != null) this.loadingPrimeiroCarregamento.dismiss();
           }).catch((retorno) => {
-            reject(retorno);
+            retorno;
+            reject();
           })
       });
     }
   }
 
-  obtenhaPessoasCompartilhamento(idPerfilEmpresa: number, localizacao: Localizacao) {
+  obtenhaPessoasCompartilhamento(idPerfilEmpresa: string, localizacao: Localizacao) {
 
     return new Promise<Pessoa[]>((resolve, reject) => {
       this.comunicacao.post("Pessoa/Pessoa/ObtenhaPessoaParaCompartilhamento",
@@ -112,7 +113,7 @@ export class PessoaProvider {
     });
   }
 
-  ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: number) {
+  ObtenhaComentarioENotaPessoasEmpresas(idPerfilEmpresa: string) {
     var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().ObtenhaComentarioENotaPessoasEmpresas;
     var dados = this.storagePessoa.recupereComentariosENotas(idPerfilEmpresa);
     if (this.estaEmCach(enumeradorDeCache) && dados.length > 0) {
@@ -135,7 +136,7 @@ export class PessoaProvider {
     }
   }
 
-  atualizeDadosPessoaEmpresa(idPerfilEmpresa: number, comentario: string, nota: number) {
+  atualizeDadosPessoaEmpresa(idPerfilEmpresa: string, comentario: string, nota: number) {
 
     return this.comunicacao.post("Pessoa/Pessoa/AtualizeDadosPessoaEmpresa",
       { IdPessoa: this.dadosAcesso.IdPessoa, IdPerfilEmpresa: idPerfilEmpresa, comentario: comentario, Nota: nota });
@@ -259,7 +260,7 @@ export class PessoaProvider {
     });
   }
 
-  obtenhaFotoPessoa(idPessoa: number) {
+  obtenhaFotoPessoa(idPessoa: string) {
     return "https://keshstorage.blob.core.windows.net/perfilpessoa/" + idPessoa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Pessoa/Pessoa/ObtenhaFotoPessoa?idPessoa=" + idPessoa;
   }

@@ -138,8 +138,8 @@ export class EmpresaProvider {
       });
   }
 
-  obtenhaLogoEmpresa(idEmpresa: number) {
-    return "https://keshstorage.blob.core.windows.net/perfilempresa/" + idEmpresa + ".jpg";
+  obtenhaLogoEmpresa(idempresa: string) {
+    return "https://keshstorage.blob.core.windows.net/perfilempresa/" + idempresa + ".jpg";
     //return ComunicacaoSettings.UrlApiBase + "Empresa/Imagem/ObtenhaLogoEmpresa?idEmpresa=" + idEmpresa;
   }
 

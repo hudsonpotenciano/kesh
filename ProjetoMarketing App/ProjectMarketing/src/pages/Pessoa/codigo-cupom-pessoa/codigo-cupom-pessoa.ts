@@ -12,14 +12,14 @@ import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios'
 export class CodigoCupomPessoaPage {
 
   codigo: string;
-  idPessoa: number;
+  IdPessoa: string;
 
   constructor(public navCtrl: NavController,
     private utilitariosProvider: UtilitariosProvider,
     private events: Events,
     private transacaoProvider: TransacaoProvider,
     public navParams: NavParams) {
-    this.idPessoa = this.navParams.get("idPessoa");
+    this.IdPessoa = this.navParams.get("idPessoa");
   }
 
   ionViewDidLoad() {
@@ -32,8 +32,8 @@ export class CodigoCupomPessoaPage {
       return;
     }
     this.utilitariosProvider.mostreAlertaCarregando("Gerando cupom, aguarde um instante");
-    if (this.idPessoa && this.idPessoa > 0) {
-      this.transacaoProvider.GereCupomCompartilhamento(this.idPessoa, this.codigo)
+    if (this.IdPessoa && this.IdPessoa !== this.utilitariosProvider.guid36Empty() ) {
+      this.transacaoProvider.GereCupomCompartilhamento(this.IdPessoa, this.codigo)
         .then((resultado: Cupom) => {
           resultado;
           this.events.publish("atualizar-obtenhaTransacoes");

@@ -1,7 +1,7 @@
 export class RetornoLogin {
     Token: string;
-    IdPessoa: number;
-    IdEmpresa: number;
+    IdPessoa: string;
+    IdEmpresa: string;
     AccessToken: string;
 }
 
@@ -26,8 +26,8 @@ export class Usuario {
     Login: string;
     Senha: string;
     IdUsuario: number;
-    IdPessoa: number;
-    IdEmpresa: number;
+    IdPessoa: string;
+    IdEmpresa: string;
     Token: string;
 }
 
@@ -35,7 +35,7 @@ export class Cupom {
     IdCupom: number;
     Token: string;
     Validade: Date;
-    IdPerfilEmpresa: number;
+    IdPerfilEmpresa: string;
     Data: Date;
     DataValidade: Date;
     Expirado:boolean;
@@ -44,8 +44,8 @@ export class Cupom {
 export class Venda {
     IdCupom: number;
     Valor: number;
-    IdPerfilEmpresa: number;
-    IdPessoa: number;
+    IdPerfilEmpresa: string;
+    IdPessoa: string;
     Data: Date;
 }
 
@@ -53,7 +53,7 @@ export class DTOCupomVenda {
     Cupom: Cupom;
     Venda: Venda;
     DescricaoPerfilEmpresa: string;
-    IdEmpresa: number;
+    IdEmpresa: string;
     NomePessoa: string;
     NomeEmpresa: string;
     Pontos: number;
@@ -61,11 +61,11 @@ export class DTOCupomVenda {
 
 export class VendaPessoa {
     Nome: string;
-    IdPessoa: number;
+    IdPessoa: string;
     IdVenda: number;
     Valor: number;
     IdCupom: number;
-    IdPerfilEmpresa: number;
+    IdPerfilEmpresa: string;
 }
 
 export class DTOCupom {

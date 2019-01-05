@@ -20,6 +20,12 @@ namespace ProjetoMarketing.Persistencia
         public ImagemDAO(PessoaEmpresaContext contexto)
         {
             _context = contexto;
+            if (_context.Database.CurrentTransaction != null)
+            {
+                _context.Database.CurrentTransaction.Commit();
+            }
+
+            _context.Database.BeginTransaction();
         }
 
         public void SaveImagemPerfilEmpresa(ImagemPerfil imagemPerfil, string container)
@@ -49,6 +55,11 @@ namespace ProjetoMarketing.Persistencia
 
         private void SaveImagem(byte[] imagem, string guidImagem, string containerName)
         {
+            if (imagem == null)
+            {
+                return;
+            }
+
             try
             {
                 Task.Factory.StartNew(() =>
@@ -65,7 +76,7 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
-        private void DeleteImagemCatalogoContainer(string guidImagem, string nomeContainer)
+        public void DeleteImagem(string guidImagem, string nomeContainer)
         {
             try
             {
@@ -83,6 +94,16 @@ namespace ProjetoMarketing.Persistencia
             }
         }
 
+        private void DeleteImagemCatalogoContainer(string guidImagem, string nomeContainer)
+        {
+            if (string.IsNullOrWhiteSpace(guidImagem))
+            {
+                return;
+            }
+
+            DeleteImagem(guidImagem, nomeContainer);
+        }
+
         public async Task<byte[]> ObtenhaImagem(long idImagem, string nomeContainer)
         {
             try
@@ -97,7 +118,7 @@ namespace ProjetoMarketing.Persistencia
 
                 return memStream.ToArray();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
@@ -114,7 +135,7 @@ namespace ProjetoMarketing.Persistencia
                     Entidade.Empresa.ImagemCatalogo imagem = new Entidade.Empresa.ImagemCatalogo()
                     {
                         IdPerfilEmpresa = idPerfilEmpresa,
-                        IdImagem = item.IdImagem
+                        IdImagem = Guid.NewGuid()
                     };
 
                     if (string.IsNullOrWhiteSpace(imagem.GuidImagem))
@@ -137,7 +158,7 @@ namespace ProjetoMarketing.Persistencia
                     _context.ImagemCatalogo.Remove(imagensSalvas.FirstOrDefault(a => a.GuidImagem == guid));
                 }
 
-               return _context.SaveChangesAsync();
+                return _context.SaveChangesAsync();
             }
             catch (System.Exception e)
             {

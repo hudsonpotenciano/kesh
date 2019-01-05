@@ -9,7 +9,6 @@ using ProjetoMarketing.Controllers;
 using ProjetoMarketing.Data;
 using ProjetoMarketing.Models;
 using ProjetoMarketing.Servicos;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,14 +39,17 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                 }
 
                 Entidade.Empresa.Empresa empresa = new Entidade.Empresa.Empresa();
+                Entidade.ImagemPerfil imagemPerfil = new Entidade.ImagemPerfil();
                 Entidade.Usuario usuario = new Entidade.Usuario();
                 Entidade.Empresa.PerfilEmpresa perfil = new Entidade.Empresa.PerfilEmpresa();
 
-                await new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa, out usuario, out perfil);
-                await new ImagemService(_context).AtualizeImagensCatalogo(model.Catalogo, perfil.IdPerfilEmpresa);
+                var resultado = await new EmpresaDAO(_context).AddEmpresaUsuario(model, out empresa, out usuario, out perfil, out imagemPerfil);
 
-                if (!usuario.IdUsuario.Equals(Guid.Empty))
+                if (resultado > 0)
                 {
+                    new ImagemService(_context).SaveImagemPerfilEmpresa(imagemPerfil);
+                    await new ImagemService(_context).AtualizeImagensCatalogo(model.Catalogo, perfil.IdPerfilEmpresa);
+
                     RetornoRequestModel retorno = new RetornoRequestModel
                     {
                         Result = Projecoes.ProjecaoRetornoCadastroUsuarioEmpresa(usuario, GenerateAcessToken(usuario.Login, signingConfigurations, tokenConfigurations))

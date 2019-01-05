@@ -3,10 +3,10 @@
     public class DTOVendaPessoa  
     {
         public string Nome { get; set; }
-        public int IdVenda { get; set; }
-        public int IdPessoa { get; set; }
+        public string IdVenda { get; set; }
+        public string IdPessoa { get; set; }
         public decimal Valor { get; set; }
-        public long IdCupom { get; set; }
-        public long IdPerfilEmpresa { get; set; }
+        public string IdCupom { get; set; }
+        public string IdPerfilEmpresa { get; set; }
     }
 }
