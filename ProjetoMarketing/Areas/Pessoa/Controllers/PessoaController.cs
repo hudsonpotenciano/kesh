@@ -191,19 +191,19 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             }
         }
 
-        [Authorize("Bearer")]
-        [HttpGet("AltereSenhaPessoa")]
-        public async Task<RetornoRequestModel> RecupereSenhaPessoa([FromBody] User parametros)
-        {
-            try
-            {
-                await new UsuarioService(_context).AltereSenha(parametros.NovaSenha, parametros.Token);
-                return RetornoRequestModel.CrieSucesso();
-            }
-            catch
-            {
-                return RetornoRequestModel.CrieFalha();
-            }
+        //[Authorize("Bearer")]
+        //[HttpGet("AltereSenhaPessoa")]
+        //public async Task<RetornoRequestModel> RecupereSenhaPessoa([FromBody] User parametros)
+        //{
+        //    try
+        //    {
+        //        await new UsuarioService(_context).AltereSenha(parametros.NovaSenha, parametros.Token);
+        //        return RetornoRequestModel.CrieSucesso();
+        //    }
+        //    catch
+        //    {
+        //        return RetornoRequestModel.CrieFalha();
+        //    }
         }
 
         //[Authorize("Bearer")]

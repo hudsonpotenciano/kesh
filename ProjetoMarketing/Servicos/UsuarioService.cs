@@ -19,5 +19,10 @@ namespace ProjetoMarketing.Servicos
         {
             return _objetoDeAcesso.AltereSenha(novaSenha, token);
         }
+
+        //public Task RecupereSenha(string login)
+        //{
+        //    return _objetoDeAcesso.AltereSenha(novaSenha, token);
+        //}
     }
 }
