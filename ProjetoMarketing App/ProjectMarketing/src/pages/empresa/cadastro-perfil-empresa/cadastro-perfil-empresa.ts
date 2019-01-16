@@ -44,6 +44,9 @@ export class CadastroPerfilEmpresaPage {
 
       this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
         this.perfil.Catalogo[this.perfil.Catalogo.length - 1].Imagem = imagem;
+        setTimeout(() => {
+          this.Slides.slideNext();
+        }, 1000);
       })
     };
 
@@ -54,20 +57,34 @@ export class CadastroPerfilEmpresaPage {
     this.fileInput.nativeElement.click();
   }
 
-  removaImagem(i: number) {
-    this.perfil.Catalogo.splice(i, 1);
+  removaImagem() {
+    this.perfil.Catalogo.splice(this.Slides.getActiveIndex(), 1);
     this.Slides.slidePrev();
+  }
+  
+  podeSalvar() {
+    if (!this.perfil.Descricao || this.perfil.Descricao.trim() == "") {
+      this.utilitarios.mostreToast("Informe a descrição");
+      return false;
+    }
+    
+    if (!this.perfil.Catalogo || this.perfil.Catalogo.length == 0) {
+      this.utilitarios.mostreToast("Adicione imagens ao catálogo");
+      return false;
+    }
+    return true;
   }
 
   salvar() {
+    if (!this.podeSalvar()) return;
 
-    if (this.perfil.IdPerfilEmpresa > 0) {
+    if (this.perfil.IdPerfilEmpresa && this.perfil.IdPerfilEmpresa != this.utilitarios.guid36Empty()) {
       this.empresaLojaProvider.atualizePerfilEmpresa(this.perfil)
         .then(() => {
           this.utilitarios.mostreToast("Perfil atualizado com sucesso");
           this.navCtrl.pop();
         })
-        .catch(()=>{
+        .catch(() => {
 
         });
     }
@@ -77,7 +94,7 @@ export class CadastroPerfilEmpresaPage {
           this.utilitarios.mostreToast("Perfil adicionado com sucesso");
           this.navCtrl.pop();
         })
-        .catch(()=>{
+        .catch(() => {
 
         });
     }

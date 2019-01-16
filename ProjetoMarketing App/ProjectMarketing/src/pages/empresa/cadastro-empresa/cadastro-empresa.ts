@@ -18,6 +18,9 @@ export class CadastroEmpresaPage {
   confirmacaoDaSenha: string = "";
   confirmacaoDaSenhaAdmin: string = "";
   profilePic = undefined;
+  posicao: string = "informacoes";
+  plano: string;
+  planos: string[] = ["Plano 1 - R$50", "Plano 2 - R$100", "Plano 3 - R$200"];
 
   @ViewChild('fileInput') fileInput;
   @ViewChild('fileInputCatalogo') fileInputCatalogo;
@@ -84,9 +87,7 @@ export class CadastroEmpresaPage {
     modal.present();
 
     modal.onDidDismiss((coodenadas) => {
-
-      if (!coodenadas) modal.present();
-
+      if (!coodenadas) return;
       this.empresa.Latitude = coodenadas.lat;
       this.empresa.Longitude = coodenadas.lng;
     });
@@ -125,6 +126,10 @@ export class CadastroEmpresaPage {
       this.utilitarios.mostreToast("Selecione uma imagem de logotipo");
       return false;
     }
+    if (!this.empresa.Catalogo || this.empresa.Catalogo.length == 0) {
+      this.utilitarios.mostreToast("Adicione imagens ao catálogo");
+      return false;
+    }
     return true;
   }
 
@@ -144,6 +149,10 @@ export class CadastroEmpresaPage {
 
       this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
         this.empresa.Catalogo[this.empresa.Catalogo.length - 1].Imagem = imagem;
+
+        setTimeout(() => {
+          this.Slides.slideNext();
+        }, 1000);
       })
     };
 
@@ -154,12 +163,32 @@ export class CadastroEmpresaPage {
     this.fileInputCatalogo.nativeElement.click();
   }
 
-  removaImagem(i: number) {
-    this.empresa.Catalogo.splice(i, 1);
+  removaImagem() {
+    this.empresa.Catalogo.splice(this.Slides.getActiveIndex(), 1);
     this.Slides.slidePrev();
   }
 
   voltar() {
-    this.navCtrl.pop();
+    if (this.posicao == 'informacoes') {
+      this.navCtrl.pop();
+    }
+    else if (this.posicao == 'pagamento') {
+      this.posicao = "informacoes";
+    }
+    else if (this.posicao == 'catalogo') {
+      this.posicao = "pagamento";
+    }
+  }
+
+  continuar() {
+    if (this.posicao == 'informacoes') {
+      this.posicao = 'pagamento';
+    }
+    else if (this.posicao == 'pagamento') {
+      this.posicao = "catalogo";
+    }
+    else if (this.posicao == 'catalogo') {
+      this.cadastre();
+    }
   }
 }

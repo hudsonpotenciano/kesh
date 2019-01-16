@@ -73,4 +73,9 @@ export class QrCodeScannerPage {
     (window.document.querySelector('ion-app') as HTMLElement).classList.remove('qrCodeView');
     (window.document.getElementById('home-container') as HTMLElement).style.display = "block";
   }
+
+  voltar(){
+    this.viewCtrl.dismiss();
+    this.removeVisibilidade();
+  }
 }

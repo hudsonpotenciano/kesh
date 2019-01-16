@@ -10,7 +10,7 @@ import { EnumeradorDeCacheStorageEmpresaLoja, Enumerador } from '../../models/en
 export class EmpresaLojaProvider {
 
   dadosAcesso: RetornoLogin;
-  idPerfilSelecionado: number;
+  idPerfilSelecionado: string;
 
   constructor(private storage: StorageProvider,
     private storageEmpresa: StorageEmpresaProvider,

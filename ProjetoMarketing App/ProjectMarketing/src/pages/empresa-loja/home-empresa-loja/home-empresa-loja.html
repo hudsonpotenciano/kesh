@@ -12,21 +12,25 @@
     </ion-refresher>
 
 
-    <ion-list no-lines>
-        <div class="item-customizado" *ngFor="let cupomevenda of cuponsVendas">
-            <ion-item>
-                <ion-avatar item-start>
-                    <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="obtenhaFotoPessoa(cupomevenda.Venda.IdPessoa)">
-                </ion-avatar>
-                <h2>{{cupomevenda.NomePessoa}}</h2>
-                <p class="venda-valor" item-end>
-                    <ion-icon name="logo-usd"></ion-icon>
-                    {{cupomevenda.Venda.Valor}}
-                </p>
-                <p>
-                    {{cupomevenda.Venda.Data | Data}}
-                </p>
-            </ion-item>
+    <ion-list no-lines *ngIf="!estaCarregando && cuponsVendasAgrupados.length > 0">
+        <div *ngFor="let cuponsEVendas of cuponsVendasAgrupados">
+            <ion-item-divider> {{cuponsEVendas[0].Cupom.DataValidade | Data}}
+            </ion-item-divider>
+            <div class="item-customizado" *ngFor="let cupomevenda of cuponsEVendas">
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" [src]="obtenhaFotoPessoa(cupomevenda.Venda.IdPessoa)">
+                    </ion-avatar>
+                    <h2>{{cupomevenda.NomePessoa}}</h2>
+                    <p class="venda-valor" item-end>
+                        <ion-icon name="logo-usd"></ion-icon>
+                        {{cupomevenda.Venda.Valor}}
+                    </p>
+                    <p>
+                        {{cupomevenda.Venda.Data | Data}}
+                    </p>
+                </ion-item>
+            </div>
         </div>
     </ion-list>
 
@@ -36,7 +40,6 @@
               </button>
     </ion-fab>
 
-    <lista-vazia *ngIf="!estaCarregando && cuponsVendas.length == 0">
+    <lista-vazia *ngIf="!estaCarregando && cuponsVendasAgrupados && cuponsVendasAgrupados.length == 0">
 
     </lista-vazia>
-</ion-content>

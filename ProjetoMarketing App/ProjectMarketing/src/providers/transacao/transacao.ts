@@ -63,7 +63,7 @@ export class TransacaoProvider {
 
   obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: string) {
 
-    return new Promise<VendaAdminLoja[]>(resolve => {
+    return new Promise<VendaAdminLoja[]>((resolve, reject) => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresaAdmin;
       if (this.estaEmCach(enumerador)) {
         resolve(this.storageTransacao.recupereCuponsEVendasEmpresaAdmin());
@@ -74,6 +74,10 @@ export class TransacaoProvider {
             resolve(retorno.Result);
             this.storageTransacao.armazeneCuponsEVendasEmpresaAdmin(retorno.Result);
             this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
+          })
+          .catch((retorno)=>{
+            retorno;
+            reject();
           });
       }
     });

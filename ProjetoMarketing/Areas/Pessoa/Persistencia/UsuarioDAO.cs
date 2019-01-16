@@ -15,27 +15,36 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
+        public Task AltereSenha(string novaSenha, string token)
+        {
+            Usuario usuario = _context.Usuario.First(u => u.Token == token);
+            string novoToken = Seguranca.GerarHashMd5(usuario.Login, novaSenha);
+            usuario.Token = novoToken;
+            _context.Usuario.Update(usuario);
+            return _context.SaveChangesAsync();
+        }
+
         public Usuario FindUsuarioPessoa(User usuario)
         {
-            var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+            string token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
             return _context.Usuario.FirstOrDefault(u => u.Token == token && !u.RedeSocial && u.IdPessoa != null);
         }
 
         public Usuario FindUsuarioPessoa(SocialUser usuario)
         {
-            var token = Seguranca.GerarHashMd5(usuario.Email, usuario.Id);
+            string token = Seguranca.GerarHashMd5(usuario.Email, usuario.Id);
             return _context.Usuario.FirstOrDefault(u => u.Token == token && u.RedeSocial && u.IdPessoa != null);
         }
 
         public Usuario FindUsuarioEmpresa(User usuario)
         {
-            var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+            string token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
             return _context.Usuario.FirstOrDefault(u => u.Token == token && u.IdEmpresa != null);
         }
 
         public Usuario FindUsuarioAdminEmpresa(User usuario)
         {
-            var token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+            string token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
             return _context.Usuario.FirstOrDefault(u => u.TokenEmpresaAdmin == token && u.IdEmpresa != null);
         }
 

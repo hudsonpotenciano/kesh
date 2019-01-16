@@ -98,7 +98,6 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
                 IdEmpresa = empresa.IdEmpresa,
                 Disponivel = true,
                 IdAdesao = Guid.NewGuid(),
-                LimiteDeVendas = Negocio.Adesao.LimiteInicialDeVendas,
                 UltimaAtualizacao = DateTime.Now
             };
 

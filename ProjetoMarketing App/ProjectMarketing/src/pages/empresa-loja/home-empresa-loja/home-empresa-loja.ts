@@ -17,7 +17,7 @@ import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios'
 export class HomeEmpresaLojaPage {
 
   dadosEmpresa: DadosEmpresaLoja;
-  cuponsVendas: DTOCupomVenda[];
+  cuponsVendasAgrupados: DTOCupomVenda[][] = [[]];
   estaCarregando = true;
 
   constructor(public navCtrl: NavController,
@@ -60,9 +60,14 @@ export class HomeEmpresaLojaPage {
   obtenhaCuponsEVendasComRefesh(refresh) {
     this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa, refresh !== undefined)
       .then((retorno: any) => {
-        this.cuponsVendas = retorno;
+        this.cuponsVendasAgrupados = this.utilitarios
+          .groupBy(retorno, function (item: DTOCupomVenda) {
+            return [new Date(item.Cupom.DataValidade).toLocaleDateString()]
+          }) as [DTOCupomVenda[]];
+
         if (refresh)
           refresh.complete();
+          
       }).catch(() => {
         if (refresh)
           refresh.complete();
@@ -72,7 +77,10 @@ export class HomeEmpresaLojaPage {
   obtenhaCuponsEVendas(desconsiderarCache: boolean = false) {
     this.transacaoProvider.obtenhaCuponsEVendasEmpresa(this.dadosEmpresa.Perfil.IdPerfilEmpresa, desconsiderarCache)
       .then((retorno: any) => {
-        this.cuponsVendas = retorno;
+        this.cuponsVendasAgrupados = this.utilitarios
+        .groupBy(retorno, function (item: DTOCupomVenda) {
+          return [new Date(item.Cupom.DataValidade).toLocaleDateString()]
+        }) as [DTOCupomVenda[]];
         this.utilitarios.removaAlertaCarregando();
         this.estaCarregando = false;
       }).catch(() => {

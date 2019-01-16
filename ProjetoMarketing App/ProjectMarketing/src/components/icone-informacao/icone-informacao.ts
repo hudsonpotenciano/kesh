@@ -12,10 +12,15 @@ export class IconeInformacao {
 
   @Input() id: string;
   dictionaryInfo: { id: string, chaveTraducao: string }[] = [{
-    id: 'CATEGORIA', chaveTraducao: "INFO-CATEGORIAS"
-  }, {
+    id: 'CATEGORIA',
+    chaveTraducao: "INFO-CATEGORIAS"
+  },{
     id: 'PONTOS',
     chaveTraducao: "INFO-PONTOS"
+  },
+  {
+    id: 'RESUMO',
+    chaveTraducao: "INFO-RESUMO"
   }];
 
   constructor(private utilitarioProvider: UtilitariosProvider,

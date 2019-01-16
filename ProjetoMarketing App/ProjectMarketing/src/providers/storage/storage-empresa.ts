@@ -13,11 +13,11 @@ export class StorageEmpresaProvider {
     constructor(private storage: StorageProvider) {
     }
 
-    armazeneIdPerfilEmpresa(value: number) {
+    armazeneIdPerfilEmpresa(value: string) {
         this.storage.armazene(this.ID_PERFIL_EMPRESA_SELECIONADO, value);
     }
 
-    recupereIdPerfilEmpresa(): number {
+    recupereIdPerfilEmpresa(): string {
         return this.storage.recupere(this.ID_PERFIL_EMPRESA_SELECIONADO);
     }
 

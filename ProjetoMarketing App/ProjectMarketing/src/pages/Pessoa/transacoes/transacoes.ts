@@ -5,7 +5,8 @@ import { PessoaProvider } from '../../../providers/pessoa/pessoa';
 import { TransacaoProvider } from '../../../providers/transacao/transacao';
 import { DTOCupomVenda } from '../../../models/models.model';
 import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios';
-
+import { EnumeradorDeCacheStoragePessoa } from '../../../models/enumeradores.model';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -24,6 +25,7 @@ export class TransacoesPage {
     private app: App,
     private events: Events,
     private popoverCtrl: PopoverController,
+    private storage: StorageProvider,
     private pessoaProvider: PessoaProvider,
     private utilitarios: UtilitariosProvider,
     private empresaProvider: EmpresaProvider) {
@@ -32,12 +34,21 @@ export class TransacoesPage {
     });
   }
 
+  ionViewDidLoad() {
+    setTimeout(() => {
+      if (sessionStorage.getItem("abriunotificacao") === "true") {
+        this.obtenhaTransacoes(undefined, true);
+        alert("notificacao");
+      }
+    }, 1000);
+  }
+
   ionViewDidEnter() {
     this.obtenhaTransacoes();
   }
 
-  obtenhaTransacoes(refresh?) {
-    this.transacaoProvider.obtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa, refresh !== undefined)
+  obtenhaTransacoes(refresh?, desconsiderarCache = false) {
+    this.transacaoProvider.obtenhaCuponsEVendasPessoa(this.pessoaProvider.dadosAcesso.IdPessoa, (refresh !== undefined || desconsiderarCache))
       .then((resultado: DTOCupomVenda[]) => {
         if (resultado)
           resultado.forEach(dto => {
@@ -54,7 +65,7 @@ export class TransacoesPage {
         this.estaCarregando = false;
       })
       .catch(() => {
-        
+
         if (refresh)
           refresh.complete();
       })
@@ -65,8 +76,9 @@ export class TransacoesPage {
     popover.present();
     popover.onDidDismiss(() => {
       this.obtenhaTransacoes(true);
-    })
-    // this.app.getRootNavs()[0].push("CupomPage", cupomVenda.Cupom);
+      var enumeradorDeCache = new EnumeradorDeCacheStoragePessoa().obtenhaDadosPessoaLojas;
+      this.storage.remova(enumeradorDeCache.Descricao);
+    });
   }
 
   obtenhaLogoEmpresa(idEmpresa: string) {

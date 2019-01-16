@@ -87,14 +87,20 @@ export class MyApp {
   initOneSignal() {
 
     this.oneSignal.startInit('ea436908-f1d4-41ad-aaaa-47c1cdba8a30', '744359904337');
-    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
 
     this.oneSignal.handleNotificationReceived().subscribe(() => {
       // do something when notification is received
     });
 
-    this.oneSignal.handleNotificationOpened().subscribe(() => {
-      // do something when a notification is opened
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      if (data.notification.payload) {
+        if (data.notification.payload.title.toLowerCase() === "cupom") {
+          sessionStorage.setItem("abriunotificacao", "true");
+        }
+      }
+    }, (error) => {
+      error;
     });
 
     this.oneSignal.endInit();

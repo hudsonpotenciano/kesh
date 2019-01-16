@@ -41,7 +41,7 @@ export class PerfilEmpresaLojaPage {
 
     modal.onDidDismiss((coodenadas) => {
 
-      if (!coodenadas) modal.present();
+      if (!coodenadas) return;
 
       this.dadosEmpresa.Perfil.Latitude = coodenadas.lat;
       this.dadosEmpresa.Perfil.Longitude = coodenadas.lng;
@@ -63,20 +63,22 @@ export class PerfilEmpresaLojaPage {
 
       this.utilitarios.getBase64Image((readerEvent.target as any).result, (imagem) => {
         this.imagensCatalogo[this.imagensCatalogo.length - 1].Imagem = imagem;
-        this.utilitarios.removaAlertaCarregando();
+        setTimeout(() => {
+          this.Slides.slideNext();
+          this.utilitarios.removaAlertaCarregando();
+        }, 2000);
       });
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  removaImagem(i: number) {
-    this.imagensCatalogo.splice(i, 1);
+  removaImagem() {
+    this.imagensCatalogo.splice(this.Slides.getActiveIndex(), 1);
     this.Slides.slidePrev();
   }
 
   salvar() {
-    debugger;
     let perfil: AtualizaPerfilModel = new AtualizaPerfilModel();
     perfil.Descricao = this.dadosEmpresa.Perfil.Descricao;
     perfil.Telefone = this.dadosEmpresa.Perfil.Telefone;
@@ -85,7 +87,6 @@ export class PerfilEmpresaLojaPage {
     perfil.Catalogo = this.imagensCatalogo;
     perfil.Latitude = this.dadosEmpresa.Perfil.Latitude;
     perfil.Longitude = this.dadosEmpresa.Perfil.Longitude;
-    debugger;
     this.utilitarios.mostreAlertaCarregando("Salvando dados da loja, aguarde um instante.");
     this.empresaLojaProvider.atualizePerfilEmpresa(perfil)
       .then(() => {

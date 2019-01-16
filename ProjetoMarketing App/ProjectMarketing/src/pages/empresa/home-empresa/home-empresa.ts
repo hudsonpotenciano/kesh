@@ -36,6 +36,7 @@ export class HomeEmpresaPage {
       .then((retorno: DadosEmpresaAdmin) => {
         this.dadosEmpresa = retorno;
         this.obtenhaCuponsEVendasEmpresaAdmin();
+        alert("terminou 1");
       }).catch(() => {
         this.vendasAdminLoja = [];
         this.utilitarios.removaAlertaCarregando();
@@ -47,6 +48,7 @@ export class HomeEmpresaPage {
       .then((retorno: VendaAdminLoja[]) => {
         this.vendasAdminLoja = retorno;
         this.estaCarregando = false;
+        alert("terminou 2");
         this.utilitarios.removaAlertaCarregando();
       }).catch(() => {
         this.vendasAdminLoja = [];

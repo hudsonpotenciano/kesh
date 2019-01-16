@@ -161,27 +161,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             return retorno;
         }
 
-        //[Authorize("Bearer")]
-        //[HttpPost("ObtenhaPessoaParaCompartilhamento")]
-        //public async Task<RetornoRequestModel> ObtenhaPessoaParaCompartilhamento([FromBody]ParametrosObtenhaPessoasCompartilhamento parametros)
-        //{
-        //    try
-        //    {
-        //        var pessoas = await new PessoaDAO(_context).ObtenhaPessoasCompartilhamento(parametros);
-
-        //        RetornoRequestModel retorno = new RetornoRequestModel
-        //        {
-        //            Result = Projecoes.PessoasCompartilhamento(pessoas)
-        //        };
-
-        //        return retorno;
-        //    }
-        //    catch (System.Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
-
         [Authorize("Bearer")]
         [HttpPost("AtualizeDadosPessoaEmpresa")]
         public async Task<RetornoRequestModel> AtualizeDadosPessoaEmpresa([FromBody]ParametrosAtualizeDadosPessoaEmpresa parametros)
@@ -189,6 +168,36 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
             try
             {
                 await new PessoaDAO(_context).AddOrUpdatePessoaEmpresa(parametros);
+                return RetornoRequestModel.CrieSucesso();
+            }
+            catch
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
+        }
+
+        [Authorize("Bearer")]
+        [HttpGet("AltereSenhaPessoa")]
+        public async Task<RetornoRequestModel> AltereSenhaPessoa([FromBody] ParametrosAlteracaoDeSenha parametros)
+        {
+            try
+            {
+                await new UsuarioService(_context).AltereSenha(parametros.NovaSenha, parametros.Token);
+                return RetornoRequestModel.CrieSucesso();
+            }
+            catch
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
+        }
+
+        [Authorize("Bearer")]
+        [HttpGet("AltereSenhaPessoa")]
+        public async Task<RetornoRequestModel> RecupereSenhaPessoa([FromBody] User parametros)
+        {
+            try
+            {
+                await new UsuarioService(_context).AltereSenha(parametros.NovaSenha, parametros.Token);
                 return RetornoRequestModel.CrieSucesso();
             }
             catch

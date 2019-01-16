@@ -80,6 +80,13 @@ export class CadastroEmpresaModel {
     Longitude: number;
     Categoria: number;
     Catalogo: ImagemCatalogo[];
+    NomeNoCartao: string;
+    NumeroDoCartao: number;
+    ValidadeDoCartao: Date;
+    CodigoDeVerificacaoDoCartao: number;
+    constructor() {
+        this.ValidadeDoCartao = new Date();
+    }
 }
 
 export class DadosEmpresaLoja {

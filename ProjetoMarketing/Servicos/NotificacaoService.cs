@@ -25,12 +25,12 @@ namespace ProjetoMarketing.Servicos
                     pessoa.IdsNotificacao != null &&
                     pessoa.IdsNotificacao.Count > 0)
                 {
-                    EnvieNotificacao(pessoa.IdsNotificacao, $"Heeey, você acabou de receber um cupom de {pessoa.Nome} para usar no {perfilEmpresa.Descricao} 🎁");
+                    EnvieNotificacao(pessoa.IdsNotificacao, $"Heeey, você acabou de receber um cupom de {pessoa.Nome} para usar em {perfilEmpresa.Descricao} 🎁","cupom");
                 }
             });
         }
 
-        private void EnvieNotificacao(List<string> playersIds, string Mensagem)
+        private void EnvieNotificacao(List<string> playersIds, string Mensagem,string titulo)
         {
             HttpWebRequest request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
 
@@ -44,6 +44,7 @@ namespace ProjetoMarketing.Servicos
             {
                 app_id = "ea436908-f1d4-41ad-aaaa-47c1cdba8a30",
                 contents = new { en = Mensagem },
+                title = titulo,
                 include_player_ids = playersIds
             };
 

@@ -1,5 +1,7 @@
-﻿using ProjetoMarketing.Areas.Pessoa.Persistencia;
+﻿using ProjetoMarketing.Areas.Pessoa.Models;
+using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Contexts;
+using System.Threading.Tasks;
 
 namespace ProjetoMarketing.Areas.Pessoa.Servicos
 {

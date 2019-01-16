@@ -26,12 +26,12 @@ export class CarteiraPessoaPage {
     this.pessoasEmpresas = this.storagePessoa.recupereDadosPessoaEmpresas();
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     this.obtenhaDados();
   }
 
   obtenhaDados(refresh = undefined) {
-    this.pessoaProvider.obtenhaDadosPessoaLojas()
+    this.pessoaProvider.obtenhaDadosPessoaLojas(refresh !== undefined)
       .then((resultado: any) => {
         this.pessoaLojas = resultado;
         this.pessoaLojas.sort(a => a.Pontos);
@@ -42,7 +42,7 @@ export class CarteiraPessoaPage {
       .catch((retorno) => {
         retorno;
         if (refresh)
-        refresh.complete();
+          refresh.complete();
       });
   }
 
