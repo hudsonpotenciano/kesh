@@ -40,8 +40,8 @@ export class ConfiguracoesPessoaPage {
 
   }
 
-  sincronize(){
-    
+  sincronize() {
+
     this.storage.limpeParaSincronizar();
     this.splashScreen.show();
     setTimeout(() => {
@@ -56,7 +56,7 @@ export class ConfiguracoesPessoaPage {
 
   sair() {
 
-    if(!navigator.onLine){
+    if (!navigator.onLine) {
       this.utilitarios.mostreMensagemErro("Conecte-se à internet para sair");
       return;
     }
@@ -71,11 +71,15 @@ export class ConfiguracoesPessoaPage {
 
   saia() {
     this.pessoaProvider.desloguePessoa();
-    this.app.getRootNavs()[0].setRoot("IntroducaoPage");
+    this.app.getRootNavs()[0].setRoot("TutorialPessoaPage");
     this.storage.limpeTudo();
     this.splashScreen.show();
     setTimeout(() => {
       window.location.reload(true);
     }, 500);
+  }
+
+  abraAlteracaoDeSenha() {
+    this.app.getRootNavs()[0].push("AlterarSenhaPessoaPage");
   }
 }

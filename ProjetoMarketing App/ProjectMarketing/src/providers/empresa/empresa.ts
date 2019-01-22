@@ -51,9 +51,6 @@ export class EmpresaProvider {
   }
 
   obtenhaDadosEmpresaAdmin() {
-
-    this.utilitarios.mostreAlertaCarregando("")
-
     var enumeradorDeCache = new EnumeradorDeCacheStorageEmpresa().obtenhaDadosEmpresaAdmin;
     if (this.estaEmCach(enumeradorDeCache)) {
       return new Promise<DadosEmpresaAdmin>(resolve => {
@@ -151,6 +148,22 @@ export class EmpresaProvider {
     })
     .catch(()=>{
 
+    });
+  }
+
+  AltereSenhaEmpresa(novaSenha: string, confirmacao: string) {
+    return new Promise((resolve, reject) => {
+      this.comunicacao.post("Empresa/Empresa/AltereSenhaEmpresa",
+        { NovaSenha: novaSenha, Confirmacao: confirmacao })
+        .then((retorno: RetornoRequestModel) => {
+          var dadosAcesso = this.storage.recupereDadosAcesso();
+          dadosAcesso.Token = retorno.Result;
+          this.storage.armazeneDadosAcesso(dadosAcesso);
+          resolve();
+        })
+        .catch(() => {
+          reject();
+        });
     });
   }
 

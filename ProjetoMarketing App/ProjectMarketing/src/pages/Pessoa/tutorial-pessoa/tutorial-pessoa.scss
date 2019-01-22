@@ -1,0 +1,35 @@
+page-tutorial-pessoa {
+    background-color: $tema !important;
+    ion-slide {
+        background-color: $tema !important;
+        color: $light !important;
+        h3 {
+            padding-right: 20px;
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+        p {
+            padding-right: 20px;
+            padding-left: 20px;
+            margin-top: 0px;
+        }
+        img {
+            margin: 0 auto;
+            display: block;
+            max-height: 150px !important;
+        }
+    }
+    #selecao-tipo {
+        height: 100vh;
+        button {
+            height: 50%;
+            width: 100%;
+            h1 {
+                color: white;
+            }
+            img {
+                height: 100px;
+            }
+        }
+    }
+}

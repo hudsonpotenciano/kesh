@@ -27,7 +27,7 @@ export class LoginPessoaPage {
 
   ionViewDidLoad() {
     this.usuario.Login = "hudsonpot@gmail.com";
-    this.usuario.Senha = "123456";
+    this.usuario.Senha = "123123";
   }
 
   loginFacebook() {
@@ -81,6 +81,6 @@ export class LoginPessoaPage {
   }
 
   voltar() {
-    this.navCtrl.setRoot("IntroducaoPage");
+    this.navCtrl.setRoot("TutorialPessoaPage");
   }
 }

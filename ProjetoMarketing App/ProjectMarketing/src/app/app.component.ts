@@ -76,11 +76,11 @@ export class MyApp {
         this.rootPage = this.TabsPessoaPage;
       }
       else {
-        this.rootPage = "IntroducaoPage";
+        this.rootPage = "TutorialPessoaPage";
       }
     }
     else {
-      this.rootPage = "IntroducaoPage";
+      this.rootPage = "TutorialPessoaPage";
     }
   }
 

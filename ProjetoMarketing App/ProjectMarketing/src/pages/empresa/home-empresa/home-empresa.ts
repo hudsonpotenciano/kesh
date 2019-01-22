@@ -14,13 +14,13 @@ import { UtilitariosProvider } from '../../../providers/utilitarios/utilitarios'
 export class HomeEmpresaPage {
 
   dadosEmpresa: DadosEmpresaAdmin;
-  vendasAdminLoja: VendaAdminLoja[];
+  vendasAgrupadasAdminLoja: VendaAdminLoja[][] = [[]];
   estaCarregando = true;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private utilitarios:UtilitariosProvider,
+    private utilitarios: UtilitariosProvider,
     public empresaProvider: EmpresaProvider,
     public empresaLojaProvider: EmpresaLojaProvider,
     public transacaoProvider: TransacaoProvider) {
@@ -36,23 +36,34 @@ export class HomeEmpresaPage {
       .then((retorno: DadosEmpresaAdmin) => {
         this.dadosEmpresa = retorno;
         this.obtenhaCuponsEVendasEmpresaAdmin();
-        alert("terminou 1");
+       
+        this.vendasAgrupadasAdminLoja = this.utilitarios
+        .groupBy(retorno, function (item: VendaAdminLoja) {
+          return [new Date(item.Venda.Data).toLocaleDateString()]
+        }) as [VendaAdminLoja[]];
+
       }).catch(() => {
-        this.vendasAdminLoja = [];
         this.utilitarios.removaAlertaCarregando();
       });
   }
 
-  obtenhaCuponsEVendasEmpresaAdmin() {
-    this.transacaoProvider.obtenhaCuponsEVendasEmpresaAdmin(this.dadosEmpresa.Empresa.IdEmpresa)
+  obtenhaCuponsEVendasEmpresaAdmin(refresh = undefined) {
+    this.transacaoProvider.obtenhaCuponsEVendasEmpresaAdmin(this.dadosEmpresa.Empresa.IdEmpresa, refresh !== undefined)
       .then((retorno: VendaAdminLoja[]) => {
-        this.vendasAdminLoja = retorno;
+        
+        this.vendasAgrupadasAdminLoja = this.utilitarios
+        .groupBy(retorno, function (item: VendaAdminLoja) {
+          return [new Date(item.Venda.Data).toLocaleDateString()]
+        }) as [VendaAdminLoja[]];
+
         this.estaCarregando = false;
-        alert("terminou 2");
         this.utilitarios.removaAlertaCarregando();
+        if (refresh)
+          refresh.complete();
       }).catch(() => {
-        this.vendasAdminLoja = [];
         this.utilitarios.removaAlertaCarregando();
+        if (refresh)
+          refresh.complete();
       });
   }
 

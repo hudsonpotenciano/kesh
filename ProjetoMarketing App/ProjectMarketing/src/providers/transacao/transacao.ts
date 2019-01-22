@@ -61,11 +61,11 @@ export class TransacaoProvider {
     });
   }
 
-  obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: string) {
+  obtenhaCuponsEVendasEmpresaAdmin(IdEmpresa: string, desconsiderarCache: boolean = false) {
 
     return new Promise<VendaAdminLoja[]>((resolve, reject) => {
       var enumerador = new EnumeradorDeCacheStorageTransacoes().obtenhaCuponsEVendasEmpresaAdmin;
-      if (this.estaEmCach(enumerador)) {
+      if (!desconsiderarCache && this.estaEmCach(enumerador)) {
         resolve(this.storageTransacao.recupereCuponsEVendasEmpresaAdmin());
       }
       else {
@@ -75,7 +75,7 @@ export class TransacaoProvider {
             this.storageTransacao.armazeneCuponsEVendasEmpresaAdmin(retorno.Result);
             this.storageProvider.armazene(enumerador.Descricao, new Date().getTime());
           })
-          .catch((retorno)=>{
+          .catch((retorno) => {
             retorno;
             reject();
           });

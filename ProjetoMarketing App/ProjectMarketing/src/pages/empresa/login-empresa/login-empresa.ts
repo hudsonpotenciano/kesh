@@ -30,7 +30,7 @@ export class LoginEmpresaPage {
     private utilitarios: UtilitariosProvider,
     private storageEmpresa: StorageEmpresaProvider) {
 
-    this.usuario.Login = "teste2@gmail.com";
+    this.usuario.Login = "kesh@gmail.com";
     this.usuario.Senha = "123456";
 
   }
@@ -79,7 +79,7 @@ export class LoginEmpresaPage {
 
   voltar() {
     var index = this.views.indexOf(this.viewAtual);
-    if (this.viewAtual == this.views[0]) this.navCtrl.setRoot("IntroducaoPage");
+    if (this.viewAtual == this.views[0]) this.navCtrl.setRoot("TutorialPessoaPage");
     else if (index <= (this.views.length - 1)) {
       this.viewAtual = this.views[index - 1];
     }

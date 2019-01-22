@@ -7,20 +7,28 @@
 </ion-header>
 
 <ion-content>
+
+    <ion-refresher (ionRefresh)="obtenhaCuponsEVendasEmpresaAdmin($event)">
+        <ion-refresher-content pullingIcon="refresh" pullingText="" refreshingSpinner="circles" refreshingText=""></ion-refresher-content>
+    </ion-refresher>
+
     <ion-list no-lines *ngIf="!estaCarregando">
-        <div class="item-customizado" *ngFor="let item of vendasAdminLoja">
-            <ion-item>
-                <h2>{{item.NomeLoja}}</h2>
-                <p>{{item.Venda.Data | Data}}</p>
-                <p class="venda-valor" item-end>
-                    <ion-icon name="logo-usd"></ion-icon>
-                    {{item.Venda.Valor}}
-                </p>
-            </ion-item>
+        <div *ngFor="let vendas of vendasAgrupadasAdminLoja">
+            <ion-item-divider> {{vendas[0].Venda.Data | Data}}
+            </ion-item-divider>
+            <div class="item-customizado" *ngFor="let item of vendas">
+                <ion-item>
+                    <h2>{{item.NomeLoja}}</h2>
+                    <p><i class="fas fa-clock" style="margin-right: 5px"></i>{{item.Venda.Data | Time}}</p>
+                    <p class="venda-valor" item-end>
+                        <ion-icon name="logo-usd"></ion-icon>
+                        {{item.Venda.Valor}}
+                    </p>
+                </ion-item>
+            </div>
         </div>
     </ion-list>
 
     <lista-vazia *ngIf="!estaCarregando && vendasAdminLoja && (vendasAdminLoja.length == 0)">
-
     </lista-vazia>
 </ion-content>

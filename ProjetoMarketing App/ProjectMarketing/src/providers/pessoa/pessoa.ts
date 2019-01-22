@@ -190,12 +190,12 @@ export class PessoaProvider {
   desloguePessoa() {
     var dadosAcesso = this.storage.recupereDadosAcesso();
     this.comunicacao.post("pessoa/login/DesloguePessoa", { IdNotificao: this.storage.recupereIdNotificacao(), IdPerfilEmpresa: 0, IdPessoa: dadosAcesso.IdPessoa })
-    .then(()=>{
+      .then(() => {
 
-    })
-    .catch(()=>{
+      })
+      .catch(() => {
 
-    });
+      });
   }
 
   realizeLoginRedeSocial(usuario: SocialUser) {
@@ -256,6 +256,22 @@ export class PessoaProvider {
             this.utilitariosProvider.mostreMensagemErro("Este email já está cadastrado, tente utilizar outro ou realize o login");
             reject(resposta);
           };
+        });
+    });
+  }
+
+  AltereSenhaPessoa(novaSenha: string, confirmacao: string) {
+    return new Promise((resolve, reject) => {
+      this.comunicacao.post("Pessoa/Pessoa/AltereSenhaPessoa",
+        { NovaSenha: novaSenha, Confirmacao: confirmacao })
+        .then((retorno: RetornoRequestModel) => {
+          var dadosAcesso = this.storage.recupereDadosAcesso();
+          dadosAcesso.Token = retorno.Result;
+          this.storage.armazeneDadosAcesso(dadosAcesso);
+          resolve();
+        })
+        .catch(() => {
+          reject();
         });
     });
   }

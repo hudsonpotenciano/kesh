@@ -15,18 +15,24 @@ namespace ProjetoMarketing.Areas.Pessoa.Persistencia
             _context = context;
         }
 
-        public Task AltereSenha(string novaSenha, string token)
+        public string AltereSenha(string novaSenha, string token)
         {
             Usuario usuario = _context.Usuario.First(u => u.Token == token);
             string novoToken = Seguranca.GerarHashMd5(usuario.Login, novaSenha);
             usuario.Token = novoToken;
             _context.Usuario.Update(usuario);
-            return _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return novoToken;
         }
 
         public Usuario FindUsuarioPessoa(User usuario)
         {
             string token = Seguranca.GerarHashMd5(usuario.Login, usuario.Senha);
+            return _context.Usuario.FirstOrDefault(u => u.Token == token && !u.RedeSocial && u.IdPessoa != null);
+        }
+
+        public Usuario FindUsuarioPessoa(string token)
+        {
             return _context.Usuario.FirstOrDefault(u => u.Token == token && !u.RedeSocial && u.IdPessoa != null);
         }
 

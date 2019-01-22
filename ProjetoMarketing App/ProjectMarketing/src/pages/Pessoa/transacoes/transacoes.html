@@ -37,7 +37,7 @@
                     </p>
 
                     <p item-end class="danger" *ngIf="!cupomVenda.Venda && cupomVenda.Cupom.Expirado">
-                        Expirado
+                        <i class="fas fa-clock" style="margin-right:5px"></i>Expirado
                     </p>
 
                     <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">
@@ -53,7 +53,8 @@
     </carregando>
 
     <ion-fab bottom right>
-        <button ion-fab (click)="abraGeracaoDeCupomViaCodigo()"> <ion-icon name="contacts"></ion-icon>
+        <button ion-fab (click)="abraGeracaoDeCupomViaCodigo()">
+                <i class="fas fa-qrcode"></i>
         </button>
     </ion-fab>
 </ion-content>

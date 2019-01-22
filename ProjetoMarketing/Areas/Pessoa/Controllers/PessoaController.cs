@@ -177,45 +177,25 @@ namespace ProjetoMarketing.Areas.Pessoa.Controllers
         }
 
         [Authorize("Bearer")]
-        [HttpGet("AltereSenhaPessoa")]
-        public async Task<RetornoRequestModel> AltereSenhaPessoa([FromBody] ParametrosAlteracaoDeSenha parametros)
+        [HttpPost("AltereSenhaPessoa")]
+        public RetornoRequestModel AltereSenhaPessoa([FromBody] ParametrosAlteracaoDeSenha parametros)
         {
             try
             {
-                await new UsuarioService(_context).AltereSenha(parametros.NovaSenha, parametros.Token);
-                return RetornoRequestModel.CrieSucesso();
+                if (string.IsNullOrWhiteSpace(parametros.NovaSenha))
+                {
+                    return RetornoRequestModel.CrieFalha();
+                }
+
+                RetornoRequestModel retorno = RetornoRequestModel.CrieSucesso();
+                string novoToken = new UsuarioService(_context).AltereSenha(parametros, parametros.Token);
+                retorno.Result = novoToken;
+                return retorno;
             }
             catch
             {
                 return RetornoRequestModel.CrieFalha();
             }
         }
-
-        //[Authorize("Bearer")]
-        //[HttpGet("AltereSenhaPessoa")]
-        //public async Task<RetornoRequestModel> RecupereSenhaPessoa([FromBody] User parametros)
-        //{
-        //    try
-        //    {
-        //        await new UsuarioService(_context).AltereSenha(parametros.NovaSenha, parametros.Token);
-        //        return RetornoRequestModel.CrieSucesso();
-        //    }
-        //    catch
-        //    {
-        //        return RetornoRequestModel.CrieFalha();
-        //    }
-        }
-
-        //[Authorize("Bearer")]
-        //[HttpGet("AtualizeFotoPessoa")]
-        //public async Task<RetornoRequestModel> AtualizeFotoPessoa([FromBody] ParametrosAtualizeFoto parametros)
-        //{
-        //    if (!EstaAutenticado(_contextUsuario, parametros.Token))
-        //        return RetornoRequestModel.CrieFalhaLogin();
-
-        //    await new PessoaDAO(_context).UpdateImagemPerfil(parametros);
-
-        //    return RetornoRequestModel.CrieSucesso();
-        //}
     }
 }

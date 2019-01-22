@@ -1,5 +1,5 @@
 <ion-content>
-    <ion-slides *ngIf="empresa" color="tema" autoplay="4000" speed="2000" effect="slide" loop="true" paginationType="fraction" pager="true">
+    <ion-slides *ngIf="empresa" color="tema" autoplay="4000" effect="slide" loop="true" paginationType="fraction" pager="true">
         <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo">
             <img class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
         </ion-slide>
@@ -12,7 +12,7 @@
     </ion-fab>
     <ion-fab right bottom>
         <button color="primary" ion-fab [disabled]="!compartilharHabilitado" (click)="compartilhe()">
-                     <ion-icon name="contacts"></ion-icon>
+                <i class="fas fa-user-friends"></i>
                       </button>
     </ion-fab>
 </ion-content>

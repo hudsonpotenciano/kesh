@@ -14,6 +14,19 @@ export class Data implements PipeTransform {
   }
 }
 
+
+@Pipe({
+  name: 'Time',
+})
+export class Time implements PipeTransform {
+
+  transform(data: string) {
+    var storage = new StorageProvider();
+    if (data)
+      return new Date(data).toLocaleTimeString(storage.recupereCultura());
+  }
+}
+
 @Pipe({
   name: 'SplitPrimeiro',
 })

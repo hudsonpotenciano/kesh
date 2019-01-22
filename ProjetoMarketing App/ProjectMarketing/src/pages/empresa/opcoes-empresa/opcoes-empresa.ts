@@ -45,9 +45,13 @@ export class OpcoesEmpresaPage {
   saia() {
     this.storage.limpeTudo();
     this.splashScreen.show();
-    this.app.getRootNavs()[0].setRoot("IntroducaoPage");
+    this.app.getRootNavs()[0].setRoot("TutorialPessoaPage");
     setTimeout(() => {
       window.location.reload(true);
     }, 500);
+  }
+
+  abraAlteracaoDeSenha() {
+    this.app.getRootNavs()[0].push("AlterarSenhaPessoaPage");
   }
 }

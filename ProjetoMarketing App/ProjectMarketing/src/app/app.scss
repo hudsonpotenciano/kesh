@@ -25,10 +25,12 @@ p {
 
 .warning {
     color: $tema;
+    font-weight: 500;
 }
 
 .danger {
     color: $danger !important;
+    font-weight: 500;
 }
 
 .header::after {
@@ -46,11 +48,15 @@ p {
 
 .back-button,
 .toolbar-title,
-.toolbar ion-icon {
+.toolbar ion-icon,
+button .fas {
     color: $light !important;
 }
 
 .card-custom {
+    &.full {
+        height: 89vh !important;
+    }
     .list {
         margin: 0;
     }
@@ -172,10 +178,11 @@ ion-icon {
 }
 
 .botao {
+    color: $light;
     margin: 10px auto;
     &.facebook {
         background-color: #3b5998;
-        color: white;
+        color: $light;
         ion-icon {
             margin-right: 10px;
         }
@@ -289,3 +296,24 @@ ion-header {
     padding: 2px;
     object-fit: cover;
 }
+
+ion-fab {
+    .fas {
+        font-size: 3rem;
+    }
+}
+
+// ion-icon {
+//     &[class*="icone-"] {
+//         mask-size: contain;
+//         mask-position: 50% 50%;
+//         mask-repeat: no-repeat;
+//         background: currentColor;
+//         width: 1em;
+//         height: 1em;
+//     }
+//     // custom icons
+//     &[class*="icone-kesh"] {
+//         mask-image: url(../assets/db-icons/search-primary.svg);
+//     }
+// }

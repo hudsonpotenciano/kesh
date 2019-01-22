@@ -155,7 +155,7 @@
             </ion-row>
             <input type="file" #fileInputCatalogo style="display: none;" accept="image/*" (change)="aoEscolherImagem($event)">
             <ion-slides #slides pager="true">
-                <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo;let i = index" autoplay="4000" speed="2000" effect="slide" loop="true" paginationType="fraction" pager="true">
+                <ion-slide *ngFor="let imagemCatalogo of empresa.Catalogo;let i = index" autoplay="4000" effect="slide" loop="true" paginationType="fraction" pager="true">
                     <img *ngIf="!imagemCatalogo.Imagem" class="imagem-catalogo" [src]="empresaLojaProvider.obtenhaImagemCatalogo(imagemCatalogo.GuidImagem)" alt="">
                     <img *ngIf="imagemCatalogo.Imagem" class="imagem-catalogo" [src]="sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + imagemCatalogo.Imagem)" alt="">
                 </ion-slide>

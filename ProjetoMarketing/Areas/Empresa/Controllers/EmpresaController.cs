@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjetoMarketing.Areas.Empresa.Models;
 using ProjetoMarketing.Areas.Empresa.Persistencia;
 using ProjetoMarketing.Areas.Empresa.Servicos;
+using ProjetoMarketing.Areas.Pessoa.Models;
 using ProjetoMarketing.Autentication;
 using ProjetoMarketing.Contexts;
 using ProjetoMarketing.Controllers;
@@ -138,6 +139,28 @@ namespace ProjetoMarketing.Areas.Empresa.Controllers
                 }
 
                 return RetornoRequestModel.CrieSucesso();
+            }
+            catch
+            {
+                return RetornoRequestModel.CrieFalha();
+            }
+        }
+
+        [Authorize("Bearer")]
+        [HttpPost("AltereSenhaEmpresa")]
+        public RetornoRequestModel AltereSenhaEmpresa([FromBody] ParametrosAlteracaoDeSenha parametros)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(parametros.NovaSenha))
+                {
+                    return RetornoRequestModel.CrieFalha();
+                }
+
+                RetornoRequestModel retorno = RetornoRequestModel.CrieSucesso();
+                string novoToken = new UsuarioService(_context).AltereSenha(parametros, parametros.Token);
+                retorno.Result = novoToken;
+                return retorno;
             }
             catch
             {

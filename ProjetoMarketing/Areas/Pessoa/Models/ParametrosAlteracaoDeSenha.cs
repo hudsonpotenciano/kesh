@@ -5,5 +5,6 @@ namespace ProjetoMarketing.Areas.Pessoa.Models
     public class ParametrosAlteracaoDeSenha : ParametrosRequestModel
     {
         public string NovaSenha { get; set; }
+        public string Confirmacao { get; set; }
     }
 }

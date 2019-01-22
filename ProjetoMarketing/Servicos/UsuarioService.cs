@@ -1,6 +1,7 @@
-﻿using ProjetoMarketing.Areas.Pessoa.Persistencia;
+﻿using ProjetoMarketing.Areas.Pessoa.Models;
+using ProjetoMarketing.Areas.Pessoa.Persistencia;
 using ProjetoMarketing.Contexts;
-using System.Threading.Tasks;
+using ProjetoMarketing.Entidade;
 
 namespace ProjetoMarketing.Servicos
 {
@@ -15,14 +16,9 @@ namespace ProjetoMarketing.Servicos
             _objetoDeAcesso = new UsuarioDAO(contexto);
         }
 
-        public Task AltereSenha(string novaSenha, string token)
+        public string AltereSenha(ParametrosAlteracaoDeSenha parametros, string token)
         {
-            return _objetoDeAcesso.AltereSenha(novaSenha, token);
+            return _objetoDeAcesso.AltereSenha(parametros.NovaSenha, token);
         }
-
-        //public Task RecupereSenha(string login)
-        //{
-        //    return _objetoDeAcesso.AltereSenha(novaSenha, token);
-        //}
     }
 }

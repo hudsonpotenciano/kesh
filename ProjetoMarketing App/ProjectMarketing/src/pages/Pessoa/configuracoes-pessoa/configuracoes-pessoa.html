@@ -21,6 +21,13 @@
                     </button>
         </div> -->
         <div class="item-customizado">
+            <button ion-item (click)="abraAlteracaoDeSenha() ">
+                                    <ion-icon color="tema" item-start name="lock"></ion-icon>
+                                    <h2>Alterar senha</h2>
+                                    <p>Mudar senha de acesso</p>
+                                </button>
+        </div>
+        <div class="item-customizado">
             <button ion-item (click)="compartilhe()">
                 <ion-icon color="tema" item-start name="share"></ion-icon>
                 <h2>
@@ -53,12 +60,7 @@
                         </p>
                     </button>
         </div>
-        <div class="item-customizado">
-            <button ion-item (click)="mudarSenha() ">
-                                <ion-icon color="tema" item-start name="lock"></ion-icon>
-                                <h2>Alterar senha</h2>
-                            </button>
-        </div>
+
         <div class="item-customizado">
             <button ion-item (click)="sair()">
                             <ion-icon color="tema" item-start name="power"></ion-icon>

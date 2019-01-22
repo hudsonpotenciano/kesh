@@ -1,0 +1,31 @@
+<ion-content>
+    <div class="card-custom full" padding>
+        <ion-list>
+            <p class="titulo">Alteração de senha</p>
+            <ion-item>
+                <ion-label floating>
+                    Nova senha
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="novasenha"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>
+                    Confirme a senha
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="confirmacao"></ion-input>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
+
+<ion-footer>
+    <ion-row class="footer-botoes">
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="voltar()">Voltar</button>
+        </ion-col>
+        <ion-col text-center>
+            <button color="tema" no-lines ion-item (click)="altereSenha()">Alterar</button>
+        </ion-col>
+    </ion-row>
+</ion-footer>
