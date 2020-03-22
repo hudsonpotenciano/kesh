@@ -24,13 +24,16 @@ p {
 }
 
 .warning {
-    color: $tema;
-    font-weight: 500;
+    color: rgb(253, 219, 28) !important;
 }
 
 .danger {
     color: $danger !important;
-    font-weight: 500;
+}
+
+.danger,
+.warning {
+    font-weight: 500 !important;
 }
 
 .header::after {
@@ -285,7 +288,19 @@ ion-header {
     border-color: $light !important;
 }
 
-.avatar-header {
+.title-ios .avatar-header {
+    background-color: white;
+    border-radius: 100%;
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    right: 5px;
+    top: 2px;
+    padding: 2px;
+    object-fit: cover;
+}
+
+.title-md .avatar-header {
     background-color: white;
     border-radius: 100%;
     position: absolute;

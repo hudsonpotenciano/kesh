@@ -5,6 +5,10 @@
     <UserSecretsId>91939a36-152c-4c68-8564-12d9aad7ecd3</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Negocio\Enumeradores\Enumerador.cs" />
     <Compile Remove="Negocio\Enumeradores\EnumeradorDeCategoria.cs" />

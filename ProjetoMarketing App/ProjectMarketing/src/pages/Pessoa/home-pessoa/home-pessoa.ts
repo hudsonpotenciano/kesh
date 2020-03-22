@@ -57,7 +57,6 @@ export class HomePessoaPage {
 
     this.utilitarios.obtenhaLocalizacao()
       .then((localizacao) => {
-        debugger;
         this.minhaLocalizacao = localizacao;
         this.pessoaProvider.obtenhaPessoaEPerfilEmpresas(localizacao, refresher !== undefined)
           .then((retorno: DadosPessoaEmpresa[]) => {

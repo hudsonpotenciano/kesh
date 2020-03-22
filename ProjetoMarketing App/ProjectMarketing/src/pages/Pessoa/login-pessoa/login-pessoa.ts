@@ -26,8 +26,6 @@ export class LoginPessoaPage {
   }
 
   ionViewDidLoad() {
-    this.usuario.Login = "hudsonpot@gmail.com";
-    this.usuario.Senha = "123123";
   }
 
   loginFacebook() {

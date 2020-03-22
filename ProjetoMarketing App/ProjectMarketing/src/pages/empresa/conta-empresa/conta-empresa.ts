@@ -58,7 +58,8 @@ export class ContaEmpresaPage {
       (document.getElementsByClassName("thumbnail")[0] as any).src = this.novaImagem; 
     };
 
-    reader.readAsDataURL(event.target.files[0]);
+    if (event.target.files.length > 0) 
+      reader.readAsDataURL(event.target.files[0]);
   }
 
   salvar() {

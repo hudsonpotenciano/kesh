@@ -57,6 +57,9 @@ export class TransacoesPage {
 
         if (refresh)
           refresh.complete();
+
+        resultado.sort(function (a, b) { return b.Cupom.Data.getTime() - a.Cupom.Data.getTime() });
+
         this.cuponsVendasAgrupados = this.utilitarios
           .groupBy(resultado, function (item: DTOCupomVenda) {
             return [new Date(item.Cupom.DataValidade).toLocaleDateString()]

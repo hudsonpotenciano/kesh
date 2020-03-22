@@ -53,7 +53,8 @@ export class CadastroPessoaPage {
         this.pessoa.Foto = imagem;
     };
 
-    reader.readAsDataURL(event.target.files[0]);
+    if (event.target.files.length > 0)
+      reader.readAsDataURL(event.target.files[0]);
   }
 
   getProfileImageStyle() {
@@ -62,23 +63,23 @@ export class CadastroPessoaPage {
   }
 
   podeSalvar() {
-    if(!this.pessoa.Nome || this.pessoa.Nome == ""){
+    if (!this.pessoa.Nome || this.pessoa.Nome == "") {
       this.utilitarioProvider.mostreToast("Informe o seu nome");
       return false;
     }
-    if(!this.pessoa.Email || this.pessoa.Email == ""){
+    if (!this.pessoa.Email || this.pessoa.Email == "") {
       this.utilitarioProvider.mostreToast("Informe o seu email");
       return false;
     }
-    if(!this.pessoa.Senha || this.pessoa.Senha == ""){
+    if (!this.pessoa.Senha || this.pessoa.Senha == "") {
       this.utilitarioProvider.mostreToast("Informe a senha");
       return false;
     }
-    if(this.pessoa.Senha && this.pessoa.Senha.length < 6){
+    if (this.pessoa.Senha && this.pessoa.Senha.length < 6) {
       this.utilitarioProvider.mostreToast("A senha deve conter pelo menos 6 caracteres");
       return false;
     }
-    if(this.confirmacaoDaSenha != this.pessoa.Senha){
+    if (this.confirmacaoDaSenha != this.pessoa.Senha) {
       this.utilitarioProvider.mostreToast("A senha está diferente da confirmação");
       return false;
     }

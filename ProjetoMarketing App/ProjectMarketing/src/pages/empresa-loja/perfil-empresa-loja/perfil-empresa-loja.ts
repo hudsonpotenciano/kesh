@@ -53,11 +53,8 @@ export class PerfilEmpresaLojaPage {
   }
 
   aoEscolherImagem(event: any) {
-
-    this.utilitarios.mostreAlertaCarregando("Adicionando a imagem selecionada, aguarde um instante.");
     let reader = new FileReader();
     reader.onloadend = (readerEvent) => {
-
       if (!this.imagensCatalogo[this.imagensCatalogo.length])
         this.imagensCatalogo[this.imagensCatalogo.length] = new ImagemCatalogo();
 
@@ -69,8 +66,14 @@ export class PerfilEmpresaLojaPage {
         }, 2000);
       });
     };
-
-    reader.readAsDataURL(event.target.files[0]);
+    
+    if (event.target.files.length > 0) {
+      this.utilitarios.mostreAlertaCarregando("Adicionando a imagem selecionada, aguarde um instante.");
+      reader.readAsDataURL(event.target.files[0]);
+    }
+    else {
+      this.utilitarios.removaAlertaCarregando();
+    }
   }
 
   removaImagem() {

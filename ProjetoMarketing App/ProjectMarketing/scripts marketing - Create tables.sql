@@ -39,7 +39,7 @@ CREATE TABLE public.empresa
     id bigint NOT NULL DEFAULT nextval('sq_empresa'),
     idempresa uuid NOT NULL DEFAULT uuid_generate_v4(),
     nome text NOT NULL,
-    cnpj text NOT NULL,
+    cnpj text,
     email text NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_empresa_cnpj UNIQUE (cnpj),

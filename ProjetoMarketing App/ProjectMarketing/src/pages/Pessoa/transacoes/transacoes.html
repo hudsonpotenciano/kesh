@@ -1,11 +1,8 @@
 <ion-header>
     <ion-navbar>
-        <ion-item no-lines>
-            <ion-title>
-                Transações
-            </ion-title>
-            <!-- <ion-icon item-end name="search"></ion-icon> -->
-        </ion-item>
+        <ion-title>
+            Transações
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -21,13 +18,13 @@
             <div class="item-customizado" *ngFor="let cupomVenda of cupomVendas">
                 <ion-item>
                     <ion-avatar item-start>
-                        <img [src]="obtenhaLogoEmpresa(cupomVenda.IdEmpresa)">
+                        <img onerror="this.src='./assets/imgs/camera.svg'" [src]="obtenhaLogoEmpresa(cupomVenda.IdEmpresa)">
                     </ion-avatar>
                     <h2>{{cupomVenda.NomeEmpresa}}</h2>
                     <p>{{cupomVenda.DescricaoPerfilEmpresa}}</p>
 
                     <div item-end>
-                        <p *ngIf="cupomVenda.Venda" class="venda-valor">
+                        <p *ngIf="cupomVenda.Venda" class="venda-valor" style="font-size: 1.8rem">
                             R$ {{cupomVenda.Venda.Valor}}
                         </p>
                     </div>
@@ -36,8 +33,8 @@
                         Expira em: {{cupomVenda.Cupom.DataValidade | Data}}
                     </p>
 
-                    <p item-end class="danger" *ngIf="!cupomVenda.Venda && cupomVenda.Cupom.Expirado">
-                        <i class="fas fa-clock" style="margin-right:5px"></i>Expirado
+                    <p item-end class="danger" *ngIf="!cupomVenda.Venda && cupomVenda.Cupom.Expirado" style="font-size: 1.8rem">
+                        Expirado
                     </p>
 
                     <img onerror="this.src='https://png.pngtree.com/svg/20170602/person_1058425.png'" *ngIf="!cupomVenda.Venda && !cupomVenda.Cupom.Expirado" class="svg-qrcode" item-end src="https://image.flaticon.com/icons/svg/286/286003.svg" alt="" (click)="abraQrCode(cupomVenda)">

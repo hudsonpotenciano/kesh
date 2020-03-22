@@ -49,8 +49,9 @@ export class CadastroPerfilEmpresaPage {
         }, 1000);
       })
     };
-
-    reader.readAsDataURL(event.target.files[0]);
+    
+    if (event.target.files.length > 0)
+      reader.readAsDataURL(event.target.files[0]);
   }
 
   selecioneImagem() {
@@ -61,13 +62,13 @@ export class CadastroPerfilEmpresaPage {
     this.perfil.Catalogo.splice(this.Slides.getActiveIndex(), 1);
     this.Slides.slidePrev();
   }
-  
+
   podeSalvar() {
     if (!this.perfil.Descricao || this.perfil.Descricao.trim() == "") {
       this.utilitarios.mostreToast("Informe a descrição");
       return false;
     }
-    
+
     if (!this.perfil.Catalogo || this.perfil.Catalogo.length == 0) {
       this.utilitarios.mostreToast("Adicione imagens ao catálogo");
       return false;

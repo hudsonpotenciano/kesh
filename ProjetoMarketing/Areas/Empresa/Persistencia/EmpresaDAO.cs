@@ -50,67 +50,60 @@ namespace ProjetoMarketing.Areas.Empresa.Persistencia
         public Task<int> AddEmpresaUsuario(CadastroEmpresaModel model, out Entidade.Empresa.Empresa empresa,
                                      out Entidade.Usuario usuario, out PerfilEmpresa perfil, out ImagemPerfil imagemPerfilEmpresa)
         {
-            empresa = new Entidade.Empresa.Empresa()
-            {
-                Cnpj = model.Cnpj,
-                Email = model.Email,
-                Nome = model.Nome,
-                IdEmpresa = Guid.NewGuid()
-            };
-
-            ContaEmpresa conta = new ContaEmpresa()
-            {
-                ValorPontos = model.ValorPontos,
-                Resumo = model.Resumo,
-                Categoria = model.Categoria,
-                IdEmpresa = empresa.IdEmpresa,
-                IdConta = Guid.NewGuid()
-            };
-
-            imagemPerfilEmpresa = new Entidade.ImagemPerfil()
-            {
-                IdEmpresa = empresa.IdEmpresa,
-                Imagem = model.Logo,
-            };
-
-            perfil = new PerfilEmpresa()
-            {
-                IdEmpresa = empresa.IdEmpresa,
-                Latitude = model.Latitude,
-                Longitude = model.Longitude,
-                Descricao = model.Descricao,
-                Telefone = model.Telefone,
-                Telefone2 = model.Telefone2,
-                IdPerfilEmpresa = Guid.NewGuid()
-            };
-
-            usuario = new Entidade.Usuario()
-            {
-                IdEmpresa = empresa.IdEmpresa,
-                Login = model.Email,
-                Token = Autentication.Seguranca.GerarHashMd5(model.Email, model.Senha),
-                TokenEmpresaAdmin = Autentication.Seguranca.GerarHashMd5(model.Email, model.SenhaAdmin),
-                IdUsuario = Guid.NewGuid()
-            };
-
-            Adesao adesao = new Adesao()
-            {
-                IdEmpresa = empresa.IdEmpresa,
-                Disponivel = true,
-                IdAdesao = Guid.NewGuid(),
-                UltimaAtualizacao = DateTime.Now
-            };
+            empresa = new Entidade.Empresa.Empresa();
 
             try
             {
+                empresa = new Entidade.Empresa.Empresa()
+                {
+                    Cnpj = model.Cnpj,
+                    Email = model.Email,
+                    Nome = model.Nome,
+                    IdEmpresa = Guid.NewGuid()
+                };
+
                 _context.Empresa.Add(empresa);
                 _context.SaveChanges();
 
-                _context.Adesao.Add(adesao);
-                _context.ContaEmpresa.Add(conta);
+                ContaEmpresa conta = new ContaEmpresa()
+                {
+                    ValorPontos = model.ValorPontos,
+                    Resumo = model.Resumo,
+                    Categoria = model.Categoria,
+                    IdEmpresa = empresa.IdEmpresa,
+                    IdConta = Guid.NewGuid()
+                };
+
+                imagemPerfilEmpresa = new Entidade.ImagemPerfil()
+                {
+                    IdEmpresa = empresa.IdEmpresa,
+                    Imagem = model.Logo,
+                };
+
+                perfil = new PerfilEmpresa()
+                {
+                    IdEmpresa = empresa.IdEmpresa,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude,
+                    Descricao = model.Descricao,
+                    Telefone = model.Telefone,
+                    Telefone2 = model.Telefone2,
+                    IdPerfilEmpresa = Guid.NewGuid()
+                };
+
+                usuario = new Entidade.Usuario()
+                {
+                    IdEmpresa = empresa.IdEmpresa,
+                    Login = model.Email,
+                    Token = Autentication.Seguranca.GerarHashMd5(model.Email, model.Senha),
+                    TokenEmpresaAdmin = Autentication.Seguranca.GerarHashMd5(model.Email, model.SenhaAdmin),
+                    IdUsuario = Guid.NewGuid()
+                };
+
                 _context.ContaEmpresa.Add(conta);
                 _context.PerfilEmpresa.Add(perfil);
                 _context.Usuario.Add(usuario);
+
                 return _context.SaveChangesAsync();
             }
             catch (Exception e)

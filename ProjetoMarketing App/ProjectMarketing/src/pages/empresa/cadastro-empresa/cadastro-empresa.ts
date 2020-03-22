@@ -57,7 +57,8 @@ export class CadastroEmpresaPage {
       this.empresa.Logo = imageData.split(',')[1];
     };
 
-    reader.readAsDataURL(event.target.files[0]);
+    if (event.target.files.length > 0)
+      reader.readAsDataURL(event.target.files[0])
   }
 
   getProfileImageStyle() {
@@ -130,6 +131,7 @@ export class CadastroEmpresaPage {
       this.utilitarios.mostreToast("Adicione imagens ao catálogo");
       return false;
     }
+
     return true;
   }
 
@@ -156,7 +158,8 @@ export class CadastroEmpresaPage {
       })
     };
 
-    reader.readAsDataURL(event.target.files[0]);
+    if (event.target.files.length > 0)
+      reader.readAsDataURL(event.target.files[0]);
   }
 
   selecioneImagem() {

@@ -55,6 +55,7 @@ export class PerfilEmpresaPage {
     this.pessoaProvider.ObtenhaComentarioENotaPessoasEmpresas(this.dadosPessoaEmpresa.Perfil.IdPerfilEmpresa)
       .then((notasComentariosPessoasEmpresas: NotaComentarioPessoaEmpresa[]) => {
         this.notasComentariosPessoasEmpresas = notasComentariosPessoasEmpresas;
+        notasComentariosPessoasEmpresas.sort(function (a, b) { return  b.DataAvaliacao.getTime() - a.DataAvaliacao.getTime() });
         this.carregando = false;
       })
       .catch(() => {
@@ -95,7 +96,7 @@ export class PerfilEmpresaPage {
             this.utilitarios.mostreMensagemErro("Ocorreu um erro, tente novamente.")
           })
       })
-      .catch(()=>{
+      .catch(() => {
         this.utilitarios.removaAlertaCarregando();
       });
   }
