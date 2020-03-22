@@ -14,7 +14,7 @@ namespace ProjetoMarketing.Persistencia
     public class ImagemDAO
     {
         private readonly CloudStorageAccount storageAccount =
-        new CloudStorageAccount(new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("keshstorage", "c0Tb2XmUN9fN/FTzPJGqvNUo49OfEvPlOvY5lkCPDMXQ2qGuoaObUdlPbEqft1Ch4cyrPFmAK8xW1J9uBDuxQw=="), true);
+        new CloudStorageAccount(new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("keshstorage", "chave esta na pasta"), true);
         public const string imageType = ".jpg";
         private readonly PessoaEmpresaContext _context;
         public ImagemDAO(PessoaEmpresaContext contexto)
