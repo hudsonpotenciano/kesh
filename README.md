@@ -1,8 +1,9 @@
-https://www.youtube.com/watch?v=KVgUv8DKt8o
-
 * Ionic 3
 * Asp Net Core 2.0 Api
 * Entity Framework
+
+<h3>Youtube https://www.youtube.com/watch?v=KVgUv8DKt8o</h3>
+<h3>Linkedin: https://www.linkedin.com/in/hudson-potenciano-440702161</h3>
 
 | ![alt text](https://docs.google.com/uc?id=1a79otEH-WjaLJr0y6i4ZvKcmn3hjVcFn) |
 | ------ |
@@ -20,5 +21,3 @@ https://www.youtube.com/watch?v=KVgUv8DKt8o
 | ------ | ------|
 |![alt text](https://docs.google.com/uc?id=1YqdY6nCP8lKbdC8QOPlC18Uk3Dxvd6Ii)|![alt text](https://docs.google.com/uc?id=1Gvf6D6FkCKSVQoxqUS0DACJeuaMfrSiL)|
 |![alt text](https://docs.google.com/uc?id=1yqIMtXZF1T40u4qpzLfhh28j4RhdVDat)|![alt text](https://docs.google.com/uc?id=1kknei4Aq8y0_9zOqSIrU3eAue-NLd3Hr)|
-
-<h3>Linkedin: https://www.linkedin.com/in/hudson-potenciano-440702161</h3>
