@@ -5,6 +5,7 @@
 <h3>Youtube https://www.youtube.com/watch?v=KVgUv8DKt8o</h3>
 <h3>Linkedin: https://www.linkedin.com/in/hudson-potenciano-440702161</h3>
 
+
 | ![alt text](https://docs.google.com/uc?id=1a79otEH-WjaLJr0y6i4ZvKcmn3hjVcFn) |
 | ------ |
 |<h1>Kesh é um aplicativo de marketing de incentivo, onde os usuários compartilham anúncios das lojas disponíveis para ganhar descontos</h1>|
