@@ -1,5 +1,9 @@
 https://www.youtube.com/watch?v=KVgUv8DKt8o
 
+* Ionic 3
+* Asp Net Core 2.0 Api
+* Entity Framework
+
 | ![alt text](https://docs.google.com/uc?id=1a79otEH-WjaLJr0y6i4ZvKcmn3hjVcFn) |
 | ------ |
 |<h1>Kesh é um aplicativo de marketing de incentivo, onde os usuários compartilham anúncios das lojas disponíveis para ganhar descontos</h1>|
