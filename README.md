@@ -3,9 +3,10 @@
 
 # Tecnologias
 
-* Ionic 3
-* Asp Net Core 2.0 Api
-* Entity Framework
+* [Ionic](https://ionicframework.com/)
+* [Asp Net Core Api Rest](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-3.1) 
+* [Entity Framework](https://docs.microsoft.com/pt-br/ef/)
+* [Angular](https://angular.io/)
 
 <h3>Youtube https://www.youtube.com/watch?v=KVgUv8DKt8o</h3>
 <h3>Linkedin: https://www.linkedin.com/in/hudson-potenciano-440702161</h3>
